@@ -1,6 +1,5 @@
 +++
 date = '2025-05-20T17:38:53+01:00'
-draft = true
 title = 'Hello World'
 featured_image = "chibi-dani.png"
 +++
