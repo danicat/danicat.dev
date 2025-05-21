@@ -13,6 +13,10 @@ enableRobotsTXT: true
 #     baseURL: 'https://br.danicat.dev'
 #     weight: 2
 
+caches:
+  images:
+    dir: :cacheDir/images
+
 markup:
   goldmark:
     renderer:
