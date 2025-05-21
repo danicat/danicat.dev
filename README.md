@@ -62,6 +62,19 @@ This will generate the static site in the `public/` directory. The contents of t
 
 Many services like Netlify, Vercel, GitHub Pages, Cloudflare Pages, etc., can automatically build and deploy Hugo sites directly from a Git repository.
 
+### GitHub Pages Deployment
+
+This repository is configured to automatically build and deploy the website to GitHub Pages.
+- When changes are pushed to the `main` branch, a GitHub Actions workflow (defined in `.github/workflows/gh-pages.yml`) is triggered.
+- This workflow builds the Hugo site and deploys the generated static files (from the `public/` directory) to the `gh-pages` branch.
+- The site is then served from this `gh-pages` branch.
+
+**Custom Domain Configuration:**
+
+The site is configured with `baseURL: 'https://danicat.dev/'`. For this custom domain to work with GitHub Pages:
+1. The `gh-pages` branch must be selected as the publishing source in your repository's settings under "Pages".
+2. The custom domain `danicat.dev` must be configured in the same "Pages" settings section. You will also need to configure your DNS records with your domain registrar to point to GitHub Pages servers. Follow the [official GitHub Pages documentation](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site) for detailed instructions.
+
 ## License
 
 This project is licensed under the terms of the MIT License. See the [LICENSE](LICENSE) file for details.
