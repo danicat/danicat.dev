@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on danicat.dev</title>
-    <link>http://localhost:1313/categories/</link>
+    <link>https://danicat.dev/categories/</link>
     <description>Recent content in Categories on danicat.dev</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <copyright>Daniela Petruzalek</copyright>
-    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://danicat.dev/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
