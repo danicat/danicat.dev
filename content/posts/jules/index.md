@@ -1,6 +1,5 @@
 +++
 date = '2025-05-21T17:45:07+01:00'
-draft = true
 title = 'Let’s talk about Jules - is this the tool we needed to make vibe coding the new normal?'
 featured_image = "jules.png"
 +++
