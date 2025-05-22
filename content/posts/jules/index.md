@@ -17,4 +17,4 @@ Not bad for day 1 I would say, and there is a lot of potential to be unlocked ov
 
 In that spirit, maybe Jules is the injection of inspiration we needed for a new era of IDEs that will unlock the potential of AI for developers all over the world in a more natural way. At least that is what I am hoping for!
 
-Jules is currently in public beta and you can play with it today by signing up at htt[ps://jules.google](https://jules.google).
+Jules is currently in public beta and you can play with it today by signing up at [https://jules.google](https://jules.google).
