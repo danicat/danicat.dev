@@ -54,11 +54,8 @@
       {{- .Content -}}
       {{- partials.Include "tags.html" . -}}
       <div class="mt6 instapaper_ignoref">
-      {{ if .Site.Config.Services.Disqus.Shortname }}
-        {{ template "_internal/disqus.html" . }}
-      {{ end }}
-      {{ if .Site.Params.commentoEnable }}
-        {{- partials.Include "commento.html" . -}}
+      {{ if .Site.Params.commentsEnable }}
+        {{- partials.Include "comments.html" . -}}
       {{ end }}
       </div>
     </div>
