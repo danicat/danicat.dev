@@ -1,7 +1,7 @@
 baseURL: 'https://danicat.dev/'
 languageCode: 'en-us'
 title: 'danicat.dev'
-theme: 'ananke'
+theme: 'blowfish'
 copyright: "Daniela Petruzalek"
 enableRobotsTXT: true
 

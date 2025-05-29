@@ -1,7 +1,6 @@
 +++
 date = '2025-05-20T17:38:53+01:00'
 title = 'Hello World'
-featured_image = "chibi-dani.png"
 +++
 
 Welcome to danicat.dev! I'm Daniela Petruzalek, a software engineer with over 20 years of experience in the industry and currently working as a Developer Relations Engineer at Google. This is my new personal blog where I am going to share the latest developments in technology!
