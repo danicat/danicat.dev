@@ -12,7 +12,7 @@ autoSwitchAppearance = true
 enableSearch = true
 enableCodeCopy = false
 
-replyByEmail = true
+replyByEmail = false
 
 # mainSections = ["section1", "section2"]
 # robots = ""
@@ -67,8 +67,8 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layoutBackgroundHeaderSpace = true # only used when heroStyle equals background
   showBreadcrumbs = false
   showDraftLabel = true
-  showEdit = false
-  # editURL = "https://github.com/username/repo/"
+  showEdit = true
+  editURL = "https://github.com/danicat/danicat.dev/tree/main/content"
   editAppendPath = true
   seriesOpened = false
   showHeadingAnchors = true
@@ -84,6 +84,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showWordCount = false
   sharingLinks = [ "linkedin", "twitter", "bluesky", "mastodon", "reddit", "pinterest", "facebook", "email", "whatsapp", "telegram"]
   showZenMode = false
+  showComments = true
 
 [list]
   showHero = false

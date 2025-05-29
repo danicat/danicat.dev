@@ -2,6 +2,7 @@
 date = "2025-05-28T16:30:00+01:00"
 title = "Can anyone vibe code?"
 tags = ["opinion", "vibe coding"]
+summary = "A reflection on the future of the software engineering career."
 +++
 Do you believe that a non-engineer can "vibe code" a production-ready application? This is the question I've been reflecting on lately.
 
