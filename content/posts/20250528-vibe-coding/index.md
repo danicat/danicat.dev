@@ -6,7 +6,7 @@ summary = "A reflection on the future of the software engineering career."
 +++
 Do you believe that a non-engineer can "vibe code" a production-ready application? This is the question I've been reflecting on lately.
 
-The AI landscape is moving so fast, and we are seeing so many cool tools being released almost every day, so it's natural that many people are getting scared and are starting to "predict" the end of the software engineering career. Look at [Jules]({{<ref "/posts/jules/index.md" >}}) for example, an AI agent that can automate many typical engineer tasks like updating dependencies, writing documentation, refactoring and even testing.
+The AI landscape is moving so fast, and we are seeing so many cool tools being released almost every day, so it's natural that many people are getting scared and are starting to "predict" the end of the software engineering career. Look at [Jules]({{<ref "/posts/20250521-jules/index.md" >}}) for example, an AI agent that can automate many typical engineer tasks like updating dependencies, writing documentation, refactoring and even testing.
 
 If those are the **only** things you are adding to the table as an engineer, maybe yes, you should be scared. But fear is not necessarily a bad thing, it makes us move out of the comfort zone, it allows us to take risks where otherwise we wouldn't. A good amount of fear drives self-development and innovation.
 
