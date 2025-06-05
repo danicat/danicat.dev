@@ -5,7 +5,6 @@ This is the source code for the personal website and blog available at [danicat.
 ## Built With
 
 *   [Hugo](https://gohugo.io/) - Static site generator
-*   [Ananke Theme](https://github.com/theNewDynamic/gohugo-theme-ananke) - Hugo theme
 *   [Hugo Bootstrap Module](https://github.com/hugomods/bootstrap)
 *   [Hugo Images Module](https://github.com/hugomods/images)
 
@@ -50,7 +49,6 @@ To add a new post:
 
 *   **Main Configuration**: The primary configuration for the site can be found in `hugo.yaml`. This includes settings for the title, theme, menus, and other site-wide parameters.
 *   **Custom Styling**: Custom CSS rules are located in `static/css/custom.css`. You can modify this file to change the site's appearance.
-*   **Theme Customization**: The site uses the Ananke theme. For deeper theme customizations, you might need to override theme templates. Refer to the [Ananke theme documentation](https://github.com/theNewDynamic/gohugo-theme-ananke) and the [Hugo documentation on themes](https://gohugo.io/themes/customizing/).
 
 ## Deployment
 
