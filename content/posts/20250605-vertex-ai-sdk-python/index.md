@@ -4,8 +4,6 @@ title = 'Digging deeper into the Vertex AI SDK for Python'
 summary = "This article explores the communication model between the client code and the Gemini API using the Vertex AI SDK for Python"
 tags = ["gemini", "vertex ai", "python"]
 +++
-## Digging deeper into the Vertex AI SDK for Python
-
 This article explores the communication model between the client code and the Gemini API using the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog). We will cover concepts like how the messages are structured, how the model understands the context of the question and how to augment the model capabilities with function calls. While Gemini is the focus of this article, the same concepts you will see here can also be applied to Gemma and other LLMs.
 
 [In my previous post](https://danicat.dev/posts/20250531-diagnostic-agent/) I’ve explained how to write a simple - but surprisingly powerful - AI Agent that responds to diagnostic questions about your local machine. In very few lines of code (and not so few lines of comments) we were able to get our agent to respond to queries like “how much CPU I have in my machine” or “please check for any signs of malware”.
