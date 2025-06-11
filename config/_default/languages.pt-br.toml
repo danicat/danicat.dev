@@ -1,17 +1,17 @@
 disabled = false
-languageCode = "en"
-languageName = "English"
-weight = 1
+languageCode = "pt-br"
+languageName = "Português"
+weight = 2
 title = "danicat.dev"
 
 [params]
-  displayName = "🇬🇧 English"
-  isoCode = "en"
+  displayName = "🇧🇷 Português"
+  isoCode = "pt-br"
   rtl = false
   dateFormat = "2 January 2006"
   # logo = "img/logo.png"
   # secondaryLogo = "img/secondary-logo.png"
-  description = "Personal blog of Daniela Petruzalek"
+  description = "Blog pessoal de Daniela Petruzalek"
   # copyright = "Copy, _right?_ :thinking_face:"
 
 [params.author]
@@ -19,7 +19,7 @@ title = "danicat.dev"
   email = "daniela@danicat.dev"
   image = "chibi-dani.png"
   imageQuality = 96
-  headline = "Technologist, gamer and cat lover"
+  headline = "Tecnologista, gamer e gateira"
   bio = "Developer Relations Engineer at Google"
   links = [
 #   { email = "mailto:daniela@danicat.dev" },

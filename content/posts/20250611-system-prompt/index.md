@@ -142,7 +142,7 @@ What is the nature of your diagnostic emergency?
 
 There are two minor changes when compared to the original code: first, now we have a main loop which will keep the agent running until the user types “exit” or “quit”. This will create our chat interface.
 
-Second, we have tweaked  the system prompt to improve the agent consistency. We are now calling it “Emergency Diagnostic Agent” - this name not only works as a neat [Star Trek easter egg](https://en.wikipedia.org/wiki/The_Doctor_(Star_Trek:_Voyager)), but more importantly, it sets a tone of urgency that, based on [emerging research](https://arxiv.org/pdf/2307.11760), may encourage it to comply with our requests more diligently. (Also check this [recent interview](https://www.reddit.com/r/singularity/comments/1kv7hm2/sergey_brin_we_dont_circulate_this_too_much_in/))
+Second, we have tweaked  the system prompt to improve the agent consistency. We are now calling it “Emergency Diagnostic Agent” - this name not only works as a neat [Star Trek easter egg](https://en.wikipedia.org/wiki/The_Doctor_(Star_Trek:_Voyager), but more importantly, it sets a tone of urgency that, based on [emerging research](https://arxiv.org/pdf/2307.11760), may encourage it to comply with our requests more diligently. (Also check this [recent interview](https://www.reddit.com/r/singularity/comments/1kv7hm2/sergey_brin_we_dont_circulate_this_too_much_in/))
 
 We are not going to threaten our poor Emergency Diagnostic Agent - and I can guarantee that no agents were harmed in the making of this text - but, calling it an “Emergency” agent should set the tone so that it will try to comply with our requests to the best of our ability. In the previous version of the system prompt I got cases when the agent refused to do a task because it “thought” it was not capable of doing it, or didn’t know which tables to query.
 
@@ -391,9 +391,9 @@ In the [previous article](https://danicat.dev/posts/20250605-vertex-ai-sdk-pytho
 
 The beauty of chat history is that anything that implements [BaseChatMessageHistory](https://python.langchain.com/api_reference/core/chat_history/langchain_core.chat_history.BaseChatMessageHistory.html#langchain_core.chat_history.BaseChatMessageHistory) can be used here, which allows us to use all sorts of data stores, including creating our own. For example, in the official documentation for Vertex AI you can find examples for using [Firebase, Bigtable and Spanner](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain#chat-history?utm_campaign=CDR_0x72884f69_awareness_b424142426&utm_medium=external&utm_source=blog).
 
-We don’t need a full fledged database for the moment so we are going to settle with InMemoryChatMessageHistory, which as the name	suggests will store everything in memory.
+We don’t need a full fledged database for the moment so we are going to settle with `InMemoryChatMessageHistory`, which as the name	suggests, will store everything in memory.
 
-Here is a typical implementation, technically supporting multiple sessions using the `chats_by_session_id` dictionary for lookup (code copied from the [langchain documentation](https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory)):
+Here is a typical implementation, technically supporting multiple sessions using the `chats_by_session_id` dictionary for lookup (code retrieved from the [langchain documentation](https://python.langchain.com/docs/versions/migrating_memory/chat_history/#chatmessagehistory)):
 
 ```py
 chats_by_session_id = {}
