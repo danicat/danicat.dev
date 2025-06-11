@@ -136,7 +136,7 @@ You can run the agent with `python main.py`:
 $ python main.py
 Welcome to the Emergency Diagnostic Agent
 
-How can I help you?
+What is the nature of your diagnostic emergency?
 >> 
 ```
 
@@ -338,7 +338,7 @@ With all of these changes in place, let’s have a look at how the agent calls _
 $ python main.py
 Welcome to the Emergency Diagnostic Agent
 
-How can I help you?
+What is the nature of your diagnostic emergency?
 >> run a level 1 diagnostic procedure in debug mode
 Executing query:  SELECT * FROM system_info
 Query result:  {'status': 'OK', 'response': [{...}]}
