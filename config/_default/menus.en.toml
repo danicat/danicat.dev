@@ -15,9 +15,10 @@
   pageRef = "posts"
   weight = 10
 
-#[[main]]
-#  name = "Parent"
-#  weight = 20
+[[main]]
+  name = "About"
+  pageRef = "about"
+  weight = 20
 
 #[[main]]
 #  name = "example sub-menu 1"
@@ -37,14 +38,14 @@
 #  weight = 10
 
 [[main]]
-  pre = "github"
-  weight = 20
-  url = "https://github.com/danicat"
+  pre = "linkedin"
+  weight = 30
+  url = "https://linkedin.com/in/petruzalek"
 
-#[[main]]
-#  name = "Categories"
-#  pageRef = "categories"
-#  weight = 20
+[[main]]
+  pre = "github"
+  weight = 40
+  url = "https://github.com/danicat"
 
 #[[main]]
 #  name = "Tags"

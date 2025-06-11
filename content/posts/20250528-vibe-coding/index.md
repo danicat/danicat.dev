@@ -4,13 +4,15 @@ title = "Can anyone vibe code?"
 tags = ["opinion", "vibe coding"]
 summary = "A reflection on the future of the software engineering career."
 +++
+## Introduction
+
 Do you believe that a non-engineer can "vibe code" a production-ready application? This is the question I've been reflecting on lately.
 
 The AI landscape is moving so fast, and we are seeing so many cool tools being released almost every day, so it's natural that many people are getting scared and are starting to "predict" the end of the software engineering career. Look at [Jules]({{<ref "/posts/20250521-jules/index.md" >}}) for example, an AI agent that can automate many typical engineer tasks like updating dependencies, writing documentation, refactoring and even testing.
 
 If those are the **only** things you are adding to the table as an engineer, maybe yes, you should be scared. But fear is not necessarily a bad thing, it makes us move out of the comfort zone, it allows us to take risks where otherwise we wouldn't. A good amount of fear drives self-development and innovation.
 
-### What *Is* an Engineer, Anyway?
+## What *Is* an Engineer, Anyway?
 
 I might not be the best person to answer this question because even though I studied Electrical Engineering in college I actually never graduated. Nevertheless, I can say that even without a diploma, the period of time that I spent on the course was foundational to shape my mindset when approching problems in my career.
 
@@ -24,7 +26,7 @@ So whenever you think about the engineering career - and whether is it going to 
 
 But the *way* we create and improve things, that yes, I believe it is going to change.
 
-### Orchestrating, Not Just Coding
+## Orchestrating, Not Just Coding
 
 I think that the AI revolution will free us from the boring parts to focus on the most exciting aspect of our work: architecture, design, planning and testing the solutions.
 
@@ -46,7 +48,7 @@ It might be hard for you to imagine how this would work without a concrete examp
 
 Are we there yet? Not really, but Agentic AI is the next step towards making the future depicted in Star Trek reality. It is definitely starting to feel like AI is bigger than the internet, and as developers we should be making the effort to update ourselves to the "next generation" (pun intented).
 
-### So, Can Anyone "Vibe Code"?
+## So, Can Anyone "Vibe Code"?
 
 Maybe not *anyone*, but the barrier to entry is definitely getting lower. The core skills are evolving, but the engineer's role of creating and architecting is still here and will be here for a long time.
 

@@ -40,35 +40,3 @@ params:
     mapping: "pathname"
     label: "comments"
     theme: "github-light"
-
-  ananke:
-    social:
-      linkedin:
-        username: petruzalek
-      twitter:
-        username: danicat83
-      github:
-        username: danicat
-      bluesky:
-        username: danicat83.bsky.social
-      instagram:
-        username: danicat83
-      # threads:
-      #   username: danicat83
-      follow:
-        new_window_icon: true
-        networks:
-          - "linkedin"
-          - "twitter"
-          - "bluesky"
-          - "github"
-          - "instagram"
-          # - "threads"
-      share:
-        networks:
-          - "linkedin"
-          - "twitter"
-          - "bluesky"
-          # - "instagram"
-          # - "threads"
-          

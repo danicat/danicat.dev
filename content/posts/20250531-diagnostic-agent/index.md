@@ -6,6 +6,8 @@ tags = ["gemini", "vertex ai", "python"]
 +++
 _Space: the final frontier. These are the voyages of the starship Enterprise. Its 5-year mission: to explore strange new worlds; to seek out new life and new civilizations; to boldly go where no man has gone before._
 
+## Introduction
+
 When growing up, thanks to the influence of my father, I got used to hearing these words almost every day. I suspect his passion for Star Trek played a huge role in me choosing the software engineering career. (For those who are not familiar with Star Trek, this speech was played in the beginning of every episode of the original Star Trek series)
 
 Star Trek was always ahead of its time. It showed the [first interracial kiss in U.S television](https://en.wikipedia.org/wiki/Kirk_and_Uhura%27s_kiss), in times when such a scene caused much controversy. It also depicted many pieces of “futuristic” technology that today are commodities, like smartphones and video conferencing.
@@ -16,7 +18,7 @@ Fast forward 30+ years and here we are, in the Age of AI, a technology revolutio
 
 To help people visualize this, we are going to use the technology we have today to create a small agent that allows us to interact with our own machines using natural language.
 
-### What you will need for this demo
+## What you will need for this demo
 
 For the development language we will be using Python in a Jupyter Notebook, as it plays very nicely for experimentation. The main tools and libraries we will be using are:
 
@@ -26,7 +28,7 @@ For the development language we will be using Python in a Jupyter Notebook, as i
 
 The examples below will use Gemini Flash 2.0, but you can use any [Gemini model variant](https://ai.google.dev/gemini-api/docs/models). We won't deploy this agent to Google Cloud this time as we want to use it to answer questions about the local machine and not about the server in the cloud.
 
-### Agent Overview
+## Agent Overview
 
 If you are already familiar with how agent technology works you can skip this section.
 
@@ -94,7 +96,7 @@ Which could return something like this:
 
 Depending on your settings, prompt and the randomness of the universe, the model can either give you a response saying it cannot tell you the time, or it can “hallucinate” and make up a timestamp. But in fact, since the AI doesn’t have a clock, it will not be able to answer this question... unless you give it a clock!
 
-### Function Calls
+## Function Calls
 
 One of the most convenient ways of extending our agent capabilities is to give it python functions to call. The process is pretty simple, but it’s important to highlight that the better the documentation you have for the function, the easier it will be for the agent to get its call right. Let’s define our function to check the time:
 
@@ -140,7 +142,7 @@ The output will look similar to this:
 
 Now the agent can rely on the tool to answer the question with real data. Pretty cool, huh?
 
-### Gathering System Information
+## Gathering System Information
 
 For our diagnostic agent we are going to give it capabilities to query information about the machine it is running in using a tool called [osquery](https://www.osquery.io/). Osquery is an open source tool developed by Facebook to allow the user to make SQL queries to “virtual tables” that expose information about the underlying operating system of the machine.
 
@@ -198,7 +200,7 @@ Output:
 Captain's Log, Supplemental. The current stardate is 48972.5.
 ```
 
-### Connecting the dots
+## Connecting the dots
 
 Now that we have a way to query information about the operating system, let’s combine that with our knowledge of agents to make a diagnostic agent that will answer questions about our system.
 
@@ -337,7 +339,7 @@ Based on the checks performed, there are no obvious signs of malware running on 
 
 _Mic drop_ =^.^=
 
-### Conclusions
+## Conclusions
 
 I know it’s a beaten argument by now, but AI is a game changer. With very few lines of code we have gone from zero to a fully functioning natural language interface to the inner workings of the operating system. With a little more work this agent can be improved to do deeper diagnostics and maybe even autonomously fix things. Scotty would be proud!
 

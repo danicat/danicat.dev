@@ -4,6 +4,8 @@ title = 'Digging deeper into the Vertex AI SDK for Python'
 summary = "This article explores the communication model between the client code and the Gemini API using the Vertex AI SDK for Python"
 tags = ["gemini", "vertex ai", "python"]
 +++
+## Introduction
+
 This article explores the communication model between the client code and the Gemini API using the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog). We will cover concepts like how the messages are structured, how the model understands the context of the question and how to augment the model capabilities with function calls. While Gemini is the focus of this article, the same concepts you will see here can also be applied to Gemma and other LLMs.
 
 [In my previous post](https://danicat.dev/posts/20250531-diagnostic-agent/) I’ve explained how to write a simple - but surprisingly powerful - AI Agent that responds to diagnostic questions about your local machine. In very few lines of code (and not so few lines of comments) we were able to get our agent to respond to queries like “how much CPU I have in my machine” or “please check for any signs of malware”.
@@ -18,7 +20,7 @@ We are going to cover two main topics:
 
 Note that if you are a Python developer this doesn’t mean you won’t get anything from this article either. Actually, understanding the flow of the conversation will be important to use more advanced concepts of the SDK (like the Live API) and working with LLMs in general.
 
-### Understanding How the API works
+## Understanding How the API works
 
 Agents typically work in the same way as client server applications - you have a client component who is responsible for preparing and making the requests and a server process that hosts the model runtime and processes the client requests.
 
@@ -194,7 +196,7 @@ Today is Saturday, October 14th, 2023.
 
 This time the model remembered the date because the chat interface is handling the history automatically for us.
 
-### Non-automatic function calling
+## Non-automatic function calling
 
 Now that we saw how the API works to build client messages and manage context, it’s time to explore how it deals with function calls. At a basic level, we will need to instruct the model that it has a function at its disposition and then process its requests to call the function and return the resulting values to the model. This is important because function calls allow agents to interact with external systems and the real world, creating actions such as retrieving data or triggering specific processes, going beyond just generating text. 
 
@@ -286,7 +288,7 @@ $ python3 main.py
 Today's lucky number is 4.
 ```
 
-### Conclusions
+## Conclusions
 
 In this article we have seen how the agent client communicates with the model on the server-side or, in other words, the “domain model” of LLM communications. We also removed the curtain on the “magic” that the Python SDK does for us.
 
