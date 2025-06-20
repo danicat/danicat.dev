@@ -55,8 +55,8 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
 
 [article]
   showDate = true
-  showViews = false
-  showLikes = false
+  showViews = true
+  showLikes = true
   showDateOnlyInArticle = false
   showDateUpdated = false
   showAuthor = true
@@ -128,13 +128,13 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   cardViewScreenWidth = false
 
 [firebase]
-  # apiKey = "XXXXXX"
-  # authDomain = "XXXXXX"
-  # projectId = "XXXXXX"
-  # storageBucket = "XXXXXX"
-  # messagingSenderId = "XXXXXX"
-  # appId = "XXXXXX"
-  # measurementId = "XXXXXX"
+  apiKey = "AIzaSyCazN8y12SLQdV5PPztJ7GsKnFrfCkXVvw"
+  authDomain = "danicat-dev.firebaseapp.com"
+  projectId = "danicat-dev"
+  storageBucket = "danicat-dev.firebasestorage.app"
+  messagingSenderId = "1014224596022"
+  appId = "1:1014224596022:web:05c63cd335f5c0d34c3c97"
+  measurementId = "G-97TXNTPG93"
 
 [fathomAnalytics]
   # site = "ABC12345"
