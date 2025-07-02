@@ -101,11 +101,13 @@ On the topic of validations, another thing that caught my attention is that Gemi
 
 Hmmm… this one got me thinking. I can see the point on regional vs global load balancer, but I’m not sold on why it thinks MySQL is more cost-effective than PostgreSQL. I was more concerned about the machine type than the actual database technology.
 
-Gemini’s answer doesn’t tell us the whole story though. Inspecting the diff closely it shows us that it actually modified the machine type (shown as the attribute `tier`) and just forgot to tell us:
+Gemini’s answer doesn’t tell us the whole story either. Inspecting the diff closely it shows us that it actually modified the machine type (shown as the attribute `tier`) and just forgot to tell us:
 
 ![alt_text](images/image013.png "Terraform diff showing that Gemini also changed the machine type (tier)")
 
 I’m not entirely satisfied with this, so I’m going to ask why:
+
+> Why do you consider MySQL more cost effective than PostgreSQL?
 
 ![alt_text](images/image014.png "Asking Gemini why it things MySQL is more cost-effective than Postgres")
 
