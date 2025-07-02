@@ -1,0 +1,73 @@
+{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
+{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
+
+{{/* Fetch and sort all posts from the 'posts' section */}}
+{{ $all_posts_query := where .Site.RegularPages "Type" "posts" }}
+{{ $all_posts_sorted := $all_posts_query.ByDate.Reverse }}
+
+{{/* Get the latest post */}}
+{{ $latest_post := "" }}
+{{ if gt (len $all_posts_sorted) 0 }}
+  {{ $latest_post = index $all_posts_sorted 0 }}
+{{ end }}
+
+{{/* Get the list for "Recent Posts" (excluding the latest, up to showRecentItems) */}}
+{{ $showRecentItems := .Site.Params.homepage.showRecentItems | default 5 }}
+{{ $recent_posts_list := after 1 $all_posts_sorted | first $showRecentItems }}
+
+
+<article class="{{ if not .Site.Params.homepage.showRecent }}h-full{{ end }} flex flex-col items-center justify-center text-center">
+  <header class="relative px-1 py-1 flex flex-col items-center mb-3">
+    {{ with .Site.Params.Author.image }}
+      {{ $authorImage := "" }}
+      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ $authorImage = resources.GetRemote . }}
+      {{ else }}
+        {{ $authorImage = resources.Get . }}
+      {{ end }}
+      {{ if $authorImage }}
+        {{ if not $disableImageOptimization }}
+          {{ $authorImage = $authorImage.Fill (print "288x288 q" ( $.Site.Params.Author.imagequality | default "96" )) }}
+        {{ end }}
+        <img class="mb-2 rounded-full h-36 w-36" width="144" height="144" alt="{{ $.Site.Params.Author.name | default " Author" }}"
+          src="{{ $authorImage.RelPermalink }}" />
+      {{ end }}
+    {{ end }}
+    <h1 class="text-4xl font-extrabold">
+      {{ .Site.Params.Author.name | default .Site.Title }}
+    </h1>
+    {{ with .Site.Params.Author.headline }}
+    <h2 class="text-xl text-neutral-500 dark:text-neutral-400">
+      {{ . | markdownify }}
+    </h2>
+    {{ end }}
+    <div class="mt-1 text-2xl">
+      {{ partialCached "author-links.html" . }}
+    </div>
+  </header>
+  <section class="prose dark:prose-invert">{{ .Content }}</section>
+</article>
+
+{{/* Highlighted Latest Post Section */}}
+{{ if $latest_post }}
+<section class="mt-12 mb-10 highlighted-post">
+  <h2 class="text-3xl font-extrabold mb-6 text-center">{{ i18n "homepage.latest_post_heading" | default "Latest Post" }}</h2>
+  <div class="flex justify-center">
+    <div class="w-full md:w-2/3 lg:w-1/2">
+      {{ partial "article-link/card.html" $latest_post }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{/* Recent Articles Section - now uses $recent_posts_list */}}
+{{ if gt (len $recent_posts_list) 0 }}
+<section>
+  {{ partial "recent-articles/main.html" (dict "Pages" $recent_posts_list "Context" .) }}
+</section>
+{{ else if .Site.Params.homepage.showRecent }}
+<section>
+    <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+    <p class="text-center">{{ i18n "homepage.no_other_recent_posts" | default "No other recent posts to display." }}</p>
+</section>
+{{ end }}
