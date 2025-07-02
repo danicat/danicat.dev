@@ -51,9 +51,9 @@
 {{/* Highlighted Latest Post Section */}}
 {{ if $latest_post }}
 <section class="mt-12 mb-10 highlighted-post">
-  <h2 class="text-3xl font-extrabold mb-6 text-center">{{ i18n "homepage.latest_post_heading" | default "Latest Post" }}</h2>
+  <h2 class="text-3xl font-extrabold mb-6 text-center">{{ i18n "homepage.latest_post_heading" | default "Featured Post" }}</h2>
   <div class="flex justify-center">
-    <div class="w-full md:w-2/3 lg:w-1/2">
+    <div class="w-full md:w-4/5">
       {{ partial "article-link/card.html" $latest_post }}
     </div>
   </div>
