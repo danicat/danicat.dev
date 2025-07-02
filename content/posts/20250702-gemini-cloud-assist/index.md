@@ -1,7 +1,7 @@
 +++
 date = '2025-07-02T00:00:00+01:00'
 title = 'From Prompt to Infrastructure with Gemini Cloud Assist'
-summary = "This article explores how to design infrastructure using natural language with Gemini Cloud Assist on Google Cloud"
+summary = "How to design infrastructure using natural language on Google Cloud using Gemini Cloud Assist"
 tags = ["gemini", "cloud assist", "terraform"]
 +++
 ## Introduction
