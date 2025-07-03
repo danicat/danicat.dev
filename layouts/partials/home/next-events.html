@@ -1,90 +1,42 @@
-{{ $now := now }}
-{{ $allEvents := (site.GetPage "section" "events").Pages.ByDate }} {{/* Already sorted: oldest first */}}
-{{ $upcomingEvents := slice }}
+<div style="border: 2px solid red; padding: 10px; margin-top: 20px;">
+  <h3>NEXT EVENTS PARTIAL DEBUG OUTPUT:</h3>
 
-{{ range $allEvents }}
-  {{ if not .Params.draft }} {{/* Only consider non-draft events */}}
-    {{ if .Date.After $now }}
-      {{ $upcomingEvents = $upcomingEvents | append . }}
+  {{ $eventSection := site.GetPage "section" "events" }}
+  <p>Event Section Object (from partial): {{ $eventSection }}</p>
+  <p>Event Section Title (from partial): {{ $eventSection.Title }}</p>
+  <p>Number of pages in events section (raw .Pages from partial): {{ len $eventSection.Pages }}</p>
+  <p>Number of regular pages in events section (from partial): {{ len $eventSection.RegularPages }}</p>
+
+  <h4>Listing .RegularPages Found (in partial):</h4>
+  <ul>
+    {{ range $eventSection.RegularPages }}
+      <li>
+        {{ .Title }} ({{ .Permalink }})
+        <ul>
+          <li>Date: {{ .Date.Format "2006-01-02" }}</li>
+          <li>Draft: {{ .Draft }}</li>
+          <li>Kind: {{ .Kind }}</li>
+          <li>IsFuture: {{ .Date.After now }}</li>
+        </ul>
+      </li>
+    {{ end }}
+  </ul>
+
+  <h4>Filtered Upcoming Events (in partial):</h4>
+  {{ $now := now }}
+  <p>Current 'now' in partial: {{ $now.Format "2006-01-02 15:04:05" }}</p>
+  {{ $upcomingEventsList := slice }}
+  {{ range $eventSection.RegularPages }}
+    {{ if not .Draft }}
+      {{ if .Date.After $now }}
+        {{ $upcomingEventsList = $upcomingEventsList | append . }}
+      {{ end }}
     {{ end }}
   {{ end }}
-{{ end }}
-
-{{/* $upcomingEvents is already sorted by date ascending because $allEvents was .ByDate */}}
-{{ $nextThreeEvents := first 3 $upcomingEvents }}
-
-{{ if gt (len $nextThreeEvents) 0 }}
-<div class="mt-10">
-  <header class="mb-4">
-    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-      {{ i18n "next_events_title" | default "Next Events" }}
-    </h2>
-  </header>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-    {{ range $nextThreeEvents }}
-    <article class="flex flex-col bg-white dark:bg-neutral-800 shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-      {{ if .Params.featuredImage }}
-        {{ $imagePath := .Params.featuredImage }}
-        {{ $isPlaceholder := or (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
-        {{ $externalImage := or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://") }}
-        <a href="{{ .Permalink }}" class="block">
-          <div class="w-full h-48 {{ if $isPlaceholder }} bg-gray-100 dark:bg-gray-700 {{ else }} bg-cover bg-center {{ end }} flex items-center justify-center" {{ if not $isPlaceholder }} style="background-image: url('{{ if $externalImage }}{{ $imagePath }}{{ else }}{{ $imagePath | absURL }}{{ end }}');" {{ end }}>
-            {{ if $isPlaceholder }}
-              <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-            {{ end }}
-          </div>
-        </a>
-      {{ else }}
-      <a href="{{ .Permalink }}" class="block">
-        <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
-           <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-        </div>
-      </a>
-      {{ end }}
-      <div class="p-6 flex flex-col flex-grow">
-        <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-100">
-          <a href="{{ .Permalink }}" class="hover:underline">{{ .Title }}</a>
-        </h3>
-        {{ with .Params.location }}
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Location:</strong> {{ . }}</p>
-        {{ end }}
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1">
-          <strong class="font-medium">Date:</strong>
-          {{ .Date.Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
-          {{ if .Params.endDate | and (ne .Params.endDate .Date) }}
-            - {{ (.Params.endDate | time.AsTime).Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
-          {{ end }}
-        </p>
-        {{ if .Params.sessionTitle | and (ne .Params.sessionTitle "To Be Announced") }}
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3"><strong class="font-medium">My Session:</strong> {{ .Params.sessionTitle }}{{ with .Params.sessionType }} ({{ . }}){{ end }}</p>
-        {{ else if not (isset .Params "sessionTitle") }}
-           {{/* If sessionTitle is not set at all, don't show "to be announced" unless that's the explicit value */}}
-        {{ else }}
-          <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3 italic">My session details to be announced.</p>
-        {{ end }}
-        <div class="mt-auto">
-        {{ if .Params.eventUrl }}
-          <a href="{{ .Params.eventUrl }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
-            Event Details &rarr;
-          </a>
-        {{ else }}
-          <p class="text-sm text-neutral-400 dark:text-neutral-500 italic">Event URL not provided</p>
-        {{ end }}
-        </div>
-      </div>
-    </article>
+  <p>Number of upcoming, non-draft events found: {{ len $upcomingEventsList }}</p>
+  <ul>
+    {{ range $upcomingEventsList }}
+      <li>{{ .Title }} (Date: {{ .Date.Format "2006-01-02" }})</li>
     {{ end }}
-  </div>
+  </ul>
 </div>
-{{ else }}
-<div class="mt-10">
-  <header class="mb-4">
-    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-      {{ i18n "next_events_title" | default "Next Events" }}
-    </h2>
-  </header>
-  <p class="text-neutral-600 dark:text-neutral-400">
-    {{ i18n "no_upcoming_events" | default "No upcoming events scheduled at the moment. Check out the [Event Calendar](/events/) for past appearances!" | markdownify }}
-  </p>
-</div>
-{{ end }}

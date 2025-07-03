@@ -1,81 +1,30 @@
 {{ define "main" }}
+  <h1>Event Calendar Debug</h1>
+  <p>Attempting to list events...</p>
+  {{ $eventSection := .Site.GetPage "section" "events" }}
+  <p>Event Section Object: {{ $eventSection }}</p>
+  <p>Event Section Title: {{ $eventSection.Title }} (Permalink: {{ $eventSection.Permalink }})</p>
+  <p>Number of pages in events section (raw .Pages): {{ len $eventSection.Pages }}</p>
+  <p>Number of regular pages in events section: {{ len $eventSection.RegularPages }}</p>
 
-{{ .Scratch.Set "scope" "list" }}
-
-<header>
-  {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
-  {{ partial "breadcrumbs.html" . }}
-  {{ end }}
-  <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title | default (i18n "event_calendar_title" | default "Event Calendar") }}</h1>
-  {{ with .Content }}
-  <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-    {{ . }}
-  </div>
-  {{ end }}
-</header>
-
-<section class="mt-8">
-  {{/* Sort events by start_date (front matter 'date'), most recent first. */}}
-  {{ $sortedEvents := .Pages.ByDate.Reverse }}
-
-  {{ if gt (len $sortedEvents) 0 }}
-  <div class="space-y-8">
-    {{ range $sortedEvents }}
-    <article class="flex flex-col sm:flex-row items-start p-4 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200">
-      {{ if .Params.featuredImage }}
-        {{ $imagePath := .Params.featuredImage }}
-        {{ $isPlaceholder := or (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
-        {{ $externalImage := or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://") }}
-        <div class="w-full sm:w-1/4 mb-4 sm:mb-0 {{ if $isPlaceholder }} bg-gray-100 dark:bg-gray-800 {{ end }} flex items-center justify-center">
-          <a href="{{ .Permalink }}" class="block">
-            <img src="{{ if $externalImage }}{{ $imagePath }}{{ else }}{{ $imagePath | absURL }}{{ end }}" alt="{{ .Title }} Logo" class="max-h-32 sm:max-h-40 object-contain rounded {{ if $isPlaceholder }} p-2 opacity-50 {{ end }}">
-          </a>
-        </div>
-      {{ else }}
-         <div class="w-full sm:w-1/4 mb-4 sm:mb-0 bg-gray-100 dark:bg-gray-800 flex items-center justify-center rounded">
-            <a href="{{ .Permalink }}" class="block p-4">
-                <span class="text-gray-400 dark:text-gray-600 text-sm">No Image</span>
-            </a>
-         </div>
-      {{ end }}
-      <div class="w-full sm:w-3/4 sm:pl-6">
-        <h2 class="text-2xl font-semibold mb-1">
-          <a href="{{ .Permalink }}" class="hover:underline">{{ .Title }}</a>
-        </h2>
-        {{ with .Params.location }}
-          <p class="text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Location:</strong> {{ . }}</p>
-        {{ end }}
-        <p class="text-neutral-600 dark:text-neutral-300 mb-1">
-          <strong class="font-medium">Dates:</strong>
-          {{ .Date.Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
-          {{ if .Params.endDate | and (ne .Params.endDate .Date) }}
-            - {{ (.Params.endDate | time.AsTime).Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
-          {{ end }}
-        </p>
-        {{ if .Params.sessionTitle | and (ne .Params.sessionTitle "To Be Announced") }}
-          <p class="text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Session:</strong> {{ .Params.sessionTitle }}{{ with .Params.sessionType }} ({{ . }}){{ end }}</p>
-        {{ else if not (isset .Params "sessionTitle") }}
-          {{/* If sessionTitle is not set at all, don't show "to be announced" unless that's the explicit value */}}
-        {{ else }}
-          <p class="text-neutral-500 dark:text-neutral-400 mb-1 italic">Session details to be announced.</p>
-        {{ end }}
-         {{ if .Params.eventUrl }}
-          <a href="{{ .Params.eventUrl }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">Visit Event Page →</a>
-        {{ else }}
-          <p class="text-sm text-neutral-500 dark:text-neutral-400 italic">Event URL not available.</p>
-        {{ end }}
-        <div class="mt-2">
-            <a href="{{ .Permalink }}" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">Read More →</a>
-        </div>
-      </div>
-    </article>
+  <h2>Listing .Pages Found:</h2>
+  <ul>
+    {{ range $eventSection.Pages }}
+      <li>{{ .Title }} ({{ .Permalink }}) - Date: {{ .Date.Format "2006-01-02" }} - Draft: {{ .Draft }} - Kind: {{ .Kind }}</li>
     {{ end }}
-  </div>
-  {{ else }}
-  <p class="py-8 border-t text-center">
-    <em>No events found. Please check back later!</em>
-  </p>
-  {{ end }}
-</section>
-
+  </ul>
+  <hr>
+  <h2>Listing .RegularPages Found:</h2>
+  <ul>
+    {{ range $eventSection.RegularPages }}
+      <li>{{ .Title }} ({{ .Permalink }}) - Date: {{ .Date.Format "2006-01-02" }} - Draft: {{ .Draft }} - Kind: {{ .Kind }}</li>
+    {{ end }}
+  </ul>
+  <hr>
+  <h2>Listing .Site.RegularPages in /events/ path:</h2>
+  <ul>
+    {{ range where .Site.RegularPages "Section" "events" }}
+      <li>{{ .Title }} ({{ .Permalink }}) - Date: {{ .Date.Format "2006-01-02" }} - Draft: {{ .Draft }} - Kind: {{ .Kind }}</li>
+    {{ end }}
+  </ul>
 {{ end }}
