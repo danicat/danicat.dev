@@ -1,19 +1,16 @@
 {{/* Determine the correct context and scope */}}
-{{/* This allows for different logic depending on where the partial is called */}}
 {{ $passed_context := . }}
-{{ $page_context := .context }} {{/* Default to .context if a map is passed */}}
+{{ $page_context := . }} {{/* Default to current context if not a map */}}
 {{ $scope := default nil }}
-{{ $is_featured_card := false }} {{/* New variable */}}
+{{ $is_featured_card := false }} {{/* New variable, default to false */}}
 
 {{ if (reflect.IsMap $passed_context ) }}
-  {{ $page_context = $passed_context.context }}
-  {{ $scope = cond (not $passed_context.scope) nil $passed_context.scope }}
-  {{ $is_featured_card = $passed_context.IsFeaturedCard | default false }} {{/* Check if IsFeaturedCard is passed */}}
-{{ else }}
-  {{ $page_context = $passed_context }} {{/* If not a map, the context is the page itself */}}
+  {{ $page_context = $passed_context.context }} {{/* This is the actual page object */}}
+  {{ $scope = $passed_context.scope | default nil }}
+  {{ $is_featured_card = $passed_context.IsFeaturedCard | default false }}
 {{ end }}
 
-{{ with $page_context }}
+{{ with $page_context }} {{/* Proceed with $page_context */}}
 {{ $meta := newScratch }}
 
 {{/* Gather partials for this context */}}
@@ -36,8 +33,7 @@
   {{ $meta.Add "partials" (slice (partial "meta/reading-time.html" .)) }}
 {{ end }}
 
-{{/* --- MODIFICATION START --- */}}
-{{/* Only show views and likes if not in featured card context */}}
+{{/* --- MODIFICATION START: Conditional Views/Likes --- */}}
 {{ if not $is_featured_card }}
   {{ if and (not .Params.externalURL) (.Params.showViews | default (.Site.Params.article.showViews | default false)) }}
     {{ $meta.Add "partials" (slice (partial "meta/views.html" .)) }}
