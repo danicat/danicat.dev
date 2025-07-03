@@ -15,9 +15,9 @@
 
 {{ if gt (len $nextThreeEvents) 0 }}
 <div class="mt-10">
-  <header class="mb-4">
+  <header class="mb-6"> {{/* Increased margin from mb-4 to mb-6 */}}
     <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-      {{ i18n "next_events_title" | default "Next Events" }}
+      {{ i18n "next_events_title" | default "My Next Events" }} {{/* Updated default to match */}}
     </h2>
   </header>
   {{/* Grid container matching recent-articles/cardview.html */}}

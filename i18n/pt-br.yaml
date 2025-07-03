@@ -1,9 +1,6 @@
 author:
   byline_title: "Autora"
 
-homepage:
-  latest_post_heading: "Destaque"
-  no_other_recent_posts: "Nenhum outro post recente para exibir."
-next_events_title: "Próximos Eventos"
+next_events_title: "Meus Próximos Eventos"
 no_upcoming_events: "Nenhum evento futuro agendado no momento. Confira o [Calendário de Eventos](/events/) para participações anteriores!"
 event_calendar_title: "Calendário de Eventos"
