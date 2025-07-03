@@ -27,7 +27,7 @@
       <div class="min-h-full border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative flex flex-col">
         {{/* Image Area - attempting to match article-link/card.html style */}}
         {{ $imagePath := .Params.featuredImage }}
-        {{ $isPlaceholder := not $imagePath or (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
+        {{ $isPlaceholder := or (not $imagePath) (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
         {{ $externalImage := and $imagePath (or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://")) }}
 
         {{ if $isPlaceholder }}
