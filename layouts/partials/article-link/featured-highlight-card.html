@@ -22,11 +22,11 @@
       {{- with $featured_img -}}
       {{ if or $disableImageOptimization (strings.HasSuffix $featured_img ".svg")}}
         {{ with . }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 112.5%;"></div>
+        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 75%;"></div>
         {{ end }}
       {{ else }}
         {{ with .Resize "600x" }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 112.5%;"></div>
+        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 75%;"></div>
         {{ end }}
       {{ end }}
       {{- else -}}
