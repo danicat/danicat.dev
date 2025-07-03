@@ -17,7 +17,7 @@
 
 [[main]]
   name = "Event Calendar"
-  pageRef = "events"
+  pageRef = "events/"
   weight = 15
 
 [[main]]
