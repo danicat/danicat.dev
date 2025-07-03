@@ -33,7 +33,7 @@
   <div class="flex flex-col bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg overflow-hidden">
 
     {{ if $featured_image_resource }}
-      <div class="relative w-full h-0" style="padding-bottom: 75%;"> {/* 4:3 Aspect Ratio Container */}
+      <div class="relative w-full h-0" style="padding-bottom: 56.25%;"> {/* 16:9 Aspect Ratio Container */}
         {{ $image_to_render := $featured_image_resource }}
         {{ if not $disableImageOptimization }}
           {{ $image_to_render = $featured_image_resource.Resize "800x" }}
@@ -43,7 +43,7 @@
     {{ end }}
 
     <div class="p-6"> {/* Adjusted padding from px-6 py-4 to p-6 for uniform padding */}
-      <h2 class="font-bold text-xl text-neutral-800 dark:text-neutral-50 decoration-primary-500 hover:underline hover:underline-offset-2">
+      <h2 class="font-bold text-2xl text-neutral-800 dark:text-neutral-50 decoration-primary-500 hover:underline hover:underline-offset-2">
         {{ $page_context.Title | emojify }}
         {{ if $is_external }}
           <span class="text-xs align-top cursor-default text-neutral-400 dark:text-neutral-500">
@@ -59,8 +59,8 @@
 
       {{ $show_summary := $page_context.Params.showSummary | default ($page_context.Site.Params.list.showSummary | default false) }}
       {{ if $show_summary }}
-        <div class="mt-3 prose dark:prose-invert prose-sm max-w-none">
-          <p>{{ $page_context.Summary | plainify | truncate 150 }}</p>
+        <div class="mt-3"> {/* Removed prose classes to allow full width */}
+          <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">{{ $page_context.Summary | plainify | truncate 150 }}</p>
         </div>
       {{ end }}
     </div>
