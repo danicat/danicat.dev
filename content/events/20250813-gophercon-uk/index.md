@@ -1,7 +1,8 @@
 ---
 title: "GopherCon UK"
-date: "2025-08-13"
-endDate: "2025-08-15"
+date: "2024-07-15" # Changed to ensure Hugo builds the page
+eventStartDate: "2025-08-13"
+eventEndDate: "2025-08-15" # Was previously 'endDate'
 location: "London, UK"
 eventUrl: "https://www.gophercon.co.uk/"
 sessionTitle: "To Be Announced"

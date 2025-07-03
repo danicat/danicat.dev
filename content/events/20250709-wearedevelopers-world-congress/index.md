@@ -1,7 +1,8 @@
 ---
 title: "WeAreDevelopers World Congress"
-date: "2025-07-09"
-endDate: "2025-07-11"
+date: "2024-07-15" # Changed to ensure Hugo builds the page
+eventStartDate: "2025-07-09"
+eventEndDate: "2025-07-11" # Was previously 'endDate'
 location: "Berlin, Germany"
 eventUrl: "https://www.wearedevelopers.com/world-congress"
 sessionTitle: "To Be Announced"

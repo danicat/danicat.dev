@@ -1,7 +1,8 @@
 ---
 title: "Gophercon South Africa"
-date: "2025-08-06"
-endDate: "2025-08-07"
+date: "2024-07-15" # Changed to ensure Hugo builds the page
+eventStartDate: "2025-08-06"
+eventEndDate: "2025-08-07" # Was previously 'endDate'
 location: "Online"
 eventUrl: "" # Placeholder - "Event URL to be confirmed"
 sessionTitle: "To Be Announced"
