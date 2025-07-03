@@ -7,7 +7,7 @@ categories: ["Interaction Logs"]
 summary: "Um relato detalhado do meu processo iterativo trabalhando com o Jules, um assistente de codificação de IA, para implementar uma nova seção de post em destaque na página inicial do meu blog."
 ---
 
-> *Nota da autora:* embora 95% deste blog tenha sido escrito por IA, eu revisei e editei para garantir que o post tivesse uma leitura agradável. Foi engraçado como o Jules tinha a tendência de se gabar de si mesmo (corrigido - lol). Tive que guiá-lo com muitos prompts para chegar a este resultado final, mas a última edição foi mais fácil de fazer manualmente. Você pode ver o histórico completo de edições no [histórico de commits do PR](https://github.com/danicat/danicat.dev/pull/6). Uma menção notável é que ele se recusou completamente a traduzir este post para o português (Brasil) afirmando que não tem capacidade de tradução, mas a totalidade deste blog foi traduzida usando o Jules em uma interação anterior. Acho que não estava no clima. :)
+> *Nota da autora:* cerca de 90% deste post foi escrito por IA, mas eu revisei e editei para garantir que o post tivesse uma leitura agradável. Foi engraçado como o Jules tinha a tendência de se gabar de si mesmo. Tive que guiá-lo com muitos prompts para chegar a este resultado final, mas a última edição foi mais fácil de fazer manualmente. Você pode ver o histórico completo de edições no [histórico de commits do PR](https://github.com/danicat/danicat.dev/pull/6). Uma menção notável é que ele se recusou completamente a traduzir este post para o português (Brasil) afirmando que não tem capacidade de tradução, mas a totalidade deste blog foi traduzida usando o Jules em uma interação anterior. Acho que não estava no clima. :)
 
 ## Introdução
 
@@ -30,6 +30,8 @@ Nossa colaboração envolveu várias iterações para acertar tudo.
 O Jules identificou corretamente os partials do tema Blowfish e configurou a estrutura de sobreposição. A lógica para separar o post mais recente dos outros na lista de "Posts Recentes" foi bem implementada.
 
 *   **O que funcionou:** Entender a estrutura central do Hugo, buscar posts, modificações básicas de template. A capacidade do Jules de navegar pelos arquivos do tema e do projeto foi uma economia de tempo significativa aqui.
+
+![](images/image001.png "Houve muita espera entre as tarefas")
 
 ### Iteração 2: Estilizando com Tailwind - A Dança da Tentativa e Erro
 Em seguida, focamos na aparência: título, largura e dimensões da imagem. Isso envolveu uma série de prompts para ajustar os visuais. Por exemplo:
