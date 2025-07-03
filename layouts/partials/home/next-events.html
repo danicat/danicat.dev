@@ -1,16 +1,17 @@
-{{ $events := site.Data.events }}
 {{ $now := now }}
+{{ $allEvents := (site.GetPage "section" "events").Pages.ByDate }} {{/* Already sorted: oldest first */}}
 {{ $upcomingEvents := slice }}
 
-{{ range $events }}
-  {{ $eventDate := .start_date | time.AsTime }}
-  {{ if $eventDate.After $now }}
-    {{ $upcomingEvents = $upcomingEvents | append . }}
+{{ range $allEvents }}
+  {{ if not .Params.draft }} {{/* Only consider non-draft events */}}
+    {{ if .Date.After $now }}
+      {{ $upcomingEvents = $upcomingEvents | append . }}
+    {{ end }}
   {{ end }}
 {{ end }}
 
-{{ $sortedUpcomingEvents := sort $upcomingEvents "start_date" "asc" }}
-{{ $nextThreeEvents := first 3 $sortedUpcomingEvents }}
+{{/* $upcomingEvents is already sorted by date ascending because $allEvents was .ByDate */}}
+{{ $nextThreeEvents := first 3 $upcomingEvents }}
 
 {{ if gt (len $nextThreeEvents) 0 }}
 <div class="mt-10">
@@ -22,45 +23,52 @@
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {{ range $nextThreeEvents }}
     <article class="flex flex-col bg-white dark:bg-neutral-800 shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
-      {{ if .image_url }}
-        {{ $isPlaceholder := eq .image_url "images/event_placeholder.png" }}
-        {{ $externalImage := or (hasPrefix .image_url "http://") (hasPrefix .image_url "https://") }}
-        <a href="{{ if .url | and (ne .url "Event URL to be confirmed") }}{{ .url }}{{ else }}#{{ end }}" {{ if .url | and (ne .url "Event URL to be confirmed") }}target="_blank" rel="noopener noreferrer"{{ end }} class="block">
-          <div class="w-full h-48 {{ if $isPlaceholder }} bg-gray-100 dark:bg-gray-700 {{ else }} bg-cover bg-center {{ end }} flex items-center justify-center" {{ if not $isPlaceholder }} style="background-image: url('{{ if $externalImage }}{{ .image_url }}{{ else }}{{ .image_url | absURL }}{{ end }}');" {{ end }}>
+      {{ if .Params.featuredImage }}
+        {{ $imagePath := .Params.featuredImage }}
+        {{ $isPlaceholder := or (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
+        {{ $externalImage := or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://") }}
+        <a href="{{ .Permalink }}" class="block">
+          <div class="w-full h-48 {{ if $isPlaceholder }} bg-gray-100 dark:bg-gray-700 {{ else }} bg-cover bg-center {{ end }} flex items-center justify-center" {{ if not $isPlaceholder }} style="background-image: url('{{ if $externalImage }}{{ $imagePath }}{{ else }}{{ $imagePath | absURL }}{{ end }}');" {{ end }}>
             {{ if $isPlaceholder }}
               <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
             {{ end }}
           </div>
         </a>
+      {{ else }}
+      <a href="{{ .Permalink }}" class="block">
+        <div class="w-full h-48 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+           <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+      </a>
       {{ end }}
       <div class="p-6 flex flex-col flex-grow">
         <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-100">
-          {{ if .url | and (ne .url "Event URL to be confirmed") }}
-            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ .name }}</a>
-          {{ else }}
-            {{ .name }}
-          {{ end }}
+          <a href="{{ .Permalink }}" class="hover:underline">{{ .Title }}</a>
         </h3>
-        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Location:</strong> {{ .location }}</p>
+        {{ with .Params.location }}
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Location:</strong> {{ . }}</p>
+        {{ end }}
         <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1">
           <strong class="font-medium">Date:</strong>
-          {{ .start_date | time.Format ":date_long" }}
-          {{ if .end_date | and (ne .end_date .start_date) }}
-            - {{ .end_date | time.Format ":date_long" }}
+          {{ .Date.Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
+          {{ if .Params.endDate | and (ne .Params.endDate .Date) }}
+            - {{ (.Params.endDate | time.AsTime).Format ( .Site.Params.DateFormatList | default "January 2, 2006") }}
           {{ end }}
         </p>
-        {{ if .session_title | and (ne .session_title "To Be Announced") }}
-          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3"><strong class="font-medium">My Session:</strong> {{ .session_title }} ({{ .session_type }})</p>
+        {{ if .Params.sessionTitle | and (ne .Params.sessionTitle "To Be Announced") }}
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3"><strong class="font-medium">My Session:</strong> {{ .Params.sessionTitle }}{{ with .Params.sessionType }} ({{ . }}){{ end }}</p>
+        {{ else if not (isset .Params "sessionTitle") }}
+           {{/* If sessionTitle is not set at all, don't show "to be announced" unless that's the explicit value */}}
         {{ else }}
           <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3 italic">My session details to be announced.</p>
         {{ end }}
         <div class="mt-auto">
-        {{ if .url | and (ne .url "Event URL to be confirmed") }}
-          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+        {{ if .Params.eventUrl }}
+          <a href="{{ .Params.eventUrl }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
             Event Details &rarr;
           </a>
         {{ else }}
-          <p class="text-sm text-neutral-400 dark:text-neutral-500 italic">Event URL to be confirmed</p>
+          <p class="text-sm text-neutral-400 dark:text-neutral-500 italic">Event URL not provided</p>
         {{ end }}
         </div>
       </div>
