@@ -1,77 +1,67 @@
-{{ $disableImageOptimization := .Page.Site.Params.disableImageOptimization | default false }}
-{{ with .Params.externalUrl }}
-<a href="{{ . }}" target="_blank" rel="external" class="min-w-full">
-  {{ else }}
-  <a href="{{ .RelPermalink }}" class="min-w-full">
+{{ $page_context := . }}
+{{ $disableImageOptimization := $page_context.Page.Site.Params.disableImageOptimization | default false }}
+
+{{ $href := $page_context.RelPermalink }}
+{{ $is_external := false }}
+{{ with $page_context.Params.externalUrl }}
+  {{ $href = . }}
+  {{ $is_external = true }}
+{{ end }}
+
+{{ $featured_image_resource := "" }}
+{{ $image_alt_text := $page_context.Title }}
+
+{{- with $page_context.Params.images -}}
+  {{/* Use first image from front matter if available */}}
+  {{ $featured_image_resource = $page_context.Resources.GetMatch (index . 0) }}
+{{- else -}}
+  {{- $images := $page_context.Resources.ByType "image" -}}
+  {{- $featured_image_resource = $images.GetMatch "*feature*" -}}
+  {{- if not $featured_image_resource }}{{ $featured_image_resource = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
+  {{- if and $page_context.Params.featureimage (not $featured_image_resource) -}}
+    {{- $url := $page_context.Params.featureimage -}}
+    {{/* Attempt to fetch as page resource first, then remote */}}
+    {{- $featured_image_resource = $page_context.Resources.GetMatch $url -}}
+    {{- if not $featured_image_resource }}{{ $featured_image_resource = resources.GetRemote $url }}{{ end -}}
+  {{- end -}}
+  {{- if not $featured_image_resource }}{{ with $page_context.Site.Params.defaultFeaturedImage }}{{ $featured_image_resource = resources.Get . }}{{ end }}{{ end -}}
+{{- end -}}
+
+{{ if $page_context.Params.hideFeatureImage }}{{ $featured_image_resource = false }}{{ end }}
+
+
+<a href="{{ $href }}"
+   class="featured-post-card-custom-link"
+   {{ if $is_external }}target="_blank" rel="external"{{ end }}>
+  <div class="featured-post-card-custom">
+    {{ if $featured_image_resource }}
+      <div class="image-container">
+        {{ $image_to_render := $featured_image_resource }}
+        {{ if not $disableImageOptimization }}
+          {{/* Resize to a reasonable width for a card, e.g., 800px wide, aspect ratio handled by CSS */}}
+          {{ $image_to_render = $featured_image_resource.Resize "800x" }}
+        {{ end }}
+        <img src="{{ $image_to_render.RelPermalink }}" alt="{{ $image_alt_text }}">
+      </div>
     {{ end }}
-    <div class="min-h-full border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative">
 
-      {{- with $.Params.images -}}
-      {{- range first 6 . }}
-      <meta property="og:image" content="{{ . | absURL }}" />{{ end -}}
-      {{- else -}}
-      {{- $images := $.Resources.ByType "image" -}}
-      {{- $featured_img := $images.GetMatch "*feature*" -}}
-      {{- if not $featured_img }}{{ $featured_img = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
-      {{ if and .Params.featureimage (not $featured_img) }}
-      {{- $url:= .Params.featureimage -}}
-      {{ $featured_img = resources.GetRemote $url }}
-      {{ end }}
-      {{- if not $featured_img }}{{ with .Site.Params.defaultFeaturedImage }}{{ $featured_img = resources.Get . }}{{ end }}{{ end -}}
-      {{ if .Params.hideFeatureImage }}{{ $featured_img = false }}{{ end }}
-      {{- with $featured_img -}}
-      {{ if or $disableImageOptimization (strings.HasSuffix $featured_img ".svg")}}
-        {{ with . }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 75%;"></div>
-        {{ end }}
-      {{ else }}
-        {{ with .Resize "600x" }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }}); padding-bottom: 75%;"></div>
-        {{ end }}
-      {{ end }}
-      {{- else -}}
-      {{- with $.Site.Params.images }}
-      <meta property="og:image" content="{{ index . 0 | absURL }}" />{{ end -}}
-      {{- end -}}
-      {{- end -}}
+    <div class="text-content">
+      <h2>{{ $page_context.Title | emojify }}</h2>
 
-
-      {{ if and .Draft .Site.Params.article.showDraftLabel }}
-      <span class="absolute top-0 right-0 m-2">
-        {{ partial "badge.html" (i18n "article.draft" | emojify) }}
-      </span>
-      {{ end }}
-
-      <div class="px-6 py-4">
-
-        {{ with .Params.externalUrl }}
-        <div>
-          <div
-            class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
-            {{ $.Title | emojify }}
-            <span class="text-xs align-top cursor-default text-neutral-400 dark:text-neutral-500">
-              <span class="rtl:hidden">&#8599;</span>
-              <span class="ltr:hidden">&#8598;</span>
-            </span>
-          </div>
-        </div>
-        {{ else }}
-        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
-          href="{{ .RelPermalink }}">{{ .Title | emojify }}</div>
-        {{ end }}
-
-        <div class="text-sm text-neutral-500 dark:text-neutral-400">
-          {{ partial "article-meta/basic.html" . }}
-        </div>
-
-        {{ if .Params.showSummary | default (.Site.Params.list.showSummary | default false) }}
-        <div class="py-1 prose dark:prose-invert">
-          {{ .Summary | plainify }}
-        </div>
-        {{ end }}
+      <div class="meta">
+        {{ partial "article-meta/basic.html" $page_context }}
       </div>
-      <div class="px-6 pt-4 pb-2">
 
-      </div>
+      {{ $show_summary := $page_context.Params.showSummary | default ($page_context.Site.Params.list.showSummary | default false) }}
+      {{ if $show_summary }}
+        <p class="summary">{{ $page_context.Summary | plainify | truncate 150 }}</p>
+      {{ end }}
     </div>
-  </a>
+
+    {{ if and $page_context.Draft $page_context.Site.Params.article.showDraftLabel }}
+      <span style="position: absolute; top: 10px; right: 10px; background-color: #ffc107; padding: 2px 5px; font-size: 0.8em; border-radius: 3px;">
+        {{ i18n "article.draft" | emojify }}
+      </span>
+    {{ end }}
+  </div>
+</a>
