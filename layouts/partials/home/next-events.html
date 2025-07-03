@@ -1,0 +1,85 @@
+{{ $events := site.Data.events }}
+{{ $now := now }}
+{{ $upcomingEvents := slice }}
+
+{{ range $events }}
+  {{ $eventDate := .start_date | time.AsTime }}
+  {{ if $eventDate.After $now }}
+    {{ $upcomingEvents = $upcomingEvents | append . }}
+  {{ end }}
+{{ end }}
+
+{{ $sortedUpcomingEvents := sort $upcomingEvents "start_date" "asc" }}
+{{ $nextThreeEvents := first 3 $sortedUpcomingEvents }}
+
+{{ if gt (len $nextThreeEvents) 0 }}
+<div class="mt-10">
+  <header class="mb-4">
+    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+      {{ i18n "next_events_title" | default "Next Events" }}
+    </h2>
+  </header>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{ range $nextThreeEvents }}
+    <article class="flex flex-col bg-white dark:bg-neutral-800 shadow-lg rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105">
+      {{ if .image_url }}
+        {{ $isPlaceholder := eq .image_url "images/event_placeholder.png" }}
+        {{ $externalImage := or (hasPrefix .image_url "http://") (hasPrefix .image_url "https://") }}
+        <a href="{{ if .url | and (ne .url "Event URL to be confirmed") }}{{ .url }}{{ else }}#{{ end }}" {{ if .url | and (ne .url "Event URL to be confirmed") }}target="_blank" rel="noopener noreferrer"{{ end }} class="block">
+          <div class="w-full h-48 {{ if $isPlaceholder }} bg-gray-100 dark:bg-gray-700 {{ else }} bg-cover bg-center {{ end }} flex items-center justify-center" {{ if not $isPlaceholder }} style="background-image: url('{{ if $externalImage }}{{ .image_url }}{{ else }}{{ .image_url | absURL }}{{ end }}');" {{ end }}>
+            {{ if $isPlaceholder }}
+              <svg class="w-12 h-12 text-gray-400 dark:text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+            {{ end }}
+          </div>
+        </a>
+      {{ end }}
+      <div class="p-6 flex flex-col flex-grow">
+        <h3 class="text-xl font-semibold mb-2 text-neutral-800 dark:text-neutral-100">
+          {{ if .url | and (ne .url "Event URL to be confirmed") }}
+            <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="hover:underline">{{ .name }}</a>
+          {{ else }}
+            {{ .name }}
+          {{ end }}
+        </h3>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1"><strong class="font-medium">Location:</strong> {{ .location }}</p>
+        <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-1">
+          <strong class="font-medium">Date:</strong>
+          {{ .start_date | time.Format ":date_long" }}
+          {{ if .end_date | and (ne .end_date .start_date) }}
+            - {{ .end_date | time.Format ":date_long" }}
+          {{ end }}
+        </p>
+        {{ if .session_title | and (ne .session_title "To Be Announced") }}
+          <p class="text-sm text-neutral-600 dark:text-neutral-300 mb-3"><strong class="font-medium">My Session:</strong> {{ .session_title }} ({{ .session_type }})</p>
+        {{ else }}
+          <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-3 italic">My session details to be announced.</p>
+        {{ end }}
+        <div class="mt-auto">
+        {{ if .url | and (ne .url "Event URL to be confirmed") }}
+          <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="text-sm text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 font-medium">
+            Event Details &rarr;
+          </a>
+        {{ else }}
+          <p class="text-sm text-neutral-400 dark:text-neutral-500 italic">Event URL to be confirmed</p>
+        {{ end }}
+        </div>
+      </div>
+    </article>
+    {{ end }}
+  </div>
+</div>
+{{ else }}
+<!-- Optional: Message if no upcoming events -->
+<!--
+<div class="mt-10">
+  <header class="mb-4">
+    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
+      {{ i18n "next_events_title" | default "Next Events" }}
+    </h2>
+  </header>
+  <p class="text-neutral-600 dark:text-neutral-400">
+    {{ i18n "no_upcoming_events" | default "No upcoming events scheduled at the moment. Check out the [Event Calendar](/events/) for past appearances!" | markdownify }}
+  </p>
+</div>
+-->
+{{ end }}
