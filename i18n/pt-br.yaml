@@ -1,2 +1,6 @@
 author:
   byline_title: "Autora"
+
+homepage:
+  latest_post_heading: "Destaque"
+  no_other_recent_posts: "Nenhum outro post recente para exibir."

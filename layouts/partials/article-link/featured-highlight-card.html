@@ -1,0 +1,74 @@
+{{ $page_context := . }}
+{{ $disableImageOptimization := $page_context.Page.Site.Params.disableImageOptimization | default false }}
+
+{{ $href := $page_context.RelPermalink }}
+{{ $is_external := false }}
+{{ with $page_context.Params.externalUrl }}
+  {{ $href = . }}
+  {{ $is_external = true }}
+{{ end }}
+
+{{ $featured_image_resource := "" }}
+{{ $image_alt_text := $page_context.Title }}
+
+{{- with $page_context.Params.images -}}
+  {{ $featured_image_resource = $page_context.Resources.GetMatch (index . 0) }}
+{{- else -}}
+  {{- $images := $page_context.Resources.ByType "image" -}}
+  {{- $featured_image_resource = $images.GetMatch "*feature*" -}}
+  {{- if not $featured_image_resource }}{{ $featured_image_resource = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
+  {{- if and $page_context.Params.featureimage (not $featured_image_resource) -}}
+    {{- $url := $page_context.Params.featureimage -}}
+    {{- $featured_image_resource = $page_context.Resources.GetMatch $url -}}
+    {{- if not $featured_image_resource }}{{ $featured_image_resource = resources.GetRemote $url }}{{ end -}}
+  {{- end -}}
+  {{- if not $featured_image_resource }}{{ with $page_context.Site.Params.defaultFeaturedImage }}{{ $featured_image_resource = resources.Get . }}{{ end }}{{ end -}}
+{{- end -}}
+
+{{ if $page_context.Params.hideFeatureImage }}{{ $featured_image_resource = false }}{{ end }}
+
+<a href="{{ $href }}"
+   class="block w-1/2 mx-auto my-8 transition-all duration-300 ease-in-out hover:shadow-xl dark:hover:shadow-neutral-900"
+   {{ if $is_external }}target="_blank" rel="external"{{ end }}>
+  <div class="flex flex-col bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg overflow-hidden">
+
+    {{ if $featured_image_resource }}
+      <div class="relative w-full h-0" style="padding-bottom: 56.25%;">
+        {{ $image_to_render := $featured_image_resource }}
+        {{ if not $disableImageOptimization }}
+          {{ $image_to_render = $featured_image_resource.Resize "800x" }}
+        {{ end }}
+        <img src="{{ $image_to_render.RelPermalink }}" alt="{{ $image_alt_text }}" class="absolute inset-0 w-full h-full object-cover">
+      </div>
+    {{ end }}
+
+    <div class="p-6">
+      <h2 class="font-bold text-2xl text-neutral-800 dark:text-neutral-50 decoration-primary-500 hover:underline hover:underline-offset-2">
+        {{ $page_context.Title | emojify }}
+        {{ if $is_external }}
+          <span class="text-xs align-top cursor-default text-neutral-400 dark:text-neutral-500">
+            <span class="rtl:hidden">&#8599;</span>
+            <span class="ltr:hidden">&#8598;</span>
+          </span>
+        {{ end }}
+      </h2>
+
+      <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+        {{ partial "article-meta/basic.html" (dict "context" $page_context "IsFeaturedCard" true) }}
+      </div>
+
+      {{ $show_summary := $page_context.Params.showSummary | default ($page_context.Site.Params.list.showSummary | default false) }}
+      {{ if $show_summary }}
+        <div class="mt-3">
+          <p class="text-lg text-neutral-700 dark:text-neutral-300 leading-relaxed">{{ $page_context.Summary | plainify | truncate 150 }}</p>
+        </div>
+      {{ end }}
+    </div>
+
+    {{ if and $page_context.Draft $page_context.Site.Params.article.showDraftLabel }}
+      <span class="absolute top-2 right-2 bg-amber-400 text-neutral-800 px-2 py-1 text-xs font-semibold rounded-md">
+        {{ i18n "article.draft" | emojify }}
+      </span>
+    {{ end }}
+  </div>
+</a>

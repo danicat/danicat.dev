@@ -1,0 +1,9 @@
+{{/* This partial now expects "Pages" and "Context" in its context dict */}}
+{{ $pages_to_display := .Pages }}
+{{/* $original_context := .Context - available if needed, but not directly used in this simplified version */}}
+
+<section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+  {{ range $pages_to_display }}
+    {{ partial "article-link/card.html" . }}
+  {{ end }}
+</section>
