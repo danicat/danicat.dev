@@ -25,17 +25,28 @@
     {{ range $nextThreeEvents }}
     <a href="{{ .Permalink }}" class="min-w-full block group"> {{/* Added group for potential group-hover later if needed */}}
       <div class="min-h-full border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative flex flex-col">
-        {{/* Image Area - attempting to match article-link/card.html style */}}
         {{ $imagePath := .Params.featuredImage }}
-        {{ $isPlaceholder := or (not $imagePath) (strings.Contains $imagePath "event_placeholders") (strings.Contains $imagePath "placeholder.png") }}
-        {{ $externalImage := and $imagePath (or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://")) }}
+        {{ $image := "" }}
+        {{ $externalImage := false }}
+        {{ if $imagePath }}
+            {{ $externalImage = or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://") }}
+            {{ if not $externalImage }}
+                {{ $image = .Resources.GetMatch $imagePath }}
+            {{ end }}
+        {{ end }}
 
-        {{ if $isPlaceholder }}
+        {{ if and (not $image) (not $externalImage) }}
           <div class="w-full h-48 thumbnail_card nozoom flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500">
             <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
           </div>
         {{ else }}
-          <div class="w-full h-48 thumbnail_card nozoom bg-cover bg-center" style="background-image:url('{{ if $externalImage }}{{ $imagePath }}{{ else }}{{ $imagePath | absURL }}{{ end }}');">
+          {{ $imageUrl := "" }}
+          {{ if $externalImage }}
+            {{ $imageUrl = $imagePath }}
+          {{ else }}
+            {{ $imageUrl = $image.Permalink }}
+          {{ end }}
+          <div class="w-full h-48 thumbnail_card nozoom bg-cover bg-center" style="background-image:url('{{ $imageUrl }}');">
           </div>
         {{ end }}
 

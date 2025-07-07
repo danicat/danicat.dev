@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Interaction Logs on danicat.dev</title>
+    <link>http://localhost:1313/categories/interaction-logs/</link>
+    <description>Recent content in Interaction Logs on danicat.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>daniela@danicat.dev (Daniela Petruzalek)</managingEditor>
+    <webMaster>daniela@danicat.dev (Daniela Petruzalek)</webMaster>
+    <copyright>© 2025 Daniela Petruzalek</copyright>
+    <lastBuildDate>Thu, 03 Jul 2025 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/categories/interaction-logs/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>How I used Jules to add a featured post to this blog</title>
+      <link>http://localhost:1313/posts/20250703-jules-featured-post/</link>
+      <pubDate>Thu, 03 Jul 2025 00:00:00 +0000</pubDate>
+      <author>daniela@danicat.dev (Daniela Petruzalek)</author>
+      <guid>http://localhost:1313/posts/20250703-jules-featured-post/</guid>
+      <description>A detailed account of my iterative process working with Jules, an AI coding assistant, to implement a new featured post section on my blog&amp;rsquo;s homepage.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/20250703-jules-featured-post/featured.png" />
+    </item>
+    
+  </channel>
+</rss>

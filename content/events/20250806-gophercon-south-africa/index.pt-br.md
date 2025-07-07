@@ -4,5 +4,9 @@ date: 2025-07-07
 eventStartDate: 2025-08-06
 eventEndDate: 2025-08-06
 location: "Online"
-eventUrl: "https://gophercon.co.za/"
+eventUrl: "https://gopherconf.co.za/"
+featuredImage: "featured.png"
+summary: "Uma conferência online de destaque para a comunidade da linguagem de programação Go na África do Sul, reunindo desenvolvedores para aprendizado e networking."
 ---
+
+[Site do Evento](https://gopherconf.co.za/)
