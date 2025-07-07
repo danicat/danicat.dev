@@ -6,3 +6,11 @@ eventEndDate: 2025-07-11
 location: "Berlin, Germany"
 eventUrl: "https://www.wearedevelopers.com/world-congress/"
 ---
+
+![Event Logo](https://cdn.prod.website-files.com/5e9996a6531fea7d1003b18e/6622557266b4ab9590f5199d_WeAreDevelopers_Logo-Mark.svg)
+
+## Description
+The World's Leading Event for Developers, AI Innovators & Tech Leaders. Join the largest gathering of software innovators, tech leaders, and decision-makers shaping the future of AI-powered technology.
+
+## Session Details
+Specific session details for 2025 are not yet available. Please check the event website for updates.
