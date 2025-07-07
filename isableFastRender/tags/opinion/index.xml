@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Opinion on danicat.dev</title>
+    <link>http://localhost:1313/tags/opinion/</link>
+    <description>Recent content in Opinion on danicat.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>daniela@danicat.dev (Daniela Petruzalek)</managingEditor>
+    <webMaster>daniela@danicat.dev (Daniela Petruzalek)</webMaster>
+    <copyright>© 2025 Daniela Petruzalek</copyright>
+    <lastBuildDate>Wed, 28 May 2025 16:30:00 +0100</lastBuildDate><atom:link href="http://localhost:1313/tags/opinion/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Can anyone vibe code?</title>
+      <link>http://localhost:1313/posts/20250528-vibe-coding/</link>
+      <pubDate>Wed, 28 May 2025 16:30:00 +0100</pubDate>
+      <author>daniela@danicat.dev (Daniela Petruzalek)</author>
+      <guid>http://localhost:1313/posts/20250528-vibe-coding/</guid>
+      <description>A reflection on the future of the software engineering career.</description>
+      <media:content xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:1313/posts/20250528-vibe-coding/featured.png" />
+    </item>
+    
+  </channel>
+</rss>

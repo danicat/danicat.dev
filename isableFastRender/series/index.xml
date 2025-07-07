@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Series on danicat.dev</title>
+    <link>http://localhost:1313/series/</link>
+    <description>Recent content in Series on danicat.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>daniela@danicat.dev (Daniela Petruzalek)</managingEditor>
+    <webMaster>daniela@danicat.dev (Daniela Petruzalek)</webMaster>
+    <copyright>© 2025 Daniela Petruzalek</copyright>
+    <atom:link href="http://localhost:1313/series/index.xml" rel="self" type="application/rss+xml" />
+    
+  </channel>
+</rss>

@@ -1,0 +1,68 @@
+{{ $constrainItemsWidth := .Page.Site.Params.list.constrainItemsWidth | default false }}
+
+{{ $articleClasses := "flex flex-wrap md:flex-nowrap article" }}
+{{ if .Site.Params.list.showCards }}
+{{ $articleClasses = delimit (slice $articleClasses "border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden") " " }}
+{{ else }}
+{{ $articleClasses = delimit (slice $articleClasses "") " " }}
+{{ end }}
+
+{{ $articleImageClasses := "w-full md:w-auto h-full thumbnail nozoom" }}
+{{ if .Site.Params.list.showCards }}
+{{ $articleImageClasses = delimit (slice $articleImageClasses "") " " }}
+{{ else }}
+{{ $articleImageClasses = delimit (slice $articleImageClasses "thumbnailshadow md:mr-7") " " }}
+{{ end }}
+
+{{ $disableImageOptimization := .Page.Site.Params.disableImageOptimization | default false }}
+
+{{ $articleInnerClasses := "" }}
+{{ if .Site.Params.list.showCards }}
+{{ $articleInnerClasses = delimit (slice $articleInnerClasses "p-4") " " }}
+{{ else }}
+{{ $articleInnerClasses = delimit (slice $articleInnerClasses "mt-3 md:mt-0") " " }}
+{{ end }}
+
+{{ if $constrainItemsWidth }}
+{{ $articleClasses = delimit (slice $articleClasses "max-w-prose") " " }}
+{{ end }}
+
+<a class="{{ $articleClasses }}" href="{{ .RelPermalink }}">
+    {{ $image := .Resources.GetMatch .Params.featuredImage }}
+    {{ if $image }}
+        {{ $resized := "" }}
+        {{ if not (or $disableImageOptimization (strings.HasSuffix $image ".svg")) }}
+            {{ $resized = $image.Resize "600x" }}
+        {{ else }}
+            {{ $resized = $image }}
+        {{ end }}
+        <div class="{{ $articleImageClasses }}" style="background-image:url({{ $resized.RelPermalink }});"></div>
+    {{ else }}
+        <div class="{{ $articleImageClasses }} flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500">
+            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        </div>
+    {{ end }}
+
+    <div class="{{ $articleInnerClasses }}">
+      <div class="items-center text-left text-xl font-semibold">
+        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+          href="{{ .RelPermalink }}">{{ .Title | emojify }}</div>
+      </div>
+      <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        <p>
+            {{ .Params.eventStartDate | time.Format ":date_long" }}
+            {{ if .Params.eventEndDate }}
+            - {{ .Params.eventEndDate | time.Format ":date_long" }}
+            {{ end }}
+        </p>
+        {{ with .Params.location }}
+        <p>{{ . }}</p>
+        {{ end }}
+      </div>
+      {{ if .Summary }}
+      <div class="py-1 max-w-fit prose dark:prose-invert">
+        {{ .Summary | plainify }}
+      </div>
+      {{ end }}
+    </div>
+</a>
