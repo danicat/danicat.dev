@@ -4,3 +4,6 @@ author:
 homepage:
   latest_post_heading: "Destaque"
   no_other_recent_posts: "Nenhum outro post recente para exibir."
+no_upcoming_events: "Nenhum evento futuro agendado no momento. Confira o [Calendário de Eventos](/events/) para participações passadas!"
+next_events_title: "Próximos Eventos"
+event_details_link: "Detalhes do Evento &rarr;"

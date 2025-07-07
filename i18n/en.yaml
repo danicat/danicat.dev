@@ -1,3 +1,6 @@
 homepage:
   latest_post_heading: "Featured Post"
   no_other_recent_posts: "No other recent posts to display."
+no_upcoming_events: "No upcoming events scheduled at the moment. Check out the [Event Calendar](/events/) for past appearances!"
+next_events_title: "Next Events"
+event_details_link: "Event Details &rarr;"
