@@ -3,6 +3,7 @@
 **1. Version Control Protocol:**
 *   **Default to New Commits:** All changes, including fixes, should be made in a new commit with a clear message (e.g., `fix: ...`, `feat: ...`). Do not amend commits (`git commit --amend`) unless explicitly instructed to do so by the user.
 *   **Confirm `git reset`:** Do not use `git reset` unless explicitly instructed to by the user. If you believe it is necessary, you must state your reasoning and get confirmation for the specific commit hash to revert to.
+*   **Use Standard Push:** Always use a standard `git push`. Do not use `--force` or `--force-with-lease` unless explicitly instructed to do so by the user.
 
 **2. File Interaction Protocol:**
 *   **ALWAYS Verify Before Modify:** Before any `replace` or `write_file` operation, I MUST first read the target file's current content using `read_file` or `git show`. This is mandatory after any state change (e.g., `git reset`, file creation/deletion). Do not operate on assumed or cached file content.
