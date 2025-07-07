@@ -59,6 +59,10 @@
 </section>
 {{ end }}
 
+<section>
+  {{ partial "home/next-events.html" . }}
+</section>
+
 {{/* Recent Articles Section - now uses $recent_posts_list */}}
 {{ if gt (len $recent_posts_list) 0 }}
 <section>
