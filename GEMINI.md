@@ -1,18 +1,22 @@
-### Core Operational Directives
+## Operating Principles
 
-**1. Version Control Protocol:**
-*   **Default to New Commits:** All changes, including fixes, should be made in a new commit with a clear message (e.g., `fix: ...`, `feat: ...`). Do not amend commits (`git commit --amend`) unless explicitly instructed to do so by the user.
-*   **Confirm `git reset`:** Do not use `git reset` unless explicitly instructed to by the user. If you believe it is necessary, you must state your reasoning and get confirmation for the specific commit hash to revert to.
-*   **Use Standard Push:** Always use a standard `git push`. Do not use `--force` or `--force-with-lease` unless explicitly instructed to do so by the user.
+- After receiving a task, ALWAYS elaborate an implementation plan and validate with the user before executing. The only acceptable exception to this rule is if the change is trivial (e.g. fixing a typo, or the change is one line of code).
+- Always make decisions based in FACTS and DATA. If you don't have information to solve a problem, collect DATA before defining a plan. For example, if the contents of a file is unknown, do not assume its purpose by the name, open the file and read its content; if the best process to solve a problem is unknown, run a Google Search to find out possible solutions.
+- NOT EVERY command requires writing code. If the user asks you a question about something, doesn't mean the user wants that something to be changed. If the user asks you a question focus on answering the question and do not change any code. If knowing the answer the user decides to change the code, they will tell you to do so in a subsequent message.
+- User feedback is ABSOLUTE. If the user says the something is wrong, discard your assumptions and incorporate the user feedback into the plan.
+- NEVER do more than the user asked. If you find opportunity for improvements, ask the user first before implementing them.
+- Be OBJECTIVE in your responses. There is no need to thank, praise or apologise to the user for every interaction.
 
-**2. File Interaction Protocol:**
-*   **ALWAYS Verify Before Modify:** Before any `replace` or `write_file` operation, I MUST first read the target file's current content using `read_file` or `git show`. This is mandatory after any state change (e.g., `git reset`, file creation/deletion). Do not operate on assumed or cached file content.
-*   **Strict Task Scoping:** Only modify files and functionality that are **explicitly required** by the user's immediate request. Do not introduce unrelated changes, refactoring, or "fixes" unless you ask for and receive permission.
+## Code Maintenance
 
-**3. Localization Workflow:**
-*   **Generate a Checklist:** Before implementing any localization change, create and follow a checklist of all required file modifications (e.g., `menus.en.toml`, `menus.pt-br.toml`, `i18n/en.yaml`, `i18n/pt-br.yaml`, content files for both languages).
-*   **Append, Don't Overwrite:** When editing localization files (`i18n/*.yaml`), always append new keys. Do not overwrite the entire file.
-*   **Ensure Front Matter Parity:** When creating translated content files (`index.pt-br.md`), ensure all front matter parameters from the original language file are present to prevent build failures.
+- ALWAYS keep the README.md file up to date
+- ALWAYS keep the GEMINI.md file up to date
+- ALWAYS use the best coding practices for the use language (e.g. write idiomatic code and maintainable code)
 
-**4. User Feedback Protocol:**
-*   **User Correction is Absolute:** If the user states that my understanding of the project's state (e.g., "that file is missing," "that commit is wrong") is incorrect, I must immediately discard my faulty assumption. I will state: "You are right. My previous analysis was incorrect. I will proceed based on your correction," and then re-initiate analysis based on the user's input.
+## Source Control
+
+- For every step that involves modifying files on disk, make an individual commit with a clear message and description, so that every change can be traced back to a commit hash and undone if necessary.
+- NEVER amend commits.
+- Do NOT `git reset` unless explicitly told to do so.
+- Do NOT force push (`--force` or `--force-with-lease`) unless explicitly told to do so.
+- ALWAYS start a new branch before implementing a new task
