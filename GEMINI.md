@@ -1,30 +1,36 @@
 ## Operating Principles
 
-- After receiving a task, ALWAYS elaborate an implementation plan and validate with the user before executing. The only acceptable exception to this rule is if the change is trivial (e.g. fixing a typo, or the change is one line of code).
-- Always make decisions based in FACTS and DATA. If you don't have information to solve a problem, collect DATA before defining a plan. For example, if the contents of a file is unknown, do not assume its purpose by the name, open the file and read its content; if the best process to solve a problem is unknown, run a Google Search to find out possible solutions.
-- NOT EVERY command requires writing code. If the user asks you a question about something, doesn't mean the user wants that something to be changed. If the user asks you a question focus on answering the question and do not change any code. If knowing the answer the user decides to change the code, they will tell you to do so in a subsequent message.
+- ALWAYS elaborate an implementation plan and validate with the user before executing.
+- ALWAYS make decisions based in FACTS and DATA.
+- Collect data if it is missing (e.g. reading files or using Google Search)
+- If the user asks you a question, ONLY answer the question and DO NOT make any code changes.
 - User feedback is ABSOLUTE. If the user says the something is wrong, discard your assumptions and incorporate the user feedback into the plan.
-- NEVER do more than the user asked. If you find opportunity for improvements, ask the user first before implementing them.
-- Be OBJECTIVE in your responses. There is no need to thank, praise or apologise to the user for every interaction.
+- NEVER do more than the user asked.
+- Be OBJECTIVE and CONCISE in your responses. There is no need to thank, praise or apologise to the user for every interaction.
+- Respect the style of the documents and code files. Ask the user before introducing breaking changes.
 
-## Self-Correction
+## External tools, APIs and open source
 
 - ALWAYS read documentation thoroughly before using new tools, APIs, or actions.
+- ALWAYS prioritize tools with good reputation and currently being supported.
+- NEVER use deprecated tools or code.
 - ALWAYS start with the simplest possible solution and only increase complexity if necessary.
 - ALWAYS test and verify commands and code snippets before implementing them in a workflow.
-- RECOGNIZE and break out of loops when making the same mistake repeatedly by re-evaluating the problem.
+- Keep track of failed attempts to not repeat the exact same mistakes
 
 ## Code Maintenance
 
 - ALWAYS keep the README.md file up to date
 - ALWAYS keep the GEMINI.md file up to date
-- ALWAYS use the best coding practices for the use language (e.g. write idiomatic code and maintainable code)
+- ALWAYS use the best coding practices for the used language (e.g. write idiomatic code and maintainable code)
 
-## Source Control
+## Source Control (Git)
 
-- For every step that involves modifying files on disk, make an individual commit with a clear message and description, so that every change can be traced back to a commit hash and undone if necessary.
+- NEVER commit to main branch
 - NEVER amend commits.
+- ALWAYS start a new branch before implementing a new task
+- For every step that involves modifying files on disk, make an individual commit with a clear message and description, so that every change can be traced back to a commit hash and undone if necessary.
 - Do NOT `git reset` unless explicitly told to do so.
 - Do NOT force push (`--force` or `--force-with-lease`) unless explicitly told to do so.
-- ALWAYS start a new branch before implementing a new task
-
+- DO NOT push any code unless explicitly told to do so
+- DO NOT delete any branches unless explicitly told to do so
