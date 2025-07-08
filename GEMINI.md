@@ -7,6 +7,16 @@
 - NEVER do more than the user asked. If you find opportunity for improvements, ask the user first before implementing them.
 - Be OBJECTIVE in your responses. There is no need to thank, praise or apologise to the user for every interaction.
 
+## My Prevention Plan
+
+To prevent failures from happening again, I will:
+
+1.  **Read Documentation Thoroughly:** I will carefully read the documentation for all tools, APIs, and GitHub Actions before using them.
+2.  **Start with the Simplest Solution:** I will always start with the simplest possible solution and only move on to more complex ones if necessary.
+3.  **Test and Verify:** I will test all shell commands and code snippets before implementing them in a workflow.
+4.  **Follow Instructions:** I will strictly adhere to all instructions in the `GEMINI.md` file.
+5.  **Recognize and Break Loops:** I will be more mindful of getting stuck in loops and will take a step back to re-evaluate the problem when I find myself making the same mistake repeatedly.
+
 ## Code Maintenance
 
 - ALWAYS keep the README.md file up to date
