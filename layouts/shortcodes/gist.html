@@ -1,1 +1,6 @@
-<script type="application/javascript" src="https://gist.github.com/{{ index .Params 0 }}/{{ index .Params 1 }}.js{{ with .Get 2 }}?file={{ . }}{{ end }}"></script>
+<figure class="gist">
+  <script type="application/javascript" src="https://gist.github.com/{{ index .Params 0 }}/{{ index .Params 1 }}.js{{ with .Get 2 }}?file={{ . }}{{ end }}"></script>
+  <figcaption>
+    Gist by <a href="https://github.com/{{ index .Params 0 }}">{{ index .Params 0 }}</a>
+  </figcaption>
+</figure>
