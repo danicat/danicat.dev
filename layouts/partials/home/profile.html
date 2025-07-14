@@ -59,10 +59,6 @@
 </section>
 {{ end }}
 
-<section>
-  {{ partial "home/next-events.html" . }}
-</section>
-
 {{/* Recent Articles Section - now uses $recent_posts_list */}}
 {{ if gt (len $recent_posts_list) 0 }}
 <section>
@@ -74,3 +70,7 @@
     <p class="text-center">{{ i18n "homepage.no_other_recent_posts" | default "No other recent posts to display." }}</p>
 </section>
 {{ end }}
+
+<section>
+  {{ partial "home/next-events.html" . }}
+</section>
