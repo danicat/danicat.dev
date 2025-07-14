@@ -1,5 +1,5 @@
 ---
-title: "Um fluxo de trabalho de desenvolvedor moderno para o mundo habilitado para IA"
+title: "Um modelo de trabalho para o desenvolvedor moderno usando IA"
 date: 2025-07-11
 author: "Daniela Petruzalek"
 tags: ["gemini-cli", "vibe-coding", "jules"]
