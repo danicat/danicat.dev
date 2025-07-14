@@ -1,12 +1,12 @@
 # danicat.dev Personal Website
 
-This is the source code for the personal website and blog available at [danicat.dev](https://danicat.dev/). It is built using the [Hugo static site generator](https://gohugo.io/).
+This repository contains the source code for my personal website and blog, available at danicat.dev. Here you will find articles and tutorials about software development, cloud computing, and other technology-related topics.
 
 ## Built With
 
 *   [Hugo](https://gohugo.io/) - Static site generator
-*   [Hugo Bootstrap Module](https://github.com/hugomods/bootstrap)
-*   [Hugo Images Module](https://github.com/hugomods/images)
+*   [Blowfish](https://blowfish.page/) - Hugo theme for building personal websites
+*   Other Hugo modules as listed in `go.mod`.
 
 ## Getting Started
 
@@ -34,21 +34,21 @@ Once Hugo is installed, follow these steps:
 
 ## Content Management
 
-All website content, primarily blog posts, is located in the `content/posts` directory.
+All website content, primarily blog posts, is located in the `content/posts` directory. Each post has its own directory, which contains an `index.md` for the English version and an `index.pt-br.md` for the Portuguese version.
 
 To add a new post:
 
-1.  You can use the Hugo CLI to create a new content file:
+1.  Create a new directory for your post within `content/posts`.
+2.  Inside the new directory, create an `index.md` file for the English content and an `index.pt-br.md` for the Portuguese content.
+3.  You can use the Hugo CLI to create a new content file with the basic front matter:
     ```bash
-    hugo new posts/my-new-post.md
+    hugo new posts/my-new-post/index.md
     ```
-2.  This will create a new Markdown file in `content/posts/my-new-post.md` with the basic front matter.
-3.  Edit the new Markdown file to add your content.
 
 ## Customization
 
-*   **Main Configuration**: The primary configuration for the site can be found in `hugo.yaml`. This includes settings for the title, theme, menus, and other site-wide parameters.
-*   **Custom Styling**: Custom CSS rules are located in `static/css/custom.css`. You can modify this file to change the site's appearance.
+*   **Main Configuration**: The primary configuration for the site can be found in `config/_default/hugo.toml`. This includes settings for the title, theme, menus, and other site-wide parameters.
+*   **Custom Styling**: Custom CSS rules are located in `assets/css/custom.css`. You can modify this file to change the site's appearance.
 
 ## Deployment
 
@@ -59,6 +59,10 @@ hugo
 This will generate the static site in the `public/` directory. The contents of this directory can then be deployed to any static web hosting service.
 
 Many services like Netlify, Vercel, GitHub Pages, Cloudflare Pages, etc., can automatically build and deploy Hugo sites directly from a Git repository.
+
+## Multi-language Support
+
+The website is available in English and Portuguese. The language-specific configurations can be found in `config/_default/languages.en.toml` and `config/_default/languages.pt-br.toml`.
 
 ## License
 
