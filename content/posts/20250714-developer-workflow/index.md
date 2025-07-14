@@ -36,9 +36,9 @@ How does this process relate to AI-native work? I like to think of myself as bei
 
 ## A basic "AI-native" workflow
 
-![Prioritisation example](image.png "Example of priority features for this blog")
-
 Let's say I need to implement a new feature for my system. I have two main modes of operation - interactive and batch (a.k.a. "fire-and-forget") modes. Whether I am going to choose one or the other is highly dependent on the `technical certainty` I have on how to implement the given feature and how invested I am in it at the moment (`business value`).
+
+![Prioritisation example](image.png "Example of priority features for this blog")
 
 For example, in this very blog I wrote last time how I implemented the "featured post" in the home page. When I started working on it, I knew nothing about how to implement a featured post, but I had an idea of what I wanted to achieve. This is a problem with low technical certainty, because I didn't know which technology to use nor the exact places in code I had to change. At the same time, it had a high business value for me, because my hypothesis is that it would make the blog much more professional and attractive to the readers.
 
@@ -93,9 +93,9 @@ If you have your hands on the keyboard and don't want to wait, using the regular
 
 ## Conclusions
 
-![Summary of recommended tools by priority](image-1.png "Summary of recommended tools and working modes")
+The whole AI tool selection process and working model based on the prioritisation exercise can be summarised as:
 
-The whole AI tool selection process based on the prioritisation exercise can be summarised by the picture below:
+![Summary of recommended tools by priority](image-1.png "Summary of recommended tools and working modes")
 
 1. High Technical Certainty + High Business Value = sync process or pair programming with Gemini CLI. Use Gemini grounded on search for minor clarifications.
 1. Low/Mid Technical Certainty + High Business Value = sync process with Gemini CLI plus async research to increase technical certainty.
