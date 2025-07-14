@@ -9,6 +9,11 @@ colorScheme = "blowfish"
 defaultAppearance = "light" # valid options: light or dark
 autoSwitchAppearance = true
 
+# Add a path to your custom CSS file.
+# The file must be in the `assets` directory.
+# For example, if you have `assets/css/custom.css`, the value should be `css/custom.css`.
+customCSS = ["css/custom.css"]
+
 enableSearch = true
 enableCodeCopy = false
 

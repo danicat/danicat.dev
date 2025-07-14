@@ -1,6 +1,36 @@
 <figure class="gist">
-  <script type="application/javascript" src="https://gist.github.com/{{ index .Params 0 }}/{{ index .Params 1 }}.js{{ with .Get 2 }}?file={{ . }}{{ end }}"></script>
-  <figcaption>
-    Gist by <a href="https://github.com/{{ index .Params 0 }}">{{ index .Params 0 }}</a>
-  </figcaption>
+  <script type="application/javascript" src="https://gist.github.com/{{ .Get 0 }}/{{ .Get 1 }}.js{{ with .Get 2 }}?file={{ . }}{{ end }}"></script>
+  <script>
+    (function() {
+      const GIST_THEME_LIGHT = 'https://cdn.jsdelivr.net/npm/gist-syntax-themes@5.0.0/css/themes/atom-one-light.css';
+      const GIST_THEME_DARK = 'https://cdn.jsdelivr.net/npm/gist-syntax-themes@5.0.0/css/themes/atom-one-dark.css';
+
+      function updateGistTheme() {
+        const gistStylesheet = document.querySelector('link[href*="gist-embed"]');
+        if (!gistStylesheet) return;
+
+        const isDarkMode = document.documentElement.classList.contains('dark');
+        const targetTheme = isDarkMode ? GIST_THEME_DARK : GIST_THEME_LIGHT;
+
+        if (gistStylesheet.href !== targetTheme) {
+          gistStylesheet.href = targetTheme;
+        }
+      }
+
+      const headObserver = new MutationObserver(function(mutations, observer) {
+        if (document.querySelector('link[href*="gist-embed"]')) {
+          updateGistTheme();
+          observer.disconnect(); 
+
+          const themeObserver = new MutationObserver(updateGistTheme);
+          themeObserver.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+          });
+        }
+      });
+
+      headObserver.observe(document.head, { childList: true });
+    })();
+  </script>
 </figure>
