@@ -2,31 +2,21 @@
   "steps": [
     {
       "step": 1,
-      "prompt": "Read the content of the URL https://gohugo.io/shortcodes/gist/ to understand the instructions for creating a custom Gist shortcode.",
-      "status": "completed",
-      "time": "2025-07-14T18:00:00Z",
+      "prompt": "Install the GitHub CLI tool using Homebrew.",
+      "status": "pending",
+      "time": "",
       "git": {
-        "commit_message": "[Step 1] Read Gist shortcode documentation",
-        "commit_hash": "d1433692562b66da5cc3a9e14d9c44674a501843"
+        "commit_message": "[Step 1] Install GitHub CLI",
+        "commit_hash": ""
       }
     },
     {
       "step": 2,
-      "prompt": "Create the file `layouts/shortcodes/gist.html` and add the necessary code for the Gist shortcode as described in the Hugo documentation.",
-      "status": "completed",
-      "time": "2025-07-14T18:01:00Z",
-      "git": {
-        "commit_message": "[Step 2] Create Gist shortcode",
-        "commit_hash": "9b8c15bca1423e33b916959c871b3641e53a2139"
-      }
-    },
-    {
-      "step": 3,
       "prompt": "Create a pull request to merge the changes into the main branch. The pull request should have a title 'feat: Create Gist shortcode' and a body with a summary of the changes and a haiku.",
       "status": "pending",
       "time": "",
       "git": {
-        "commit_message": "[Step 3] Create pull request",
+        "commit_message": "[Step 2] Create pull request",
         "commit_hash": ""
       }
     }
