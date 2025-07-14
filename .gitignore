@@ -2,4 +2,6 @@
 .hugo_build.lock
 public/*
 resources/*
-\n# Gemini CLI temporary files\n.issue/
+
+# Gemini CLI temporary files
+.issue/
