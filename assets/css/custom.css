@@ -1,0 +1,67 @@
+.cf {
+    text-align: justify;
+    opacity: 1.0;
+    width: 100%;
+    height: auto;
+}
+ 
+.nested-links{
+    text-align: justify;
+    opacity: 1.0;
+    width: 100%;
+    height: auto;
+}
+
+/* Gist Styling - Reverted to last known good state */
+
+/* 1. Make our outer container invisible, used only for spacing. */
+.gist {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin-bottom: 1.5rem !important;
+}
+
+/* 2. Style the Gist's actual inner container directly. */
+.gist .gist-file {
+  background-color: #f7f7f7 !important;
+  border: 1px solid #e1e1e1 !important;
+  border-radius: 8px !important;
+  margin-bottom: 0 !important;
+  padding: 16px !important;
+}
+
+/* 3. Style the Gist footer. */
+.gist .gist-meta {
+  padding: 10px 16px !important;
+  background-color: #f7f7f7 !important;
+  border-radius: 0 0 8px 8px !important;
+  margin-top: -1px;
+  font-size: 0.875rem !important;
+  border-top: 1px solid #e1e1e1 !important;
+}
+
+.gist .gist-meta a {
+  color: #0366d6 !important;
+  text-decoration: none !important;
+}
+
+.gist .gist-meta a:hover {
+  text-decoration: underline !important;
+}
+
+/* 4. Dark Mode Overrides */
+html.dark .gist .gist-file {
+  background-color: #2d3748 !important;
+  border-color: #4a5568 !important;
+}
+
+html.dark .gist .gist-meta {
+  background-color: #2d3748 !important;
+  border-top: 1px solid #4a5568 !important;
+}
+
+html.dark .gist .gist-meta a {
+  color: #58a6ff !important;
+}
