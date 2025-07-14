@@ -3,21 +3,21 @@
     {
       "step": 1,
       "prompt": "Read the content of the URL https://gohugo.io/shortcodes/gist/ to understand the instructions for creating a custom Gist shortcode.",
-      "status": "pending",
-      "time": "",
+      "status": "completed",
+      "time": "2025-07-14T18:00:00Z",
       "git": {
         "commit_message": "[Step 1] Read Gist shortcode documentation",
-        "commit_hash": ""
+        "commit_hash": "d1433692562b66da5cc3a9e14d9c44674a501843"
       }
     },
     {
       "step": 2,
       "prompt": "Create the file `layouts/shortcodes/gist.html` and add the necessary code for the Gist shortcode as described in the Hugo documentation.",
-      "status": "pending",
-      "time": "",
+      "status": "completed",
+      "time": "2025-07-14T18:01:00Z",
       "git": {
         "commit_message": "[Step 2] Create Gist shortcode",
-        "commit_hash": ""
+        "commit_hash": "9b8c15bca1423e33b916959c871b3641e53a2139"
       }
     },
     {
