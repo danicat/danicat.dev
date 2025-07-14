@@ -1,9 +1,9 @@
-+++
-date = '2025-05-21T17:45:07+01:00'
-title = 'We need to talk about Jules!'
-summary = "The new autonomous coding agent that every developer needs to know."
-tags = ["vibe coding"]
-+++
+---
+date: '2025-05-21T17:45:07+01:00'
+title: 'We need to talk about Jules!'
+summary: "The new autonomous coding agent that every developer needs to know."
+tags: ["vibe coding", "jules"]
+---
 Alright everyone, let's talk about Jules! Hot from the ovens of Google I/O, this is what Google is calling an autonomous coding agent… but what is an autonomous coding agent? Think about [NotebookLM](https://notebooklm.google/), but for coding - a specialised AI to help you with coding tasks. The main difference from the traditional “vibe coding” approach is that with Jules you can import your whole project as context for the AI, so all the responses are grounded on the code you are actually working on!
 
 Once the project is imported, you can interact with Jules by submitting “tasks”, which can be anything from bug fixes, dependency updates, new features, planning, documentation, tests and so on. As soon as it receives a task Jules will asynchronously plan its execution in steps and perform different sub-tasks to ensure that the desired outcome is achieved. For example, ensuring that no tests were broken by the new change.
