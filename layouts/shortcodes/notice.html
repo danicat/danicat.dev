@@ -6,7 +6,13 @@
 
 <div class="notice-banner">
   <div class="notice-banner-content">
-    <p>{{ i18n "machineTranslated" }} <a href="https://github.com/danicat/danicat.dev/issues/new" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssue" }}</a>.</p>
+    <p>
+      {{ i18n "machineTranslated" }}
+      {{ with .Page.Translations.ByLanguage.en }}
+        <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
+      {{ end }}
+      {{ i18n "reportIssue" }} <a href="https://github.com/danicat/danicat.dev/issues/new" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssueLink" }}</a>.
+    </p>
   </div>
 </div>
 
