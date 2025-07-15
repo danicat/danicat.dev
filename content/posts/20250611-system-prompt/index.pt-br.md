@@ -4,6 +4,7 @@ title = 'Prompt Audacioso: Um Guia Prático para Instruções de Sistema e Ferra
 summary = "Este artigo explora os conceitos de instrução de sistema, histórico de sessão e ferramentas de agente para criar um assistente de diagnóstico mais inteligente."
 tags = ["gemini", "vertex ai", "python"]
 +++
+{{< translation-notice >}}
 ## Introdução
 
 Neste guia, vamos aprender mais sobre system prompts e ferramentas de agente para que possamos construir uma nova e melhorada experiência de agente de diagnóstico. Trabalharemos com o [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b424142426&utm_medium=external&utm_source=blog), LangChain, Gemini e [osquery](https://www.osquery.io/).

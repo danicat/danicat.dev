@@ -4,6 +4,7 @@ title = 'Aprofundando-se no SDK da Vertex AI para Python'
 summary = "Este artigo explora o modelo de comunicação entre o código do cliente e a API Gemini usando o SDK da Vertex AI para Python"
 tags = ["gemini", "vertex ai", "python"]
 +++
+{{< translation-notice >}}
 ## Introdução
 
 Este artigo explora o modelo de comunicação entre o código do cliente e a API Gemini usando o [SDK da Vertex AI para Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog). Cobriremos conceitos como a estrutura das mensagens, como o modelo entende o contexto da pergunta e como aumentar as capacidades do modelo com chamadas de função. Embora o Gemini seja o foco deste artigo, os mesmos conceitos que você verá aqui também podem ser aplicados ao Gemma e outros LLMs.

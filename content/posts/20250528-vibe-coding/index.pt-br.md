@@ -4,8 +4,8 @@ title = "Qualquer um pode programar no \"vibe code\"?"
 tags = ["opiniao", "vibe coding"]
 summary = "Uma reflexão sobre o futuro da carreira de engenharia de software."
 +++
+{{< translation-notice >}}
 ## Introdução
-
 Você acredita que um não engenheiro pode programar um aplicativo pronto para produção no "vibe code"? Esta é a pergunta sobre a qual tenho refletido ultimamente.
 
 O cenário da IA está se movendo tão rapidamente, e estamos vendo tantas ferramentas legais sendo lançadas quase todos os dias, então é natural que muitas pessoas estejam ficando com medo e começando a "prever" o fim da carreira de engenharia de software. Veja o [Jules]({{<ref "/posts/20250521-jules/index.md" >}}) por exemplo, um agente de IA que pode automatizar muitas tarefas típicas de engenheiros, como atualizar dependências, escrever documentação, refatorar e até mesmo testar.

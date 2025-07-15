@@ -22,6 +22,7 @@ showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
 ---
+{{< translation-notice >}}
 Daniela Petruzalek é uma profissional de TI experiente com formação em engenharia de software, pré-vendas e relações com desenvolvedores, atualmente Engenheira Sênior de Relações com Desenvolvedores no Google. Sua especialização é engenharia de dados e desenvolvimento back-end e ela é ex-Google Developer Expert em Go e Google Cloud Platform. Ela também é Google Cloud Certified Data Engineer, Oracle Certified Professional e palestrante TEDx. Em seu tempo livre, ela contribui para projetos de código aberto, joga videogames e acaricia gatos aleatórios nas ruas.
 
 ## Palestrando em Eventos
