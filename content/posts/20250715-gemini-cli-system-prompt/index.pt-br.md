@@ -77,7 +77,7 @@ $ gemini
 ```
 Você deve ver a tela de inicialização normal do gemini aparecer:
 
-![alt text](image-4.png)
+![Tela de inicialização do Gemini CLI](image-4.png)
 
 Você pode sair do CLI digitando `/quit` ou digitando Ctrl+D ou Ctrl+C duas vezes. O arquivo `system.md` deve ter sido gravado no disco.
 
@@ -90,7 +90,7 @@ $ head -n 10 system.md
 ```
 Aqui está a saída do mesmo comando no meu sistema:
 
-![alt text](image-2.png)
+![Saída do comando head em system.md](image-2.png)
 
 Agora que temos uma cópia do prompt completo, estamos livres para editá-lo como quisermos! Por exemplo, podemos nos livrar da problemática linha 49, ou até mesmo remover seções inteiras como as destinadas à construção de jogos (a menos que você esteja realmente construindo jogos, então, de forma alguma, mantenha-as). Quando estiver satisfeito com seu novo prompt, você pode definir sua variável de ambiente `GEMINI_SYSTEM_MD` para seu arquivo personalizado:
 
@@ -101,7 +101,7 @@ $ gemini
 
 Se você estiver usando um system prompt personalizado, notará que no canto inferior esquerdo da tela há um ícone de óculos de sol vermelhos:
 
-![alt text](image-3.png)
+![Gemini CLI com system prompt personalizado ativado](image-3.png)
 
 Este é o sinal de que você não só é a pessoa mais legal da Terra, mas também que está usando um arquivo de instruções de sistema personalizado.
 

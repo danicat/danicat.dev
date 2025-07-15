@@ -77,7 +77,7 @@ $ gemini
 ```
 You should see the normal gemini boot screen show up:
 
-![alt text](image-4.png)
+![Gemini CLI boot screen](image-4.png)
 
 You can quit the CLI by typing `/quit` or typing Ctrl+D or Ctrl+C twice. The `system.md` file should have been written to disk.
 
@@ -90,7 +90,7 @@ $ head -n 10 system.md
 ```
 Here is the output of same command on my system:
 
-![alt text](image-2.png)
+![Output of the head command on system.md](image-2.png)
 
 Now that we have a copy of the full prompt, we are free to edit it to our heart's content! For example, we can get rid of the problematic line 49, or even remove entire sections like the ones targeted to building games (unless you are actually building games, then by no means keep them). Once you are happy with your new prompt, you can set your `GEMINI_SYSTEM_MD` environemnt variable to your custom file:
 
@@ -101,7 +101,7 @@ $ gemini
 
 If you are using a custom system prompt, you will notice that on the bottom left corner of the screen there is a red sunglasses icon:
 
-![alt text](image-3.png)
+![Gemini CLI with custom system prompt enabled](image-3.png)
 
 This is the sign that you not only are the coolest person on Earth but also that you are using a custom system instructions file.
 
