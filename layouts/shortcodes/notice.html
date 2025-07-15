@@ -13,7 +13,8 @@
           <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
         {{ end }}
       {{ end }}
-      {{ i18n "reportIssue" }} <a href="https://github.com/danicat/danicat.dev/issues/new" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssueLink" }}</a>.
+      {{ $issueTitle := printf (i18n "reportIssueTitle") .Page.Title | urlize }}
+      {{ i18n "reportIssue" }} <a href="https://github.com/danicat/danicat.dev/issues/new?title={{ $issueTitle }}" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssueLink" }}</a>.
     </p>
   </div>
 </div>
