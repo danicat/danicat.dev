@@ -6,7 +6,9 @@
 
 <div class="notice-banner">
   <div class="notice-banner-content">
-    <p><strong>{{ i18n "attention" }}:</strong> {{ i18n "machineTranslated" }}
+    <p>
+      <strong class="notice-title">{{ i18n "attention" }}:</strong>
+      {{ i18n "machineTranslated" }}
       {{ range .Page.Translations }}
         {{ if eq .Lang "en" }}
           <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
@@ -20,26 +22,43 @@
 
 <style>
   .notice-banner {
-    border: 1px solid #fca5a5; /* red-300 */
+    border: 1px solid rgba(var(--color-primary-700), 0.7);
     border-radius: 0.5rem;
     margin: 1.5em 0;
     overflow: hidden;
-    background-color: #fff1f2; /* rose-50 */
+    background-color: rgba(var(--color-primary-100), 0.5);
     padding: 1rem;
   }
-
+  .dark .notice-banner {
+    border-color: rgba(var(--color-primary-300), 0.7);
+    background-color: rgba(var(--color-primary-900), 0.2);
+  }
   .notice-banner-content p {
     margin: 0;
     font-size: 0.875rem;
-    color: #b91c1c; /* red-700 */
+    color: rgb(var(--color-neutral-700));
   }
-
+  .dark .notice-banner-content p {
+    color: rgb(var(--color-neutral-300));
+  }
   .notice-banner-content a {
-    color: #b91c1c; /* red-700 */
+    color: rgb(var(--color-primary-600));
     text-decoration: underline;
   }
-
+  .dark .notice-banner-content a {
+    color: rgb(var(--color-primary-400));
+  }
   .notice-banner-content a:hover {
-    color: #991b1b; /* red-800 */
+    color: rgb(var(--color-primary-700));
+  }
+  .dark .notice-banner-content a:hover {
+    color: rgb(var(--color-primary-300));
+  }
+  .notice-title {
+    color: rgb(var(--color-neutral-800));
+    font-weight: 600;
+  }
+  .dark .notice-title {
+    color: rgb(var(--color-neutral-200));
   }
 </style>
