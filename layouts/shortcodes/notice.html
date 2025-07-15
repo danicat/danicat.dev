@@ -6,8 +6,7 @@
 
 <div class="notice-banner">
   <div class="notice-banner-content">
-    <p>
-      {{ i18n "machineTranslated" }}
+    <p><strong>{{ i18n "attention" }}:</strong> {{ i18n "machineTranslated" }}
       {{ range .Page.Translations }}
         {{ if eq .Lang "en" }}
           <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
@@ -21,26 +20,26 @@
 
 <style>
   .notice-banner {
-    border: 1px solid var(--body-outline-color);
+    border: 1px solid #fca5a5; /* red-300 */
     border-radius: 0.5rem;
     margin: 1.5em 0;
     overflow: hidden;
-    background-color: var(--body-background);
+    background-color: #fff1f2; /* rose-50 */
     padding: 1rem;
   }
 
   .notice-banner-content p {
     margin: 0;
     font-size: 0.875rem;
-    color: var(--text-color-secondary);
+    color: #b91c1c; /* red-700 */
   }
 
   .notice-banner-content a {
-    color: var(--text-color-secondary);
+    color: #b91c1c; /* red-700 */
     text-decoration: underline;
   }
 
   .notice-banner-content a:hover {
-    color: var(--text-color-primary);
+    color: #991b1b; /* red-800 */
   }
 </style>
