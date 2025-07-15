@@ -1,0 +1,37 @@
+{{/*
+  Shortcode: notice
+  Description: Renders a notice banner for machine-translated articles.
+  Parameters: None
+*/}}
+
+<div class="notice-banner">
+  <div class="notice-banner-content">
+    <p>{{ i18n "machineTranslated" }} <a href="https://github.com/danicat/danicat.dev/issues/new" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssue" }}</a>.</p>
+  </div>
+</div>
+
+<style>
+  .notice-banner {
+    border: 1px solid var(--body-outline-color);
+    border-radius: 0.5rem;
+    margin: 1.5em 0;
+    overflow: hidden;
+    background-color: var(--body-background);
+    padding: 1rem;
+  }
+
+  .notice-banner-content p {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--text-color-secondary);
+  }
+
+  .notice-banner-content a {
+    color: var(--text-color-secondary);
+    text-decoration: underline;
+  }
+
+  .notice-banner-content a:hover {
+    color: var(--text-color-primary);
+  }
+</style>
