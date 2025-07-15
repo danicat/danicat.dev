@@ -48,7 +48,7 @@ I tried to play with GEMINI.md to force it to respond very literally to my promp
 
 {{< github user="google-gemini" repo="gemini-cli" path="packages/core/src/core/prompts.ts" lang="markdown" start="40" end="53" >}}
 
-The system prompt is huge. In this preview we are only rendering the first dozen lines or so, but it goes all the way to recommend technologies for the most common use cases and and whatnot (you can see the full prompt on GitHub if you click the link above). This of course makes a lot of sense for a CLI that needs to satisfy so many different use cases, but it might not be beneficial for our own, very specialised project.
+The system prompt is huge. In this preview we are only rendering the first dozen lines or so, but it goes all the way to recommend technologies for the most common use cases and whatnot (you can see the full prompt on GitHub if you click the link above). This of course makes a lot of sense for a CLI that needs to satisfy so many different use cases, but it might not be beneficial for our own, very specialised project.
 
 My pet peeve is in line 49:
 
