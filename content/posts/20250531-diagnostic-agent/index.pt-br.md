@@ -4,7 +4,7 @@ title = 'Como transformei meu computador na "USS Enterprise" usando Agentes de I
 summary = "Como criar um agente de diagnóstico que fala linguagem natural usando Gemini e Vertex AI Agent Engine"
 tags = ["gemini", "vertex ai", "python"]
 +++
-{{< notice >}}
+{{< translation-notice >}}
 _Espaço: a fronteira final. Estas são as viagens da nave estelar Enterprise. Sua missão de 5 anos: explorar novos mundos estranhos; procurar novas vidas e novas civilizações; audaciosamente ir onde nenhum homem jamais esteve._
 
 ## Introdução

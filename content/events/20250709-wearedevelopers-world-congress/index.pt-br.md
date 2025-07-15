@@ -8,7 +8,7 @@ eventUrl: "https://www.wearedevelopers.com/world-congress/"
 featuredImage: "featured.svg"
 summary: "O principal evento mundial para desenvolvedores e inovadores em IA em Berlim. Um grande encontro para inovadores de software e líderes de tecnologia que estão moldando o futuro da tecnologia impulsionada por IA."
 ---
-{{< notice >}}
+{{< translation-notice >}}
 O principal evento mundial para desenvolvedores, inovadores em IA e líderes de tecnologia. Junte-se à maior reunião de inovadores de software, líderes de tecnologia e tomadores de decisão que estão moldando o futuro da tecnologia baseada em IA.
 
 ## Detalhes da Sessão

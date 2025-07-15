@@ -4,7 +4,7 @@ title = "Qualquer um pode programar no \"vibe code\"?"
 tags = ["opiniao", "vibe coding"]
 summary = "Uma reflexão sobre o futuro da carreira de engenharia de software."
 +++
-{{< notice >}}
+{{< translation-notice >}}
 ## Introdução
 Você acredita que um não engenheiro pode programar um aplicativo pronto para produção no "vibe code"? Esta é a pergunta sobre a qual tenho refletido ultimamente.
 

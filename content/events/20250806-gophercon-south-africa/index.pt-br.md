@@ -8,5 +8,5 @@ eventUrl: "https://gopherconf.co.za/"
 featuredImage: "featured.png"
 summary: "Uma conferência online de destaque para a comunidade da linguagem de programação Go na África do Sul, reunindo desenvolvedores para aprendizado e networking."
 ---
-{{< notice >}}
+{{< translation-notice >}}
 [Site do Evento](https://gopherconf.co.za/)

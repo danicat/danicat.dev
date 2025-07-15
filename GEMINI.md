@@ -94,7 +94,7 @@ When translating content from English (en) to Portuguese (Brazil) (pt-br), adher
     *   Review existing `pt-br` articles to match the established tone, which is professional yet approachable.
     *   Translate all other text content accurately to Brazilian Portuguese.
 5.  **Add Translation Notice:**
-    *   Add the `{{< notice >}}` shortcode to the top of every translated page, immediately after the front matter.
+    *   Add the `{{< translation-notice >}}` shortcode to the top of every translated page, immediately after the front matter.
     *   Do not add the notice to the home page (`_index.pt-br.md`).
 
 ## Operating Modes

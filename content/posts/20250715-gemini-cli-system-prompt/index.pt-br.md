@@ -6,7 +6,7 @@ tags: ["gemini-cli", "vibe-coding"]
 categories: ["IDEs"]
 summary: "Aprenda como customizar o Gemini CLI para se adequar ao seu estilo de codificação usando o GEMINI.md e instruções de sistema personalizadas."
 ---
-{{< notice >}}
+{{< translation-notice >}}
 ## Introdução
 
 Muitos de vocês já devem estar familiarizados com o [Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b431747616&utm_medium=external&utm_source=blog), mas caso não estejam, confiram o [blog de lançamento](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) oficial para uma visão geral rápida.
