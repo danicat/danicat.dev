@@ -12,34 +12,102 @@
     height: auto;
 }
 
-/* Gist Styling - Reverted to last known good state */
+/* ==========================================================================
+   Global Content Styling
+   ========================================================================== */
 
-/* 1. Make our outer container invisible, used only for spacing. */
-.gist {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  margin-bottom: 1.5rem !important;
+/* Justify text and center images/snippets within the main content area */
+.article-content {
+  text-align: justify;
 }
 
-/* 2. Style the Gist's actual inner container directly. */
+.article-content img,
+.article-content .github-snippet,
+.article-content .gist {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* ==========================================================================
+   Unified Code Snippet Styling
+   ========================================================================== */
+
+/* GitHub Snippet Styling (This is the master style) */
+.github-snippet {
+  border: 1px solid #e1e1e1;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background-color: #f7f7f7;
+  max-width: 100%; /* Ensure it doesn't overflow on small screens */
+}
+
+.github-snippet-content {
+  padding: 16px;
+  text-align: left; /* Keep code snippets left-aligned */
+}
+
+.github-snippet-content > :first-child {
+  margin-top: 0 !important;
+}
+.github-snippet-content > :last-child {
+  margin-bottom: 0 !important;
+}
+
+.github-snippet .highlight {
+  margin: 0 -16px;
+  padding: 16px;
+  border-radius: 0;
+}
+
+.github-snippet-meta {
+  background-color: #f0f0f0;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  border-top: 1px solid #e1e1e1;
+  text-align: left; /* Keep meta text left-aligned */
+}
+
+.github-snippet-meta a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+/* Gist Snippet Styling (Making it look like the GitHub Snippet) */
+
+/* The Gist script creates a .gist div. We make it a simple wrapper. */
+.gist {
+    margin-bottom: 1.5rem !important;
+    max-width: 100%; /* Ensure it doesn't overflow */
+}
+
+/* Style the .gist-file div that the script injects */
 .gist .gist-file {
   background-color: #f7f7f7 !important;
   border: 1px solid #e1e1e1 !important;
   border-radius: 8px !important;
   margin-bottom: 0 !important;
-  padding: 16px !important;
+  padding: 0 !important;
+  overflow: hidden;
+  text-align: left; /* Keep code left-aligned */
 }
 
-/* 3. Style the Gist footer. */
+/* The actual code table */
+.gist .gist-file .blob-wrapper {
+    background-color: transparent !important;
+}
+
+/* The footer */
 .gist .gist-meta {
+  background-color: #f0f0f0 !important;
   padding: 10px 16px !important;
-  background-color: #f7f7f7 !important;
-  border-radius: 0 0 8px 8px !important;
-  margin-top: -1px;
   font-size: 0.875rem !important;
   border-top: 1px solid #e1e1e1 !important;
+  border-radius: 0 0 7px 7px !important; /* Match inner radius */
+  margin-top: 0;
+  text-align: left; /* Keep meta text left-aligned */
 }
 
 .gist .gist-meta a {
@@ -47,21 +115,20 @@
   text-decoration: none !important;
 }
 
-.gist .gist-meta a:hover {
-  text-decoration: underline !important;
-}
-
-/* 4. Dark Mode Overrides */
+/* Dark Mode Overrides for both */
+html.dark .github-snippet,
 html.dark .gist .gist-file {
-  background-color: #2d3748 !important;
   border-color: #4a5568 !important;
-}
-
-html.dark .gist .gist-meta {
   background-color: #2d3748 !important;
-  border-top: 1px solid #4a5568 !important;
 }
 
+html.dark .github-snippet-meta,
+html.dark .gist .gist-meta {
+  background-color: #252e3d !important;
+  border-top-color: #4a5568 !important;
+}
+
+html.dark .github-snippet-meta a,
 html.dark .gist .gist-meta a {
   color: #58a6ff !important;
 }
