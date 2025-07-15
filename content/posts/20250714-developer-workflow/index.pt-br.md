@@ -6,6 +6,7 @@ tags: ["gemini-cli", "vibe-coding", "jules"]
 categories: ["Modos de Trabalho"]
 summary: "Uma proposta de um fluxo de trabalho de desenvolvedor moderno usando ferramentas de IA e um exercício simples de priorização."
 ---
+{{< notice >}}
 ## Introdução
 
 Estou voltando do WeAreDevelopers World Congress 2025 em Berlim e estou inspirada pelos muitos desenvolvedores que conheci de toda a Europa e do resto do mundo. Claro, o tema principal deste ano foi IA - IA está em toda parte! Agora temos IA em nossa nuvem, em nosso computador, em nossos óculos de sol, em nossa torradeira, em nossa pia de cozinha e em nossos rolos de papel higiênico. Ninguém pode escapar da IA... nem mesmo os frameworks JS conseguem crescer mais rápido que a IA! Estamos CONDENADOS!!! >.<

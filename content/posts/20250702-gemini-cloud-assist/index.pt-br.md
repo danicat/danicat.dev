@@ -4,6 +4,7 @@ title = 'Do Prompt à Infraestrutura com o Gemini Cloud Assist'
 summary = "Como projetar infraestrutura usando linguagem natural usando o Gemini Cloud Assist no Google Cloud"
 tags = ["gemini", "cloud assist", "terraform"]
 +++
+{{< notice >}}
 ## Introdução
 
 Hoje vamos fazer um pequeno desvio do nosso conteúdo usual sobre agentes de IA para falar sobre um produto que explorei recentemente como parte da minha participação no I/O Connect Berlin 2025 na semana passada.
