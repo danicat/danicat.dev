@@ -8,8 +8,10 @@
   <div class="notice-banner-content">
     <p>
       {{ i18n "machineTranslated" }}
-      {{ with .Page.Translations.ByLanguage.en }}
-        <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
+      {{ range .Page.Translations }}
+        {{ if eq .Lang "en" }}
+          <a href="{{ .Permalink }}">{{ i18n "originalArticle" }}</a>.
+        {{ end }}
       {{ end }}
       {{ i18n "reportIssue" }} <a href="https://github.com/danicat/danicat.dev/issues/new" target="_blank" rel="noopener noreferrer">{{ i18n "reportIssueLink" }}</a>.
     </p>
