@@ -1,0 +1,71 @@
+{{/*
+  Shortcode: github
+  Description: Embeds a specific line range from a file on GitHub.
+  Parameters:
+    user: GitHub username or organization (required)
+    repo: Repository name (required)
+    path: Full path to the file within the repository (required)
+    lang: Language for syntax highlighting or "markdown" to render (optional)
+    start: The starting line number to include (required)
+    end: The ending line number to include (required)
+    
+  Example:
+  {{< github user="google-gemini" repo="gemini-cli" path="docs/cli/configuration.md" lang="markdown" start="25" end="28" >}}
+*/}}
+
+{{ $user := .Get "user" }}
+{{ $repo := .Get "repo" }}
+{{ $path := .Get "path" }}
+{{ $start_str := .Get "start" }}
+{{ $end_str := .Get "end" }}
+
+{{ if not $user }}
+  {{ errorf "The 'user' parameter is required for the github shortcode." }}
+{{ end }}
+{{ if not $repo }}
+  {{ errorf "The 'repo' parameter is required for the github shortcode." }}
+{{ end }}
+{{ if not $path }}
+  {{ errorf "The 'path' parameter is required for the github shortcode." }}
+{{ end }}
+{{ if not $start_str }}
+  {{ errorf "The 'start' parameter is required for the github shortcode." }}
+{{ end }}
+{{ if not $end_str }}
+  {{ errorf "The 'end' parameter is required for the github shortcode." }}
+{{ end }}
+
+{{ $start := int $start_str }}
+{{ $end := int $end_str }}
+
+{{ $lang := .Get "lang" | default (path.Ext $path | strings.TrimPrefix ".") }}
+{{ $rawURL := printf "https://raw.githubusercontent.com/%s/%s/main/%s" $user $repo $path }}
+{{ $fileURL := printf "https://github.com/%s/%s/blob/main/%s#L%d-L%d" $user $repo $path $start $end }}
+
+{{ $fileContent := resources.GetRemote $rawURL }}
+
+{{ if $fileContent }}
+  {{ $lines := split $fileContent.Content "\n" }}
+  {{ $slice := after (sub $start 1) $lines | first (add (sub $end $start) 1) }}
+  {{ $content := delimit $slice "\n" }}
+
+  <div class="github-snippet">
+    <div class="github-snippet-content">
+      {{ if eq $lang "markdown" }}
+        {{ $content | markdownify }}
+      {{ else }}
+        {{ highlight $content $lang "" }}
+      {{ end }}
+    </div>
+    <div class="github-snippet-meta">
+      <a href="{{ $fileURL }}" target="_blank" rel="noopener noreferrer">
+        View on GitHub: {{ $user }}/{{ $repo }}/{{ $path }} (lines {{ $start }}-{{ $end }})
+      </a>
+    </div>
+  </div>
+{{ else }}
+  <div class="github-snippet-error">
+    <p>Error: Could not retrieve file from GitHub.</p>
+    <p>URL: <a href="{{ $rawURL }}">{{ $rawURL }}</a></p>
+  </div>
+{{ end }}
