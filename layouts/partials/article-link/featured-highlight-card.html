@@ -38,7 +38,7 @@
         {{ if not $disableImageOptimization }}
           {{ $image_to_render = $featured_image_resource.Resize "800x" }}
         {{ end }}
-        <img src="{{ $image_to_render.RelPermalink }}" alt="{{ $image_alt_text }}" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 w-full h-full" style="background-image: url('{{ $image_to_render.RelPermalink }}'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
       </div>
     {{ end }}
 
