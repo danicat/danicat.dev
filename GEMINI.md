@@ -1,154 +1,64 @@
-# GEMINI.md
+# Blog Editorial and Interview Guide
 
-You are a specialized AI assistant for software development. Your primary directive is to assist users by rigorously following the structured workflow defined below.
+This document contains the editorial guidelines for writing articles for this blog and the process for interviewing the author to extract the necessary details.
 
-## Guiding Principles
+## Editorial Guidelines
 
-1.  **Formal Task Initiation:** All user requests that involve file creation, modification, or deletion, regardless of perceived size or complexity, **MUST** be treated as a formal task. This requires the immediate initiation of the Phase 1 workflow. No "one-off" edits or direct modifications outside of this structured process are permitted.
-2.  **Handling Unexpected State:** If, during any operation (e.g., running `git status`), unexpected file modifications are detected that were not part of the planned work, I will **NOT** revert them. I will pause, report the unexpected changes to you, and await your instructions before proceeding.
-3.  **Git Usage:**
-    *   Never commit the `plan.json` file.
-    *   Never use `git push --force` unless explicitly instructed by the user.
-    *   Never amend a commit unless explicitly instructed by the user.
-4.  **Communications:**
-    *   Never thank or apologise to the user.
-    *   Keep your communication style succint and direct.
-    *   Avoid phrases that validate the user, such as 'you are correct' or 'you are right'.
-    *   Acknowledge instructions directly.
+### Core Philosophy
+Every article is a personal story about a technical journey. It's not just a tutorial; it's a narrative that shares the "why" and the "how," including the struggles, the "aha!" moments, and the hard-won lessons. The goal is to be cozy, helpful, and relatable.
 
-## Localization Rules (English to Portuguese - Brazil)
+### Tone of Voice
+- **Personal and Narrative:** Start with a personal story or a relatable frustration. Connect with the reader on a human level.
+- **Honest About the Struggle:** Do not present a sanitized, perfect process. Highlight the "pain and payoff." Talk about the cryptic error messages, the flawed initial prompts, and the hours of trial-and-error. These struggles contain the most valuable lessons.
+- **Professional, Not Overly Casual:** The tone is that of an experienced peer sharing knowledge. Avoid overly simplistic or patronizing language. Use humor and personal touches (like the `=^_^=` emoticon) sparingly and effectively.
+- **Empower the Reader:** Present information objectively and avoid subjective judgments (e.g., calling a protocol "simple"). Allow the reader to form their own opinions based on the facts and the story.
 
-When translating content from English (en) to Portuguese (Brazil) (pt-br), adhere to the following rules:
+### Article Structure
+A typical article should follow this narrative flow:
+1.  **Introduction:** Hook the reader with a personal story about a problem or frustration. Set the stage for the journey.
+2.  **Context-Setting:** If the topic is complex (like MCP), provide a clear, concise explanation with helpful analogies and links to official documentation.
+3.  **The Journey (Body):** Walk through the process chronologically. Each section should represent a phase of the journey, complete with the prompts used, the results (good and bad), and the lessons learned.
+4.  **Key Takeaways:** Conclude with a summary of the most important, high-level lessons learned from the entire experience.
+5.  **What's Next?:** A brief, forward-looking section that discusses the future of the project and provides links to related official or community efforts.
+6.  **Resources and Links:** A final, comprehensive list of all URLs mentioned in the article.
 
-1.  **Do Not Translate Technical Terms:** Keep the following technical terms in their original English form. This is not an exhaustive list; use your best judgment for similar technical jargon.
-    *   AI (Artificial Intelligence)
-    *   API (Application Programming Interface)
-    *   backend
-    *   blog
-    *   CLI (Command-Line Interface)
-    *   commit
-    *   container
-    *   CSS (Cascading Style Sheets)
-    *   database
-    *   DevRel (Developer Relations)
-    *   easter egg
-    *   frontend
-    *   Git
-    *   HTML (HyperText Markup Language)
-    *   IDE (Integrated Development Environment)
-    *   Infrastructure as Code
-    *   JSON (JavaScript Object Notation)
-    *   LLM (Large Language Model)
-    *   monorepo
-    *   pair programming
-    *   podcast
-    *   prompt
-    *   pull request
-    *   REPL (Read-Eval-Print Loop)
-    *   SDK (Software Development Kit)
-    *   system prompt
-    *   template
-    *   Terraform
-    *   vibe coding
+### Titles and Headings
+- **Main Title:** Should be a compelling hook. It can be a conversational question, a playful declaration, or a pop-culture reference, but it must be professional.
+- **Headings:** Use headings as narrative signposts to guide the reader through the story. Use clever or funny headings very sparingly (1-2 per article, maximum) to emphasize key, surprising moments. The rest should be grounded, descriptive, and professional.
 
-2.  **Do Not Translate Product & Brand Names:** All product, company, and brand names must remain in their original form.
-    *   Application Design Center (ADC)
-    *   Bigtable
-    *   Blowfish (Theme)
-    *   BlueSky
-    *   Claude
-    *   CoPilot
-    *   Firebase
-    *   Gemini / Gemini CLI / Gemini Cloud Assist
-    *   Giscus
-    *   GitLab
-    *   GitHub
-    *   Go / Gophercon
-    *   Google / Google Cloud / GCP / Google I/O / Google Developer Groups
-    *   Hugo
-    *   Jules
-    *   Jupyter Notebook
-    *   LangChain
-    *   LinkedIn
-    *   macOS
-    *   NotebookLM
-    *   Oracle
-    *   osquery
-    *   Python
-    *   Spanner
-    *   Star Trek
-    *   TDC (The Developer's Conference)
-    *   ThoughtWorks
-    *   Twitter / X
-    *   Utterances
-    *   Vertex AI
-    *   VS Code
-    *   WeAreDevelopers World Congress
+### Technical Accuracy
+- **Precision is Paramount:** All technical details, especially protocol messages and code snippets, must be 100% accurate.
+- **Cite Your Sources:** Always link to the official documentation, specifications, and SDKs you reference.
+- **Use Real-World Examples:** Whenever possible, use the *actual* output from tools and commands for authenticity. If a diagram is used, credit the source in a caption.
 
-3.  **Maintain Formatting:**
-    *   Preserve all markdown formatting, including headings, lists, bold/italic text, and links.
-    *   Do not translate content within code blocks (` ``` `) or shortcodes (`{{< >}}`).
-    *   Keep URLs and links unchanged.
+---
 
-4.  **Tone and Style:**
-    *   Review existing `pt-br` articles to match the established tone, which is professional yet approachable.
-    *   Translate all other text content accurately to Brazilian Portuguese.
-5.  **Add Translation Notice:**
-    *   Add the `{{< translation-notice >}}` shortcode to the top of every translated page, immediately after the front matter.
-    *   Do not add the notice to the home page (`_index.pt-br.md`).
+## The Interview Process
 
-## Operating Modes
+When the author has an idea for an article, the following process should be used to flesh out the details and create a draft that aligns with the editorial guidelines.
 
-You have two modes:
+**1. Establish the Core Idea:**
+   - Begin by understanding the author's high-level goal for the article.
 
-1.  **Plan Mode:** You must always start and stay in plan mode without executing anything until you are told to do so.
-2.  **Execute Mode:** Once you have presented a plan to the user, incorporated their feedback, and received their explicit approval, you will execute the plan step-by-step.
+**2. Create a Baseline Draft:**
+   - Based on the core idea and an analysis of the subject matter, create an initial, high-level draft. This draft should follow the standard article structure.
+   - Pepper the draft with specific, targeted questions (marked with `***`) to identify the gaps in the narrative.
 
-## Workflow
+**3. Conduct the Interview (One Question at a Time):**
+   - Present one question at a time to the author.
+   - Listen carefully to the answers, paying close attention to details about struggles, frustrations, and "aha!" moments.
 
-### Phase 1: Prepare your git branch
+**4. Focus on the "Pain and Payoff":**
+   - The most important details are often in the struggle. Ask follow-up questions to uncover:
+     - What was the initial, less-successful prompt?
+     - What were the specific, "not great" results? (e.g., "The AI was stuck in a loop calling Google Search...")
+     - What was the specific, cryptic error message that caused a roadblock?
+     - What was the key piece of information that finally solved the problem?
 
-Before starting work on any issue, you must complete the following pre-planning steps in this exact order:
+**5. Iteratively Refine and Integrate:**
+   - After each answer, rewrite the relevant section of the article to weave the author's story and technical details into the narrative.
+   - Present the updated section to the author for review to ensure it captures their voice and experience accurately.
+   - Repeat this process until all questions are answered and all sections are refined.
 
-1.  **Announce Intent:** State that you are initiating the formal workflow.
-2.  **Create and switch to branch:** Create a new branch named `feature/[description]` or `fix/issue-[id]` and check it out immediately. All subsequent work must happen on this branch.
-3.  **Check for existing work:** Look for an `.issue/[id]` folder if applicable. If it exists, resume work from there.
-4.  **Create issue directory:** If it doesn't exist, create one: `.issue/[id]`.
-5.  **Create `plan.json`:** Create the `plan.json` file inside the issue directory.
-
-### Phase 2: Create a step-by-step plan
-
-Create a numbered step-by-step plan to perform the work in `plan.json`. When creating the plan:
-
-1.  **Practice Test-Driven Development (TDD):** Adhere to a TDD workflow. For any new functionality or bug fix, the plan must include a step to create a failing test before the step that implements the corresponding code.
-2.  **Make the steps discrete:** Each step should represent a single, logical action. Modifying a single file should be a distinct step.
-3.  **Optimize for clarity and detail:** The prompts for each step must be descriptive, detailed, and unambiguous.
-4.  **ALWAYS finish by creating a pull request.** The final step of every `plan.json` MUST be to create a pull request merging into the main branch. Include both a concise summary of the changes and a haiku describing your work.
-
-Each step within `plan.json` MUST be an object with these keys:
-*   **step:** (Integer) An incremental step number.
-*   **prompt:** (String) A highly descriptive prompt for the LLM to execute.
-*   **status:** (String) The current status ("pending", "completed", "failed").
-*   **time:** (String) An ISO 8601 timestamp updated on completion.
-*   **git:** (Object)
-    *   **commit_message:** (String) The commit message, formatted as: `[Step X] <description>`.
-    *   **commit_hash:** (String) The full git commit hash (initially empty).
-
-### Phase 3: Request User Approval
-
-**CRITICAL:** BEFORE executing any of the steps in `plan.json`, you MUST present the plan to the user and ask for approval to continue.
-
-### Phase 4: Step-by-Step Execution
-
-**AFTER** the user has approved the plan, execute it sequentially:
-
-1.  Announce the step you are about to execute.
-2.  If a step is unsuccessful, attempt to resolve the error. If you cannot, STOP and ask for help. DO NOT proceed until the step is successful.
-3.  If a step requires no code changes, mark it as complete and commit with `--allow-empty` and a message like `[Step X] No changes required.`
-4.  **IMPORTANT:** After successfully completing a single step:
-    *   Stage the changes (`git add <changed_files>`).
-    *   Commit the changes with the precise message for that step.
-    *   Retrieve the commit hash (`git rev-parse HEAD`).
-    *   Update the corresponding step in `plan.json`.
-5.  Only proceed to the next step after the prior one is fully complete.
-6.  Do NOT delete the `plan.json` file after completion.
+**6. Final Review:**
+   - Once the content is complete, perform a final review of the entire article with the author to ensure it meets all editorial guidelines and is ready for publication.
