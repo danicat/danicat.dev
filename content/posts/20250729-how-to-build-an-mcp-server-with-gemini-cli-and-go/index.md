@@ -62,7 +62,7 @@ This file establishes a baseline for quality and style from the very beginning.
 At the heart of this project is the Model Context Protocol (MCP). Some people describe it as a "USB standard for LLM tools," but I like to think of it another way: **what HTTP and REST did for standardizing web APIs, MCP is doing for LLM tools.** Just as REST provided a predictable architecture that unlocked a massive ecosystem of web services, MCP is providing a much-needed common language for the world of AI agents. It's a JSON-RPC-based protocol that creates a common ground, allowing any agent that "speaks" MCP to discover and use any compliant tool without needing a custom, one-off integration.
 
 The protocol defines different ways for the agent and the tool server to communicate, known as transports. The two most common are:
-*   **HTTP:** The familiar request/response model, ideal for tools deployed as remote services (e.g., on Cloud Run).
+*   **HTTP:** The familiar request/response model, ideal for tools deployed as remote services (e.g., on [Cloud Run](https://cloud.google.com/run?utm_campaign=CDR_0x72884f69_default_b421852297&utm_medium=external&utm_source=blog)).
 *   **stdio:** A simpler transport that uses standard input and output, perfect for running a tool as a local process on your machine.
 
 With the `stdio` transport, the agent and the server exchange a series of JSON-RPC messages. The process starts with a crucial three-way handshake to establish the connection. Only after this handshake is complete can the client start making tool calls.
@@ -161,6 +161,20 @@ This prompt is better for several reasons: it specifies the exact SDK to use, it
 
 Even with this better prompt, the journey wasn't smooth. The biggest hurdle appeared when I tried to use the simple `stdio` transport. My tool calls would consistently fail with a cryptic error: `server initialisation is not complete`. After much painful debugging, I discovered the problem wasn't in my server code at all. The issue was that the MCP `stdio` transport requires the specific three-step handshake I detailed above. My client was trying to call the tool before the handshake was complete. This experience taught me a valuable lesson: when you're building tools for AI, you're not just debugging code, you're debugging the conversation protocol itself.
 
+Once the server was running and speaking the protocol correctly, the next piece of the puzzle was to introduce it to the Gemini CLI. This is handled by a `.gemini/settings.json` file in the project root, which tells the CLI what tools to load. I added the following configuration to it:
+
+```json
+{
+  "mcpServers": {
+    "godoctor": {
+      "command": "./bin/godoctor"
+    }
+  }
+}
+```
+
+With this in place, every time I started the Gemini CLI in this directory, it would automatically launch my `godoctor` server in the background and make its tools available to the agent.
+
 ### Creating a Feedback Loop with an AI Code Reviewer
 
 With a working `godoc` tool, the next logical step was to teach the agent not just to read about code, but to reason about its quality. This led to the `code_review` tool. The experience this time was much smoother, a direct result of the work we had already done.
@@ -183,26 +197,50 @@ The agent would then analyze its own output and refactor it based on the AI-gene
 
 ### The Final Chapter: Deploying to the Cloud
 
-A local tool is great, but the real power of MCP comes from deploying tools as scalable services. The final phase of the project was to containerize GoDoctor and deploy it to Cloud Run.
+{{< warning >}}
+If you deploy your own MCP server to Cloud Run, ensure that you have configured proper authentication. **Do not deploy a publicly accessible server**, especially if it uses a Gemini API key. A public endpoint could be exploited by malicious actors, potentially leading to a very large and unexpected cloud bill.
+{{< /warning >}}
 
-First, I prompted the agent to refactor the server from `stdio` to the `streamable HTTP` transport. Then, I asked it to create a production-ready, multi-stage `Dockerfile`.
+A local tool running over `stdio` is great for personal use, but the goal of the Model Context Protocol is to create an ecosystem of shared, discoverable tools. The next phase of this "side quest" was to take GoDoctor from a local binary on my laptop to a scalable web service using [Google Cloud Run](https://cloud.google.com/run?utm_campaign=CDR_0x72884f69_default_b421852297&utm_medium=external&utm_source=blog).
 
-> Please create a multi-stage Dockerfile that compiles the Go binary and copies it into a minimal golang image like golang:1.24-alpine.
+This meant teaching the agent two new skills for cloud development: how to containerize an application and how to deploy it.
 
-Finally, it was time for deployment.
+First, we needed to switch from the simple `stdio` transport to `HTTP`. My prompt was direct, building on our previous work:
 
-> Now please deploy this image to Cloud Run and return me an URL I can use to call the MCP tool. Deploy it to us-central1 and use the project currently configured in the environment.
+> "It's time to take our server to the web. Please refactor the MCP server from the `stdio` transport to use the `streamable HTTP` transport."
 
-The agent provided the correct `gcloud` commands, and after a few minutes, GoDoctor was live on the internet, accessible to any MCP-compliant client.
+With the server now speaking HTTP, the next step was to package it for the cloud. I asked the agent to create a production-ready, multi-stage `Dockerfile`, which is the standard way to build lightweight and secure container images.
+
+> "Please create a multi-stage Dockerfile that compiles the Go binary and copies it into a minimal `golang:1.24-alpine` image."
+
+With the `Dockerfile` defined, it was time for deployment. This is the moment where the local proof-of-concept becomes a real piece of cloud infrastructure.
+
+> "Now, please deploy this image to Cloud Run. Deploy it to `us-central1` and use the project currently configured in the environment. When you're done, give me the URL I can use to call the MCP tool."
+
+The agent provided the correct `gcloud` commands, and after a few minutes, GoDoctor was live on the internet. To complete the setup, I needed to tell my local Gemini CLI about the remote server. This meant updating the `.gemini/settings.json` file, swapping the local `command` for the remote `httpUrl`:
+
+```json
+{
+  "mcpServers": {
+    "godoctor": {
+      "httpUrl": "https://<your-cloud-run-url>.run.app"
+    }
+  }
+}
+```
+
+And just like that, my CLI was using a tool that was deployed and running on the cloud. This was the moment the proof of concept felt truly complete. The iterative process of guiding the agent had paid off, taking a simple idea through the entire lifecycle of a modern application—from a local concept to a scalable, cloud-native service.
+
+That said, for my day-to-day work, I'm currently using the `stdio` version — for a team of one, deploying to Cloud Run is simply overkill.
 
 ### My Key Takeaways from Vibe Coding GoDoctor
 
 This journey was less about writing code and more about learning how to effectively collaborate with an AI. My biggest lesson was to shift my mindset from being a "coder" to being a "teacher" or "pilot." Here are some of the most important lessons I learned:
 
 *   **You are the pilot.** The AI will sometimes propose actions you don't agree with. Don't be afraid to hit `ESC` to cancel and provide a new prompt to guide it in the right direction.
-*   **Remind, don't repeat.** Just like humans, the AI can forget details in a long conversation. If it forgets an instruction, a simple reminder ("Remember, we're using the stdio transport") is often all that's needed.
-*   **If you must code, tell the AI.** Try to have the AI perform all the work. But if you make a manual change, tell the AI about it so it can refresh its context.
-*   **When in doubt, reboot.** In the rare case that the AI gets stuck, the `/compress` command or even restarting the CLI with a clean context can work wonders.
+
+*   **Keep the AI in the loop.** It's best to let the agent perform all the work, but sometimes a manual edit is necessary. When you change the code yourself, the AI's context becomes stale. Be sure to tell it what you changed so it can stay synchronized with the codebase.
+*   **When all else fails, turn it off and on again.** In the (not so) rare case that the AI gets completely stuck, the classic IT solution works wonders. For the Gemini CLI, this means using the `/compress` command to condense the conversation history or, in extreme cases, restarting the CLI to begin with a clean context.
 
 By giving the agent the right context and the right tools, it became a much more capable partner. The journey transformed from me simply trying to get code written, to me building a system that could learn and improve itself.
 

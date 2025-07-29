@@ -1,0 +1,58 @@
+{{/*
+  Shortcode for displaying a warning box.
+  Usage: {{< warning >}}Markdown content here{{< /warning >}}
+*/}}
+<div class="warning-box">
+  <span class="warning-icon">
+    <span class="warning-icon-svg">{{ partial "icon.html" "triangle-exclamation" }}</span>
+  </span>
+  <span class="warning-text">
+    {{- .Inner | markdownify -}}
+  </span>
+</div>
+
+<style>
+  .warning-box {
+    display: flex;
+    padding: 1rem;
+    border-radius: 0.375rem; /* 6px */
+    border: 1px solid #f87171; /* red-400 */
+    background-color: #fee2e2; /* red-100 */
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    align-items: center;
+  }
+
+  html.dark .warning-box {
+    border-color: #ef4444; /* red-500 */
+    background-color: #7f1d1d; /* red-900 */
+    box-shadow: none;
+  }
+
+  .warning-icon {
+    color: #ef4444; /* red-500 */
+    margin-right: 0.75rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevent icon from shrinking */
+  }
+
+  .warning-icon-svg .icon,
+  .warning-icon-svg .icon svg {
+    width: 3rem; /* 48px */
+    height: 3rem; /* 48px */
+  }
+
+  html[dir="rtl"] .warning-icon {
+    margin-right: 0;
+    margin-left: 0.75rem;
+  }
+
+  .warning-text {
+    color: #991b1b; /* red-800 */
+    margin: 0 1rem;
+  }
+
+  html.dark .warning-text {
+    color: #fecaca; /* red-200 */
+  }
+</style>
