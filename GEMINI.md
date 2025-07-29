@@ -62,3 +62,32 @@ When the author has an idea for an article, the following process should be used
 
 **6. Final Review:**
    - Once the content is complete, perform a final review of the entire article with the author to ensure it meets all editorial guidelines and is ready for publication.
+
+---
+
+## Localization Guidelines
+
+When translating articles from English (en) to other languages (e.g., pt-br, ja), the following rules must be strictly followed to maintain consistency and clarity.
+
+**1. Do Not Translate Technical Terms:**
+   - All technical computer science and software engineering terms must remain in English. This is not an exhaustive list; use your best judgment for similar jargon.
+   - Examples: `API`, `backend`, `CLI`, `commit`, `database`, `frontend`, `JSON`, `LLM`, `prompt`.
+
+**2. Do Not Translate Product & Brand Names:**
+   - All product, company, and brand names must remain in their original form.
+   - Examples: `Claude`, `Gemini CLI`, `Go`, `GoDoctor`, `Google Cloud`, `Jules`, `osquery`.
+
+**3. Maintain Formatting:**
+   - Preserve all markdown formatting, including headings, lists, bold/italic text, and links.
+   - Do not translate content within code blocks (```). Comments within code may be translated.
+   - Keep all URLs and links unchanged.
+
+**4. File Naming and Structure:**
+   - The translated file must be saved as `index.<lang-code>.md` within the same directory as the original `index.md`.
+   - Example: `index.pt-br.md`.
+
+**5. Add Translation Notice:**
+   - Add the `{{< translation-notice >}}` shortcode to the top of every translated page, immediately after the front matter.
+
+**6. Tone and Style:**
+   - Review existing articles in the target language to match the established professional yet approachable tone.
