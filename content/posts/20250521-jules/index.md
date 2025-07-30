@@ -2,7 +2,8 @@
 date: '2025-05-21T17:45:07+01:00'
 title: 'We need to talk about Jules!'
 summary: "The new autonomous coding agent that every developer needs to know."
-tags: ["vibe coding", "jules"]
+tags = ["vibe-coding", "jules", "ai-assistant"]
+categories = ["AI Development"]
 ---
 Alright everyone, let's talk about Jules! Hot from the ovens of Google I/O, this is what Google is calling an autonomous coding agent… but what is an autonomous coding agent? Think about [NotebookLM](https://notebooklm.google/), but for coding - a specialised AI to help you with coding tasks. The main difference from the traditional “vibe coding” approach is that with Jules you can import your whole project as context for the AI, so all the responses are grounded on the code you are actually working on!
 

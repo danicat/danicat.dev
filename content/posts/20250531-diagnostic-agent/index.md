@@ -2,7 +2,8 @@
 date = '2025-05-31T01:00:00+01:00'
 title = 'How I turned my computer into "USS Enterprise" using AI Agents'
 summary = "How to create a diagnostic agent that speaks natural language using Gemini and Vertex AI Agent Engine"
-tags = ["gemini", "vertex ai", "python"]
+tags = ["gemini", "vertex-ai", "python", "osquery", "ai-agent"]
+categories = ["AI Development"]
 +++
 _Space: the final frontier. These are the voyages of the starship Enterprise. Its 5-year mission: to explore strange new worlds; to seek out new life and new civilizations; to boldly go where no man has gone before._
 
