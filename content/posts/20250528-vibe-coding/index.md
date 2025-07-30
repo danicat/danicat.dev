@@ -1,8 +1,7 @@
 +++
 date = "2025-05-28T16:30:00+01:00"
 title = "Can anyone vibe code?"
-tags = ["opinion", "vibe-coding", "ai", "software-engineering"]
-categories = ["Opinion"]
+tags = ["opinion", "vibe coding"]
 summary = "A reflection on the future of the software engineering career."
 +++
 ## Introduction
