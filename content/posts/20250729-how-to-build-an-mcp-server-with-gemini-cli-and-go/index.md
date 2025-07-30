@@ -2,7 +2,7 @@
 title: "How to Build an MCP Server with Gemini CLI and Go"
 date: 2025-07-29
 author: "Daniela Petruzalek"
-tags: ["go", "gemini-cli", "mcp", "ai", "codelab", "godoctor"]
+tags: ["go", "gemini-cli", "mcp", "ai", "codelab"]
 categories: ["Tutorials"]
 summary: "A step-by-step guide on how I built GoDoctor, an AI-powered Go development assistant, using the Model Context Protocol (MCP) and the Gemini CLI."
 ---
