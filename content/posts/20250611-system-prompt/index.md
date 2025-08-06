@@ -1,9 +1,10 @@
-+++
-date = '2025-06-11T00:00:00+01:00'
-title = 'Boldly Prompting: A Practical Guide to System Instructions and Agent Tools'
-summary = "This article explores the concepts of system instruction, session history and agent tools to create a smarter diagnostic assistant."
-tags = ["gemini", "vertex ai", "python"]
-+++
+---
+date: '2025-06-11T00:00:00+01:00'
+title: 'Boldly Prompting: A Practical Guide to System Instructions and Agent Tools'
+summary: "This article explores the concepts of system instruction, session history and agent tools to create a smarter diagnostic assistant."
+tags: ["gemini", "vertex-ai", "python"]
+categories: ["AI & Development"]
+---
 ## Introduction
 
 In this guide, we are going to learn more about system prompts and agent tools so that we can build a new and improved diagnostic agent experience. We will be working with the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b424142426&utm_medium=external&utm_source=blog), LangChain, Gemini and [osquery](https://www.osquery.io/).

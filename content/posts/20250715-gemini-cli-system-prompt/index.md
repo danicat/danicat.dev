@@ -3,7 +3,7 @@ title: "Proactiveness considered harmful? A guide to customise the Gemini CLI to
 date: 2025-07-14
 author: "Daniela Petruzalek"
 tags: ["gemini-cli", "vibe-coding"]
-categories: ["IDEs"]
+categories: ["Workflow & Best Practices"]
 summary: "Learn how to customise the Gemini CLI to suit your coding style using GEMINI.md and custom system instructions."
 ---
 ## Introduction

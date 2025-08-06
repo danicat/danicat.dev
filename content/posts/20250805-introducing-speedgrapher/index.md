@@ -3,9 +3,9 @@ title: "Introducing Speedgrapher: An MCP Server for Vibe Writing"
 date: 2025-08-05
 author: "Daniela Petruzalek"
 tags: ["go", "gemini-cli", "mcp", "ai", "vibe-coding"]
-categories: ["Tutorials"]
-summary: "A step-by-step guide on how I built Speedgrapher, an AI-powered writing assistant, using the Model Context Protocol (MCP) and the Gemini CLI."
-draft: true
+categories: ["AI & Development"]
+summary: "The story of Speedgrapher, a custom MCP server for 'vibe writing.' It details the journey of turning a personal collection of prompts into a portable, AI-powered toolkit to automate and structure the creative process."
+
 ---
 
 ## Introduction
