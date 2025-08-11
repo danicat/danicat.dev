@@ -2,7 +2,8 @@
 date = '2025-05-21T17:45:07+01:00'
 title = 'Precisamos falar sobre o Jules!'
 summary = "O novo agente de codificação autônomo que todo desenvolvedor precisa conhecer."
-tags = ["vibe coding"]
+tags = ["vibe-coding", "jules"]
+categories = ["AI & Development"]
 +++
 {{< translation-notice >}}
 Olá a todos, vamos falar sobre o Jules! Saído direto do forno do Google I/O, isto é o que o Google chama de um agente de codificação autônomo… mas o que é um agente de codificação autônomo? Pense no [NotebookLM](https://notebooklm.google/), mas para codificação - uma IA especializada para ajudá-lo com tarefas de programação. A principal diferença da abordagem tradicional de “vibe coding” é que com o Jules você pode importar todo o seu projeto como contexto para a IA, então todas as respostas são baseadas no código em que você está realmente trabalhando!

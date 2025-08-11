@@ -2,7 +2,8 @@
 date = '2025-05-31T01:00:00+01:00'
 title = 'AIエージェントを使って自分のコンピューターを「USSエンタープライズ」に変えた方法'
 summary = "GeminiとVertex AI Agent Engineを使って自然言語を話す診断エージェントを作成する方法"
-tags = ["gemini", "vertex ai", "python"]
+tags = ["gemini", "vertex-ai", "python"]
+categories = ["AI & Development"]
 +++
 {{< translation-notice >}}
 

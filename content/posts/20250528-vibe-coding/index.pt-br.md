@@ -1,7 +1,8 @@
 +++
 date = "2025-05-28T16:30:00+01:00"
 title = "Qualquer um pode programar no \"vibe code\"?"
-tags = ["opiniao", "vibe coding"]
+tags = ["opinion", "vibe-coding"]
+categories = ["Workflow & Best Practices"]
 summary = "Uma reflexão sobre o futuro da carreira de engenharia de software."
 +++
 {{< translation-notice >}}

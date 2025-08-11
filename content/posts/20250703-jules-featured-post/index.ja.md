@@ -3,7 +3,7 @@ title: "Julesを使ってこのブログに特集記事を追加した方法"
 date: 2025-07-03
 author: "ダニエラ・ペトルザレク"
 tags: ["jules", "vibe-coding"]
-categories: ["インタラクションログ"]
+categories: ["Workflow & Best Practices"]
 summary: "AIコーディングアシスタントであるJulesと協力して、ブログのホームページに新しい特集記事セクションを実装した反復プロセスの詳細な説明。"
 ---
 {{< translation-notice >}}

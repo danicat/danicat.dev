@@ -2,7 +2,8 @@
 date = '2025-07-02T00:00:00+01:00'
 title = 'Do Prompt à Infraestrutura com o Gemini Cloud Assist'
 summary = "Como projetar infraestrutura usando linguagem natural usando o Gemini Cloud Assist no Google Cloud"
-tags = ["gemini", "cloud assist", "terraform"]
+tags = ["gemini", "cloud-assist", "terraform"]
+categories = ["AI & Development"]
 +++
 {{< translation-notice >}}
 ## Introdução

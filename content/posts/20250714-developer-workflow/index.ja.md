@@ -3,7 +3,7 @@ title: "AI対応の世界のための現代的な開発者ワークフロー"
 date: 2025-07-11
 author: "ダニエラ・ペトルザレク"
 tags: ["gemini-cli", "vibe-coding", "jules"]
-categories: ["働き方"]
+categories: ["Workflow & Best Practices"]
 summary: "AIツールと単純な優先順位付け演習を使用した現代的な開発者ワークフローの提案。"
 ---
 {{< translation-notice >}}

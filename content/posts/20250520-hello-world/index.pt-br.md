@@ -2,6 +2,8 @@
 date = '2025-05-20T17:38:53+01:00'
 title = 'Olá Mundo'
 summary = "Apenas algumas palavras para dar o pontapé inicial neste blog!"
+categories = ["Meta"]
+tags = ["hugo", "blogging"]
 +++
 {{< translation-notice >}}
 Bem-vindo ao danicat.dev! Sou Daniela Petruzalek, engenheira de software com mais de 20 anos de experiência na área e atualmente trabalho como Engenheira de Relações com Desenvolvedores no Google. Este é o meu novo blog pessoal, onde vou compartilhar os últimos desenvolvimentos em tecnologia!

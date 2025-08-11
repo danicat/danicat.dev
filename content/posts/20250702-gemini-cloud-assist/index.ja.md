@@ -2,7 +2,8 @@
 date = '2025-07-02T00:00:00+01:00'
 title = 'Gemini Cloud Assistでプロンプトからインフラストラクチャへ'
 summary = "Gemini Cloud Assistを使用してGoogle Cloudで自然言語を使用してインフラストラクチャを設計する方法"
-tags = ["gemini", "cloud assist", "terraform"]
+tags = ["gemini", "cloud-assist", "terraform"]
+categories = ["AI & Development"]
 +++
 {{< translation-notice >}}
 
