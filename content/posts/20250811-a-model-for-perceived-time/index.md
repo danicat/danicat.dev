@@ -1,7 +1,6 @@
 ---
 title: "A Model for Perceived Time"
 date: 2025-08-11
-draft: true
 summary: "An exploration into why time seems to speed up as we age, using a simple mathematical model to uncover a surprising truth about our perception of life."
 tags: ["psychology", "time-perception", "mental-models"]
 categories: ["Reflections"]
@@ -55,7 +54,7 @@ Naturally, if you live a longer life, the halfway point would move accordingly, 
 
 To explore the implications of this model, my first step was to write a Python script that calculated the perceptual mid-point by summing the discrete value of each year (`1/age`). This seemed like the most direct translation of the concept into code. Here is the relevant part of the script:
 
-{{< github user="danicat" repo="danicat.dev" path="content/posts/20250811-a-model-for-perceived-time/time_perception_model_v1.py" lang="python" start="8" end="16" >}}
+{{< github user="danicat" repo="danicat.dev" path="content/posts/20250811-a-model-for-perceived-time/time_perception_model_v1.py" lang="python" start="5" end="16" >}}
 
 The script produced a specific result: for an 81-year lifespan, the perceptual mid-point occurred at **age 7**.
 
@@ -67,7 +66,7 @@ However, this result presented a problem. It was close to the mathematical model
 
 To create a more accurate simulation, I refined the script to use **monthly time steps**. By summing the perceived value of each month (`(1/12)/age_in_months`), the script could build a much finer-grained approximation of the continuous experience of time. The core of the refined calculation is shown below:
 
-{{< github user="danicat" repo="danicat.dev" path="content/posts/20250811-a-model-for-perceived-time/time_perception_model_v2.py" lang="python" start="15" end="26" >}}
+{{< github user="danicat" repo="danicat.dev" path="content/posts/20250811-a-model-for-perceived-time/time_perception_model_v2.py" lang="python" start="16" end="35" >}}
 
 This new script produced a result that aligned closely with the mathematical model: the calculated perceptual mid-point is **age 8.8**.
 
