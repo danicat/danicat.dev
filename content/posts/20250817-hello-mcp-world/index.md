@@ -3,6 +3,7 @@ title: "Hello, MCP World!"
 date: 2025-08-17T15:00:00Z
 categories: ["AI & Development"]
 tags: ["mcp", "gemini", "golang"]
+summary: "An introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks—Tools, Prompts, and Resources—used to create AI-enabled applications with Go."
 ---
 
 > This article is based on the keynote I delivered at Gophercon UK 2025 on August, 14. For the keynote slides please check this [link](https://speakerdeck.com/danicat/hello-mcp-world).

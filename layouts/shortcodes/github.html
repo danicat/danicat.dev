@@ -54,7 +54,7 @@
       {{ if eq $lang "markdown" }}
         {{ $content | markdownify }}
       {{ else }}
-        {{ highlight $content $lang "" }}
+        {{- highlight $content $lang "" -}}
       {{ end }}
     </div>
     <div class="github-snippet-meta">
