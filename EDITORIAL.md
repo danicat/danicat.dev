@@ -4,12 +4,11 @@ This document outlines the editorial guidelines for all articles on this technic
 
 ## Core Philosophy
 
--   **Tell a Personal Story:** Every article should be a personal story about a technical journey. It is not just a tutorial; it's a narrative that shares the "why" and the "how," including the challenges, the discoveries, and the lessons learned.
 -   **Be Helpful and Relatable:** The primary goal is to be helpful and relatable. The content should feel like a conversation with a knowledgeable peer.
 
 ## Tone of Voice
 
--   **Start with a Personal Connection:** The article should begin with a personal story or a relatable problem to connect with the reader.
+-   **Start with a Personal Connection:** The article may begin with a personal story or a relatable problem to connect with the reader.
 -   **Be Honest About the Process:** Do not present a sanitized or perfect process. The article should highlight the challenges by discussing error messages, flawed initial prompts, and the process of trial-and-error. These experiences contain valuable lessons.
 -   **Maintain a Professional Tone:** The tone must be that of an experienced peer sharing knowledge. Avoid overly simplistic or patronizing language.
 -   **Be Grounded and Reflective:** Avoid hyperboles, overstatements, and language that sounds grandiose or overly excited. The article should feel grounded and reflective, inviting the reader to learn from the experience rather than trying to impress.
@@ -43,7 +42,7 @@ This model is ideal for introducing a new technology or concept.
 ## Titles and Headings
 
 -   **Main Title:** The title should be a compelling hook. It can be a conversational question, a playful declaration, or a pop-culture reference, but it must remain professional.
--   **Headings:** Headings should be used as narrative signposts to guide the reader through the story. They should be grounded, descriptive, and professional. Clever or funny headings should be used sparingly (1-2 per article, maximum) to emphasize key moments.
+-   **Headings:** Headings should be used as narrative signposts to guide the reader through the story. They should be grounded, descriptive, and professional. Clever or funny headings should be used sparingly (0-2 per article, maximum) to emphasize key moments.
 
 ## Technical Accuracy
 
