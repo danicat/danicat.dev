@@ -5,12 +5,11 @@ categories: ["AI & Development"]
 tags: ["mcp", "gemini", "golang"]
 summary: "Based on my keynote at Gophercon UK 2025, this article is an introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks — Tools, Prompts, and Resources — used to create AI-enabled applications with Go."
 ---
+## Introduction
 
-> This article is based on the keynote I delivered at Gophercon UK 2025 on August, 14. For the keynote slides please check this [link](https://speakerdeck.com/danicat/hello-mcp-world).
+In this article, we are going to explore the Model Context Protocol (MCP), a protocol developed by Anthropic to standardise the communications between Large Language Models (LLMs) and applications. This article is based on the [keynote of the same name I delivered at Gophercon UK](https://speakerdeck.com/danicat/hello-mcp-world) last week.
 
-In this article, we are going to explore the Model Context Protocol (MCP), a protocol developed by Anthropic to standardise the communications between Large Language Models (LLMs) and applications.
-
-To build a clear understanding, we'll start with the fundamentals, then explain the main architectural components, transports and building blocks (tools, prompts and resources). Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
+To build a clear understanding, we'll start with the fundamentals, then explain the main architectural components, transports and building blocks (tools, prompts and resources). We are going to throw some practical examples along the way based on the servers I wrote previously (godoctor and speedgrapher) Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
 
 Whether this is the first time you are hearing about this protocol, or you have already written a server or two, this article aims to provide helpful information for various levels of experience.
 
@@ -31,16 +30,18 @@ While I understand the analogy with USB-C, I prefer to think of MCP as the new H
 
 ## MCP Architecture
 
-This diagram represents the MCP architecture:
+Looking at the diagram below, the MCP architecture might look more complex than actually is:
 
 ![MCP Architecture](image-1.png)
 *Source: [MCP Specification](https://modelcontextprotocol.io/docs/learn/architecture)*
 
 The main components of the MCP architecture are:
 
-*   **MCP Host:** The main AI application, like your IDE or a coding agent. The host communicates with MCP servers using clients.
-*   **MCP Server:** A process that provides access to some capability.
-*   **MCP Client:** The bridge that connects the host to a single server.
+*   **MCP Host:** The main AI application, like your IDE or a coding agent.
+*   **MCP Server:** A process that provides access to some capability (e.g. tools or prompts).
+*   **MCP Client:** Connects the host to a single server.
+
+In essence, a host application creates and manages multiple clients, with each client having a 1:1 relationship with a particular server.
 
 ## MCP Layers
 
@@ -52,15 +53,17 @@ The communication happens over two layers:
   - Streamable HTTPS: for communications over the network. (Replaces HTTPS+SSE).
   - HTTPS+SSE: deprecated in the last version of the spec for security concerns.
 
+The data layer is managed by the SDK and except for testing purposes you won't need to build the messages manually. The choice of transport will depend on your use case, but in general I recommend starting with stdio and adding HTTPS later. There are even open source adaptors that convert stdio MCPs to HTTPS and vice-versa, but adding this feature is so trivial that I would only use those for servers that I don't control the source code.
+
 ## Initialization Flow
 
 The client and server perform a handshake to establish a connection. This involves three key messages:
 
-1.  The client sends an `initialize` request to the server, specifying the protocol version it supports.
-2.  The server confirms initialization with a `notifications/initialized` message.
+1. The client sends an `initialize` request to the server, specifying the protocol version it supports. (The server sends an initialization response message back to the client.)
+2. The client confirms initialization with a `notifications/initialized` message.
 3.  The client can then begin making requests, such as `tools/list`, to discover the server's capabilities.
 
-This is how the initialization flow looks on the wire using the JSON-RPC representation:
+This is how the initialization flow looks on the wire from the client side using the JSON-RPC representation:
 
 ```json
 {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}

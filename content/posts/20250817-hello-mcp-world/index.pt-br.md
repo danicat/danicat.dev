@@ -8,11 +8,11 @@ summary: "Baseado na minha palestra na Gophercon UK 2025, este artigo é uma int
 
 {{< translation-notice >}}
 
-> Este artigo é baseado na palestra que apresentei na Gophercon UK 2025 em 14 de agosto. Para os slides da palestra, por favor, verifique este [link](https://speakerdeck.com/danicat/hello-mcp-world).
+## Introdução
 
-Neste artigo, vamos explorar o Protocolo de Contexto de Modelo (MCP), um protocolo desenvolvido pela Anthropic para padronizar as comunicações entre Modelos de Linguagem Grandes (LLMs) e aplicativos.
+Neste artigo, vamos explorar o Protocolo de Contexto de Modelo (MCP), um protocolo desenvolvido pela Anthropic para padronizar as comunicações entre Modelos de Linguagem Grandes (LLMs) e aplicativos. Este artigo é baseado na [palestra de mesmo nome que apresentei na Gophercon UK](https://speakerdeck.com/danicat/hello-mcp-world) na semana passada.
 
-Para construir um entendimento claro, começaremos com os fundamentos, depois explicaremos os principais componentes da arquitetura, transportes e blocos de construção (ferramentas, prompts e recursos). Finalmente, veremos como você pode escrever seu próprio servidor usando o SDK Go para MCP através de um exemplo simples, "vibe-coded", usando o Gemini CLI.
+Para construir um entendimento claro, começaremos com os fundamentos, depois explicaremos os principais componentes da arquitetura, transportes e blocos de construção (ferramentas, prompts e recursos). Vamos lançar alguns exemplos práticos ao longo do caminho com base nos servidores que escrevi anteriormente (godoctor e speedgrapher). Finalmente, veremos como você pode escrever seu próprio servidor usando o SDK Go para MCP através de um exemplo simples, "vibe-coded", usando o Gemini CLI.
 
 Seja esta a primeira vez que você ouve falar sobre este protocolo, ou se você já escreveu um ou dois servidores, este artigo visa fornecer informações úteis para vários níveis de experiência.
 
@@ -33,16 +33,18 @@ Embora eu entenda a analogia com o USB-C, prefiro pensar no MCP como o novo HTTP
 
 ## Arquitetura MCP
 
-Este diagrama representa a arquitetura MCP:
+Olhando para o diagrama abaixo, a arquitetura MCP pode parecer mais complexa do que realmente é:
 
 ![MCP Architecture](image-1.png)
 *Fonte: [Especificação MCP](https://modelcontextprotocol.io/docs/learn/architecture)*
 
 Os principais componentes da arquitetura MCP são:
 
-*   **Host MCP:** O aplicativo de IA principal, como seu IDE ou um agente de codificação. O host se comunica com os servidores MCP usando clientes.
-*   **Servidor MCP:** Um processo que fornece acesso a alguma capacidade.
-*   **Cliente MCP:** A ponte que conecta o host a um único servidor.
+*   **Host MCP:** O aplicativo de IA principal, como seu IDE ou um agente de codificação.
+*   **Servidor MCP:** Um processo que fornece acesso a alguma capacidade (por exemplo, ferramentas ou prompts).
+*   **Cliente MCP:** Conecta o host a um único servidor.
+
+Em essência, um aplicativo host cria e gerencia vários clientes, com cada cliente tendo um relacionamento 1:1 com um servidor específico.
 
 ## Camadas MCP
 
@@ -54,15 +56,17 @@ A comunicação acontece em duas camadas:
   - HTTPS streamable: para comunicações pela rede. (Substitui HTTPS+SSE).
   - HTTPS+SSE: preterido na última versão da especificação por questões de segurança.
 
+A camada de dados é gerenciada pelo SDK e, exceto para fins de teste, você não precisará construir as mensagens manualmente. A escolha do transporte dependerá do seu caso de uso, mas em geral recomendo começar com stdio e adicionar HTTPS posteriormente. Existem até adaptadores de código aberto que convertem MCPs stdio em HTTPS e vice-versa, mas adicionar esse recurso é tão trivial que eu só os usaria para servidores dos quais não controlo o código-fonte.
+
 ## Fluxo de Inicialização
 
 O cliente e o servidor realizam um handshake para estabelecer uma conexão. Isso envolve três mensagens principais:
 
-1.  O cliente envia uma solicitação de `initialize` ao servidor, especificando a versão do protocolo que ele suporta.
-2.  O servidor confirma a inicialização com uma mensagem `notifications/initialized`.
+1. O cliente envia uma solicitação de `initialize` ao servidor, especificando a versão do protocolo que ele suporta. (O servidor envia uma mensagem de resposta de inicialização de volta para o cliente.)
+2. O cliente confirma a inicialização com uma mensagem `notifications/initialized`.
 3.  O cliente pode então começar a fazer solicitações, como `tools/list`, para descobrir as capacidades do servidor.
 
-É assim que o fluxo de inicialização se parece na rede usando a representação JSON-RPC:
+É assim que o fluxo de inicialização se parece na rede do lado do cliente usando a representação JSON-RPC:
 
 ```json
 {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}
