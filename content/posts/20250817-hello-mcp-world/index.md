@@ -3,14 +3,14 @@ title: "Hello, MCP World!"
 date: 2025-08-17T15:00:00Z
 categories: ["AI & Development"]
 tags: ["mcp", "gemini", "golang"]
-summary: "An introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks—Tools, Prompts, and Resources—used to create AI-enabled applications with Go."
+summary: "Based on my keynote at Gophercon UK 2025, this article is an introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks — Tools, Prompts, and Resources — used to create AI-enabled applications with Go."
 ---
 
 > This article is based on the keynote I delivered at Gophercon UK 2025 on August, 14. For the keynote slides please check this [link](https://speakerdeck.com/danicat/hello-mcp-world).
 
 In this article, we are going to explore the Model Context Protocol (MCP), a protocol developed by Anthropic to standardise the communications between Large Language Models (LLMs) and applications.
 
-To build a clear understanding, we'll start with the fundamentals, then explain the main architectural components illustrating with practical examples from servers I've implemented along my own learning journey. Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
+To build a clear understanding, we'll start with the fundamentals, then explain the main architectural components, transports and building blocks (tools, prompts and resources). Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
 
 Whether this is the first time you are hearing about this protocol, or you have already written a server or two, this article aims to provide helpful information for various levels of experience.
 
@@ -131,7 +131,7 @@ That said, in the real world I haven't seen a good implementation of resources y
 
 ## Client Concepts
 
-The protocol also defines **Client Concepts**, which are capabilities the server can request from the client. These include:
+Besides the server building blocks, the protocol also defines **Client Concepts**, which are capabilities the server can request from the client. These include:
 
 *   **Sampling:** Allows a server to request LLM completions from the client's model. This is promising from a security and billing perspective, as server authors don't need to use their own API keys to call models.
 *   **Roots:** A mechanism for a client to communicate filesystem boundaries, telling a server which directories it is allowed to operate in.
@@ -151,7 +151,11 @@ Read these references to gather information about the technology and project str
 - https://go.dev/doc/modules/layout
 
 To test the server, use shell commands like these:
-`( echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' ; echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}'; echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; ) | ./bin/hello`
+`( 
+	echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}';
+	echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}';
+	echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}';
+) | ./bin/hello`
 ```
 
 If the agent is successful completing this task, ask it to execute a "method tools/call" to your new tool to see the results!
@@ -160,15 +164,15 @@ If the agent is successful completing this task, ask it to execute a "method too
 
 The Go community is actively investing in the MCP ecosystem. Two key projects to watch are:
 
-*   **The Go SDK for MCP:** The official SDK I used in the demo, which is a partnership between Google and Anthropic. You can find it at [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
-*   **MCP Support for `gopls`:** The Go language server, `gopls`, is gaining MCP support, which will bring even deeper AI integrations into the Go development experience. You can follow its progress at [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
+*   **The Go SDK for MCP:** The official SDK I used in the demo, which is a partnership between Google and Anthropic. It is still experimental (current version is 0.20) but is functional and under active development. You can find it at [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
+*   **MCP Support for `gopls`:** The Go language server, `gopls`, is gaining MCP support to provide enhanced Go coding capabilities to models. The project is still in its early stages, and you can follow its progress at [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
 
 ## Useful MCP Servers
 
-The ecosystem of MCP servers is growing. Besides the ones I've built, there are many others available that you can use to enhance your workflows. Here are a couple of notable examples:
+Here are a couple of notable servers built by the community:
 
 *   **Playwright:** Maintained by Microsoft, this server allows an AI agent to navigate web pages, take screenshots, and automate browser tasks. You can find it at [https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp).
-*   **Context7:** This server retrieves documentation from a crowdsourced repository, providing another rich source of context for your agent. Learn more at [https://context7.com/](https://context7.com/).
+*   **Context7:** Similar to GoDoctor, this server provides documentation to models to mitigate hallucinations and improve responses. It retrieves documentation from a crowdsourced repository. Learn more at [https://context7.com/](https://context7.com/).
 
 ## What About Building Your Own?
 

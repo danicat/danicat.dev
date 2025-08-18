@@ -3,14 +3,16 @@ title: "Olá, Mundo MCP!"
 date: 2025-08-17T15:00:00Z
 categories: ["IA & Desenvolvimento"]
 tags: ["mcp", "gemini", "golang"]
-summary: "Uma introdução ao Protocolo de Contexto de Modelo (MCP), explorando seus conceitos principais, arquitetura e os blocos de construção — Ferramentas, Prompts e Recursos — usados para criar aplicativos habilitados para IA com Go."
+summary: "Baseado na minha palestra na Gophercon UK 2025, este artigo é uma introdução ao Protocolo de Contexto de Modelo (MCP), explorando seus conceitos principais, arquitetura e os blocos de construção — Ferramentas, Prompts e Recursos — usados para criar aplicativos habilitados para IA com Go."
 ---
+
+{{< translation-notice >}}
 
 > Este artigo é baseado na palestra que apresentei na Gophercon UK 2025 em 14 de agosto. Para os slides da palestra, por favor, verifique este [link](https://speakerdeck.com/danicat/hello-mcp-world).
 
 Neste artigo, vamos explorar o Protocolo de Contexto de Modelo (MCP), um protocolo desenvolvido pela Anthropic para padronizar as comunicações entre Modelos de Linguagem Grandes (LLMs) e aplicativos.
 
-Como uma boa prática, vamos começar com algumas definições, depois explicar os principais componentes da arquitetura, ilustrando com exemplos práticos de servidores que implementei ao longo da minha própria jornada de aprendizado. Finalmente, vamos ver como você pode escrever seu próprio servidor usando o SDK Go para MCP através de um exemplo simples, "vibe-coded", usando o Gemini CLI.
+Para construir um entendimento claro, começaremos com os fundamentos, depois explicaremos os principais componentes da arquitetura, transportes e blocos de construção (ferramentas, prompts e recursos). Finalmente, veremos como você pode escrever seu próprio servidor usando o SDK Go para MCP através de um exemplo simples, "vibe-coded", usando o Gemini CLI.
 
 Seja esta a primeira vez que você ouve falar sobre este protocolo, ou se você já escreveu um ou dois servidores, este artigo visa fornecer informações úteis para vários níveis de experiência.
 
@@ -131,7 +133,7 @@ Dito isso, no mundo real, ainda não vi uma boa implementação de recursos, poi
 
 ## Conceitos do Cliente
 
-O protocolo também define **Conceitos do Cliente**, que são capacidades que o servidor pode solicitar do cliente. Estes incluem:
+Além dos blocos de construção do servidor, o protocolo também define **Conceitos do Cliente**, que são capacidades que o servidor pode solicitar do cliente. Estes incluem:
 
 *   **Amostragem:** Permite que um servidor solicite conclusões de LLM do modelo do cliente. Isso é promissor do ponto de vista de segurança e faturamento, pois os autores do servidor não precisam usar suas próprias chaves de API para chamar modelos.
 *   **Raízes:** Um mecanismo para um cliente comunicar os limites do sistema de arquivos, dizendo a um servidor em quais diretórios ele tem permissão para operar.
@@ -151,7 +153,11 @@ Leia estas referências para coletar informações sobre a tecnologia e a estrut
 - https://go.dev/doc/modules/layout
 
 Para testar o servidor, use comandos de shell como estes:
-`( echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' ; echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}'; echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; ) | ./bin/hello`
+`( 
+	echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}';
+	echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}';
+	echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}';
+) | ./bin/hello`
 ```
 
 Se o agente for bem-sucedido em concluir esta tarefa, peça a ele para executar um "method tools/call" em sua nova ferramenta para ver os resultados!
@@ -160,15 +166,15 @@ Se o agente for bem-sucedido em concluir esta tarefa, peça a ele para executar 
 
 A comunidade Go está investindo ativamente no ecossistema MCP. Dois projetos importantes a serem observados são:
 
-*   **O SDK Go para MCP:** O SDK oficial que usei na demonstração, que é uma parceria entre o Google e a Anthropic. Você pode encontrá-lo em [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
-*   **Suporte MCP para `gopls`:** O servidor de linguagem Go, `gopls`, está ganhando suporte a MCP, o que trará integrações de IA ainda mais profundas na experiência de desenvolvimento Go. Você pode acompanhar seu progresso em [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
+*   **O SDK Go para MCP:** O SDK oficial que usei na demonstração, que é uma parceria entre o Google e a Anthropic. Ainda é experimental (a versão atual é 0.20), mas é funcional e está em desenvolvimento ativo. Você pode encontrá-lo em [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
+*   **Suporte MCP para `gopls`:** O servidor de linguagem Go, `gopls`, está ganhando suporte a MCP para fornecer capacidades aprimoradas de codificação Go para modelos. O projeto ainda está em seus estágios iniciais, e você pode acompanhar seu progresso em [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
 
 ## Servidores MCP úteis
 
-O ecossistema de servidores MCP está crescendo. Além dos que eu construí, existem muitos outros disponíveis que você pode usar para aprimorar seus fluxos de trabalho. Aqui estão alguns exemplos notáveis:
+Aqui estão alguns servidores notáveis construídos pela comunidade:
 
 *   **Playwright:** Mantido pela Microsoft, este servidor permite que um agente de IA navegue em páginas da web, tire capturas de tela e automatize tarefas do navegador. Você pode encontrá-lo em [https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp).
-*   **Context7:** Este servidor recupera a documentação de um repositório de crowdsourcing, fornecendo outra fonte rica de contexto para seu agente. Saiba mais em [https://context7.com/](https://context7.com/).
+*   **Context7:** Semelhante ao GoDoctor, este servidor fornece documentação para modelos para mitigar alucinações e melhorar as respostas. Ele recupera a documentação de um repositório de crowdsourcing. Saiba mais em [https://context7.com/](https://context7.com/).
 
 ## Que tal construir o seu próprio?
 

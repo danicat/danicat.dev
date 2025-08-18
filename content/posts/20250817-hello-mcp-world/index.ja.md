@@ -3,14 +3,16 @@ title: "Hello, MCP World!"
 date: 2025-08-17T15:00:00Z
 categories: ["AI & Development"]
 tags: ["mcp", "gemini", "golang"]
-summary: "モデルコンテキストプロトコル（MCP）の紹介。Goを使用してAI対応アプリケーションを作成するために使用されるコアコンセプト、アーキテクチャ、およびビルディングブロック（ツール、プロンプト、リソース）を探ります。"
+summary: "Gophercon UK 2025での基調講演に基づいたこの記事は、モデルコンテキストプロトコル（MCP）の紹介であり、そのコアコンセプト、アーキテクチャ、およびGoを使用してAI対応アプリケーションを作成するために使用されるビルディングブロック（ツール、プロンプト、リソース）を探ります。"
 ---
+
+{{< translation-notice >}}
 
 > この記事は、8月14日にGophercon UK 2025で行った基調講演に基づいています。基調講演のスライドについては、こちらの[リンク](https://speakerdeck.com/danicat/hello-mcp-world)をご確認ください。
 
 この記事では、大規模言語モデル（LLM）とアプリケーション間の通信を標準化するためにAnthropicによって開発されたプロトコルであるモデルコンテキストプロトコル（MCP）について探ります。
 
-良い習慣として、まずいくつかの定義から始め、次に主要なアーキテクチャコンポーネントを、私自身の学習の過程で実装したサーバーからの実践的な例を交えて説明します。最後に、Gemini CLIを使用したシンプルな「バイブコーディング」の例を通して、Go SDK for MCPを使用して独自のサーバーを作成する方法を見ていきます。
+明確な理解を深めるために、まず基礎から始め、次に主要なアーキテクチャコンポーネント、トランスポート、およびビルディングブロック（ツール、プロンプト、リソース）について説明します。最後に、Gemini CLIを使用したシンプルな「バイブコーディング」の例を通して、Go SDK for MCPを使用して独自のサーバーを作成する方法を見ていきます。
 
 このプロトコルについて初めて聞く方でも、すでに1つか2つのサーバーを作成したことがある方でも、この記事はさまざまな経験レベルの方に役立つ情報を提供することを目指しています。
 
@@ -131,7 +133,7 @@ GoDoctorのドキュメントツールのハンドラーは次のとおりです
 
 ## クライアントコンセプト
 
-プロトコルはまた、サーバーがクライアントに要求できる機能である**クライアントコンセプト**も定義しています。これらには以下が含まれます。
+サーバーのビルディングブロックに加えて、プロトコルは**クライアントコンセプト**も定義しています。これは、サーバーがクライアントに要求できる機能です。これらには以下が含まれます。
 
 *   **サンプリング:** サーバーがクライアントのモデルからLLM補完を要求できるようにします。サーバーの作成者はモデルを呼び出すために独自のAPIキーを使用する必要がないため、これはセキュリティと課金の観点から有望です。
 *   **ルート:** クライアントがファイルシステムの境界を通信するためのメカニズムで、サーバーがどのディレクトリで操作できるかを伝えます。
@@ -151,7 +153,11 @@ GoDoctorのドキュメントツールのハンドラーは次のとおりです
 - https://go.dev/doc/modules/layout
 
 サーバーをテストするには、次のようなシェルコマンドを使用します。
-`( echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' ; echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}'; echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; ) | ./bin/hello`
+`( 
+	echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}';
+	echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}';
+	echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}';
+) | ./bin/hello`
 ```
 
 エージェントがこのタスクを正常に完了したら、新しいツールに「method tools/call」を実行して結果を確認するように依頼してください。
@@ -160,15 +166,15 @@ GoDoctorのドキュメントツールのハンドラーは次のとおりです
 
 GoコミュニティはMCPエコシステムに積極的に投資しています。注目すべき2つの主要なプロジェクトは次のとおりです。
 
-*   **Go SDK for MCP:** デモで使用した公式SDKで、GoogleとAnthropicのパートナーシップです。[github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)で入手できます。
-*   **`gopls`のMCPサポート:** Go言語サーバーである`gopls`はMCPサポートを追加しており、Go開発エクスペリエンスにさらに深いAI統合をもたらします。[tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp)で進捗状況を追跡できます。
+*   **Go SDK for MCP:** デモで使用した公式SDKで、GoogleとAnthropicのパートナーシップです。まだ実験的ですが（現在のバージョンは0.20）、機能的で活発に開発されています。[github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk)で入手できます。
+*   **`gopls`のMCPサポート:** Go言語サーバーである`gopls`は、モデルに強化されたGoコーディング機能を提供するためにMCPサポートを追加しています。プロジェクトはまだ初期段階ですが、[tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp)で進捗状況を追跡できます。
 
 ## 便利なMCPサーバー
 
-MCPサーバーのエコシステムは成長しています。私が構築したもの以外にも、ワークフローを強化するために使用できる他の多くのサーバーが利用可能です。注目すべき例をいくつか紹介します。
+コミュニティによって構築された注目すべきサーバーをいくつか紹介します。
 
 *   **Playwright:** Microsoftによって維持されているこのサーバーを使用すると、AIエージェントはWebページをナビゲートし、スクリーンショットを撮り、ブラウザータスクを自動化できます。[https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp)で入手できます。
-*   **Context7:** このサーバーは、クラウドソーシングされたリポジトリからドキュメントを取得し、エージェントに別の豊富なコンテキストソースを提供します。詳細については、[https://context7.com/](https://context7.com/)をご覧ください。
+*   **Context7:** GoDoctorと同様に、このサーバーはモデルにドキュメントを提供して、幻覚を軽減し、応答を改善します。クラウドソーシングされたリポジトリからドキュメントを取得します。詳細については、[https://context7.com/](https://context7.com/)をご覧ください。
 
 ## 自分で構築してみませんか？
 
