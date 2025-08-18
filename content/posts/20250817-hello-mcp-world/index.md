@@ -10,7 +10,7 @@ summary: "An introduction to the Model Context Protocol (MCP), exploring its cor
 
 In this article, we are going to explore the Model Context Protocol (MCP), a protocol developed by Anthropic to standardise the communications between Large Language Models (LLMs) and applications.
 
-As a good pratice we are going to start with some definitions, then explain the main architectural components illustrating with practical examples from servers I've implemented along my own learning journey. Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
+To build a clear understanding, we'll start with the fundamentals, then explain the main architectural components illustrating with practical examples from servers I've implemented along my own learning journey. Finally, we are going to see how you can write your own server using the Go SDK for MCP through a simple, "vibe-coded" example using the Gemini CLI.
 
 Whether this is the first time you are hearing about this protocol, or you have already written a server or two, this article aims to provide helpful information for various levels of experience.
 
@@ -27,7 +27,7 @@ From the specification, MCP is:
 
 > MCP is an open protocol that standardizes how applications provide context to large language models (LLMs). Think of MCP like a USB-C port for AI applications. Just as USB-C provides a standardized way to connect your devices to various peripherals and accessories, MCP provides a standardized way to connect AI models to different data sources and tools. MCP enables you to build agents and complex workflows on top of LLMs and connects your models with the world.
 
-While I understand the analogy with USB-C, I prefer to think of MCP as the new HTTP/REST. As engineers, we have spent roughly the last two decades making everything "API-first", enabling our software systems to become interconnected and powering new levels of automation. Maybe it won't be for the next 20 years, but I believe that for the next 5 to 10 years we will spend quite a lot of engineering power to retrofit all those systems (and creating new ones) to become AI-enabled, and MCP is a key compoenent of this process.
+While I understand the analogy with USB-C, I prefer to think of MCP as the new HTTP/REST. Just as HTTP provided a universal language for web services to communicate, MCP provides a common framework for AI models to interact with external systems. As engineers, we have spent roughly the last two decades making everything "API-first", enabling our software systems to become interconnected and powering new levels of automation. Maybe it won't be for the next 20 years, but I believe that for the next 5 to 10 years we will spend quite a lot of engineering power to retrofit all those systems (and creating new ones) to become AI-enabled, and MCP is a key compoenent of this process.
 
 ## MCP Architecture
 
@@ -54,6 +54,12 @@ The communication happens over two layers:
 
 ## Initialization Flow
 
+The client and server perform a handshake to establish a connection. This involves three key messages:
+
+1.  The client sends an `initialize` request to the server, specifying the protocol version it supports.
+2.  The server confirms initialization with a `notifications/initialized` message.
+3.  The client can then begin making requests, such as `tools/list`, to discover the server's capabilities.
+
 This is how the initialization flow looks on the wire using the JSON-RPC representation:
 
 ```json
@@ -77,7 +83,7 @@ I like to do this to make sure the implementation is sound, as before I fully un
 
 ## The Building Blocks of an MCP Server
 
-The protocol defines three fundamental building blocks, sometimes also called "primitives" or "server concepts":
+At its core, an MCP server's functionality is exposed through three fundamental building blocks, sometimes also called "primitives" or "server concepts":
 
 | Building Block | Purpose                  | Who Controls It         | Real-World Example                               |
 | :------------- | :----------------------- | :---------------------- | :----------------------------------------------- |
@@ -119,34 +125,34 @@ One of the simplest prompts in `speedgrapher` is `/haiku`. Just like with tools,
 
 ### Resources
 
-Resources expose data from files, APIs, or databases, providing the context an AI needs to perform a task. 
+Resources expose data from files, APIs, or databases, providing the context an AI needs to perform a task. Conceptually, a Tool is for taking an action, while a Resource is for providing information.
 
-To be honest I haven't yet found a practical example where resources are best fit for, as most people just default to using tools for exposing data. It doesn't help that the agents I'm using also haven't implemented resources yet, so I'm going to refrain from going any deeper into this subject until I find any proper use cases.
-
-This article wouldn't be complete without mentioning them though.
+That said, in the real world I haven't seen a good implementation of resources yet, as most developers are using tools to expose data (as you would in an API with a GET request). I think this is one of the cases where the spec might be trying to be too clever, but maybe in the future we are going to see good uses for resources once the community gets more comfortable with them.
 
 ## Client Concepts
 
-On the other side of the connection, the protocol also defines **Client Concepts**, which are capabilities the server can request from the client. These include:
+The protocol also defines **Client Concepts**, which are capabilities the server can request from the client. These include:
 
 *   **Sampling:** Allows a server to request LLM completions from the client's model. This is promising from a security and billing perspective, as server authors don't need to use their own API keys to call models.
 *   **Roots:** A mechanism for a client to communicate filesystem boundaries, telling a server which directories it is allowed to operate in.
 *   **Elicitation:** A structured way for a server to request specific information from the user, pausing its operation to gather input when needed.
 
-Same as for the Resources in the previous section, I haven't explored those capabilities yet, but I'm looking forward to experiment with sampling next.
+This is another case where most real-world applications I have explored haven't caught up with the spec yet, including both servers and clients. It might take a while until we get these features widely available. It is one of the problems with working with bleeding edge technology... For example, Gemini CLI added roots support about one week ago: https://github.com/google-gemini/gemini-cli/pull/5856
 
 ## Live Demo: Vibe Coding an MCP Server
 
 Here is a prompt you can give to your favourite coding agent to produce a "Hello World" kind of server. As agents nowadays are non-deterministic, it might not work 100% on the first try and you might need to guide the LLM with a few extra prompts after the initial one, but it is a good start:
 
-> Your task is to create a Model Context Protocol (MCP) server to expose a "hello world" tool. For the MCP implementation, you should use the official Go SDK for MCP and use the stdio transport.
->
-> Read these references to gather information about the technology and project structure before writing any code:
-> - https://raw.githubusercontent.com/modelcontextprotocol/go-sdk/refs/heads/main/README.md
-> - https://go.dev/doc/modules/layout
->
-> To test the server, use shell commands like these:
-> `( echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' ; echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}'; echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; ) | ./bin/hello`
+```text
+Your task is to create a Model Context Protocol (MCP) server to expose a "hello world" tool. For the MCP implementation, you should use the official Go SDK for MCP and use the stdio transport.
+
+Read these references to gather information about the technology and project structure before writing any code:
+- https://raw.githubusercontent.com/modelcontextprotocol/go-sdk/refs/heads/main/README.md
+- https://go.dev/doc/modules/layout
+
+To test the server, use shell commands like these:
+`( echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}' ; echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}'; echo '{"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}'; ) | ./bin/hello`
+```
 
 If the agent is successful completing this task, ask it to execute a "method tools/call" to your new tool to see the results!
 
