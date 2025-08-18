@@ -2,8 +2,8 @@
 title: "Um Modelo para a Percepção do Tempo"
 date: 2025-08-11
 summary: "Uma exploração do motivo pelo qual o tempo parece acelerar à medida que envelhecemos, usando um modelo matemático simples para descobrir uma verdade surpreendente sobre nossa percepção da vida."
-tags: ["psicologia", "percepção-do-tempo", "modelos-mentais"]
-categories: ["Reflexões"]
+tags: ["psychology", "time-perception", "mental-models"]
+categories: ["Reflections"]
 ---
 
 {{< translation-notice >}}

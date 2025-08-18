@@ -1,7 +1,6 @@
 ---
 title: "Hello, MCP World!"
 date: 2025-08-17T15:00:00Z
-draft: true
 categories: ["AI & Development"]
 tags: ["mcp", "gemini", "golang"]
 ---
