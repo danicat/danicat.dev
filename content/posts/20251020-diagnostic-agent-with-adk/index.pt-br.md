@@ -11,7 +11,7 @@ Já faz bastante tempo desde o meu último artigo, pois estive bastante ocupado 
 
 No entanto, é graças a conhecer pessoas incríveis na estrada que eu me inspiro para o meu blog, e os posts do blog muitas vezes se tornam novas palestras, então um não existiria sem o outro.
 
-Desta vez, quero construir sobre o ["Agente de Diagnóstico de Emergência"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) sobre o qual escrevi há alguns meses. Vamos refatorar o agente para usar o framework [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) em vez de usar o [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview) de nível mais baixo. Você verá que isso nos traz muitos benefícios, incluindo ter muito do código boilerplate que escrevemos antes, fornecido para nós gratuitamente.
+Desta vez, quero construir sobre o ["Agente de Diagnóstico de Emergência"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) sobre o qual escrevi há alguns meses. Vamos refatorar o agente para usar o framework [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) em vez de usar o [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) de nível mais baixo. Você verá que isso nos traz muitos benefícios, incluindo ter muito do código boilerplate que escrevemos antes, fornecido para nós gratuitamente.
 
 Isso não significa que o conhecimento desses artigos seja obsoleto. É bastante útil saber como as coisas funcionam por baixo dos panos, especialmente quando ocorrem problemas e você precisa diagnosticar. Pense no ADK como uma camada de abstração mais alta que tornará nossas vidas muito mais fáceis ao desenvolver agentes.
 
@@ -30,7 +30,7 @@ Essencialmente, o agente é composto pelos seguintes componentes:
 
 Dado o fato de que o osquery é multiplataforma e seu schema pode variar dependendo do sistema hospedeiro, também adicionamos uma pequena otimização de fornecer o schema da tabela do osquery ao Gemini no system prompt.
 
-Algumas omissões notáveis da implementação anterior são que nunca demos ao modelo nenhuma instrução específica sobre cada procedimento de diagnóstico que queremos realizar, e também nunca especificamos completamente o schema além dos nomes das tabelas. Essas são algumas das limitações que vamos abordar neste artigo, usando o poder do ADK, [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag) e alguns outros truques. Mas primeiro, a refatoração!
+Algumas omissões notáveis da implementação anterior são que nunca demos ao modelo nenhuma instrução específica sobre cada procedimento de diagnóstico que queremos realizar, e também nunca especificamos completamente o schema além dos nomes das tabelas. Essas são algumas das limitações que vamos abordar neste artigo, usando o poder do ADK, [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) e alguns outros truques. Mas primeiro, a refatoração!
 
 ## Refatorando o agente para o ADK
 
@@ -60,7 +60,7 @@ Quando terminar a instalação, você pode criar um agente de modelo com `adk cr
 (.venv) $ adk create hello-agent
 ```
 
-O assistente de criação solicitará uma versão do modelo e um backend (Gemini ou [Vertex AI](https://cloud.google.com/vertex-ai)). Vou usar `gemini-2.5-flash` e `Vertex AI` para que eu possa autenticar com meu Project ID e localização.
+O assistente de criação solicitará uma versão do modelo e um backend (Gemini ou [Vertex AI](https://cloud.google.com/vertex-ai?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)). Vou usar `gemini-2.5-flash` e `Vertex AI` para que eu possa autenticar com meu Project ID e localização.
 
 ```sh
 (.venv) $ adk create hello-agent
@@ -243,7 +243,7 @@ A primeira coisa que precisamos fazer é criar um novo corpus no Vertex AI RAG (
 
 A fonte de informação para o corpus é o schema do osquery que pode ser recuperado da [página do GitHub do osquery](https://github.com/osquery/osquery), na pasta [specs](https://github.com/osquery/osquery/tree/master/specs).
 
-Uma maneira muito conveniente de criar um corpus é fazer o upload de uma pasta do [Google Cloud Storage](https://cloud.google.com/storage) ou do Google Drive, mas outras fontes de dados também estão disponíveis, como Slack e Sharepoint. Você pode usar o assistente de criação de corpus do Google Cloud Console (Vertex AI -> RAG Engine -> Create corpus) ou fazê-lo programaticamente usando o Vertex AI SDK.
+Uma maneira muito conveniente de criar um corpus é fazer o upload de uma pasta do [Google Cloud Storage](https://cloud.google.com/storage?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) ou do Google Drive, mas outras fontes de dados também estão disponíveis, como Slack e Sharepoint. Você pode usar o assistente de criação de corpus do Google Cloud Console (Vertex AI -> RAG Engine -> Create corpus) ou fazê-lo programaticamente usando o Vertex AI SDK.
 
 ![Create corpus wizard in Vertex AI RAG](image-3.png)
 

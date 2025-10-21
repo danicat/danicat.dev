@@ -11,7 +11,7 @@ It has been quite a long time since my last article as I've been quite busy trav
 
 Nevertheless, it is thanks to meeting amazing people on the road that I get inspiration for my blog, and blog posts often become new talks, so one wouldn't really exist without the other.
 
-This time I want to build up on the ["Emergency Diagnostic Agent"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) I've written about a few months ago. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
+This time I want to build up on the ["Emergency Diagnostic Agent"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) I wrote about a few months ago. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
 
 This doesn't mean the knowledge from those articles is obsolete though. It is quite useful to know how things work under the hood specially when problems happen and you need to diagnose. Think about ADK as a higher abstraction layer that will make our lives much easier when developing agents.
 
@@ -30,11 +30,11 @@ Essentially the agent is composed by the following components:
 
 Given the fact that osquery is multi-platform and its schema can vary depending on the host system, we also added a small optisation of giving the osquery table schema to Gemini in the system prompt.
 
-A few notable omissions of the previous implementation is that we never gave the model any specific instructions about each diagnostic procedure we want to perform, and we also never fully specified the schema beyond table names. Those are some of the limitations we are going to address in this article, using the power of ADK, [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag) and a few other tricks. But first, the refactoring!
+A few notable omissions of the previous implementation is that we never gave the model any specific instructions about each diagnostic procedure we want to perform, and we also never fully specified the schema beyond table names. those are some of the limitations we are going to address in this article, using the power of ADK, [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) and a few other tricks. But first, the refactoring!
 
 ## Refactoring the agent for ADK
 
-Refactoring the agent for ADK is much simpler than it sounds. If you never wrote an ADK agent before don't worry, as the only thing we need to do is to install the SDK, define an specification for our root agent and run it with the provided CLI (conveniently called `adk`).
+Refactoring the agent for ADK is much simpler than it sounds. If you have never written an ADK agent before don't worry, as the only thing we need to do is to install the SDK, define a specification for our root agent and run it with the provided CLI (conveniently called `adk`).
 
 Let's start with a simple `hello world` agent and build from there. First install ADK on your machine using your favourite package manager.
 
@@ -60,7 +60,7 @@ Once you are done with the installation, you can create a template agent with `a
 (.venv) $ adk create hello-agent
 ```
 
-The creation wizard will prompt you for a model version and a backend (Gemini or [Vertex AI](https://cloud.google.com/vertex-ai)). I'm going to use `gemini-2.5-flash` and `Vertex AI` so I can authenticate with my Project ID and location.
+The creation wizard will prompt you for a model version and a backend (Gemini or [Vertex AI](https://cloud.google.com/vertex-ai?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)). I'm going to use `gemini-2.5-flash` and `Vertex AI` so I can authenticate with my Project ID and location.
 
 ```sh
 (.venv) $ adk create hello-agent
@@ -105,7 +105,7 @@ This is a full fledged agent that you can test using the Dev-UI interface from A
 
 ## ADK Diagnostics
 
-If you have worked with the Vertex AI SDK before you must have already noticed how much leaner is the code using ADK. We only need to define one entry point agent `root_agent` and a few configurations to have a fully working agent.
+If you have worked with the Vertex AI SDK before you must have already noticed how much leaner the code is. We only need to define one entry point agent `root_agent` and a few configurations to have a fully working agent.
 
 Now let's take this "hello world" to the next level adding the diagnostic features. First thing you need is to install the osquery binary following the instructions on the [documentation](https://osquery.readthedocs.io/en/stable/) for your operating system.
 
@@ -168,7 +168,7 @@ You can test the agent running `adk web` and issuing a few queries:
 
 ## Revisiting the System Prompt
 
-The system prompt, also often referred to as system instructions, is the core of every agent. The system prompt is lowest level prompt that gives the agent it's mission and personality. So it's critical that we develop a very good system prompt for the agent to respond consistently.
+The system prompt, also often referred to as system instructions, is the core of every agent. The system prompt is the lowest level prompt that gives the agent its mission and personality. So it's critical that we develop a very good system prompt for the agent to respond consistently.
 
 In ADK the system prompt is composed by three elements:
 - The agent internal `name`
@@ -231,7 +231,7 @@ For this particular agent, my hypothesis is that it had general knowledge of how
 
 But the model seems to be lacking the nuances of how to act in more specific scenarios. Dynamically adding the platform to the system prompt helped a bit, but it was not enough, so my idea was to give the agent full awareness of the osquery schema using a RAG mechanism.
 
-The concept behind RAG is to feed information to the model on a "need to know basis". You store the information you want to retrieve in real-time in a vector database, and when the user (or agent) issues a query, you use vector search to find and retrieve the segments of your data that are most similar to the request, enriching the context before the model process it.
+The concept behind RAG is to feed information to the model on a "need to know basis". You store the information you want to retrieve in real-time in a vector database, and when the user (or agent) issues a query, you use vector search to find and retrieve the segments of your data that are most similar to the request, enriching the context before the model processes it.
 
 For the diagnostic agent, we can make the full osquery schema available to be retrieved on demand. For example, if we are requesting information about "memory", the RAG search will look for tables that are close to "memory" in the vector space, retrieving the relevant tables with the full schema prior to processing the request, which can help the model to choose better osquery calls.
 
@@ -243,7 +243,7 @@ The first thing we need to do is create a new corpus in Vertex AI RAG (corpus is
 
 The source of information for the corpus is the osquery schema that can be retrieved from [osquery GitHub page](https://github.com/osquery/osquery), in the [specs folder](https://github.com/osquery/osquery/tree/master/specs).
 
-One very convenient way to create a corpus is to upload a folder from [Google Cloud Storage](https://cloud.google.com/storage) or Google Drive, but other data sources are also available like Slack and Sharepoint. You can use either the corpus creation wizard from the Google Cloud Console (Vertex AI -> RAG Engine -> Create corpus) or do it programmatically using the Vertex AI SDK.
+One very convenient way to create a corpus is to upload a folder from [Google Cloud Storage](https://cloud.google.com/storage?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) or Google Drive, but other data sources are also available like Slack and Sharepoint. You can use either the corpus creation wizard from the Google Cloud Console (Vertex AI -> RAG Engine -> Create corpus) or do it programmatically using the Vertex AI SDK.
 
 ![Create corpus wizard in Vertex AI RAG](image-3.png)
 
@@ -343,4 +343,4 @@ Oh my! This was a long one, but hopefully you enjoyed the read! If you have any 
 *   [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit)
 *   [osquery](httpss://osquery.io/)
 *   [osquery GitHub page](https://github.com/osquery/osquery)
-*   [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag)
+*   [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)
