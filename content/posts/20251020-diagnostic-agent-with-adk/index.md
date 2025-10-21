@@ -1,15 +1,17 @@
-+++
-date = '2025-10-20T17:42:28+01:00'
-draft = true
-title = 'How to Create a Diagnostic Agent With Agent Development Kit'
-+++
+---
+date: '2025-10-21T15:44:03+01:00'
+title: 'How to Create a Diagnostic Agent With Agent Development Kit'
+summary: "This article is a guide to creating a diagnostic agent with the Agent Development Kit (ADK). It covers the development process and explains how to use Vertex AI RAG to improve the agent's response quality."
+categories: ["AI & Development"]
+tags: ["adk", "gemini", "vertex-ai", "python", "rag"]
+---
 ## Introduction
 
 It has been quite a long time since my last article as I've been quite busy traveling around for conferences and meetups all over Europe (with a small detour to South America). Especially this time of the year it is a very busy season for us in developer relations as many conferences are concentrated between late September and early December.
 
 Nevertheless, it is thanks to meeting amazing people on the road that I get inspiration for my blog, and blog posts often become new talks, so one wouldn't really exist without the other.
 
-This time I want to build up on the "Emergency Diagnostic Agent" I've written about a few months ago. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
+This time I want to build up on the ["Emergency Diagnostic Agent"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) I've written about a few months ago. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
 
 This doesn't mean the knowledge from those articles is obsolete though. It is quite useful to know how things work under the hood specially when problems happen and you need to diagnose. Think about ADK as a higher abstraction layer that will make our lives much easier when developing agents.
 
@@ -339,11 +341,6 @@ Oh my! This was a long one, but hopefully you enjoyed the read! If you have any 
 ## References
 
 *   [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit)
-*   [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview)
 *   [osquery](httpss://osquery.io/)
-*   [osquery documentation](https://osquery.readthedocs.io/en/stable/)
 *   [osquery GitHub page](https://github.com/osquery/osquery)
-*   [uv](https://github.com/astral-sh/uv)
-*   [Vertex AI](https://cloud.google.com/vertex-ai)
 *   [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag)
-*   [Google Cloud Storage](https://cloud.google.com/storage)

@@ -5,3 +5,4 @@ resources/*
 
 # Gemini CLI temporary files
 .issue/
+nanobanana-output/
