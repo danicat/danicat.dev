@@ -8,7 +8,7 @@ summary: "Celebrating my first six months at Google! Reflecting on a whirlwind o
 
 Today marks a very special milestone for me: I have officially completed my first six months at Google!
 
-![Selfie at Google](image01.jpeg "Selfie at Google")
+
 
 It’s hard to believe half a year has already passed. After many, many years of waiting for the right opportunity to join this company, I can honestly say it has been everything I hoped for. It’s been quite a journey, filled with incredible challenges, amazing people, and a pace of innovation that is remarkably fast.
 

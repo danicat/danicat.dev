@@ -8,7 +8,7 @@ summary: "Comemorando meus primeiros seis meses no Google! Refletindo sobre um t
 
 Hoje marca um marco muito especial para mim: completei oficialmente meus primeiros seis meses no Google!
 
-![Selfie no Google](image01.jpeg "Selfie no Google")
+
 
 É difícil acreditar que meio ano já se passou. Depois de muitos, muitos anos esperando pela oportunidade certa para ingressar nesta empresa, posso dizer honestamente que tem sido tudo o que eu esperava. Tem sido uma jornada e tanto, repleta de desafios incríveis, pessoas maravilhosas e um ritmo de inovação que é notavelmente rápido.
 
