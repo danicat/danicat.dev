@@ -448,7 +448,7 @@ This article covered the basics of building a frontend for an ADK agent, but it 
 
 *   **[Download demo.py](demo.py)**
 
-If you are interesting on a more advanced version of the agent, you can find it on my GitHub: **[github.com/danicat/aida](https://github.com/danicat/aida)**
+If you are interested on a more advanced version of the agent, you can find it on my GitHub: **[github.com/danicat/aida](https://github.com/danicat/aida)**
 
 I encourage you to explore the repository, try running it yourself, and maybe contribute! It's a great way to see how these building blocks come together in a real-world application.
 
