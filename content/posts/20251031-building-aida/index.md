@@ -5,9 +5,6 @@ title = 'Beyond the Dev-UI: How to Build an Interface for an ADK agent'
 summary = "Go beyond the default ADK development UI and learn how to build a custom, retro-style frontend for your Google ADK agent. This tutorial walks you through creating a Python and FastAPI backend to manage the agent runtime and a vanilla JavaScript frontend to render the chat interface. Discover how to generate visual assets with generative AI, create a streaming animated avatar, and synchronize its animations with the agent's real-time responses for a more engaging user experience."
 categories = ["GenAI", "Tutorial"]
 tags = ["ADK", "Gemini", "Python", "FastAPI", "Frontend", "Agent"]
-
-[article]
-  heroStyle = "big"
 +++
 
 For the past six months I have been exploring GenAI, vibe coding, agents and everything in between as part of my DevRel role at Google. Whenever I want to learn a new technology I find that the best way is to build something with it. One of my passion projects during this time has been the diagnostic agent: a software that could help people diagnose their computer problems using natural language.
@@ -74,7 +71,7 @@ We have a small frontend written in HTML/CSS and JavaScript that will make reque
 
 The root agent is the "brains" of AIDA and is responsible for processing the requests (routing them to an LLM) and making the required tool calls. Whenever the root agent is done it emits events that the runtime will process.
 
-Let's have a look at a barebones implementation first. For the sake of brevity, I'm going to omit the root agent definition as it was explained on the previous article.
+Let's have a look at a barebones implementation first. For the sake of brevity, I'm going to omit the root agent definition as it was explained on the [previous article]({{< ref "/posts/20251020-diagnostic-agent-with-adk/index.md" >}}).
 
 We are going to need the `Runner` class and a session service to control user sessions. There are many implementations of session services that you can explore, but in this case the agent is meant to be used by a single user and the sessions are ephemeral, so we are going to use the `InMemorySessionService` and hardcode the user and session ids for simplicity.
 

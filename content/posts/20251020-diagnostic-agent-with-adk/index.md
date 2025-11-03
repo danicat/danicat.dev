@@ -341,6 +341,6 @@ Oh my! This was a long one, but hopefully you enjoyed the read! If you have any 
 ## References
 
 *   [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit)
-*   [osquery](httpss://osquery.io/)
+*   [osquery](https://osquery.io/)
 *   [osquery GitHub page](https://github.com/osquery/osquery)
 *   [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)

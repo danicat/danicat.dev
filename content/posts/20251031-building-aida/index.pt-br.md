@@ -5,9 +5,6 @@ title = 'Além da Dev-UI: Como construir uma interface para um agente ADK'
 summary = "Vá além da UI de desenvolvimento padrão do ADK e aprenda a construir um frontend customizado em estilo retrô para o seu agente do Google ADK. Este tutorial guia você na criação de um backend em Python e FastAPI para gerenciar o runtime do agente e um frontend em JavaScript puro para renderizar a interface de chat. Descubra como gerar recursos visuais com IA generativa, criar um avatar animado com streaming e sincronizar suas animações com as respostas em tempo real do agente para uma experiência de usuário mais envolvente."
 categories = ["GenAI", "Tutorial"]
 tags = ["ADK", "Gemini", "Python", "FastAPI", "Frontend", "Agent"]
-
-[article]
-  heroStyle = "big"
 +++
 
 Nos últimos seis meses, tenho explorado GenAI, vibe coding, agentes e tudo mais como parte da minha função de DevRel no Google. Sempre que quero aprender uma nova tecnologia, descubro que a melhor maneira é construir algo com ela. Um dos meus projetos de paixão durante esse tempo tem sido o agente de diagnóstico: um software que poderia ajudar as pessoas a diagnosticar problemas em seus computadores usando linguagem natural.
@@ -74,7 +71,7 @@ Temos um pequeno frontend escrito em HTML/CSS e JavaScript que fará requisiçõ
 
 O agente raiz é o "cérebro" da AIDA e é responsável por processar as requisições (roteando-as para um LLM) e fazer as chamadas de ferramenta necessárias. Sempre que o agente raiz termina, ele emite eventos que o runtime processará.
 
-Vamos dar uma olhada em uma implementação básica primeiro. Para ser breve, vou omitir a definição do agente raiz, pois foi explicada no artigo anterior.
+Vamos dar uma olhada em uma implementação básica primeiro. Para ser breve, vou omitir a definição do agente raiz, pois foi explicada no [artigo anterior]({{< ref "/posts/20251020-diagnostic-agent-with-adk/index.pt-br.md" >}}).
 
 Vamos precisar da classe `Runner` e de um serviço de sessão para controlar as sessões do usuário. Existem muitas implementações de serviços de sessão que você pode explorar, mas neste caso, o agente é destinado a ser usado por um único usuário e as sessões são efêmeras, então vamos usar o `InMemorySessionService` e fixar os IDs de usuário e sessão para simplificar.
 
