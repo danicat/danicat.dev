@@ -1,10 +1,10 @@
-+++
-date = '2025-05-31T01:00:00+01:00'
-title = 'AIエージェントを使って自分のコンピューターを「USSエンタープライズ」に変えた方法'
-summary = "GeminiとVertex AI Agent Engineを使って自然言語を話す診断エージェントを作成する方法"
+---
+date: '2025-05-31T01:00:00+01:00'
+title: 'AIエージェントを使って自分のコンピューターを「USSエンタープライズ」に変えた方法'
+summary: "GeminiとVertex AI Agent Engineを使って自然言語を話す診断エージェントを作成する方法"
 categories: ["AI & Development"]
 tags: ["gemini", "vertex-ai", "python", "tutorial"]
-+++
+---
 {{< translation-notice >}}
 
 _宇宙：最後のフロンティア。これらは宇宙船エンタープライズ号の航海である。その5年間の任務は、奇妙な新しい世界を探検し、新しい生命と新しい文明を探し、これまで誰も行ったことのない場所に大胆に行くことである。_

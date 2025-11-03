@@ -1,11 +1,11 @@
-+++
-date = '2025-10-31T11:43:35Z'
-draft = false
-title = 'Além da Dev-UI: Como construir uma interface para um agente ADK'
-summary = "Vá além da UI de desenvolvimento padrão do ADK e aprenda a construir um frontend customizado em estilo retrô para o seu agente do Google ADK. Este tutorial guia você na criação de um backend em Python e FastAPI para gerenciar o runtime do agente e um frontend em JavaScript puro para renderizar a interface de chat. Descubra como gerar recursos visuais com IA generativa, criar um avatar animado com streaming e sincronizar suas animações com as respostas em tempo real do agente para uma experiência de usuário mais envolvente."
-categories = ["AI & Development"]
-tags = ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
-+++
+---
+date: '2025-10-31T11:43:35Z'
+draft: false
+title: 'Além da Dev-UI: Como construir uma interface para um agente ADK'
+summary: "Vá além da UI de desenvolvimento padrão do ADK e aprenda a construir um frontend customizado em estilo retrô para o seu agente do Google ADK. Este tutorial guia você na criação de um backend em Python e FastAPI para gerenciar o runtime do agente e um frontend em JavaScript puro para renderizar a interface de chat. Descubra como gerar recursos visuais com IA generativa, criar um avatar animado com streaming e sincronizar suas animações com as respostas em tempo real do agente para uma experiência de usuário mais envolvente."
+categories: ["AI & Development"]
+tags: ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
+---
 
 Nos últimos seis meses, tenho explorado GenAI, vibe coding, agentes e tudo mais como parte da minha função de DevRel no Google. Sempre que quero aprender uma nova tecnologia, descubro que a melhor maneira é construir algo com ela. Um dos meus projetos de paixão durante esse tempo tem sido o agente de diagnóstico: um software que poderia ajudar as pessoas a diagnosticar problemas em seus computadores usando linguagem natural.
 

@@ -1,10 +1,10 @@
-+++
-date = '2025-06-11T00:00:00+01:00'
-title = 'Prompt Audacioso: Um Guia Prático para Instruções de Sistema e Ferramentas de Agente'
-summary = "Este artigo explora os conceitos de instrução de sistema, histórico de sessão e ferramentas de agente para criar um assistente de diagnóstico mais inteligente."
+---
+date: '2025-06-11T00:00:00+01:00'
+title: 'Prompt Audacioso: Um Guia Prático para Instruções de Sistema e Ferramentas de Agente'
+summary: "Este artigo explora os conceitos de instrução de sistema, histórico de sessão e ferramentas de agente para criar um assistente de diagnóstico mais inteligente."
 categories: ["AI & Development"]
 tags: ["gemini", "vertex-ai", "python", "tutorial"]
-+++
+---
 {{< translation-notice >}}
 ## Introdução
 
