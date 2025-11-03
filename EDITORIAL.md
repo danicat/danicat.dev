@@ -29,6 +29,22 @@ Consider these models as inspiration, not rigid templates:
 *   **The Event Summary:** A report from a conference or meetup, focusing on atmosphere, key takeaways, and personal connections rather than just listing talks.
 *   **The Interview:** A structured conversation distilled into key insights.
 
+## Taxonomy Standards
+
+We use a strict taxonomy to keep content organized and discoverable.
+
+### Categories (Broad Themes)
+Use **only** these four core categories. Do not create new ones.
+*   **`AI & Development`**: For all technical deep dives, coding, GenAI, MCP, etc.
+*   **`Workflow & Best Practices`**: For process, tools, and "vibe coding" philosophy.
+*   **`Career & Personal`**: For non-technical reflections, milestones, and career advice.
+*   **`Meta`**: For posts about the blog itself.
+
+### Tags (Specific Topics)
+*   **Format:** Always **lowercase** and **kebab-case** (e.g., `vibe-coding`, `google-cloud`).
+*   **Language Agnostic:** Use English tags even for translated posts to ensure unified linking across languages.
+*   **Content Types as Tags:** Use tags for content types like `tutorial`, `keynote`, or `interview` instead of categories.
+
 ## Capitalization Standards
 
 To maintain a consistent, modern, and conversational feel, we adhere to the following capitalization rules:

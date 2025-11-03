@@ -3,7 +3,7 @@ date: '2025-10-21T15:44:03+01:00'
 title: 'How to Create a Diagnostic Agent With Agent Development Kit'
 summary: "This article is a guide to creating a diagnostic agent with the Agent Development Kit (ADK). It covers the development process and explains how to use Vertex AI RAG to improve the agent's response quality."
 categories: ["AI & Development"]
-tags: ["adk", "gemini", "vertex-ai", "python", "rag"]
+tags: ["adk", "gemini", "vertex-ai", "python", "rag", "tutorial"]
 ---
 ## Introduction
 

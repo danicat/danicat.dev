@@ -2,8 +2,8 @@
 title: "Um modelo de trabalho para o desenvolvedor moderno usando IA"
 date: 2025-07-11
 author: "Daniela Petruzalek"
-tags: ["gemini-cli", "vibe-coding", "jules"]
 categories: ["Workflow & Best Practices"]
+tags: ["gemini-cli", "vibe-coding", "jules"]
 summary: "Uma proposta de um fluxo de trabalho de desenvolvedor moderno usando ferramentas de IA e um exercício simples de priorização."
 ---
 {{< translation-notice >}}

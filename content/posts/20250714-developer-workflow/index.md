@@ -2,8 +2,8 @@
 title: "A Modern Developer Workflow for the AI Enabled World"
 date: 2025-07-11
 author: "Daniela Petruzalek"
-tags: ["gemini-cli", "vibe-coding", "jules"]
 categories: ["Workflow & Best Practices"]
+tags: ["gemini-cli", "vibe-coding", "jules"]
 summary: "A proposal for a modern developer workflow using AI tools and a simple prioritisation exercise."
 ---
 ## Introduction

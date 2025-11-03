@@ -2,8 +2,8 @@
 title: "Gemini CLIとGoでMCPサーバーを構築する方法"
 date: 2025-07-29
 author: "Daniela Petruzalek"
-tags: ["golang", "gemini-cli", "mcp", "ai", "codelab"]
 categories: ["AI & Development"]
+tags: ["golang", "gemini-cli", "mcp", "ai", "codelab", "tutorial"]
 summary: "Model Context Protocol（MCP）とGemini CLIを使用して、AI搭載のGo開発アシスタントであるGoDoctorを構築した方法のステップバイステップガイド。"
 ---
 {{< translation-notice >}}

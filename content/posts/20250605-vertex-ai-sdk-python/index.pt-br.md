@@ -2,8 +2,8 @@
 date = '2025-06-05T00:00:00+01:00'
 title = 'Aprofundando-se no SDK da Vertex AI para Python'
 summary = "Este artigo explora o modelo de comunicação entre o código do cliente e a API Gemini usando o SDK da Vertex AI para Python"
-tags = ["gemini", "vertex-ai", "python"]
-categories = ["AI & Development"]
+categories: ["AI & Development"]
+tags: ["gemini", "vertex-ai", "python", "tutorial"]
 +++
 {{< translation-notice >}}
 ## Introdução

@@ -2,8 +2,8 @@
 date = '2025-06-05T00:00:00+01:00'
 title = 'Vertex AI SDK for Pythonを深く掘り下げる'
 summary = "この記事では、Vertex AI SDK for Pythonを使用したクライアントコードとGemini API間の通信モデルについて説明します"
-tags = ["gemini", "vertex-ai", "python"]
-categories = ["AI & Development"]
+categories: ["AI & Development"]
+tags: ["gemini", "vertex-ai", "python", "tutorial"]
 +++
 {{< translation-notice >}}
 

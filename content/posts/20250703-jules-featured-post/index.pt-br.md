@@ -2,8 +2,8 @@
 title: "Como usei o Jules para adicionar um post em destaque a este blog"
 date: 2025-07-03
 author: "Daniela Petruzalek"
-tags: ["jules", "vibe-coding"]
-categories: ["Interaction Logs"]
+categories: ["Workflow & Best Practices"]
+tags: ["jules", "vibe-coding", "tutorial"]
 summary: "Um relato detalhado do meu processo iterativo trabalhando com o Jules, um assistente de codificação de IA, para implementar uma nova seção de post em destaque na página inicial do meu blog."
 ---
 {{< translation-notice >}}

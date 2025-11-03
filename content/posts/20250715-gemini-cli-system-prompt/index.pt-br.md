@@ -2,8 +2,8 @@
 title: "Proatividade pode ser prejudicial? Um guia para customizar o Gemini CLI para o seu estilo de codificação"
 date: 2025-07-14
 author: "Daniela Petruzalek"
-tags: ["gemini-cli", "vibe-coding"]
 categories: ["Workflow & Best Practices"]
+tags: ["gemini-cli", "vibe-coding", "tutorial"]
 summary: "Aprenda a customizar o Gemini CLI para o seu estilo de codificação usando o GEMINI.md e instruções de sistema customizadas."
 ---
 {{< translation-notice >}}

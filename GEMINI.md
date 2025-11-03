@@ -32,6 +32,9 @@ To work with this project, you need to have Hugo installed.
     hugo new posts/my-new-post/index.md
     ```
 *   **Multi-language Support:** The site supports English, Portuguese, and Japanese. Content for each language is provided in separate files (e.g., `index.md`, `index.pt-br.md`, `index.ja.md`). Language-specific configurations are in `config/_default/languages.<lang>.toml`.
+*   **Taxonomy Standards:**
+    *   **Categories:** Use only: `AI & Development`, `Workflow & Best Practices`, `Career & Personal`, `Meta`.
+    *   **Tags:** Must be lowercase, kebab-case (e.g., `google-cloud`, `vibe-coding`). Use English tags for all languages to ensure unified linking.
 *   **Configuration:**
     *   The main site configuration is in `hugo.yaml`.
     *   Detailed theme and site parameters are in `config/_default/hugo.toml` and `config/_default/params.toml`.

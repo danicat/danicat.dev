@@ -2,8 +2,8 @@
 title: "How I used Jules to add a featured post to this blog"
 date: 2025-07-03
 author: "Daniela Petruzalek"
-tags: ["jules", "vibe-coding"]
 categories: ["Workflow & Best Practices"]
+tags: ["jules", "vibe-coding", "tutorial"]
 summary: "A detailed account of my iterative process working with Jules, an AI coding assistant, to implement a new featured post section on my blog's homepage."
 ---
 

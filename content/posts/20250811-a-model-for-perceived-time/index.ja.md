@@ -2,8 +2,8 @@
 title: "時間の知覚モデル"
 date: 2025-08-11
 summary: "年齢を重ねるにつれて時間が速く感じられる理由について、簡単な数理モデルを用いて探求し、私たちの人生に対する知覚に関する驚くべき真実を明らかにします。"
+categories: ["Career & Personal"]
 tags: ["psychology", "time-perception", "mental-models"]
-categories: ["Reflections"]
 ---
 
 {{< translation-notice >}}

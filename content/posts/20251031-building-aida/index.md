@@ -3,8 +3,8 @@ date = '2025-10-31T11:43:35Z'
 draft = false
 title = 'Beyond the Dev-UI: How to Build an Interface for an ADK agent'
 summary = "Go beyond the default ADK development UI and learn how to build a custom, retro-style frontend for your Google ADK agent. This tutorial walks you through creating a Python and FastAPI backend to manage the agent runtime and a vanilla JavaScript frontend to render the chat interface. Discover how to generate visual assets with generative AI, create a streaming animated avatar, and synchronize its animations with the agent's real-time responses for a more engaging user experience."
-categories = ["GenAI", "Tutorial"]
-tags = ["ADK", "Gemini", "Python", "FastAPI", "Frontend", "Agent"]
+categories = ["AI & Development"]
+tags = ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
 +++
 
 For the past six months I have been exploring GenAI, vibe coding, agents and everything in between as part of my DevRel role at Google. Whenever I want to learn a new technology I find that the best way is to build something with it. One of my passion projects during this time has been the diagnostic agent: a software that could help people diagnose their computer problems using natural language.

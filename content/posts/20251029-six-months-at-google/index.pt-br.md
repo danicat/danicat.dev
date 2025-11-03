@@ -1,8 +1,8 @@
 ---
 title: "Comemorando Seis Meses de Google!"
 date: 2025-10-29T09:00:00Z
-categories: ["Career", "Personal Journey"]
-tags: ["google", "milestone", "community", "devrel", "mental health"]
+categories: ["Career & Personal"]
+tags: ["google", "milestone", "community", "devrel", "mental-health"]
 summary: "Comemorando meus primeiros seis meses no Google! Refletindo sobre um turbilhão de 15 eventos em 5 países, mergulhando fundo no ecossistema de IA e alcançando um grande marco de saúde pessoal ao longo do caminho."
 ---
 

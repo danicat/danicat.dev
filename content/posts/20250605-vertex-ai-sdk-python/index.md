@@ -2,8 +2,8 @@
 date: '2025-06-05T00:00:00+01:00'
 title: 'Digging deeper into the Vertex AI SDK for Python'
 summary: "This article explores the communication model between the client code and the Gemini API using the Vertex AI SDK for Python"
-tags: ["gemini", "vertex-ai", "python"]
 categories: ["AI & Development"]
+tags: ["gemini", "vertex-ai", "python", "tutorial"]
 ---
 ## Introduction
 

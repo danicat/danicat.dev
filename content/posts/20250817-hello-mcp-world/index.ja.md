@@ -2,7 +2,7 @@
 title: "Hello, MCP World!"
 date: 2025-08-17T15:00:00Z
 categories: ["AI & Development"]
-tags: ["mcp", "gemini", "golang"]
+tags: ["mcp", "gemini", "golang", "keynote"]
 summary: "Gophercon UK 2025での基調講演に基づいたこの記事は、モデルコンテキストプロトコル（MCP）の紹介であり、そのコアコンセプト、アーキテクチャ、およびGoを使用してAI対応アプリケーションを作成するために使用されるビルディングブロック（ツール、プロンプト、リソース）を探ります。"
 ---
 

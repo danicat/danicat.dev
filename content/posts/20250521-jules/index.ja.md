@@ -2,8 +2,8 @@
 date: '2025-05-21T17:45:07+01:00'
 title: 'Julesについて話す必要があります！'
 summary: "すべての開発者が知っておくべき新しい自律型コーディングエージェント。"
+categories: ["Workflow & Best Practices"]
 tags: ["vibe-coding", "jules"]
-categories: ["AI & Development"]
 ---
 {{< translation-notice >}}
 

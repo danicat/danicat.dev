@@ -2,8 +2,8 @@
 date: '2025-10-21T15:44:03+01:00'
 title: 'Como Criar um Agente de Diagnóstico com o Agent Development Kit'
 summary: "Este artigo é um guia para criar um agente de diagnóstico com o Agent Development Kit (ADK). Ele aborda o processo de desenvolvimento e explica como usar o Vertex AI RAG para melhorar a qualidade das respostas do agente."
-categories: ["IA & Desenvolvimento"]
-tags: ["adk", "gemini", "vertex-ai", "python", "rag"]
+categories: ["AI & Development"]
+tags: ["adk", "gemini", "vertex-ai", "python", "rag", "tutorial"]
 ---
 ## Introdução
 
