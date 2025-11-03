@@ -408,12 +408,11 @@ try {
     const reader = response.body.getReader();
     const decoder = new TextDecoder();
 
-    setAvatarState('talking');
-
     while (true) {
         const { value, done } = await reader.read();
         if (done) break;
 
+        setAvatarState('talking');
         const chunk = decoder.decode(value, { stream: true });
         
         // Typing effect
