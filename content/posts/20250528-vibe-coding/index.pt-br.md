@@ -1,10 +1,10 @@
-+++
-date = "2025-05-28T16:30:00+01:00"
-title = "Qualquer um pode programar no \"vibe code\"?"
+---
+date: "2025-05-28T16:30:00+01:00"
+title: "Qualquer um pode programar no \"vibe code\"?"
 categories: ["Workflow & Best Practices"]
 tags: ["opinion", "vibe-coding"]
-summary = "Uma reflexão sobre o futuro da carreira de engenharia de software."
-+++
+summary: "Uma reflexão sobre o futuro da carreira de engenharia de software."
+---
 {{< translation-notice >}}
 ## Introdução
 Você acredita que um não engenheiro pode programar um aplicativo pronto para produção no "vibe code"? Esta é a pergunta sobre a qual tenho refletido ultimamente.
