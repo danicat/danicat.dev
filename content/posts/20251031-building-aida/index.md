@@ -2,7 +2,7 @@
 date = '2025-10-31T11:43:35Z'
 draft = false
 title = 'Beyond the Dev-UI: How to Build an Interface for an ADK agent'
-summary = "Go beyond the default ADK development UI and learn how to build a custom, retro-style frontend for your Google ADK agent. This tutorial walks you through creating a Python and FastAPI backend to manage the agent runtime and a vanilla JavaScript frontend to render the chat interface. Discover how to generate visual assets with generative AI, create a streaming animated avatar, and synchronize its animations with the agent's real-time responses for a more engaging user experience."
+summary = "Elevate your Google ADK agent with a custom, retro-style interface. This step-by-step guide shows you how to replace the standard Dev-UI using FastAPI and vanilla JavaScript, adding personality with a real-time streaming, AI-generated avatar."
 categories = ["AI & Development"]
 tags = ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
 +++
