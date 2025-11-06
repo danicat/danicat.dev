@@ -61,10 +61,16 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
 *   **Runnable Examples:** Whenever possible, snippets should be copy-paste runnable.
 *   **Visuals:** Use Mermaid.js for flowcharts and sequence diagrams, or high-quality screenshots for UI elements. Visuals should clarify complex concepts, not just break up text.
 *   **Citations:** Always link to official documentation, specifications, or source code when referenced.
+*   **Technical Term Formatting:**
+    *   **Backticks (`code style`):** Use only for syntactical elements you would literally type in a terminal or editor (exact command binaries like `ollama run`, file paths, function names, specific package identifiers).
+    *   **Plain Text (Capitalized):** Use for the abstract concept, project, product, or community (e.g., "The Osquery community," "We used Ollama").
+    *   **First Mention:** Bold or link the first significant mention of a key tool to introduce it.
 
 ## Style: Watch Words & Lazy Patterns
 
-To maintain our grounded tone, we avoid "lazy" writing constructs—clichés, hype, and filler that dilute the message. These words aren't strictly "forbidden," but their presence is a strong signal to stop and find a more precise, authentic way to express the idea.
+To maintain our grounded tone, we avoid "lazy" writing constructs—clichés, hype, and filler that dilute the message.
+
+**Important Note:** These words are signals to reflect, not automatic deletions. In our "cozy web" context, conversational fillers (like "naturally" or "great!") can enhance warmth and are acceptable. However, words that minimize complexity or patronize the reader must be removed. Distinguish between sounding like a human peer (good) and sounding dismissive of effort (bad).
 
 ### 1. The Hype Train (Avoid Grandiosity)
 *Words that try too hard to impress.*
