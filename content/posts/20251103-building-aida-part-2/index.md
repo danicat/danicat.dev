@@ -64,7 +64,7 @@ It's not quite at the level of [**Gemini 2.5 Flash**](https://deepmind.google/te
 
 ### Running local models with LiteLLM
 
-To connect Qwen to our Python agent, I used [**LiteLLM**](https://www.litellm.ai/), a library that provides a unified interface for LLM providers. This allows us to swap out the model with a single line of code.
+To connect Qwen to agent the we use [**LiteLLM**](https://www.litellm.ai/), a library that provides a unified interface for LLM providers. This allows us to swap out the model with a single line of code:
 
 ```python
 # aida/agent.py
