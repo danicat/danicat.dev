@@ -30,7 +30,7 @@ layoutBackgroundHeaderSpace: false
 
 イベントでの講演をご希望の場合は、[daniela@danicat.dev](mailto:daniela@danicat.dev)まで、対象者、場所、日付などの詳細を添えてメッセージをお送りください。
 
-過去のコンテンツは[GitHub](https://github.com/danicat83/public-speaking)でご覧いただけます。
+過去のコンテンツは[GitHub](https://github.com/danicat/public-speaking)でご覧いただけます。
 
 ## ソーシャルメディア
 
