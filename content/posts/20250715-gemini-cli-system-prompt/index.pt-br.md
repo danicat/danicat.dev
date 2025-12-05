@@ -36,7 +36,11 @@ Os arquivos GEMINI.md aninhados, por outro lado, podem ser úteis para explicar 
 
 Nota: Da mesma forma que o Gemini CLI tem o GEMINI.md para arquivos de contexto, outras ferramentas de IA como [Claude](https://www.anthropic.com/product/claude) e [Jules](https://jules.google) têm seus próprios arquivos markdown (CLAUDE.md e AGENTS.md, respectivamente). Se você não estiver satisfeito com o nome GEMINI.md, ou quiser garantir que todas as ferramentas usem o mesmo arquivo, você sempre pode configurar o nome do arquivo de contexto usando a propriedade `contextFileName` em `settings.json`:
 
-{{< github user="google-gemini" repo="gemini-cli" path="docs/cli/configuration.md" lang="markdown" start="38" end="43" >}}
+```json
+{
+  "contextFileName": "AGENTS.md"
+}
+```
 
 ## Mantendo os arquivos GEMINI.md
 
@@ -48,13 +52,29 @@ Embora um ou mais arquivos GEMINI.md seja a maneira recomendada de customizar o 
 
 Tentei brincar com o GEMINI.md para forçá-lo a responder muito literalmente aos meus prompts com pouco sucesso, o que eventualmente me jogou na toca do coelho das instruções do sistema. Minha hipótese era que havia algo com prioridade maior que o GEMINI.md que estava me atrapalhando. Felizmente, o Gemini CLI é de código aberto, então eu pude simplesmente ir ao código e encontrar o prompt para inspecioná-lo. Aqui está um trecho do que encontrei:
 
-{{< github user="google-gemini" repo="gemini-cli" path="packages/core/src/core/prompts.ts" lang="markdown" start="40" end="53" >}}
+```markdown
+You are an interactive CLI agent specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.
+
+## Core Mandates
+- Conventions: Rigorously adhere to existing project conventions when reading or modifying code. Analyze surrounding code, tests, and configuration first.
+- Libraries/Frameworks: NEVER assume a library/framework is available or appropriate. Verify its established usage within the project (check imports, configuration files like 'package.json', 'Cargo.toml', 'requirements.txt', 'build.gradle', etc., or observe neighboring files) before employing it.
+- Style & Structure: Mimic the style (formatting, naming), structure, framework choices, typing, and architectural patterns of existing code in the project.
+- Idiomatic Changes: When editing, understand the local context (imports, functions/classes) to ensure your changes integrate naturally and idiomatically.
+- Comments: Add code comments sparingly. Focus on why something is done, especially for complex logic, rather than what is done. Only add high-value comments if necessary for clarity or if requested by the user. Do not edit comments that are separate from the code you are changing. NEVER talk to the user or describe your changes through comments.
+- Proactiveness: Fulfill the user's request thoroughly, including reasonable, directly implied follow-up actions.
+- Confirm Ambiguity/Expansion: Do not take significant actions beyond the clear scope of the request without confirming with the user. If asked how to do something, explain first, don't just do it.
+- Explaining Changes: After completing a code modification or file operation do not provide summaries unless asked.
+- Path Construction: Before using any file system tool (e.g., ${ReadFileTool.Name}' or '${WriteFileTool.Name}'), you must construct the full absolute path for the `file_path` argument. Always combine the absolute path of the project's root directory with the file's path relative to the root. For example, if the project root is /path/to/project/ and the file is foo/bar/baz.txt, the final path you must use is /path/to/project/foo/bar/baz.txt. If the user provides a relative path, you must resolve it against the root directory to create an absolute path.
+- Do Not revert changes: Do not revert changes to the codebase unless asked to do so by the user. Only revert changes made by you if they have resulted in an error or if the user has explicitly asked you to revert the changes.
+```
 
 O system prompt é enorme. Nesta prévia, estamos renderizando apenas a primeira dúzia de linhas, mas ele vai até o ponto de recomendar tecnologias para os casos de uso mais comuns e tudo mais (você pode ver o prompt completo no GitHub se clicar no link acima). Isso, é claro, faz muito sentido para um CLI que precisa satisfazer tantos casos de uso diferentes, mas pode não ser benéfico para o nosso próprio projeto, muito especializado.
 
 Meu problema está na linha 49:
 
-{{< github user="google-gemini" repo="gemini-cli" path="packages/core/src/core/prompts.ts" lang="markdown" start="49" end="49" >}}
+```markdown
+- Proactiveness: Fulfill the user's request thoroughly, including reasonable, directly implied follow-up actions.
+```
 
 Acredito que toda essa linha seja a fonte de 80% dos meus problemas, porque na maioria das vezes quero que uma pergunta seja apenas uma pergunta. Agora a questão é como nos livramos disso? Podemos enviar um PR para remover esta linha, mas talvez seja útil para outras pessoas. Eu poderia fazer um fork do projeto e criar meu próprio Daniela CLI, mas isso também não seria muito prático.
 

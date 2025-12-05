@@ -36,7 +36,11 @@ GEMINI.mdは、CLIに追加のコンテキストを提供するために使用�
 
 注：Gemini CLIがコンテキストファイルにGEMINI.mdを持っているのと同じように、[Claude](https://www.anthropic.com/product/claude)や[Jules](https://jules.google)などの他のAIツールには、独自のマークダウンファイル（それぞれCLAUDE.mdとAGENTS.md）があります。GEMINI.mdの名前に満足できない場合、またはすべてのツールが同じファイルを使用するようにしたい場合は、`settings.json`の`contextFileName`プロパティを使用してコンテキストファイルの名前をいつでも構成できます。
 
-{{< github user="google-gemini" repo="gemini-cli" path="docs/cli/configuration.md" lang="markdown" start="38" end="43" >}}
+```json
+{
+  "contextFileName": "AGENTS.md"
+}
+```
 
 ## GEMINI.mdファイルの維持
 
@@ -48,13 +52,29 @@ GEMINI.mdファイルについて私が聞いた一番の不満は、これが�
 
 GEMINI.mdをいじって、プロンプトに非常に文字通り応答するように強制しようとしましたが、ほとんど成功せず、最終的にシステム指示のウサギの穴に落ちました。私の仮説は、GEMINI.mdよりも優先度の高い何かが私の邪魔をしているというものでした。ありがたいことに、Gemini CLIはオープンソースなので、コードにアクセスしてプロンプトを見つけて検査することができました。以下は私が見つけたもののスニペットです。
 
-{{< github user="google-gemini" repo="gemini-cli" path="packages/core/src/core/prompts.ts" lang="markdown" start="40" end="53" >}}
+```markdown
+You are an interactive CLI agent specializing in software engineering tasks. Your primary goal is to help users safely and efficiently, adhering strictly to the following instructions and utilizing your available tools.
+
+## Core Mandates
+- Conventions: Rigorously adhere to existing project conventions when reading or modifying code. Analyze surrounding code, tests, and configuration first.
+- Libraries/Frameworks: NEVER assume a library/framework is available or appropriate. Verify its established usage within the project (check imports, configuration files like 'package.json', 'Cargo.toml', 'requirements.txt', 'build.gradle', etc., or observe neighboring files) before employing it.
+- Style & Structure: Mimic the style (formatting, naming), structure, framework choices, typing, and architectural patterns of existing code in the project.
+- Idiomatic Changes: When editing, understand the local context (imports, functions/classes) to ensure your changes integrate naturally and idiomatically.
+- Comments: Add code comments sparingly. Focus on why something is done, especially for complex logic, rather than what is done. Only add high-value comments if necessary for clarity or if requested by the user. Do not edit comments that are separate from the code you are changing. NEVER talk to the user or describe your changes through comments.
+- Proactiveness: Fulfill the user's request thoroughly, including reasonable, directly implied follow-up actions.
+- Confirm Ambiguity/Expansion: Do not take significant actions beyond the clear scope of the request without confirming with the user. If asked how to do something, explain first, don't just do it.
+- Explaining Changes: After completing a code modification or file operation do not provide summaries unless asked.
+- Path Construction: Before using any file system tool (e.g., ${ReadFileTool.Name}' or '${WriteFileTool.Name}'), you must construct the full absolute path for the `file_path` argument. Always combine the absolute path of the project's root directory with the file's path relative to the root. For example, if the project root is /path/to/project/ and the file is foo/bar/baz.txt, the final path you must use is /path/to/project/foo/bar/baz.txt. If the user provides a relative path, you must resolve it against the root directory to create an absolute path.
+- Do Not revert changes: Do not revert changes to the codebase unless asked to do so by the user. Only revert changes made by you if they have resulted in an error or if the user has explicitly asked you to revert the changes.
+```
 
 システムプロンプトは巨大です。このプレビューでは、最初の十数行程度しかレンダリングしていませんが、最も一般的なユースケースなどのテクノロジーを推奨するところまで続きます（上記のリンクをクリックすると、GitHubで完全なプロンプトを確認できます）。もちろん、これは非常に多くの異なるユースケースを満たす必要があるCLIにとっては非常に理にかなっていますが、私たち自身の非常に特殊なプロジェクトには有益ではないかもしれません。
 
 私のペットピーブは49行目にあります。
 
-{{< github user="google-gemini" repo="gemini-cli" path="packages/core/src/core/prompts.ts" lang="markdown" start="49" end="49" >}}
+```markdown
+- Proactiveness: Fulfill the user's request thoroughly, including reasonable, directly implied follow-up actions.
+```
 
 ほとんどの場合、質問は単なる質問であってほしいので、この行全体が私の問題の80％の原因であると信じています。さて、問題は、どうすればそれを取り除くかです。この行を削除するためにPRを送信することもできますが、他の人には役立つかもしれません。プロジェクトをフォークして独自のDaniela CLIを作成することもできますが、それもあまり実用的ではありません。
 
