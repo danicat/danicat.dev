@@ -2,50 +2,50 @@
 
 This document outlines the editorial philosophy for `danicat.dev`. Our goal is to publish technical content that is deeply human, rigorously accurate, and genuinely helpful. We aim for the "cozy web" aesthetic—a space that feels like a thoughtful conversation with a competent peer, rather than a corporate broadcast or a dry academic paper.
 
-## Core Philosophy
+## Core philosophy
 
-*   **The "Cozy Web" Vibe:** We value authenticity over polish. The site should feel like a well-tended digital garden, inviting and personal.
+*   **Authenticity:** We value authenticity over polish. The site is a personal space, not a content farm. We value human insight over polished marketing copy.
 *   **Competent Peer Audience:** Assume the reader is smart but lacks specific context. They don't need "Hello World" explained, but they do need clear reasoning for architectural choices or new patterns.
 *   **Narrative First:** Every article needs a narrative thread. We avoid purely functional, context-free tutorials. We want to know *why* you built this, what hurt along the way, and what you learned.
 
-## Tone of Voice: Grounded Expressivity
+## Tone of voice
 
-We want expressive, engaging writing, but it must remain grounded in reality.
+We want expressive, engaging writing that remains grounded in reality.
 
-*   **Honest (Pain and Payoff):** Do not sanitize the process. Highlight cryptic error messages, flawed initial assumptions, and the hours lost to silly mistakes. These struggles often contain the most valuable lessons.
-*   **Show, Don't Sell:** Avoid marketing hype. Don't tell us a technology "shines" or is "revolutionary." Show us the specific problem it solved elegantly. Let the reader be impressed by the facts, not your adjectives.
+*   **Transparency:** Show the work, including the mistakes. Highlight cryptic error messages, flawed initial assumptions, and the hours lost to silly mistakes. These struggles often contain the most valuable lessons.
+*   **Show, Don't Sell:** Avoid marketing hype. Don't tell us a technology "shines" or is "revolutionary." Show us the specific problem it solved elegantly. Focus on the evidence.
 *   **Professional, Not Corporate:** Speak directly to the reader as an equal. Avoid stiff, passive corporate language ("It was determined that..."). Use "I" and "we."
-*   **Objective Empowerment:** Avoid subjective ease-of-use judgments (e.g., "simply," "just," "easy"). What is easy for you might be hard for someone else. State the facts and let the reader decide.
+*   **Precision:** Avoid subjective judgments (e.g., "simply," "just," "easy"). What is easy for you might be hard for someone else. State the facts and let the reader decide.
 
-## Article Structure (Narrative Models)
+## Article structure (Narrative models)
 
-Avoid formulaic, cookie-cutter patterns. The structure should serve the story. While standard elements (Intro/Hook, Context, Body, Takeaways, Resources) are usually present, how you arrange them depends on the narrative.
+The structure should serve the story.
 
 Consider these models as inspiration, not rigid templates:
 
 *   **The Debugging Mystery:** A detective story starting with a baffling error and tracing the clues to a solution.
-*   **The Personal Experience Report:** A chronological journey of building or learning something new, focusing on the "aha" moments and the dead ends.
+*   **The Personal Experience Report:** A chronological journey of building or learning something new, focusing on the breakthroughs and the dead ends.
 *   **The Deep-Dive Exploration:** A thorough, curiosity-driven examination of a specific technology's internals.
 *   **The Event Summary:** A report from a conference or meetup, focusing on atmosphere, key takeaways, and personal connections rather than just listing talks.
 *   **The Interview:** A structured conversation distilled into key insights.
 
-## Taxonomy Standards
+## Taxonomy standards
 
 We use a strict taxonomy to keep content organized and discoverable.
 
-### Categories (Broad Themes)
+### Categories (Broad themes)
 Use **only** these four core categories. Do not create new ones.
 *   **`AI & Development`**: For all technical deep dives, coding, GenAI, MCP, etc.
 *   **`Workflow & Best Practices`**: For process, tools, and "vibe coding" philosophy.
 *   **`Career & Personal`**: For non-technical reflections, milestones, and career advice.
 *   **`Meta`**: For posts about the blog itself.
 
-### Tags (Specific Topics)
+### Tags (Specific topics)
 *   **Format:** Always **lowercase** and **kebab-case** (e.g., `vibe-coding`, `google-cloud`).
 *   **Language Agnostic:** Use English tags even for translated posts to ensure unified linking across languages.
 *   **Content Types as Tags:** Use tags for content types like `tutorial`, `keynote`, or `interview` instead of categories.
 
-## Capitalization Standards
+## Capitalization standards
 
 To maintain a consistent, modern, and conversational feel, we adhere to the following capitalization rules:
 
@@ -55,7 +55,12 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
     *   *Example:* `Building the backend with the ADK runtime`
     *   *Example:* `Vibe coding the UI with Gemini`
 
-## Technical Standards
+## Spelling standards
+
+*   **British English:** Use British spelling conventions (e.g., `colour`, `behaviour`, `prioritise`, `centre`).
+    *   *Exception:* Keep American spelling if it is part of a specific proper noun, command, or technical term (e.g., `Program Files`, `disk`).
+
+## Technical standards
 
 *   **Code with Context:** Code snippets must be accurate and idiomatic. Crucially, explain *why* the code does what it does, not just *what* it does. Comments should focus on non-obvious logic.
 *   **Runnable Examples:** Whenever possible, snippets should be copy-paste runnable.
@@ -66,28 +71,61 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
     *   **Plain Text (Capitalized):** Use for the abstract concept, project, product, or community (e.g., "The Osquery community," "We used Ollama").
     *   **First Mention:** Bold or link the first significant mention of a key tool to introduce it.
 
-## Style: Watch Words & Lazy Patterns
+## Visual standards
 
-To maintain our grounded tone, we avoid "lazy" writing constructs—clichés, hype, and filler that dilute the message.
+We aim for a consistent, high-quality visual identity that blends modern tech aesthetics with a touch of personal flair.
 
-**Important Note:** These words are signals to reflect, not automatic deletions. In our "cozy web" context, conversational fillers (like "naturally" or "great!") can enhance warmth and are acceptable. However, words that minimize complexity or patronize the reader must be removed. Distinguish between sounding like a human peer (good) and sounding dismissive of effort (bad).
+### Hero Images (Featured)
+*   **Style:** High-quality **2D Anime**. Avoid generic cartoons or overly gloomy styles unless thematically appropriate.
+*   **Aspect Ratio:** 16:9.
+*   **Themes:** The Engineer as Hero. Triumph over chaos (bugs, "AI slop", deadlines). Celebration of mastery.
+*   **Elements:**
+    *   **Magic/Tech:** Glowing code, magical swords (e.g., with the 4-point star Gemini logo), data streams.
+    *   **Contrast:** Play with light (order/engineer) vs. dark (chaos/bugs).
+    *   **Vibe:** Excitement, vibrancy, high energy. Don't be afraid of anime tropes (power-ups, beam struggles, sparkles).
 
-### 1. The Hype Train (Avoid Grandiosity)
-*Words that try too hard to impress.*
+### In-Article Illustrations (UI/Screenshots)
+*   **Style:** Modern, flat, clean digital UI mockups (resembling tools like Linear, Trello, or modern IDEs).
+*   **Perspective:** Direct, flat screen capture view. Avoid 3D tilts, desk backgrounds, or clutter.
+*   **Content:** Text within the image matters. Use specific copy to illustrate points.
+*   **Theme:** Light mode or clean Dark mode. Consistent flat design.
+
+### Diagrams
+*   **Style:** Clean, minimalist, professional, flat design.
+*   **Background:** White or very light grey.
+*   **Palette:** Modern, warm, or pastel colors. Avoid harsh primaries.
+*   **Typography:** High contrast, legible, sans-serif.
+*   **Layout:** Balanced usage of space.
+*   **Rule:** **No titles embedded in the image.** Let the article text or caption handle the title.
+*   **Consistency:** If using multiple related diagrams, they **must** share the exact same visual style, dimensions, and font sizes.
+
+## Style guide
+
+**Important Note:** These words are signals to reflect, not automatic deletions. In our context, conversational fillers (like "naturally" or "great!") can enhance warmth and are acceptable. However, words that minimize complexity or patronize the reader must be removed. Distinguish between sounding like a human peer (good) and sounding dismissive of effort (bad).
+
+### 1. Grandiosity
 *   **Watch list:** `revolutionary`, `shines`, `perfect`, `unparalleled`, `game-changer`, `fundamentally changed`.
 *   **Fix:** Replace with specific evidence. Instead of "It shines at data processing," use "It processed 10GB of data in 3 seconds."
 
-### 2. The Cliché Crutch
-*Overused metaphors that have lost their impact.*
+### 2. Overused metaphors
 *   **Watch list:** `aha! moment`, `missing link`, `silver bullet`, `weaving it all together`, `piece of the puzzle`.
 *   **Fix:** Describe the actual realization or connection. What specifically clicked into place?
 
-### 3. Emotional Filler
-*Words that tell the reader how to feel instead of showing them why.*
+### 3. Filler words
 *   **Watch list:** `surprisingly`, `interestingly`, `sadly`, `unfortunately`.
 *   **Fix:** Just state the surprising or interesting fact directly.
 
-### 4. The Patronizing Presumption
-*Words that assume the reader's skill level.*
+### 4. Minimizing language
 *   **Watch list:** `simply`, `just` (as in "just run this"), `obviously`, `easy`, `straightforward`.
 *   **Fix:** Remove them. "Run this command" is stronger and kinder than "Just run this command."
+
+## Current taxonomy
+
+| Category | Associated Tags |
+| :--- | :--- |
+| **AI & Development** | `adk`, `agent`, `ai`, `cloud-assist`, `codelab`, `frontend`, `gemini`, `gemini-cli`, `genai`, `golang`, `keynote`, `mcp`, `python`, `rag`, `terraform`, `tutorial`, `vertex-ai` |
+| **Workflow & Best Practices** | `gemini-cli`, `jules`, `opinion`, `tutorial`, `vibe-coding` |
+| **Career & Personal** | `community`, `devrel`, `google`, `mental-health`, `mental-models`, `milestone`, `psychology`, `time-perception` |
+| **Meta** | `blogging`, `hugo` |
+
+
