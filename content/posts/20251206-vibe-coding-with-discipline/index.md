@@ -15,25 +15,23 @@ I am very well aware of the original definition of vibe coding - ["(...) a new k
 
 ## Motivation: Why vibe code?
 
-Before digging deep into the practices, I want to share a bit about my background, as I believe it helps frame where I am coming from.
+Before digging deep into the practices, I want to share a bit about my background to frame where I am coming from.
 
-I have been a software engineer in some capacity for the past 20+ years. During this time, I developed a strong sense of what constitutes good and bad code. I've learned to prioritise readability, testability, and maintainability over "clever" code. I've learned to delay features to avoid overengineering, the value of thin slices, and the importance of a tight feedback loop with end users.
+I have been a software engineer for over 20 years, developing a strong sense of what constitutes good code. I've learned to prioritise readability and maintainability over "cleverness," to avoid overengineering, and to value thin slices and tight feedback loops.
 
-As my career evolved—from senior to tech lead and then principal engineer—I had to add new strategies to my toolbox: writing epics, breaking down tasks, negotiation, prioritisation, estimation, and retrospection. Eventually, I stopped being responsible just for my own code and became responsible for the code of everyone else around me.
+As I evolved from senior dev to principal engineer, my focus shifted from writing code to managing effectiveness — writing epics, negotiating scope, and overseeing the team's output. It’s an identity crisis many face: are you still an engineer if your name isn't on the PRs? You spend days in meetings, feeling like you're doing less "proper engineering" just as your responsibilities grow.
 
-It is easy to see yourself as an engineer when you are writing code, but less so when you are ensuring your team is effective. It becomes hard to say, "I did that," when the correlation between coordination and delivery isn't always clear. Your name might not even appear in PRs anymore. Are you even working? Yet, you seem to have less time for "proper engineering" as your schedule fills with back-to-back meetings.
+I think this conflict appears sooner or later for most people in this field. It invites the question: Is being an engineer just writing code? Or is it something more?
 
-I think this conflict appears sooner or later for most people in this field. It invites the question: What does being an engineer mean to you? Is it just writing code? Or is it something more?
+I must admit, my first experiences with vibe coding were poor. Early ChatGPT generated disappointing code, and I gave up on it. It was only mid-2024 when I gave it another go. The models had evolved significantly. For the first time, the AI suggested something I hadn't considered—and it was objectively better than my approach. Finally, generative AI felt useful.
 
-I must admit, my first experiences with vibe coding didn't leave a good impression. It was the early days of ChatGPT. I tried a few tests, but the generated code was so disappointing that I gave up on generative AI for a few years. It was only mid-2024 when I decided to give it another go. The models had evolved significantly. The experience wasn't perfect, but it wasn't bad either—for the first time, the AI suggested something I hadn't considered, and it was objectively better than my approach. Finally, generative AI felt less like a gimmick and more like a tool.
+I added GenAI to my toolbox for prototypes and "rubber duck" sessions. It grew on me. Conversely, writing code manually was becoming less exciting. You can only write so many APIs before the novelty wears off. We often find ourselves repeating patterns rather than creating something new.
 
-I added GenAI to my toolbox for prototypes, brainstorming, and "rubber duck" sessions. It grew on me. Conversely, writing code manually was becoming less exciting. Part of that I blame on the nature of commercial software: you can only write so many APIs before the novelty wears off. We often find ourselves repeating the same patterns rather than creating something new.
+Then, just as I started questioning my life choices, Google happened.
 
-Then, just as I started questioning my life choices, Google happened—the timing couldn't have been better!
+With the responsibility to speak about Gemini and agents, I upgraded my skills. I dug deeper into LLMs, the [Gemini CLI](https://geminicli.com/), and [Jules](https://jules.google/). In just a couple of months, I was using AI to code daily... but the biggest difference was: I was having fun again!
 
-With Google came the responsibility to upgrade my skills to speak from first-hand experience about Gemini, agents, and related technologies. I dug deeper into LLMs, agents, the [Gemini CLI](https://geminicli.com/), and [Jules](https://jules.google/). In just a couple of months, I was using AI to code daily... but the biggest difference was: I was having fun again!
-
-For me, the biggest improvement is that while I cannot type code as fast as I can think, I *can* type my ideas as they come. When I vibe code, I use the model as a proxy for my hands, delegating the writing while I focus on architecting the solution.
+For me, the biggest improvement is that while I cannot type code as fast as I can think, I *can* type my ideas as they come. When I vibe code, I use the model as a proxy for my hands, delegating the writing while I focus on the solution.
 
 ## Develop your prompting skills
 
@@ -133,7 +131,7 @@ Doing this before giving the model the actual task will prime it with the contex
 
 Sometimes, describing what you want with text is simply not enough. When working on AIDA, I wanted a specific user interface aesthetic—something like a "retro-cyberpunk-cute-anime" style. I could try to describe that in words, but it was far more effective to "show it" instead: as a starting point, I took a screenshot of an interface I liked and asked the Gemini CLI to replicate it.
 
-Because models like Gemini 2.5 are multi-modal, they can "understand" the image. You can simply reference an image file in your prompt and say: "I would like to update the UI [...] to an aesthetic that resembles this interface: @image.png".
+Because models like Gemini 2.5 Flash are multi-modal, they can "understand" the image. You can simply reference an image file in your prompt and say: "I would like to update the UI [...] to an aesthetic that resembles this interface: @image.png".
 
 Please note that this @ notation is agent-dependent (I used Gemini CLI for this example), but it is a common convention to inject resources (like files) into the prompt. You can think of them as "attachments".
 
