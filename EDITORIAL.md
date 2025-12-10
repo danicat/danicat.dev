@@ -71,6 +71,10 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
     *   **Plain Text (Capitalized):** Use for the abstract concept, project, product, or community (e.g., "The Osquery community," "We used Ollama").
     *   **First Mention:** Bold or link the first significant mention of a key tool to introduce it.
 
+## Formatting standards
+
+*   **Em Dashes:** Always surround em dashes ( — ) with spaces. Do not glue words together. For example: "The models had evolved — significantly" is correct, while "The models had evolved—significantly" is incorrect.
+
 ## Visual standards
 
 We aim for a consistent, high-quality visual identity that blends modern tech aesthetics with a touch of personal flair.

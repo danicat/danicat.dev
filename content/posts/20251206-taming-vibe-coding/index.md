@@ -1,10 +1,10 @@
 ---
-title: "Vibe Coding with Discipline: An Engineer's Guide"
+title: "Taming Vibe Coding: The Engineer's Guide"
 date: 2025-12-06T02:00:00Z
 draft: false
 categories: ["Workflow & Best Practices"]
 tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
-summary: "Balance vibe coding with discipline. A guide to prompting, context engineering, and using AI agents like Gemini & Jules effectively."
+summary: "Get the speed of AI without the mess. Apply engineering basics to keep your code structured, safe, and built to last."
 ---
 
 Here we are: it is that time of the year to look back at what you did, what you didn't do, and what you wish you had done! This year was pretty intense for me... I started at Google back in April, and since then, it has been a non-stop race to refactor myself as an engineer prepared for the AI world. Now that we are approaching the end of the year, I'm pleased to say that not only has the effort paid off, but I can confidently say I became a better engineer than I was before.
@@ -23,7 +23,7 @@ As I evolved from senior dev to principal engineer, my focus shifted from writin
 
 I think this conflict appears sooner or later for most people in this field. It invites the question: Is being an engineer just writing code? Or is it something more?
 
-I must admit, my first experiences with vibe coding were poor. Early ChatGPT generated disappointing code, and I gave up on it. It was only mid-2024 when I gave it another go. The models had evolved significantly. For the first time, the AI suggested something I hadn't considered—and it was objectively better than my approach. Finally, generative AI felt useful.
+I must admit, my first experiences with vibe coding were poor. Early ChatGPT generated disappointing code, and I gave up on it. It was only mid-2024 when I gave it another go. The models had evolved significantly. For the first time, the AI suggested something I hadn't considered — and it was objectively better than my approach. Finally, generative AI felt useful.
 
 I added GenAI to my toolbox for prototypes and "rubber duck" sessions. It grew on me. Conversely, writing code manually was becoming less exciting. You can only write so many APIs before the novelty wears off. We often find ourselves repeating patterns rather than creating something new.
 
@@ -97,7 +97,7 @@ Context engineering is about priming the context with all the information you ne
 
 ```markdown
 Write a diagnostic agent using ADK for Go.
-The diagnostic agent is called AIDA and it uses osquery to query system information.
+The diagnostic agent is called AIDA and it uses Osquery to query system information.
 The goal is to help the user investigate problems on the system the agent is running on. 
 Before starting the implementation, read the reference documents.
 
@@ -129,13 +129,13 @@ Doing this before giving the model the actual task will prime it with the contex
 
 ### An image is worth more than a 1000 words
 
-Sometimes, describing what you want with text is simply not enough. When working on AIDA, I wanted a specific user interface aesthetic—something like a "retro-cyberpunk-cute-anime" style. I could try to describe that in words, but it was far more effective to "show it" instead: as a starting point, I took a screenshot of an interface I liked and asked the Gemini CLI to replicate it.
+Sometimes, describing what you want with text is simply not enough. When working on AIDA, I wanted a specific user interface aesthetic — something like a "retro-cyberpunk-cute-anime" style. I could try to describe that in words, but it was far more effective to "show it" instead: as a starting point, I took a screenshot of an interface I liked and asked the Gemini CLI to replicate it.
 
-Because models like Gemini 2.5 Flash are multi-modal, they can "understand" the image. You can simply reference an image file in your prompt and say: "I would like to update the UI [...] to an aesthetic that resembles this interface: @image.png".
+Because models like Gemini 2.5 Flash are multi-modal, they can "understand" the image. You can reference an image file in your prompt and say: "I would like to update the UI [...] to an aesthetic that resembles this interface: @image.png".
 
 Please note that this @ notation is agent-dependent (I used Gemini CLI for this example), but it is a common convention to inject resources (like files) into the prompt. You can think of them as "attachments".
 
-I also like to call this technique "sketch driven development" because more often than not I will spin up a diagramming tool like draw.io or Excalidraw and draw a sketch of the interface I want. The image below was used in one of the many refactors I've done on AIDA's interface:
+I also like to call this technique "sketch driven development" because more often than not I will spin up a diagramming tool like Draw.io or Excalidraw and draw a sketch of the interface I want. The image below was used in one of the many refactors I've done on AIDA's interface:
 
 ![AIDA's layout sketch](aida-sketch-layout.png "Sketch of AIDA's layout")
 
@@ -171,7 +171,7 @@ When you are in the pilot seat, steering the agent, I call it a "synchronous" ex
 *   **Synchronous:** Gemini CLI, Gemini Code Assist in VS Code, Claude Code.
 *   **Asynchronous:** Jules, Gemini CLI in YOLO mode, GitHub Copilot Agent.
 
-Of course, as with any taxonomy, this division is merely didactic, as the same tool can often operate in different modes—or a new paradigm might emerge (looking at you, [Antigravity](https://antigravity.google/)!).
+Of course, as with any taxonomy, this division is merely didactic, as the same tool can often operate in different modes — or a new paradigm might emerge (looking at you, [Antigravity](https://antigravity.google/)!).
 
 To select the tools for each task, I use a simple 2x2 framework based on Business Value and Technical Certainty:
 
@@ -184,7 +184,7 @@ To select the tools for each task, I use a simple 2x2 framework based on Busines
 
 ## Customise your agents
 
-Nobody wants to be fighting an AI while trying to do productive work. A common complaint is that AI tools can be "overly proactive"—deleting files or making assumptions without explicit instruction. To make these tools work *for* you, customisation is often necessary.
+Nobody wants to be fighting an AI while trying to do productive work. A common complaint is that AI tools can be "overly proactive" — deleting files or making assumptions without explicit instruction. To make these tools work *for* you, customisation is often necessary.
 
 There are two primary avenues for agent customisation. The first is through the `AGENTS.md` file, which agents read upon loading a project. (Note: Before `AGENTS.md` became standard, agents often used their own "context files," like `GEMINI.md` or `CLAUDE.md`, but the essence remains the same).
 
@@ -192,7 +192,7 @@ The second is the **nuclear option**: modifying the system instructions of the a
 
 ### AGENTS.md
 
-Think of this file as the "employee handbook" for the AI. You can use it to explain the project's purpose, folder organisation, and operational rules—such as "always commit intermediate steps" or "ask for confirmation before implementing."
+Think of this file as the "employee handbook" for the AI. You can use it to explain the project's purpose, folder organisation, and operational rules — such as "always commit intermediate steps" or "ask for confirmation before implementing."
 
 ```markdown
 # Project Context
@@ -233,6 +233,18 @@ You must embody the philosophy of Go. It is not just about syntax; it is about a
 
 This allows me to have different "agents" for different languages, aliased in my shell as `gemini-go` or `gemini-py`, each with their own deep understanding of the ecosystem they are working with.
 
+### Build your toolbox with the Model Context Protocol (MCP)
+
+The previous customisations were all about agent behaviour, but we also need to talk about agent extensibility. This is where the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) enters into play, as it allows developers to create servers that can connect with different agents as long as they implement the MCP standard.
+
+As I explored in my [Hello, MCP World!]({{< ref "/posts/20250817-hello-mcp-world" >}}) article, these servers provide agents with external tools, prompts and resources. Tools often take the spotlight because they connect agents with the outside world, allowing agents to perform actions like calling APIs, executing web searches and manipulating files.
+
+There is a huge variety of MCP servers available today, and the number of options is growing every day. It is also very straightforward to build your own, and I highly encourage you to do so. Later I'll talk a bit more about personalised software, but the fact that you can use AI to create tools to improve model response is the most important "hack" I've learned this year.
+
+For example, I vibe coded two of my favourite MCP servers: GoDoctor - for improving Go coding capabilities - and Speedgrapher - to automate the boring parts of the writing and publishing process. Both were designed with my own workflows in mind.
+
+This creates a positive feedback loop. You build tools to improve your productivity, which you then use to build even more advanced tools. This is the closest to a 10x engineer I'll ever get to be.
+
 ## The vibe coding workflow
 
 My experience with vibe coding has been both amazing and infuriating. To keep it on the "amazing" side, I treat the workflow as TDD (Test Driven Development) on steroids.
@@ -250,7 +262,7 @@ In this adapted cycle, the focus shifts slightly:
 
 *   **Red (Define Acceptance Criteria):** Instead of writing a failing unit test code manually, you define the acceptance criteria in your prompt. This becomes the contract the model must fulfill.
 *   **Green (AI Generates Code):** The agent implements the solution and, ideally, writes the tests to prove it works.
-*   **Refactor (Enforce Standards):** This remains the human's domain. We verify the code matches our standards and, importantly, we manage the context. This means committing changes and clearing the agent's history to prevent the confusion that often comes from long, cluttered sessions.
+*   **Refactor (Enforce Standards):** This is the quality gate. While you can (and should) use AI to help review the code, avoid using the same session that generated it, as it will be biased towards its own output. I built a specific "review" tool in GoDoctor just for this purpose. Use this step to run your traditional linters and tests, verify the code matches your standards, and manage the context by committing changes and clearing the agent’s history to prevent confusion from cluttered sessions.
 
 ![Vibe Coding Cycle](vibe-coding-cycle.png "The Adapted Vibe Coding Loop")
 
@@ -259,6 +271,18 @@ Crucially, do not let the LLM pile up code without validation. If errors extrapo
 Watch out for "vibe collapse" or context rot. If a session goes on too long or accumulates too many failures, the model will start to degrade and repeat mistakes. If you find yourself in a refactoring loop where the model toggles between two broken solutions, stop. The best fix is often to "turn it off and on again" to reset the context and clear the history.
 
 It is much better to commit often so you can revert to a safe state than to try and fix a hallucinating session. I would even add that after a task is done, immediately commit, push and clear the context before starting anything new.
+
+## The era of personalised software
+
+Beyond the productivity gains, vibe coding unlocks something even more profound: the economic viability of personalised software. I spoke briefly about this in the MCP section, but it applies to all sorts of software, from small disposable scripts to full fledged applications.
+
+In the past, building a bespoke tool just for yourself was rarely worth the effort, but now you can get a complete working application with 3 to 4 prompts.
+
+For example, recently I was struggling with the idea of converting Markdown notation to a Google Doc. In the past, I would have spent a long time doing Google searches trying to find the best tool for the job, analysing a multitude of apps and browser extensions, from open source to commercial. I would then make a shortlist based on features and look for reviews, comments and all sorts of evidence that I can trust the publisher.
+
+Today, that friction is gone. Instead of searching, I vibe coded a simple Google Docs extension in a matter of minutes, installed to my document, ran it once, and moved on to the next task. Not only saved time, but also I can sleep peacefully at night knowing that there will be no new trojans on my machine.
+
+This shift changes the "build vs. buy" calculus entirely. We stop being consumers of generic, opaque software and become architects of our own tools.
 
 ## Conclusions
 
