@@ -7,7 +7,7 @@ tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
 summary: "Get the speed of AI without the mess. Apply engineering basics to keep your code structured, safe, and built to last."
 ---
 
-Here we are: it is that time of the year to reflect on what you did and what you wish you had done. This year was intense for me: I joined Google in April and began a non-stop race to refactor myself for the AI world. As the year ends, I can confidently say the effort paid off — I've become a better engineer.
+It is that time of the year to reflect on what you did and what you wish you had done. This year was intense for me: I joined Google in April and began a non-stop race to refactor myself for the AI world. As the year ends, I can confidently say the effort paid off — I've become a better engineer.
 
 In this article, I share how my understanding of "vibe coding" evolved and the lessons I've learned. While often seen as a way for non-developers to build software using natural language, my goal is to show how adding engineering discipline yields better, more consistent results.
 
