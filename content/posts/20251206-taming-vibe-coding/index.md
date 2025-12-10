@@ -7,11 +7,11 @@ tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
 summary: "Get the speed of AI without the mess. Apply engineering basics to keep your code structured, safe, and built to last."
 ---
 
-Here we are: it is that time of the year to look back at what you did, what you didn't do, and what you wish you had done! This year was pretty intense for me... I started at Google back in April, and since then, it has been a non-stop race to refactor myself as an engineer prepared for the AI world. Now that we are approaching the end of the year, I'm pleased to say that not only has the effort paid off, but I can confidently say I became a better engineer than I was before.
+Here we are: it is that time of the year to reflect on what you did and what you wish you had done. This year was intense for me: I joined Google in April and began a non-stop race to refactor myself for the AI world. As the year ends, I can confidently say the effort paid off — I've become a better engineer.
 
-In this article, I want to focus on how my understanding of vibe coding evolved throughout the year and share a collection of learnings I've accumulated along the way. While vibe coding is often associated with enabling non-developers to build software using natural language, my goal is to show how we can incorporate engineering discipline into the mix for better and more consistent results.
+In this article, I share how my understanding of "vibe coding" evolved and the lessons I've learned. While often seen as a way for non-developers to build software using natural language, my goal is to show how adding engineering discipline yields better, more consistent results.
 
-I am very well aware of the original definition of vibe coding - ["(...) a new kind of coding (...) where you fully give in to the vibes, embrace exponentials, and forget that the code even exists."](https://x.com/karpathy/status/1886192184808149383?lang=en) - and I recognise that some concepts I propose here will contradict this, as I never really "forget that the code even exists". Nevertheless, I think most people will agree that the term has evolved beyond its original definition to become almost a synonym for AI-assisted coding. So for the scope of this text, let's assume that vibe coding is the practice of coding with LLMs where the actual code is predominantly written by the model instead of being manually typed by the engineer.
+I know the original definition — ["(...) give in to the vibes (...) and forget that the code even exists"](https://x.com/karpathy/status/1886192184808149383?lang=en) — and some of my concepts will contradict that. I never "forget the code exists." However, the term has evolved into a synonym for AI-assisted coding. For this text, let's define vibe coding as coding with LLMs where the model writes the bulk of the code, not the engineer.
 
 ## Motivation: Why vibe code?
 
