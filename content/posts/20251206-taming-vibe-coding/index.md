@@ -241,7 +241,7 @@ As I explored in my [Hello, MCP World!]({{< ref "/posts/20250817-hello-mcp-world
 
 There is a huge variety of MCP servers available today, and the number of options is growing every day. It is also very straightforward to build your own, and I highly encourage you to do so. Later I'll talk a bit more about personalised software, but the fact that you can use AI to create tools to improve model response is the most important "hack" I've learned this year.
 
-For example, I vibe coded two of my favourite MCP servers: GoDoctor - for improving Go coding capabilities - and Speedgrapher - to automate the boring parts of the writing and publishing process. Both were designed with my own workflows in mind.
+For example, I vibe coded two of my favourite MCP servers: [GoDoctor](https://github.com/danicat/godoctor) - for improving Go coding capabilities - and [Speedgrapher](https://github.com/danicat/speedgrapher) - to automate the boring parts of the writing and publishing process. Both were designed with my own workflows in mind.
 
 This creates a positive feedback loop. You build tools to improve your productivity, which you then use to build even more advanced tools. This is the closest to a 10x engineer I'll ever get to be.
 
