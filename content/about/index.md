@@ -22,7 +22,13 @@ showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
 ---
-Daniela Petruzalek is an experienced IT professional with background in software engineering, pre-sales and developer relations, currently a Senior Developer Relations Engineer at Google. Her specialisation is data engineering and back end development and she is a former Google Developer Expert in Go and Google Cloud Platform. She's also a Google Cloud Certified Data Engineer, Oracle Certified Professional and TEDx speaker. In her spare time she contributes to open source, plays video games and pets random cats on the streets.
+Daniela Petruzalek is a Senior Developer Relations Engineer at Google, based in London. She specializes in Go, Data Engineering, and the emerging ecosystem of AI Agents.
+
+With a background spanning over two decades in software engineering and pre-sales, Daniela has a passion for building efficient, scalable systems and helping other developers do the same. Before joining Google, she was a Google Developer Expert (GDE) for Go and Google Cloud Platform. She is also an Oracle Certified Professional and a TEDx speaker.
+
+Her current focus is everything around AI, from using AI to generate code, images, and text to creating AI-enabled applications like agents and other tools. She is a proponent of vibe coding with discipline, applying engineering rigor to AI-assisted workflows to build tools that make developers' lives easier.
+
+In her spare time, she contributes to open source, plays video games, and pets random cats on the streets.
 
 ## Speaking at Events
 
