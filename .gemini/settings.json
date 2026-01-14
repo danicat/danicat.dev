@@ -1,7 +1,15 @@
 {
     "mcpServers": {
         "speedgrapher": {
-            "command": "../speedgrapher/bin/speedgrapher"
+            "command": "speedgrapher"
+        },
+        "godoctor": {
+            "command": "godoctor",
+            "args": ["--experimental"]
+        },
+        "playwright": {
+            "command": "npx",
+            "args": [ "@playwright/mcp@latest"]
         }
     }
 }

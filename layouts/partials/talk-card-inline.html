@@ -1,0 +1,63 @@
+<div class="flex flex-wrap md:flex-nowrap article overflow-hidden">
+    
+    {{/* Image Column */}}
+    {{ if .image }}
+    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0 bg-contain bg-no-repeat bg-center" style="background-image:url({{ .image }});"></div>
+    {{ else }}
+    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600 p-4">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 100%; height: 100%;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+        </svg>
+    </div>
+    {{ end }}
+
+    {{/* Content Column */}}
+    <div class="mt-3 md:mt-0 flex flex-col flex-grow min-w-0">
+        <div class="mb-2">
+            <h3 class="text-xl font-bold text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
+                {{ .title }}
+            </h3>
+        </div>
+
+        {{ if .events }}
+        <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+            {{ range .events }}
+            <div class="flex flex-wrap items-baseline gap-x-1">
+                {{ if .url }}
+                <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline text-primary-600 dark:text-primary-400">
+                    {{ .name }}
+                </a>
+                {{ else }}
+                <span class="font-medium">{{ .name }}</span>
+                {{ end }}
+                <span class="opacity-75">• {{ .date | time.Format ":date_medium" }} • {{ .location }}</span>
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+
+        <div class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4 prose dark:prose-invert max-w-none">
+            {{ .summary }}
+        </div>
+
+        <div class="flex flex-wrap gap-6 items-center mt-4" style="gap: 1.5rem;">
+            {{ if .slides }}
+            <a href="{{ .slides }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                Slides
+            </a>
+            {{ end }}
+            {{ if .recording }}
+            <a href="{{ .recording }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Recording
+            </a>
+            {{ end }}
+        </div>
+    </div>
+</div>

@@ -1,137 +1,94 @@
 {{ define "main" }}
-
 {{ .Scratch.Set "scope" "list" }}
-{{ if .Site.Params.list.showHero | default false }}
-{{ $heroStyle := print "hero/" .Site.Params.list.heroStyle ".html" }}
-{{ if templates.Exists ( printf "partials/%s" $heroStyle ) }}
-{{ partial $heroStyle . }}
-{{ else }}
-{{ partial "hero/basic.html" . }}
-{{ end }}
-{{- end -}}
 
-{{ $toc := and (.Params.showTableOfContents | default (.Site.Params.list.showTableOfContents | default false)) (in
-.TableOfContents "<ul") }} <header>
+<header>
   {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
   {{ partial "breadcrumbs.html" . }}
   {{ end }}
   <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
   <div class="mt-1 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-    {{ partial "article-meta/list.html" (dict "context" . "scope" "single") }}
+    {{ .Params.Description | default .Summary }}
   </div>
-  {{ $translations := .AllTranslations }}
-  {{ with .File }}
-    {{ $path := .Path }}
-    {{range $translations}}
-      {{ $lang := print "."  .Lang  ".md" }}
-      {{ $path = replace $path $lang ".md" }}
-    {{end}}
-  <script>
-    var oid = "views_{{ $path }}"
-    var oid_likes = "likes_{{ $path }}"
-  </script>
-  {{ $jsPage := resources.Get "js/page.js" }}
-  {{ $jsPage = $jsPage | resources.Minify | resources.Fingerprint "sha512" }}
-  <script type="text/javascript" src="{{ $jsPage.RelPermalink }}" integrity="{{ $jsPage.Data.Integrity }}"></script>
-  {{ end }}
-  </header>
-  <section class="{{ if $toc -}}
-      mt-12
-    {{- else -}}
-      mt-0
-    {{- end }} prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
-    {{ if $toc }}
-    <div class="order-first px-0 lg:order-last lg:max-w-xs ltr:lg:pl-8 rtl:lg:pr-8">
-      <div class="toc ltr:pl-5 rtl:pr-5 lg:sticky {{ if hasPrefix .Site.Params.header.layout "fixed" -}}
-      lg:top-[140px]{{ else }}lg:top-10{{ end }}">
-        {{ partial "toc.html" . }}
-      </div>
-    </div>
-    {{ end }}
+</header>
+
+<section class="mt-12 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
     <div class="min-w-0 min-h-0 max-w-prose">
       {{ .Content }}
     </div>
+</section>
 
+{{ $talks := .Site.Data.talks.talks }}
 
+{{ if gt (len $talks) 0 }}
+<section class="w-full mt-12">
+    <div class="flex flex-col gap-32">
+        {{ range $talks }}
+        <div class="flex flex-wrap md:flex-nowrap article mb-20">
+            
+            {{/* Image Column */}}
+            {{ if .image }}
+            <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url({{ .image }});"></div>
+            {{ else }}
+            <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                </svg>
+            </div>
+            {{ end }}
 
+            {{/* Content Column */}}
+            <div class="mt-3 md:mt-0 flex flex-col flex-grow min-w-0">
+                <div class="mb-2">
+                    <h3 class="text-xl font-bold text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
+                        {{ .title }}
+                    </h3>
+                </div>
 
-  </section>
-  {{ if gt .Pages 0 }}
+                {{ if .events }}
+                <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
+                    {{ range .events }}
+                    <div class="flex flex-wrap items-baseline gap-x-1">
+                        {{ if .url }}
+                        <a href="{{ .url }}" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline text-primary-600 dark:text-primary-400">
+                            {{ .name }}
+                        </a>
+                        {{ else }}
+                        <span class="font-medium">{{ .name }}</span>
+                        {{ end }}
+                        <span class="opacity-75">• {{ .date | time.Format ":date_medium" }} • {{ .location }}</span>
+                    </div>
+                    {{ end }}
+                </div>
+                {{ end }}
 
-    {{ $cardView := .Params.cardView | default (.Site.Params.list.cardView | default false) }}
-    {{ $cardViewScreenWidth := .Params.cardViewScreenWidth | default (.Site.Params.list.cardViewScreenWidth | default false) }}
-    {{ $groupByYear := .Params.groupByYear | default ($.Site.Params.list.groupByYear | default false) }}
-    {{ $orderByWeight := .Params.orderByWeight | default ($.Site.Params.list.orderByWeight | default false) }}
-    {{ $groupByYear := and (not $orderByWeight) $groupByYear }}
+                <div class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4 prose dark:prose-invert max-w-none">
+                    {{ .summary }}
+                </div>
 
-    {{ if not $cardView }}
-
-    <section class="space-y-10 w-full">
-      {{ $events := (.Pages.ByParam "eventStartDate").Reverse }}
-      {{ $groupedEvents := $events.GroupByDate "2006" "desc" }}
-      {{ range $groupedEvents }}
-      <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-        {{ .Key }}
-      </h2>
-      {{ range .Pages }}
-      {{ partial "event-card.html" . }}
-      {{ end }}
-      {{ end }}
-    </section>
-
-    {{ else }}
-
-      {{ if $groupByYear }}
-
-      {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
-        {{ if $cardViewScreenWidth }}
-        <div class="relative w-screen max-w-[1600px] px-[30px]" style="left: calc(max(-50vw,-800px) + 50%);">
+                <div class="flex flex-wrap gap-6 items-center mt-4" style="gap: 1.5rem;">
+                    {{ if .slides }}
+                    <a href="{{ .slides }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Slides
+                    </a>
+                    {{ end }}
+                    {{ if .recording }}
+                    <a href="{{ .recording }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Recording
+                    </a>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
         {{ end }}
-          <h2 class="mt-12 mb-3 text-2xl font-bold text-neutral-700 first:mt-8 dark:text-neutral-300">
-            {{ .Key }}
-          </h2>
-        <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 {{ if $cardViewScreenWidth }} xl:grid-cols-4 2xl:grid-cols-5 {{ end }}">
-          {{ range .Pages }}
-          {{ partial "article-link/card.html" . }}
-          {{ end }}
-        </section>
-        {{ if $cardViewScreenWidth }} </div> {{ end }}
-      {{ end }}
+    </div>
+</section>
+{{ end }}
 
-      {{ else }}
-
-        {{ if $cardViewScreenWidth }}
-        <div class="relative w-screen max-w-[1600px] px-[30px]" style="left: calc(max(-50vw,-800px) + 50%);">
-        <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-        {{ else }}
-        <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-        {{ end }}
-        {{ if not $orderByWeight }}
-          {{ range (.Paginate (.Pages.GroupByDate "2006")).PageGroups }}
-          {{ range .Pages }}
-          {{ partial "article-link/card.html" . }}
-          {{ end }}
-          {{ end }}
-        {{ else }}
-          {{ range (.Paginate (.Pages.ByWeight)).Pages }}
-          {{ partial "article-link/card.html" . }}
-          {{ end }}
-        {{ end }}
-        </section>
-        {{ if $cardViewScreenWidth }} </div> {{ end }}
-
-    {{ end }}
-
-    {{end}}
-
-  {{ else }}
-  <section class="mt-10 prose dark:prose-invert">
-    <p class="py-8 border-t">
-      <em>{{ i18n "list.no_articles" | emojify }}</em>
-    </p>
-  </section>
-  {{ end }}
-
-    {{ partial "pagination.html" . }}
-
-  {{ end }}
+{{ end }}

@@ -6,3 +6,4 @@ resources/*
 # Gemini CLI temporary files
 .issue/
 nanobanana-output/
+.playwright-mcp/

@@ -1,0 +1,283 @@
+{
+  "speaker": {
+    "firstName": "Daniela",
+    "lastName": "Petruzalek",
+    "tagline": "Developer Relations Engineer at Google",
+    "bio": "Daniela Petruzalek is a developer relations engineer at Google focused on Google Cloud Platform. Her specialisation is backend development and data engineering. She has previously worked at companies like JPMorgan, Oracle and ThoughtWorks. On her spare time she contributes to open source, plays video games and pets random cats on the streets.",
+    "speakerProfileUrl": "https://sessionize.com/daniela",
+    "photoUrl": "https://sessionize.com/image/838f-200o200o2-4RWiEd2HdfW1LrdrkkrE92.JPG",
+    "photoLargeUrl": "https://sessionize.com/image/ec0a-1000o1000o1-4RWiEd2HdfW1LrdrkkrE92.JPG"
+  },
+  "talks": [
+    {
+      "title": "How to create a diagnostics agent using Gemini and OSQuery",
+      "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\".",
+      "image": "/images/talks/diagnostic-agent.jpg",
+      "events": [
+        {
+          "name": "DevFest Scotland 2025",
+          "date": "2025-11-29",
+          "location": "Edinburgh, UK",
+          "url": "https://devfestscotland.com"
+        },
+        {
+          "name": "BiznagaFest 2025",
+          "date": "2025-10-25",
+          "location": "Malaga, Spain",
+          "url": "https://biznagafest.com/"
+        },
+        {
+          "name": "TDC Sao Paulo 2025",
+          "date": "2025-09-17",
+          "location": "Sao Paulo, Brazil",
+          "url": "https://thedevconf.com/tdc/2025/saopaulo/"
+        }
+      ],
+      "slides": "https://speakerdeck.com/danicat/how-to-create-a-diagnostic-agent-with-gemini-and-osquery",
+      "recording": null,
+      "tags": [
+        "AI",
+        "Gemini",
+        "OSQuery",
+        "Python"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "How to Build an MCP Server with Go and Gemini CLI",
+      "summary": "Hands-on workshop on building and deploying a Model Context Protocol (MCP) server to extend the capabilities of the Gemini CLI, transforming it into a specialized development expert.",
+      "image": null,
+      "events": [
+        {
+          "name": "DevFest London 2025",
+          "date": "2025-11-22",
+          "location": "London, UK",
+          "url": "https://devfestlondon.com"
+        },
+        {
+          "name": "DevFest @ Bletchley Park 2025",
+          "date": "2025-11-15",
+          "location": "Bletchley Park, UK",
+          "url": "https://tnmoc.org"
+        }
+      ],
+      "slides": null,
+      "recording": null,
+      "tags": [
+        "golang",
+        "AI",
+        "MCP",
+        "Workshop"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "A Gopher's Guide to Vibe Coding",
+      "summary": "As vibe coding quickly becomes the new buzzword we Gophers could not be left out of this party. In this talk I'm going to share my experiences while developing testquery - a tool to extract information from Go tests - starting from product ideation to the implementation.",
+      "image": "/images/talks/vibe-coding.jpg",
+      "events": [
+        {
+          "name": "DevFest Birmingham 2025",
+          "date": "2025-11-21",
+          "location": "Birmingham, UK",
+          "url": "https://devfestbirmingham.com"
+        },
+        {
+          "name": "GopherCon South Africa 2025",
+          "date": "2025-08-06",
+          "location": "Online",
+          "url": "https://gopherconf.co.za/"
+        },
+        {
+          "name": "GopherCon UK 2024",
+          "date": "2024-08-16",
+          "location": "London, UK",
+          "url": "https://www.gophercon.co.uk/"
+        }
+      ],
+      "slides": "https://speakerdeck.com/danicat/a-gophers-guide-to-vibe-coding-b7ee3039-5fc6-45a0-8e94-ef4ade3f1e73",
+      "recording": "https://www.youtube.com/watch?v=keh-_VJtIwE",
+      "tags": [
+        "golang",
+        "AI",
+        "Vibe Coding"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Hello, MCP World!",
+      "summary": "Keynote presentation at GopherCon UK 2025. An introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks used to create AI-enabled applications with Go.",
+      "image": "/images/talks/hello-mcp-world.jpg",
+      "events": [
+        {
+          "name": "DevFest @ Bletchley Park 2025",
+          "date": "2025-11-16",
+          "location": "Bletchley Park, UK",
+          "url": "https://tnmoc.org"
+        },
+        {
+          "name": "GopherCon UK 2025",
+          "date": "2025-08-14",
+          "location": "London, UK",
+          "url": "https://www.gophercon.co.uk/"
+        }
+      ],
+      "slides": "https://speakerdeck.com/danicat/hello-mcp-world",
+      "recording": "https://www.youtube.com/watch?v=WzfYd6cV4gE",
+      "tags": [
+        "AI",
+        "MCP",
+        "golang",
+        "Keynote"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Go for GenAI!",
+      "summary": "Keynote presentation at DevFest @ Bletchley Park 2025. Exploring the intersection of Go and Generative AI, demonstrating how to build robust, production-ready AI applications using the Go ecosystem.",
+      "image": "/images/talks/go-genai.jpg",
+      "events": [
+        {
+          "name": "DevFest @ Bletchley Park 2025",
+          "date": "2025-11-15",
+          "location": "Bletchley Park, UK",
+          "url": "https://tnmoc.org"
+        }
+      ],
+      "slides": "https://speakerdeck.com/danicat/go-for-genai",
+      "recording": null,
+      "tags": [
+        "golang",
+        "AI",
+        "GenAI",
+        "Keynote"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Gemini 2.x for Developers",
+      "summary": "Hands-on workshop on building and deploying applications with the latest Gemini 2.x models, covering multimodal capabilities, tool use, and best practices for developer workflows.",
+      "image": null,
+      "events": [
+        {
+          "name": "WeAreDevelopers World Congress 2025",
+          "date": "2025-07-09",
+          "location": "Berlin, Germany",
+          "url": "https://www.wearedevelopers.com/world-congress/"
+        }
+      ],
+      "slides": null,
+      "recording": null,
+      "tags": [
+        "AI",
+        "Gemini",
+        "Workshop"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Production Ready 'Hello, World!'",
+      "summary": "Going beyond the basics to implement a 'hello world' API with production-grade documentation, logging, error handling, configuration, and testing.",
+      "image": "/images/talks/production-ready-hello-world.jpg",
+      "events": [
+        {
+          "name": "GopherCon UK 2024",
+          "date": "2024-08-14",
+          "location": "London, UK",
+          "url": "https://www.gophercon.co.uk/"
+        }
+      ],
+      "slides": "https://docs.google.com/presentation/d/1zkAvvb1jP2qhlOor4ka_W2EEv-f7rX_kgIWr-v1maC4/pub?start=false&loop=false&delayms=3000",
+      "recording": "https://www.youtube.com/watch?v=Lw4CVypP7jI",
+      "tags": [
+        "golang",
+        "Best Practices",
+        "API"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Who test the tests?",
+      "summary": "An exploration of mutation testing in Go. Learn how to programmatically rewrite code to ensure your tests are actually catching bugs.",
+      "image": "/images/talks/who-tests-the-tests.jpg",
+      "events": [
+        {
+          "name": "GopherCon 2024",
+          "date": "2024-07-09",
+          "location": "Chicago, IL, USA",
+          "url": "https://gophercon.com"
+        }
+      ],
+      "slides": "https://github.com/gophercon/2024-talks/tree/main/DanielaPetruzalek-WhoTestsTheTests",
+      "recording": "https://www.youtube.com/watch?v=av2f2okDOyk",
+      "tags": [
+        "golang",
+        "Testing",
+        "Mutation Testing"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Fun with Generics",
+      "summary": "Two years after their introduction, how can we use Go generics for more than just slices and maps? A deep dive into building a monads library and an Option type.",
+      "image": "/images/talks/fun-with-generics.jpg",
+      "events": [
+        {
+          "name": "GopherCon UK 2023",
+          "date": "2023-08-17",
+          "location": "London, UK",
+          "url": "https://www.gophercon.co.uk/"
+        }
+      ],
+      "slides": "https://docs.google.com/presentation/d/1bpuzlhJ0yA9mNYkyk24fsSYnDlvjmCXSXtAenpBz7-8/pub?start=false&loop=false&delayms=3000",
+      "recording": "https://www.youtube.com/watch?v=gTUUkRugpDc",
+      "tags": [
+        "golang",
+        "Generics",
+        "Functional Programming"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Fun with Slices",
+      "summary": "A deep dive on the slice type, starting from arrays and slice declaration syntax, slicing operations, copying, resizing and its surprising (or not) side effects.",
+      "image": "/images/talks/fun-with-slices.jpg",
+      "events": [
+        {
+          "name": "Go Conference 2023 Online",
+          "date": "2023-06-02",
+          "location": "Online",
+          "url": "https://gocon.jp/2023/sessions/B3-L/"
+        }
+      ],
+      "slides": "https://docs.google.com/presentation/d/1iCbxw6X-fv92ec_ANCmtFLAcomcpyHbIDTmDqz6kL9w/pub?start=false&loop=false&delayms=3000",
+      "recording": "https://www.youtube.com/watch?v=9yHts5xZtX8",
+      "tags": [
+        "golang",
+        "Slices",
+        "Internals"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    }
+  ]
+}
