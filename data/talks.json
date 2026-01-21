@@ -10,6 +10,55 @@
   },
   "talks": [
     {
+      "title": "Making of GoDoctor: an MCP server for Go development",
+      "summary": "A deep dive into the design and implementation of GoDoctor, a specialized Model Context Protocol (MCP) server for Go. This talk explores how giving agents specialized tools can significantly improve their effectiveness and reliability.",
+      "image": null,
+      "events": [
+        {
+          "name": "FOSDEM 2026",
+          "date": "2026-02-01",
+          "location": "Brussels, Belgium",
+          "url": "https://fosdem.org/2026/schedule/event/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development/"
+        }
+      ],
+      "slides": null,
+      "recording": null,
+      "tags": [
+        "golang",
+        "AI",
+        "MCP",
+        "FOSDEM"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Tech Talk: Diagnostics agent using Gemini and OSQuery",
+      "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\". This AI agent will be built step by step using Python, Vertex AI, Gemini and OSQuery.",
+      "image": null,
+      "events": [
+        {
+          "name": "AICamp London",
+          "date": "2026-01-22",
+          "location": "London, UK",
+          "url": "https://www.aicamp.ai/event/eventdetails/W2026012210"
+        }
+      ],
+      "slides": null,
+      "recording": null,
+      "tags": [
+        "AI",
+        "Gemini",
+        "OSQuery",
+        "Python",
+        "pending"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
       "title": "How to create a diagnostics agent using Gemini and OSQuery",
       "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\".",
       "image": "/images/talks/diagnostic-agent.jpg",

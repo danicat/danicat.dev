@@ -1,5 +1,4 @@
 {{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
-{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
 
 {{/* Fetch and sort all posts from the 'posts' section */}}
 {{ $all_posts_query := where .Site.RegularPages "Type" "posts" }}
@@ -59,6 +58,11 @@
 </section>
 {{ end }}
 
+{{/* Next Events Section */}}
+<section>
+  {{ partial "home/next-events.html" . }}
+</section>
+
 {{/* Recent Articles Section - now uses $recent_posts_list */}}
 {{ if gt (len $recent_posts_list) 0 }}
 <section>
@@ -66,13 +70,7 @@
 </section>
 {{ else if .Site.Params.homepage.showRecent }}
 <section>
-    <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+    <h2 class="mt-8 text-2xl font-extrabold mb-10">Recent Posts</h2>
     <p class="text-center">{{ i18n "homepage.no_other_recent_posts" | default "No other recent posts to display." }}</p>
 </section>
 {{ end }}
-
-{{/*
-<section>
-  {{ partial "home/next-events.html" . }}
-</section>
-*/}}

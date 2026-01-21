@@ -1,118 +1,71 @@
 {{ $now := now }}
-{{ $allEventsSorted := sort (site.GetPage "section" "events").Pages ".Params.eventStartDate" "asc" }}
 {{ $upcomingEvents := slice }}
 
-{{ range $allEventsSorted }}
-  {{ if not .Params.draft }}
-    {{ $eventStartDate := .Params.eventStartDate | time.AsTime }}
-    {{ if $eventStartDate.After $now }}
-      {{ $upcomingEvents = $upcomingEvents | append . }}
+{{ range .Site.Data.talks.talks }}
+    {{ $talkTitle := .title }}
+    {{ $talkSummary := .summary }}
+    {{ range .events }}
+        {{ $eventDate := .date | time.AsTime }}
+        {{ if $eventDate.After $now }}
+            {{ $upcomingEvents = $upcomingEvents | append (dict "title" $talkTitle "summary" $talkSummary "name" .name "date" .date "location" .location "url" .url) }}
+        {{ end }}
     {{ end }}
-  {{ end }}
 {{ end }}
 
-{{ $nextThreeEvents := first 3 $upcomingEvents }}
+{{ $nextEvents := first 2 (sort $upcomingEvents "date" "asc") }}
 
-{{ if gt (len $nextThreeEvents) 0 }}
+{{ if gt (len $upcomingEvents) 0 }}
 <div class="mt-10">
-  <header class="mb-6"> {{/* Re-applying: Increased margin from mb-4 to mb-6 */}}
-    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-      {{ i18n "next_events_title" | default "My Next Events" }} {{/* Re-applying: Updated default to match */}}
-    </h2>
-  </header>
-  {{/* Grid container matching recent-articles/cardview.html */}}
+  <h2 class="mt-8 text-2xl font-extrabold mb-10">
+    {{ i18n "next_events_title" | default "My Next Events" }}
+  </h2>
+  
   <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-    {{ range $nextThreeEvents }}
-    <a href="{{ .Permalink }}" class="min-w-full block group"> {{/* Added group for potential group-hover later if needed */}}
-      <div class="min-h-full border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative flex flex-col">
-        {{ $imagePath := .Params.featuredImage }}
-        {{ $image := "" }}
-        {{ $externalImage := false }}
-        {{ if $imagePath }}
-            {{ $externalImage = or (hasPrefix $imagePath "http://") (hasPrefix $imagePath "https://") }}
-            {{ if not $externalImage }}
-                {{ $image = .Resources.GetMatch $imagePath }}
-            {{ end }}
-        {{ end }}
-
-        {{ if and (not $image) (not $externalImage) }}
-          <div class="w-full h-48 thumbnail_card nozoom flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500">
-            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-          </div>
-        {{ else }}
-          {{ $imageUrl := "" }}
-          {{ if $externalImage }}
-            {{ $imageUrl = $imagePath }}
-          {{ else }}
-            {{ $imageUrl = $image.Permalink }}
-          {{ end }}
-          <div class="w-full h-48 thumbnail_card nozoom bg-cover bg-center" style="background-image:url('{{ $imageUrl }}');">
-          </div>
-        {{ end }}
-
-        {{/* Text Content Area */}}
-        <div class="px-6 py-4 flex-grow">
+    {{ range $nextEvents }}
+    <a href="{{ .url | default ("/events/" | relLangURL) }}" target="_blank" rel="noopener noreferrer" class="min-w-full block group">
+      <div class="min-h-full border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative flex flex-col p-6">
+        
+        <div class="flex-grow">
           <div class="font-bold text-xl text-neutral-800 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300 mb-1">
-            {{ .Title | emojify }}
+            {{ .title | emojify }}
           </div>
 
-          {{/* Meta Info: Location and Date */}}
           <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
-            {{ with .Params.location }}
-              <p class="truncate">{{ . }}</p>
-            {{ end }}
-            <p>
-              {{ (.Params.eventStartDate | time.AsTime).Format ( .Site.Params.DateFormatShort | default "Jan 2, 2006") }}
-              {{ if .Params.eventEndDate | and (ne .Params.eventEndDate .Params.eventStartDate) }}
-                - {{ (.Params.eventEndDate | time.AsTime).Format ( .Site.Params.DateFormatShort | default "Jan 2, 2006") }}
-              {{ end }}
-            </p>
+            <p class="font-medium text-primary-600 dark:text-primary-400">{{ .name }}</p>
+            <p class="truncate">{{ .location }}</p>
+            <p>{{ .date | time.Format ":date_medium" }}</p>
           </div>
 
-          {{/* Session Info / Summary (Optional) */}}
-          {{ if .Params.sessionTitle | and (ne .Params.sessionTitle "To Be Announced") }}
-            <div class="py-1 prose dark:prose-invert text-xs text-neutral-600 dark:text-neutral-300">
-              <p class="line-clamp-2">Session: {{ .Params.sessionTitle }}{{ with .Params.sessionType }} ({{ . }}){{ end }}</p>
-            </div>
-          {{ else if .Summary }}
-             <div class="py-1 prose dark:prose-invert text-xs text-neutral-600 dark:text-neutral-300">
-                <p class="line-clamp-2">{{ .Summary | plainify | truncate 70 }}</p>
-             </div>
-          {{ end }}
+          <div class="py-1 prose dark:prose-invert text-xs text-neutral-600 dark:text-neutral-300">
+            <p class="line-clamp-2">{{ .summary | plainify | truncate 100 }}</p>
+          </div>
         </div>
 
-        {{/* Footer Area - Event URL Link */}}
-        {{ if .Params.eventUrl }}
-        <div class="px-6 pt-2 pb-4 mt-auto">
+        <div class="pt-4 mt-auto">
           <span class="text-xs text-primary-600 dark:text-primary-400 group-hover:underline">
             {{ i18n "event_details_link" | default "Event Details &rarr;" | safeHTML }}
           </span>
         </div>
-        {{ end }}
       </div>
     </a>
     {{ end }}
-  </section>
-  {{ if .Site.Params.homepage.showMoreLink | default false }}
-  <div class="mt-10 flex justify-center">
-    <a href="{{ "events" | relLangURL }}">
-      <button
-        class="bg-transparent hover:text-primary-500 prose dark:prose-invert font-semibold hover:text-white py-2 px-4 border border-primary-500 hover:border-transparent rounded">
-        {{ i18n "recent.show_more" | markdownify }}
-      </button>
+
+    {{/* Virtual "View All" Card */}}
+    <a href="{{ "events" | relLangURL }}" class="min-w-full block group">
+      <div class="min-h-full border border-dashed border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl hover:border-primary-500 transition-all duration-300 relative flex flex-col items-center justify-center p-6 text-center">
+        <div class="text-primary-600 dark:text-primary-400 mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+        </div>
+        <div class="font-bold text-xl text-neutral-800 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400">
+            View All Events
+        </div>
+        <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
+            Browse full talk history
+        </div>
+      </div>
     </a>
-  </div>
-  {{ end }}
-</div>
-{{ else }}
-<div class="mt-10">
-  <header class="mb-4">
-    <h2 class="text-2xl font-bold text-neutral-800 dark:text-neutral-200">
-      {{ i18n "next_events_title" | default "Next Events" }}
-    </h2>
-  </header>
-  <p class="text-neutral-600 dark:text-neutral-400">
-    {{ i18n "no_upcoming_events" | default "No upcoming events scheduled at the moment. Check out the [Event Calendar](/events/) for past appearances!" | markdownify }}
-  </p>
+  </section>
 </div>
 {{ end }}

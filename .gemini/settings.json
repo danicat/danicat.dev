@@ -4,8 +4,7 @@
             "command": "speedgrapher"
         },
         "godoctor": {
-            "command": "godoctor",
-            "args": ["--experimental"]
+            "command": "godoctor"
         },
         "playwright": {
             "command": "npx",

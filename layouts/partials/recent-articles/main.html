@@ -5,7 +5,7 @@
 
 {{/* Ensure there are pages to display before showing the section title */}}
 {{ if gt (len $pages_to_display) 0 }}
-  <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+  <h2 class="mt-8 text-2xl font-extrabold mb-10">Recent Posts</h2>
 
   {{/* Use $original_context to access Site params for view selection */}}
   {{ if and $original_context.Site.Params.homepage.cardView (not $original_context.Site.Params.homepage.cardViewScreenWidth) | default false }}

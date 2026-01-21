@@ -88,7 +88,7 @@
   {{ if (gt (len ($page_context.GetTerms $taxonomy)) 0) }}
   {{ range $page_context.GetTerms $taxonomy }}
   <span style="margin-top:0.5rem" class="mr-2" onclick="window.open({{ .RelPermalink }},'_self');return false;">
-    {{ partial "badge.html" .LinkTitle }}
+    {{ partial "badge.html" (lower .LinkTitle) }}
   </span>
   {{ end }}
   {{ end }}

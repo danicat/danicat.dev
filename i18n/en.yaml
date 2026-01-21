@@ -4,6 +4,8 @@ homepage:
 no_upcoming_events: "No upcoming events scheduled at the moment. Check out the [Event Calendar](/events/) for past appearances!"
 next_events_title: "Next Events"
 event_details_link: "Event Details &rarr;"
+event_decks_label: "Decks"
+event_recording_label: "Recording"
 machineTranslated: "This page was machine-translated from the"
 originalArticle: "original English article"
 reportIssue: "If you find any issues with the translation, please"

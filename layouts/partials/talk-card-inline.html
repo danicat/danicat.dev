@@ -2,13 +2,9 @@
     
     {{/* Image Column */}}
     {{ if .image }}
-    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0 bg-contain bg-no-repeat bg-center" style="background-image:url({{ .image }});"></div>
+    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url({{ .image }});"></div>
     {{ else }}
-    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 text-neutral-300 dark:text-neutral-600 p-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 100%; height: 100%;">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
-        </svg>
-    </div>
+    <div class="w-full md:w-auto h-full thumbnail nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url(/images/talks/placeholder.png);"></div>
     {{ end }}
 
     {{/* Content Column */}}
@@ -46,7 +42,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Slides
+                {{ i18n "event_decks_label" | default "Decks" }}
             </a>
             {{ end }}
             {{ if .recording }}
@@ -55,7 +51,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                Recording
+                {{ i18n "event_recording_label" | default "Recording" }}
             </a>
             {{ end }}
         </div>
