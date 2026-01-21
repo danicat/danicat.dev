@@ -59,6 +59,29 @@
       ]
     },
     {
+      "title": "The Gopher's Craft in the Age of AI",
+      "summary": "The talk explores the evolving role of Gophers in the age of AI, focusing on extending language models with custom tools and integrating AI as a powerful extension of skills, using the Model Context Protocol (MCP) and live Go demonstrations.",
+      "image": null,
+      "events": [
+        {
+          "name": "GoLab 2025",
+          "date": "2025-10-06",
+          "location": "Florence, Italy",
+          "url": "https://golab.io/talks/the-gopher-s-craft-in-the-age-of-ai"
+        }
+      ],
+      "slides": null,
+      "recording": null,
+      "tags": [
+        "golang",
+        "AI",
+        "MCP"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
       "title": "How to create a diagnostics agent using Gemini and OSQuery",
       "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\".",
       "image": "/images/talks/diagnostic-agent.jpg",
@@ -322,6 +345,29 @@
       "tags": [
         "golang",
         "Slices",
+        "Internals"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
+      "title": "Fun With Pointers",
+      "summary": "This talk covers effective pointer usage in Go, from declaration and memory allocation (stack vs. heap) to practical use cases, including pointer vs. value receivers, unsafe package tricks, and nuances of nil pointers with interfaces.",
+      "image": null,
+      "events": [
+        {
+          "name": "GopherCon UK 2019",
+          "date": "2019-08-15",
+          "location": "London, UK",
+          "url": "https://www.youtube.com/watch?v=yEiaCx0fR9k"
+        }
+      ],
+      "slides": null,
+      "recording": "https://www.youtube.com/watch?v=yEiaCx0fR9k",
+      "tags": [
+        "golang",
+        "Pointers",
         "Internals"
       ],
       "categories": [
