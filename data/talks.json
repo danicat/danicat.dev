@@ -45,14 +45,14 @@
           "url": "https://www.aicamp.ai/event/eventdetails/W2026012210"
         }
       ],
-      "slides": null,
+      "slides": "https://speakerdeck.com/danicat/diagnostics-agent-with-adk-gemini-and-osquery",
+      "source_code": "https://github.com/GoogleCloudPlatform/devrel-demos/tree/main/agents/aicamp",
       "recording": null,
       "tags": [
         "AI",
         "Gemini",
         "OSQuery",
-        "Python",
-        "pending"
+        "Python"
       ],
       "categories": [
         "AI & Development"

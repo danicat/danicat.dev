@@ -8,6 +8,7 @@ no_upcoming_events: "Nenhum evento futuro agendado no momento. Confira o [Calend
 next_events_title: "Próximos Eventos"
 event_details_link: "Detalhes do Evento &rarr;"
 event_decks_label: "Slides"
+event_source_code_label: "Código Fonte"
 event_recording_label: "Gravação"
 machineTranslated: "Esta página foi traduzida automaticamente a partir do"
 originalArticle: "artigo original em inglês"
