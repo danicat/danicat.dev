@@ -34,7 +34,7 @@
       ]
     },
     {
-      "title": "Tech Talk: Diagnostics agent using Gemini and OSQuery",
+      "title": "Tech Talk: Diagnostic agent using Gemini and OSQuery",
       "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\". This AI agent will be built step by step using Python, Vertex AI, Gemini and OSQuery.",
       "image": null,
       "events": [
