@@ -1,8 +1,8 @@
 ---
 title: "Dominando Agent Skills na Gemini CLI"
-date: 2026-01-28T12:00:00Z
+date: 2026-01-29T12:00:00Z
 draft: false
-description: "Desbloqueie expertise sob demanda para seu agente de IA. Aprenda a usar Agent Skills na Gemini CLI para construir fluxos de trabalho modulares, escaláveis e autônomos."
+summary: "Desbloqueie expertise sob demanda para seu agente de IA. Aprenda a usar Agent Skills na Gemini CLI para construir fluxos de trabalho modulares, escaláveis e autônomos."
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
 slug: "agent-skills-gemini-cli"

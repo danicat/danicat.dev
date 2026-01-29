@@ -1,8 +1,8 @@
 ---
 title: "Mastering Agent Skills in Gemini CLI"
-date: 2026-01-28T12:00:00Z
+date: 2026-01-29T12:00:00Z
 draft: false
-description: "Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills in Gemini CLI to build modular, scalable, and autonomous workflows."
+summary: "Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills in Gemini CLI to build modular, scalable, and autonomous workflows."
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
 slug: "agent-skills-gemini-cli"

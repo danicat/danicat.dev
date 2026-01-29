@@ -1,8 +1,8 @@
 ---
 title: "Gemini CLI で Agent Skills をマスターする"
-date: 2026-01-28T12:00:00Z
+date: 2026-01-29T12:00:00Z
 draft: false
-description: "AIエージェントにオンデマンドの専門知識を。Gemini CLI の Agent Skills を使用して、モジュール式でスケーラブルかつ自律的なワークフローを構築する方法を学びましょう。"
+summary: "AIエージェントにオンデマンドの専門知識を。Gemini CLI の Agent Skills を使用して、モジュール式でスケーラブルかつ自律的なワークフローを構築する方法を学びましょう。"
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
 slug: "agent-skills-gemini-cli"
