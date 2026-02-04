@@ -21,7 +21,13 @@
   weight = 15
 
 [[main]]
+  name = "Codelabs"
+  pageRef = "codelabs"
+  weight = 18
+
+[[main]]
   name = "Sobre"
+
   pageRef = "about"
   weight = 20
 

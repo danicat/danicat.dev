@@ -21,8 +21,8 @@
           "url": "https://fosdem.org/2026/schedule/event/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development/"
         }
       ],
-      "slides": null,
-      "recording": null,
+      "slides": "https://speakerdeck.com/danicat/making-of-godoctor-lessons-learned-while-building-a-go-aware-mcp-server",
+      "recording": "https://video.fosdem.org/2026/ub5132/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development.av1.webm",
       "tags": [
         "golang",
         "AI",
@@ -70,7 +70,7 @@
           "url": "https://golab.io/talks/the-gopher-s-craft-in-the-age-of-ai"
         }
       ],
-      "slides": null,
+      "slides": "https://speakerdeck.com/danicat/golab-2025-the-gophers-craft-in-the-age-of-ai",
       "recording": null,
       "tags": [
         "golang",
