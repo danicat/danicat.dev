@@ -132,3 +132,12 @@ html.dark .github-snippet-meta a,
 html.dark .gist .gist-meta a {
   color: #58a6ff !important;
 }
+
+/* Fix for card images on Home and Events */
+.thumbnail_card {
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9;
+  background-size: cover;
+  background-position: center;
+}
