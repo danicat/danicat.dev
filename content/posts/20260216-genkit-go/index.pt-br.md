@@ -370,17 +370,18 @@ Se você tem uma coleção de memórias desaparecendo que servem como âncoras f
 
 ## Problemas conhecidos e limitações
 
-Embora os resultados possam ser impressionantes, o GlowUp tem as suas peculiaridades. Aqui estão algumas coisas a ter em mente se você está planejando construir algo com base nisso:
-
+Embora o processo de restauração funcione, ele não deixa de ter suas peculiaridades. Aqui estão alguns problemas que encontrei, apenas para que você esteja preparado:
 *   **Adesão às instruções:** Mesmo que o Nano Banana Pro seja um modelo de vanguarda, ele ocasionalmente ainda ignora uma instrução. Você pode achar que são necessárias algumas tentativas antes de obter o resultado desejado. Eu não gastei muito tempo fazendo fine-tuning do prompt, então é provável que haja oportunidades para otimização adicional lá.
-*   **Modelos na Dev UI:** A Dev UI não popula automaticamente os modelos disponíveis quando usamos Genkit Go, o que adiciona um pouco de atrito ao processo de experimentação (a versão JS faz isso muito bem). Este é [um bug conhecido](https://github.com/firebase/genkit/issues/4783) que está sendo rastreado atualmente pela equipe.
+*   **Modelos na Dev UI:** Há um bug no plugin `googlegenai` que faz com que ele não popule automaticamente os modelos disponíveis na Dev UI. Você ainda pode referenciar modelos por nome para registrá-los "dinamicamente", mas isso adiciona um pouco de atrito ao processo de experimentação (a versão JS faz isso muito bem). Eu abri [um bug](https://github.com/firebase/genkit/issues/4783) e já há uma correção em vigor, mas se você estiver usando uma versão mais antiga, é algo a se ter em mente.
 
 
 ## Conclusões
 
-Construir o GlowUp foi um experimento satisfatório em usar IA para resolver um problema pessoal muito específico. É um lembrete de que, enquanto muitas vezes nos concentramos nas aplicações massivas e de propósito geral de LLMs, sua verdadeira força frequentemente reside nessas ferramentas sob medida, de pequena escala, que podemos construir para nós mesmos em uma tarde.
+Construir o GlowUp foi um experimento satisfatório no uso de IA para me reconectar com meu passado em um nível emocional. Eu sei que há muito pessimismo por aí, mas esse é o tipo de aplicação que me deixa animada com a IA em primeiro lugar.
 
-A capacidade de pegar uma memória familiar que está desaparecendo e dar a ela mais clareza é uma vitória prática, mas a verdadeira lição é o quanto a barreira de entrada para a construção de tais ferramentas caiu. Espero que isso inspire você a olhar para os seus próprios problemas de nicho — técnicos ou pessoais — e ver o que você pode construir para resolvê-los.
+A foto que usei neste artigo está longe de ser o uso mais dramático dessa tecnologia, mas já estou trabalhando na parte dois deste artigo, onde estou levando-a para o próximo nível para me ajudar a reconstruir um dos meus jogos de cartas favoritos da minha infância.
+
+A conclusão é que o potencial é ilimitado. Espero que isso inspire você a olhar para os seus próprios problemas de nicho — técnicos ou pessoais — e ver o que você pode construir para resolvê-los.
 
 Para mais detalhes, confira a [documentação do Genkit](https://firebase.google.com/docs/genkit) e o [código-fonte do GlowUp](https://github.com/danicat/glowup).
 

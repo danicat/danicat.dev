@@ -370,17 +370,17 @@ If you have a collection of fading memories that serve as fragile anchors to you
 
 ## Known issues and limitations
 
-While the results can be stunning, GlowUp isn't without its quirks. Here are a few things to keep in mind if you are planning to build upon this:
-
+While the restoration process works, it is not without its quirks. Here are a couple of issues I found just so you are prepared:
 *   **Instruction adherence:** Even though Nano Banana Pro is a vanguard model, it still occasionally misses an instruction. You might find it requires a few attempts before you get the desired result. I haven't spent much time fine-tuning the prompt, so there are likely opportunities for further optimization there.
-*   **Models in the Dev UI:** The Dev UI doesn't automatically populate the available models when using Genkit Go, which adds a bit of friction to the experimentation process (the JS version does this just fine). This is [a known bug](https://github.com/firebase/genkit/issues/4783) currently being tracked by the team.
-
+*   **Models in the Dev UI:** There is a bug in the `googlegenai` plugin that causes it to not automatically populate the available models in the Dev UI. You can still reference models by name to "dynamically" register them, but it adds a bit of friction to the experimentation process (the JS version does this just fine). I've opened [a bug](https://github.com/firebase/genkit/issues/4783) and there is already a fix in place, but if you are using an older version it is something to be aware.
 
 ## Conclusions
 
-Building GlowUp was a satisfying experiment in using AI to solve a very specific, personal problem. It is a reminder that while we often focus on the massive, general-purpose applications of LLMs, their true strength often lies in these bespoke, small-scale tools that we can build for ourselves in an afternoon.
+Building GlowUp was a satisfying experiment in using AI to reconnect with my past at an emotional level. I know there is a lot of doom and gloom out there, but this is the kind of application that makes me excited about AI in the first place.
 
-The ability to take a fading family memory and give it more clarity is a practical win, but the real takeaway is how much the barrier to entry for building such tools has fallen. I hope this inspires you to look at your own niche problems — technical or personal — and see what you can build to solve them.
+The picture I used in this article is far from being the most dramatic use of this tech, but I am already working on part two of this article where I am taking it to the next level to help me rebuild one of my favourite card games from my childhood.
+
+The bottom line is that the potential is limitless. I hope this inspires you to look at your own niche problems — technical or personal — and see what you can build to solve them.
 
 For more details, check out the [Genkit documentation](https://firebase.google.com/docs/genkit) and the [GlowUp source code](https://github.com/danicat/glowup).
 
