@@ -18,9 +18,9 @@ Graças à evolução da IA generativa, nem tudo está perdido e eu finalmente p
 
 Abaixo está um exemplo dessa restauração:
 
-![](original.jpg "Original: minha avó preparando sua mundialmente famosa torta de banana")
+![Foto original danificada e em preto e branco da minha avó preparando uma torta de banana](original.jpg "Original: minha avó preparando sua mundialmente famosa torta de banana")
 
-![](restored.png "Restaurada: restauração e colorização por Nano Banana Pro")
+![Foto restaurada e colorizada em alta fidelidade 4K usando o Nano Banana Pro](restored.png "Restaurada: restauração e colorização por Nano Banana Pro")
 
 Neste artigo, vou mostrar como construir o GlowUp do zero usando [Gemini Nano Banana Pro](https://ai.google.dev/gemini-api/docs/image-generation) e [Genkit Go](https://genkit.dev/docs/get-started/?lang=go).
 
@@ -30,11 +30,11 @@ Eu escolhi usar o Nano Banana Pro (também conhecido como Gemini 3 Pro Image Pre
 
 No lado do cliente, em vez de optar por um SDK de baixo nível como o [go-genai](https://pkg.go.dev/google.golang.org/genai), decidi usar o Genkit, pois ele fornece algumas melhorias de qualidade de vida em relação ao código de nível mais baixo, tais como:
 
-- Agnóstico de modelo: Eu posso testar diferentes modelos se eu quiser, mesmo os que não são do Google ou locais, com uma única substituição de plugin
+- Agnóstico de modelo: É possível testar diferentes modelos se desejar, mesmo os que não são do Google ou locais, com uma única substituição de plugin
 - Suporte Dev UI pronto para uso para conveniências como testar modelos, prompts e rastreamento (tracing) de chamadas de modelo
-- Fácil de converter de prompt para um aplicativo CLI ou para um servidor web (se eu decidir seguir por esse caminho)
+- Arquitetura flexível: Pode ser empacotado como um aplicativo CLI ou um servidor web.
 
-Para a primeira versão do GlowUp, estou disponibilizando-o exclusivamente como uma ferramenta de linha de comando, mas ter a flexibilidade de implantá-lo como um servidor me permitirá empacotar este código em um aplicativo legal que até o meu pai poderia usar para restaurar sua coleção de fotos sem a minha intervenção.
+O GlowUp é construído como um binário unificado que pode ser executado como uma ferramenta de linha de comando ou um servidor web. Essa flexibilidade me permite executar restaurações localmente do meu terminal ou implantar o mesmo código como um serviço de nuvem, o que poderia eventualmente alimentar um aplicativo amigável que até o meu pai poderia usar para restaurar sua coleção de fotos.
 
 ## Uma primeira olhada no Genkit Go
 
@@ -88,7 +88,7 @@ func main() {
 
 ```
 
-Este pequeno trecho de código está fazendo muito do trabalho pesado. Vamos dar uma olhada nele um pouco mais cuidadosamente.
+Este pequeno trecho de código está fazendo muito do trabalho pesado. Vamos dar uma olhada nele com um pouco mais de cuidado.
 
 
 ### Plugins
@@ -108,7 +108,7 @@ googlegenai.Init(ctx, &googlegenai.VertexAI{ProjectID: "my-project", Location: "
 
 **Nota:** Se você está migrando de versões mais antigas do Genkit, pode estar familiarizado com os plugins separados `vertexai` e `googleai`. Eles foram consolidados no único plugin `googlegenai`.
 
-### Models
+### Modelos (Models)
 Os LLMs reais (por exemplo, Gemini, Claude) que geram conteúdo. Você os referencia por strings de nome como `vertexai/gemini-2.5-flash`.
 
 ```go
@@ -119,7 +119,7 @@ Os LLMs reais (por exemplo, Gemini, Claude) que geram conteúdo. Você os refere
 
 ### Prompts
 
-Embora nada impeça você de colocar prompts diretamente no código (hardcoding), como no exemplo acima, é uma boa prática mantê-los em arquivos separados para melhor manutenibilidade. O Genkit usa [dotprompt](https://github.com/google/dotprompt) para carregar prompts externos. 
+Embora nada impeça você de colocar prompts diretamente no código (hardcoding), como no exemplo acima, é uma boa prática mantê-los em arquivos separados para melhor manutenibilidade. O Genkit usa `dotprompt` para carregar prompts externos. 
 
 Um arquivo `dotprompt` (*.prompt) consiste em duas partes principais: o **Frontmatter** e o **Template**.
 
@@ -149,11 +149,11 @@ You are a helpful assistant.
 Tell me a joke about {{theme}}.
 ```
 
-### Flows
+### Fluxos (Flows)
 No Genkit, um **Flow** é a unidade fundamental de execução que fornece:
 1.  **Observabilidade**: A execução de cada flow gera automaticamente traces e métricas (latência, uso de tokens, taxa de sucesso) visualizáveis na Genkit Dev UI ou no Google Cloud Trace.
 2.  **Type Safety**: Flows são estritamente tipados com schemas de input e output, prevenindo erros em tempo de execução ao encadear múltiplas operações de IA.
-3.  **Deployability**: Flows são estritamente separados da sua lógica de serving. Para fazer o deploy deles, envolva-os com `genkit.Handler`, que converte um flow em um `http.Handler` padrão. Isso torna direto servi-los usando a biblioteca padrão ou qualquer framework web Go:
+3.  **Deployability**: Flows são estritamente separados da sua lógica de serving. Para fazer o deploy deles, envolva-os com `genkit.Handler`, que converte um flow em um `http.Handler` padrão. Isso torna possível servi-los usando a biblioteca padrão ou qualquer framework web Go:
 
 ```go
     // Define a flow
@@ -190,7 +190,7 @@ Um detalhe importante a ser notado é que este modelo sempre retorna respostas i
 
 ## Conectando as partes
 
-Agora, vamos ver como o GlowUp conecta essas peças. Nós usamos um **arquivo de prompt** para definir a persona do especialista em restauração e um **flow** para lidar com o processamento da imagem.
+Agora, vamos ver como o GlowUp conecta essas peças. Nós usamos um **arquivo de prompt** para definir a persona do especialista em restauração e um **fluxo** (flow) para lidar com o processamento da imagem.
 
 ### O prompt
 
@@ -204,139 +204,66 @@ config:
     imageSize: "4K"
 input:
   schema:
-    photo: string
+    url: string
     contentType: string
-output:
 ---
 
-
 {{role "system"}}
-You are GlowUp, a professional-grade AI photo restorer.
-Your goal is to provide a "surgical" restoration service that transforms vintage, damaged, or monochrome photographs into high-fidelity 4K colorized versions.
+You are GlowUp, a professional-grade photo restorer.
+Your goal is to provide a "surgical" restoration service that transforms vintage, damaged, or monochrome photographs into high-fidelity 4K colourised versions.
 
-STRICT BEHAVIOURAL RULES:
-1. **Grounding**: You are strictly grounded in the original source pixels. Do NOT add new objects (trees, people, buildings, etc.) that are not present in the source. Additionally, do NOT remove any objects from the original source, unless they are external defects that do not belong in the original scene.
+RULES:
+1. **Grounding**: You are strictly grounded in the original source pixels. Do NOT add new objects (trees, people, buildings, etc.) that are not present in the source. Additionally, do NOT remove any elements from the source, unless they are clearly defects that do not belong in the original scene.
 2. **Fidelity**: Preserve the original facial expressions and identity of subjects. Do NOT "beautify" or alter features in a way that changes the person's identity.
 3. **Background**: Preserve background fidelity. Overexposed light sources (like windows) must remain as light sources. Do not "fill in" missing details with invented scenery.
-4. **Colorization**: If the image is monochrome, colorize it realistically, respecting historical accuracy where possible.
+4. **Colourisation**: If the image is monochrome, colourize it realistically, respecting historical accuracy where possible.
 5. **Upscaling**: Output a high-fidelity image.
-
 
 {{role "user"}}
 Restore this photo.
-Image: {{media url=photo contentType=contentType}}
+Image: {{media url=url contentType=contentType}}
 ```
 
-### O flow
+### O fluxo
 
-O código Go é notavelmente simples. Ele age como o orquestrador: preparando os dados da imagem, carregando o prompt e executando a requisição.
+O código Go é notavelmente focado. Nesta arquitetura unificada, a definição do flow carrega o prompt e passa o input multimodal para o modelo:
 
 ```go
-// internal/glowup/glowup.go
-package glowup
-
-import (
-    "context"
-    "fmt"
-    "strings"
-
-    "github.com/firebase/genkit/go/ai"
-    "github.com/firebase/genkit/go/core"
-    "github.com/firebase/genkit/go/genkit"
-)
-
-// Input struct for the GlowUp flow
+// main.go (Flow Definition)
 type Input struct {
-	ImageBase64   string `json:"image_base64,omitempty"`
-	ImageFilePath string `json:"image_file_path,omitempty"`
-	ImageURL      string `json:"image_url,omitempty"`
+	URL         string `json:"url,omitempty"`
+	ContentType string `json:"contentType,omitempty"`
 }
 
-// Output struct for the GlowUp flow
-type Output struct {
-	RestoredImageBase64 string `json:"restored_image_base64"`
-}
-
-// Define the GlowUp Flow variable
-var GlowUpFlow *core.Flow[Input, *Output, struct{}]
-
-// Register registers the GlowUp flow with the given Genkit instance.
-func Register(g *genkit.Genkit) {
-	GlowUpFlow = genkit.DefineFlow(g, "glowUp", func(ctx context.Context, input Input) (*Output, error) {
-		imgInput := ImageInput(input)
-
-		// 1. Prepare Image Data
-		// PrepareImageData is a helper function to convert the input 
-		// (Base64, File, or URL) into a Data URI string for the model.
-		imgData, err := PrepareImageData(imgInput)
-		if err != nil {
-			return nil, err
-		}
-
-		// Extract content type from Data URI
-		contentType := "image/jpeg"
-		if strings.HasPrefix(imgData, "data:") {
-			if parts := strings.Split(imgData, ";"); len(parts) > 0 {
-				contentType = strings.TrimPrefix(parts[0], "data:")
-			}
-		}
-
-		// 2. Load Prompt
+func defineGlowUpFlow(g *genkit.Genkit) *core.Flow[Input, string, struct{}] {
+	return genkit.DefineFlow(g, "glowUp", func(ctx context.Context, input Input) (string, error) {
 		prompt := genkit.LookupPrompt(g, "glowup")
 		if prompt == nil {
-			return nil, fmt.Errorf("prompt 'glowup' not found")
+			return "", errors.New("prompt 'glowup' not found")
 		}
 
-		// 3. Generate
-		resp, err := prompt.Execute(ctx, ai.WithInput(map[string]any{
-			"photo":       imgData,
-			"contentType": contentType,
-		}))
+		resp, err := prompt.Execute(ctx, ai.WithInput(input))
 		if err != nil {
-			return nil, fmt.Errorf("generation failed: %w", err)
+			return "", fmt.Errorf("generation failed: %w", err)
 		}
 
-		// 4. Extract Output
-		outputData, err := ExtractImageOutput(resp)
-		if err != nil {
-			return nil, err
-		}
-
-		return &Output{
-			RestoredImageBase64: outputData,
-		}, nil
+		return resp.Media(), nil
 	})
 }
-
-
 ```
 
-O helper `PrepareImageData` (que você pode encontrar no [código-fonte](https://github.com/danicat/glowup/blob/main/internal/image.go)) é responsável por normalizar os vários tipos de input — seja o caminho de um arquivo local, uma URL remota ou uma string Base64 bruta — em um Data URI padrão que a API do Gemini espera.
-
-Note como usamos `http.DetectContentType` para determinar dinamicamente o tipo MIME, em vez de assumir que tudo é um JPEG. Isso é crítico para manter a fidelidade em diferentes formatos de escaneamento.
+Para suportar arquivos locais nativamente, usamos uma função auxiliar `fileToDataURI`. Esta função lê um arquivo local, detecta seu tipo MIME usando `http.DetectContentType` e o codifica em uma Data URI Base64 padrão que a API do Gemini espera. Isso é crítico para manter a fidelidade em diferentes formatos de escaneamento sem fixar (hardcoding) extensões.
 
 ```go
-// PrepareImageData normalizes a single image input into a data URI string.
-func PrepareImageData(input ImageInput) (string, error) {
-    if input.ImageBase64 != "" {
-        if strings.HasPrefix(input.ImageBase64, "data:") {
-            return input.ImageBase64, nil
-        }
-        // Decode a small portion to detect content type
-        data, err := base64.StdEncoding.DecodeString(input.ImageBase64)
-        if err != nil {
-            return "", fmt.Errorf("decode base64: %w", err)
-        }
-        contentType := http.DetectContentType(data)
-        return fmt.Sprintf("data:%s;base64,%s", contentType, input.ImageBase64), nil
-    }
-    if input.ImageFilePath != "" {
-        return fileToDataURI(input.ImageFilePath)
-    }
-    if input.ImageURL != "" {
-        return urlToDataURI(input.ImageURL)
-    }
-    return "", fmt.Errorf("no image provided")
+func fileToDataURI(path string) (uri, contentType string, err error) {
+	data, err := os.ReadFile(path)
+	if err != nil {
+		return "", "", err
+	}
+	contentType = http.DetectContentType(data)
+	encoded := base64.StdEncoding.EncodeToString(data)
+	uri = fmt.Sprintf("data:%s;base64,%s", contentType, encoded)
+	return uri, contentType, nil
 }
 ```
 
@@ -365,14 +292,14 @@ Se você tem uma coleção de memórias desaparecendo que servem como âncoras f
 
 3.  **Execute a Restauração**:
     ```bash
-    go run main.go --file old_photo.jpg
+    go run main.go restore --file old_photo.jpg
     ```
 
 ## Problemas conhecidos e limitações
 
-Embora o processo de restauração funcione, ele não deixa de ter suas peculiaridades. Aqui estão alguns problemas que encontrei, apenas para que você esteja preparado:
+Embora o processo de restauração funcione, ele não deixa de ter suas peculiaridades. Aqui estão alguns problemas que encontrei:
 *   **Adesão às instruções:** Mesmo que o Nano Banana Pro seja um modelo de vanguarda, ele ocasionalmente ainda ignora uma instrução. Você pode achar que são necessárias algumas tentativas antes de obter o resultado desejado. Eu não gastei muito tempo fazendo fine-tuning do prompt, então é provável que haja oportunidades para otimização adicional lá.
-*   **Modelos na Dev UI:** Há um bug no plugin `googlegenai` que faz com que ele não popule automaticamente os modelos disponíveis na Dev UI. Você ainda pode referenciar modelos por nome para registrá-los "dinamicamente", mas isso adiciona um pouco de atrito ao processo de experimentação (a versão JS faz isso muito bem). Eu abri [um bug](https://github.com/firebase/genkit/issues/4783) e já há uma correção em vigor, mas se você estiver usando uma versão mais antiga, é algo a se ter em mente.
+*   **Modelos na Dev UI:** Há um bug no plugin `googlegenai` que faz com que ele não popule automaticamente os modelos disponíveis na Dev UI. Você ainda pode referenciar modelos por nome para registrá-los "dinamicamente", mas isso adiciona um pouco de atrito ao processo de experimentação (a versão JS executa isso bem). Eu abri [um bug](https://github.com/firebase/genkit/issues/4783) e já há uma correção em vigor, mas se você estiver usando uma versão mais antiga, é algo a se ter em mente.
 
 
 ## Conclusões
@@ -388,4 +315,3 @@ Para mais detalhes, confira a [documentação do Genkit](https://firebase.google
 **Happy coding!**
 
 Dani =^.^=
-
