@@ -1,5 +1,5 @@
 ---
-title: "Como Construir um Servidor MCP com Gemini CLI e Go"
+title: "Construindo o GoDoctor: Um Servidor MCP com Gemini CLI e Go"
 date: 2025-07-29
 author: "Daniela Petruzalek"
 categories: ["AI & Development"]
@@ -248,6 +248,8 @@ Ao dar ao agente o contexto certo e as ferramentas certas, ele se tornou um parc
 ### O Que Vem a Seguir?
 
 A jornada com o GoDoctor está longe de terminar. Ainda é um projeto experimental, e estou aprendendo mais a cada nova ferramenta e cada nova interação. Meu objetivo é continuar a evoluí-lo para um assistente de codificação genuinamente útil para desenvolvedores Go em todos os lugares.
+
+Se você quiser vivenciar essa jornada e construir seu próprio servidor MCP do zero, eu criei um workshop prático para guiá-lo no processo. Confira o codelab **[Como criar um servidor MCP com a CLI do Gemini e o Go](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=pt-br#0)**.
 
 Para os interessados em como esses conceitos estão sendo aplicados na cadeia de ferramentas oficial do Go, recomendo fortemente a leitura sobre o servidor MCP `gopls`, que compartilha muitos dos mesmos objetivos. Você pode encontrar mais informações no [site oficial de documentação do Go](https://tip.golang.org/gopls/features/mcp).
 
