@@ -310,7 +310,10 @@ A foto que usei neste artigo está longe de ser o uso mais dramático dessa tecn
 
 A conclusão é que o potencial é ilimitado. Espero que isso inspire você a olhar para os seus próprios problemas de nicho — técnicos ou pessoais — e ver o que você pode construir para resolvê-los.
 
-Para mais detalhes, confira a [documentação do Genkit](https://firebase.google.com/docs/genkit) e o [código-fonte do GlowUp](https://github.com/danicat/glowup).
+**Quer tentar construir o seu próprio?** Eu preparei um [codelab passo a passo](https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0) onde você pode construir este exato app de restauração de fotos do zero.
+
+
+Para mais detalhes, você também pode conferir a [documentação do Genkit](https://firebase.google.com/docs/genkit) e o [código-fonte do GlowUp](https://github.com/danicat/glowup).
 
 **Happy coding!**
 

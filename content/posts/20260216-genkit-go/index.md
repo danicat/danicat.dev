@@ -312,10 +312,10 @@ The picture I used in this article is far from being the most dramatic use of th
 
 The bottom line is that the potential is limitless. I hope this inspires you to look at your own niche problems — technical or personal — and see what you can build to solve them.
 
-For more details, check out the [Genkit documentation](https://firebase.google.com/docs/genkit) and the [GlowUp source code](https://github.com/danicat/glowup).
+**Do you want to try building your own?** I've put together a [step-by-step codelab](https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0) where you can build this exact photo restoration app from scratch.
+
+For more details, you can also check out the [Genkit documentation](https://firebase.google.com/docs/genkit) and the [GlowUp source code](https://github.com/danicat/glowup).
 
 **Happy coding!**
 
 Dani =^.^=
-
-
