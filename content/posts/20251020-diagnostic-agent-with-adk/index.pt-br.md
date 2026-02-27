@@ -7,7 +7,7 @@ tags: ["adk", "gemini", "vertex-ai", "python", "rag", "tutorial"]
 ---
 ## Introdução
 
-Já faz bastante tempo desde o meu último artigo, pois estive bastante ocupado viajando para conferências e meetups por toda a Europa (com um pequeno desvio para a América do Sul). Especialmente nesta época do ano, é uma temporada muito movimentada para nós em relações com desenvolvedores, já que muitas conferências se concentram entre o final de setembro e o início de dezembro.
+Já faz bastante tempo desde o meu último artigo, pois estive bastante ocupada viajando para conferências e meetups por toda a Europa (com um pequeno desvio para a América do Sul). Especialmente nesta época do ano, é uma temporada muito movimentada para nós em relações com desenvolvedores, já que muitas conferências se concentram entre o final de setembro e o início de dezembro.
 
 No entanto, é graças a conhecer pessoas incríveis na estrada que eu me inspiro para o meu blog, e os posts do blog muitas vezes se tornam novas palestras, então um não existiria sem o outro.
 
@@ -336,7 +336,7 @@ Eu recomendo fortemente que você brinque com ele e compare as respostas com e s
 
 ## Palavras Finais
 
-Nossa! Este foi longo, mas espero que você tenha gostado da leitura! Se você tiver algum desafio para configurar seu próprio agente de diagnóstico, por favor me avise. Eu sou bastante responsivo no [LinkedIn](https://www.linkedin.com/in/petruzalek), a menos que esteja super ocupado com um evento. Eu também gostaria de saber como você estenderia este agente e sobre quaisquer experimentos que você tenha tentado.
+Nossa! Este foi longo, mas espero que você tenha gostado da leitura! Se você tiver algum desafio para configurar seu próprio agente de diagnóstico, por favor me avise. Eu sou bastante responsiva no [LinkedIn](https://www.linkedin.com/in/petruzalek), a menos que esteja super ocupada com um evento. Eu também gostaria de saber como você estenderia este agente e sobre quaisquer experimentos que você tenha tentado.
 
 ## Referências
 

@@ -37,7 +37,7 @@ Como esse processo se relaciona com o trabalho nativo de IA? Gosto de pensar em 
 
 ## Um fluxo de trabalho básico "nativo de IA"
 
-Digamos que eu precise implementar um novo recurso para o meu sistema. Tenho dois modos principais de operação - interativo e em lote (também conhecido como "dispare e esqueça"). Se vou escolher um ou outro depende muito da `certeza técnica` que tenho sobre como implementar o recurso em questão e o quão investido estou nele no momento (`valor de negócio`).
+Digamos que eu precise implementar um novo recurso para o meu sistema. Tenho dois modos principais de operação - interativo e em lote (também conhecido como "dispare e esqueça"). Se vou escolher um ou outro depende muito da `certeza técnica` que tenho sobre como implementar o recurso em questão e o quão investida estou nele no momento (`valor de negócio`).
 
 ![Exemplo de priorização](image.png "Exemplo de recursos prioritários para este blog")
 
@@ -53,7 +53,7 @@ O Gemini CLI é um aplicativo de linha de comando do tipo REPL (Repeat Eval Prin
 
 Embora o Gemini CLI tenha um modo YOLO projetado para automação, honestamente não confio nele o suficiente para fazer as coisas sem supervisão (mais sobre isso depois), então prefiro usar a CLI quando preciso fazer um brainstorming e explorar o espaço do problema antes de chegar a uma solução. Posso pedir para planejar um recurso para mim, pesquisar opções de implementação ou até mesmo implementar imediatamente - apenas para descartar a implementação e refazê-la novamente com um estado limpo com base nos aprendizados da implementação inicial - também conhecido como "prototipagem".
 
-Leva algumas tentativas para eu acertar o prompt, da mesma forma que pode levar algumas tentativas para você prototipar algo de maneira satisfatória codificando-o manualmente. A principal diferença é que, em vez de levar uma semana por protótipo, geralmente gasto de 30 minutos a uma hora. Em um dia, posso cobrir de 3 a 4 implementações diferentes do meu problema e, no final do dia, estarei pronto para me comprometer com uma, com muitos dados para tomar uma decisão informada.
+Leva algumas tentativas para eu acertar o prompt, da mesma forma que pode levar algumas tentativas para você prototipar algo de maneira satisfatória codificando-o manualmente. A principal diferença é que, em vez de levar uma semana por protótipo, geralmente gasto de 30 minutos a uma hora. Em um dia, posso cobrir de 3 a 4 implementações diferentes do meu problema e, no final do dia, estarei pronta para me comprometer com uma, com muitos dados para tomar uma decisão informada.
 
 A principal razão para usar a CLI para problemas de baixa certeza técnica é que o ciclo de feedback se fecha quase que imediatamente. Você testa sua hipótese, corrige quaisquer arestas e itera. O único atraso será o tempo para o modelo processar sua solicitação.
 
@@ -63,7 +63,7 @@ Um problema de alta certeza técnica, como dito acima, é aquele em que você j�
 
 Aqui seria um caso para usar o Gemini CLI no modo YOLO, mas na verdade temos uma ferramenta melhor para isso chamada [Jules](https://jules.google/). O Jules foi lançado pelo Google durante o I/O no início deste ano e rapidamente se tornou minha ferramenta favorita (o Gemini CLI vem em um segundo lugar).
 
-Jules é um agente assíncrono que você pode conectar ao GitHub para executar tarefas em segundo plano. Confesso que quando descobri o Jules inicialmente, não prestei atenção suficiente nas letras miúdas e fiquei um pouco irritado com a lentidão, mas só depois de um tempo percebi que o objetivo é colocar uma tarefa para ser feita em segundo plano para que você possa se desconectar e seguir com sua vida.
+Jules é um agente assíncrono que você pode conectar ao GitHub para executar tarefas em segundo plano. Confesso que quando descobri o Jules inicialmente, não prestei atenção suficiente nas letras miúdas e fiquei um pouco irritada com a lentidão, mas só depois de um tempo percebi que o objetivo é colocar uma tarefa para ser feita em segundo plano para que você possa se desconectar e seguir com sua vida.
 
 Como o Jules está conectado ao GitHub, ele já tem o contexto completo do seu projeto para que você possa pedir para ele executar tarefas de manutenção como "atualizar a versão das minhas dependências" ou "implementar testes de unidade", ou até mesmo "corrigir este bug em particular". A nota importante é que, como o ciclo de feedback é longo - você não obterá o resultado imediatamente - é melhor reservar esta ferramenta para tarefas em que você tenha clareza do que fazer passo a passo.
 
@@ -84,7 +84,7 @@ Claro, nenhum bom processo estaria completo sem algumas exceções. Há casos em
 
 Em resumo - se minhas opções são não fazer nenhum progresso ou disparar o Jules, eu vou disparar o Jules para fazer algum trabalho por mim.
 
-Por outro lado, não abordei até agora onde os IDEs tradicionais entram no meu fluxo de trabalho. Isso não significa que eu os abandonei, pois na verdade estou escrevendo este post de blog no VS Code. Eu reservo a edição manual/IDE para a última milha ou polimento final do meu código. Apenas tenha MUITO cuidado com pequenas edições no meio de uma sessão de "vibe coding", pois elas tendem a desviar os LLMs dos trilhos rapidamente. Mas se esta é a última coisa que você faz, você está praticamente seguro.
+Por outro lado, não abordei até agora onde as IDEs tradicionais entram no meu fluxo de trabalho. Isso não significa que eu os abandonei, pois na verdade estou escrevendo este post de blog no VS Code. Eu reservo a edição manual/IDE para a última milha ou polimento final do meu código. Apenas tenha MUITO cuidado com pequenas edições no meio de uma sessão de "vibe coding", pois elas tendem a desviar os LLMs dos trilhos rapidamente. Mas se esta é a última coisa que você faz, você está praticamente seguro.
 
 ## Bônus: Uma nota sobre a redução da incerteza
 
@@ -101,6 +101,6 @@ Todo o processo de seleção de ferramentas de IA e modelo de trabalho com base 
 1. Alta Certeza Técnica + Alto Valor de Negócio = processo síncrono ou programação em par com o Gemini CLI. Use o Gemini com base na pesquisa para pequenos esclarecimentos.
 1. Baixa/Média Certeza Técnica + Alto Valor de Negócio = processo síncrono com o Gemini CLI mais pesquisa assíncrona para aumentar a certeza técnica.
 1. Alta Certeza Técnica + Baixo/Médio Valor de Negócio = processo assíncrono com o Jules. Pesquisa aprofundada, se necessário.
-1. Baixa Certeza Técnica + Baixo Valor de Negócio = na maioria dos casos, não o faça, mas se você realmente quiser, use o Jules или a pesquisa aprofundada para aumentar um dos parâmetros.
+1. Baixa Certeza Técnica + Baixo Valor de Negócio = na maioria dos casos, não o faça, mas se você realmente quiser, use o Jules ou a pesquisa aprofundada para aumentar um dos parâmetros.
 
 O que você acha deste processo? Por favor, deixe seus comentários abaixo.

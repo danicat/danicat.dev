@@ -59,7 +59,7 @@ Se você não estiver satisfeito com as convenções de nomenclatura ou com os d
 
 Observe que esta tela também mostra qual contêiner é instanciado pelo Cloud Run, que assume como padrão um contêiner “hello”. Isso ocorre porque o Gemini Cloud Assist não tem informações sobre qual contêiner você deseja executar, mas se você fornecer essas informações, ele poderá substituir o valor.
 
-Estou destacando isso aqui também por outro motivo - precisamos definir as expectativas de que esta ferramenta não codifica o aplicativo para você, ela apenas projeta a infraestrutura para suportá-lo. Para codificar os serviços de frontend e backend reais, por exemplo, você precisará usar outras ferramentas como o Gemini CLI ou seu IDE regular e publicar os artefatos em seu registro de contêiner para que o Cloud Run possa acessá-los.
+Estou destacando isso aqui também por outro motivo - precisamos definir as expectativas de que esta ferramenta não codifica o aplicativo para você, ela apenas projeta a infraestrutura para suportá-lo. Para codificar os serviços de frontend e backend reais, por exemplo, você precisará usar outras ferramentas como o Gemini CLI ou sua IDE regular e publicar os artefatos em seu registro de contêiner para que o Cloud Run possa acessá-los.
 
 Na janela de Pré-visualização, você pode editar componentes, mas não adicionar componentes manualmente. Se você quiser iterar no design, o que você pode fazer é pedir ao Gemini para modificar o design para você. Veja, por exemplo, este prompt de acompanhamento:
 
@@ -101,7 +101,7 @@ Sobre o tema de validações, outra coisa que me chamou a atenção é que o Gem
 
 ![alt_text](images/image012.png "Resposta do Gemini sugerindo um balanceador de carga regional e substituindo o Postgres por MySQL")
 
-Hmmm… essa me fez pensar. Entendo o ponto sobre o balanceador de carga regional versus global, mas não estou convencido do motivo pelo qual ele acha que o MySQL é mais econômico do que o PostgreSQL. Eu estava mais preocupado com o tipo de máquina do que com a tecnologia de banco de dados real.
+Hmmm… essa me fez pensar. Entendo o ponto sobre o balanceador de carga regional versus global, mas não estou convencida do motivo pelo qual ele acha que o MySQL é mais econômico do que o PostgreSQL. Eu estava mais preocupada com o tipo de máquina do que com a tecnologia de banco de dados real.
 
 A resposta do Gemini não nos conta toda a história, no entanto. Inspecionando o `diff` de perto, ele nos mostra que na verdade modificou o tipo de máquina (mostrado como o atributo `tier`) e simplesmente esqueceu de nos dizer:
 
@@ -147,9 +147,9 @@ Você ainda poderá usar o Gemini para ajudá-lo a prototipar a arquitetura do s
 
 ## Conclusões e próximos passos
 
-Cada novo produto de IA lançado me deixa animado com a ideia de ter aquele momento “Tony Stark” em que você pode projetar seu software apenas usando comandos de voz. Ainda não chegamos lá, mas com o Gemini Cloud Assist estamos progredindo bem, pois agora podemos usar linguagem natural para especificar os componentes de infraestrutura para nós.
+Cada novo produto de IA lançado me deixa animada com a ideia de ter aquele momento “Tony Stark” em que você pode projetar seu software apenas usando comandos de voz. Ainda não chegamos lá, mas com o Gemini Cloud Assist estamos progredindo bem, pois agora podemos usar linguagem natural para especificar os componentes de infraestrutura para nós.
 
-Ainda existem algumas arestas ásperas tanto em termos de interface do usuário quanto nas sugestões do Gemini, mas já estou aliviado por não ter que criar manualmente o código terraform para cada novo aplicativo que estou desenvolvendo.
+Ainda existem algumas arestas ásperas tanto em termos de interface do usuário quanto nas sugestões do Gemini, mas já estou aliviada por não ter que criar manualmente o código terraform para cada novo aplicativo que estou desenvolvendo.
 
 Este é claramente um artigo que deve ter uma data de validade, pois devemos ver essa ferramenta evoluir muito rapidamente nos próximos meses. Para se manter atualizado, você sempre pode verificar a página do produto [Application Design Center](https://cloud.google.com/application-design-center/docs/overview?utm_campaign=CDR_0x72884f69_awareness_b428663487&utm_medium=external&utm_source=blog), mas é claro que farei o meu melhor para escrever sobre novos recursos e melhorias interessantes neste blog também.
 

@@ -97,7 +97,7 @@ Isso é tudo que você precisa para executar um modelo local no ADK. Você pode 
 
 ## Construindo uma base de conhecimento offline com SQLite RAG
 
-Para ser honesto, embora usar o Vertex AI RAG tenha tornado uma parte complexa do projeto gerenciável, o Vertex AI RAG foi um exagero. O Vertex AI RAG é projetado para grandes casos de uso corporativos onde você está lidando com quantidades massivas de dados.
+Para ser honesta, embora usar o Vertex AI RAG tenha tornado uma parte complexa do projeto gerenciável, o Vertex AI RAG foi um exagero. O Vertex AI RAG é projetado para grandes casos de uso corporativos onde você está lidando com quantidades massivas de dados.
 
 Para este agent, precisamos apenas de um mecanismo básico de recuperação de schema. O schema do osquery também é muito estável, o que significa que uma vez que você o construa, dificilmente tocará nele novamente. Dadas essas características, é muito difícil justificar o uso do Vertex AI RAG para hospedá-lo... é como usar um canhão para matar uma mosca.
 

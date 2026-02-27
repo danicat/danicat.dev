@@ -40,7 +40,7 @@ Olhando para o diagrama abaixo, a arquitetura MCP pode parecer mais complexa do 
 
 Os principais componentes da arquitetura MCP são:
 
-*   **Host MCP:** O aplicativo de IA principal, como seu IDE ou um agente de codificação.
+*   **Host MCP:** O aplicativo de IA principal, como sua IDE ou um agente de codificação.
 *   **Servidor MCP:** Um processo que fornece acesso a alguma capacidade (por exemplo, ferramentas ou prompts).
 *   **Cliente MCP:** Conecta o host a um único servidor.
 
@@ -190,4 +190,4 @@ Se você quiser começar, criei um Codelab do Google que o guiará pelo processo
 
 ## Palavras Finais
 
-Espero que você tenha gostado deste artigo. Se você tiver alguma dúvida ou comentário, sinta-se à vontade para entrar em contato na seção de comentários abaixo ou em qualquer uma das minhas redes sociais. Obrigado!
+Espero que você tenha gostado deste artigo. Se você tiver alguma dúvida ou comentário, sinta-se à vontade para entrar em contato na seção de comentários abaixo ou em qualquer uma das minhas redes sociais. Obrigada!

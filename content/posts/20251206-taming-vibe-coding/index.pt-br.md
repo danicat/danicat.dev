@@ -7,7 +7,7 @@ tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
 summary: "Obtenha a velocidade da IA sem a bagunça. Aplique fundamentos de engenharia para manter seu código estruturado, seguro e feito para durar."
 ---
 
-É aquela época do ano para refletir sobre o que você fez e o que gostaria de ter feito. Este ano foi intenso para mim: entrei no Google em abril e comecei uma corrida sem fim para me refatorar para o mundo da IA. Com o ano terminando, posso dizer com confiança que o esforço valeu a pena — tornei-me um engenheiro melhor.
+É aquela época do ano para refletir sobre o que você fez e o que gostaria de ter feito. Este ano foi intenso para mim: entrei no Google em abril e comecei uma corrida sem fim para me refatorar para o mundo da IA. Com o ano terminando, posso dizer com confiança que o esforço valeu a pena — tornei-me uma engenheira melhor.
 
 Neste artigo, compartilho como meu entendimento de "vibe coding" evoluiu e as lições que aprendi. Embora muitas vezes visto como uma maneira para não desenvolvedores construírem software usando linguagem natural, meu objetivo é mostrar como adicionar disciplina de engenharia produz resultados melhores e mais consistentes.
 
@@ -17,7 +17,7 @@ Conheço a definição original — ["(...) give in to the vibes (...) and forge
 
 Antes de me aprofundar nas práticas, quero compartilhar um pouco sobre meu histórico para contextualizar de onde venho.
 
-Sou engenheiro de software há mais de 20 anos, desenvolvendo um forte senso do que constitui um bom código. Aprendi a priorizar legibilidade e manutenibilidade sobre "esperteza", a evitar overengineering e a valorizar fatias finas (thin slices) e ciclos de feedback curtos.
+Sou engenheira de software há mais de 20 anos, desenvolvendo um forte senso do que constitui um bom código. Aprendi a priorizar legibilidade e manutenibilidade sobre "esperteza", a evitar overengineering e a valorizar fatias finas (thin slices) e ciclos de feedback curtos.
 
 Conforme evoluí de sênior dev para principal engineer, meu foco mudou de escrever código para gerenciar a eficácia — escrever épicos, negociar escopo e supervisionar a saída da equipe. É uma crise de identidade que muitos enfrentam: você ainda é um engenheiro se seu nome não está nos PRs? Você passa dias em reuniões, sentindo que está fazendo menos "engenharia de verdade" justamente quando suas responsabilidades crescem.
 

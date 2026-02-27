@@ -22,13 +22,13 @@ Se eu tivesse que resumir esses últimos seis meses em uma palavra, seria *inten
 
 Tive o privilégio de participar de **15 eventos** em **8 cidades diferentes** em **5 países** (para os curiosos: Londres, Berlim, São Paulo, Curitiba, Bletchley, Florença, Barcelona e Málaga).
 
-Conectar-me com desenvolvedores pessoalmente, ouvir sobre o que estão construindo e compartilhar conhecimento sempre foi minha paixão, e fazer isso nessa escala tem sido estimulante. (Sim, a IA sugeriu a palavra "estimulante", mas sou um grande fã de [Dr. Stone](https://www.nicovideo.jp/watch/sm36919684), então vou deixar passar desta vez.)
+Conectar-me com desenvolvedores pessoalmente, ouvir sobre o que estão construindo e compartilhar conhecimento sempre foi minha paixão, e fazer isso nessa escala tem sido estimulante. (Sim, a IA sugeriu a palavra "estimulante", mas sou uma grande fã de [Dr. Stone](https://www.nicovideo.jp/watch/sm36919684), então vou deixar passar desta vez.)
 
 ![Time de DevRel no IO Connect Berlin](image03.jpg "Time de DevRel no IO Connect Berlin")
 
-No lado do conteúdo, escrevi **15 artigos** para este blog e sou autor de [um codelab](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=en#0). Também fiz algumas pequenas contribuições para open source e documentação.
+No lado do conteúdo, escrevi **15 artigos** para este blog e sou autora de [um codelab](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=en#0). Também fiz algumas pequenas contribuições para open source e documentação.
 
-### Refatorando a mim mesmo
+### Refatorando a mim mesma
 
 Só existe uma coisa no mundo que cresce mais rápido do que o número de frameworks JavaScript: ferramentas de IA.
 
@@ -38,7 +38,7 @@ O maior esforço para mim, pessoalmente, tem sido acompanhar a velocidade vertig
 
 Quando comecei minha jornada no Google em abril, eu não tinha ideia do que era MCP e tinha muito pouca experiência com vibe coding. Avançando 6 meses, agora eu vivo e respiro essas coisas.
 
-Considero-me muito sortudo por ter esta oportunidade de me requalificar, já que o meu "eu" anterior já estava entediado com o mesmo velho "vamos construir uma nova API CRUD". Não vou dizer que esse conhecimento está obsoleto agora - o conhecimento fundamental continua sendo crítico - mas estou muito feliz por não ter que escrever o código sozinho. Adicionar IA ao meu fluxo de trabalho foi um divisor de águas e injetou uma nova vida em minha carreira.
+Considero-me muito sortuda por ter esta oportunidade de me requalificar, já que o meu "eu" anterior já estava entediado com o mesmo velho "vamos construir uma nova API CRUD". Não vou dizer que esse conhecimento está obsoleto agora - o conhecimento fundamental continua sendo crítico - mas estou muito feliz por não ter que escrever o código sozinho. Adicionar IA ao meu fluxo de trabalho foi um divisor de águas e injetou uma nova vida em minha carreira.
 
 ![Keynote na Gophercon UK](image04.jpg "Keynote na Gophercon UK")
 
@@ -68,9 +68,9 @@ Quando você está em um ambiente de apoio, fazendo um trabalho que o preenche, 
 
 ## Olhando para o Futuro
 
-Estou incrivelmente orgulhoso de fazer parte do Google durante tempos tão emocionantes. Estamos construindo o futuro, e estar no meio disso é um sonho que se tornou realidade.
+Estou incrivelmente orgulhosa de fazer parte do Google durante tempos tão emocionantes. Estamos construindo o futuro, e estar no meio disso é um sonho que se tornou realidade.
 
-Enquanto olho para os próximos seis meses e além, estou cheio de gratidão e entusiasmo. Há muito mais para aprender, muito mais comunidades para se conectar e, sim, mais "vibe coding" para fazer.
+Enquanto olho para os próximos seis meses e além, estou cheia de gratidão e entusiasmo. Há muito mais para aprender, muito mais comunidades para se conectar e, sim, mais "vibe coding" para fazer.
 
 Nunca pare de sonhar. Se eu consegui, você também consegue!
 

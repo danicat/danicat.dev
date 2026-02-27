@@ -235,7 +235,7 @@ Se você executar `uvicorn main:app` novamente e acessar a página inicial, ver�
 
 ![Barebones chat page](image-2.png "É assim que o mundo seria sem designers")
 
-Note que estou mantendo tudo em um único arquivo por simplicidade, mas no mundo real é melhor ter uma pasta separada para os arquivos HTML, CSS, JS e de assets (geralmente chamada de `static`), pois ter a extensão correta também ajudará seu IDE a entender o código. O Gemini CLI não se importa com o destaque de sintaxe, mas é útil para quando você está revisando o código manualmente ou ajustando-o.
+Note que estou mantendo tudo em um único arquivo por simplicidade, mas no mundo real é melhor ter uma pasta separada para os arquivos HTML, CSS, JS e de assets (geralmente chamada de `static`), pois ter a extensão correta também ajudará sua IDE a entender o código. O Gemini CLI não se importa com o destaque de sintaxe, mas é útil para quando você está revisando o código manualmente ou ajustando-o.
 
 ## Deixando tudo bonito
 

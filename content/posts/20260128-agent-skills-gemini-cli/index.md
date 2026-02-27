@@ -4,7 +4,10 @@ date: 2026-01-29T12:00:00Z
 summary: "Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills in Gemini CLI to build modular, scalable, and autonomous workflows."
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
+series: ["Agent Skills"]
+series_order: 1
 slug: "agent-skills-gemini-cli"
+heroStyle: "big"
 ---
 
 When I wrote about [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) last week I didn't cover one important aspect about experiment analysis: how to extract insights from experiments. Even though I have a nice frontend with summaries and statistical metrics and tests, it is really hard to capture the nuances of each configuration from just a summary.
@@ -110,5 +113,7 @@ Agent Skills represent a significant shift in how we design agentic workflows. B
 In my case, the `experiment-analyst` skill was helpful to turn a repetitive task into a semi-automated flow. It gives me just enough consistency and flexibility to perform the analyses I want. I am now considering upgrading other parts of my workflow to skills, moving away from my approach of using MCP servers as "prompt databases".
 
 I’m excited to see what the community builds. So, take a look at your own workflows. Where are you constantly repeating instructions? Where do you need a specialist? That's your next skill waiting to be written.
+
+**Update:** You can now read [Part 2: Building Agent Skills with skill-creator]({{< ref "/posts/20260227-gemini-cli-skills-part-2/" >}}) where we dive into practical examples.
 
 Happy coding!

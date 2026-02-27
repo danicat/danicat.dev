@@ -5,7 +5,10 @@ draft: false
 summary: "Desbloqueie expertise sob demanda para seu agente de IA. Aprenda a usar Agent Skills na Gemini CLI para construir fluxos de trabalho modulares, escaláveis e autônomos."
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
+series: ["Agent Skills"]
+series_order: 1
 slug: "agent-skills-gemini-cli"
+heroStyle: "big"
 ---
 
 Quando escrevi sobre o [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) na semana passada, não cobri um aspecto importante sobre a análise de experimentos: como extrair insights dos experimentos. Embora eu tenha um frontend bacana com resumos, métricas estatísticas e testes, é muito difícil capturar as nuances de cada configuração apenas com um resumo.
@@ -108,6 +111,8 @@ Agent Skills representam uma mudança significativa na forma como projetamos flu
 
 No meu caso, a skill `experiment-analyst` foi útil para transformar uma tarefa repetitiva em um fluxo semiautomatizado. Ela me dá consistência e flexibilidade suficientes para realizar as análises que desejo. Agora estou considerando atualizar outras partes do meu fluxo de trabalho para skills, afastando-me da minha abordagem de usar servidores MCP como "bancos de dados de prompts".
 
-Estou animado para ver o que a comunidade vai construir. Então, dê uma olhada em seus próprios fluxos de trabalho. Onde você está constantemente repetindo instruções? Onde você precisa de um especialista? Essa é a sua próxima skill esperando para ser escrita.
+Estou animada para ver o que a comunidade vai construir. Então, dê uma olhada em seus próprios fluxos de trabalho. Onde você está constantemente repetindo instruções? Onde você precisa de um especialista? Essa é a sua próxima skill esperando para ser escrita.
+
+**Atualização:** Você já pode ler a [Parte 2: Construindo Agent Skills com skill-creator]({{< ref "/posts/20260227-gemini-cli-skills-part-2/" >}}) onde mergulhamos em exemplos práticos.
 
 Happy coding!
