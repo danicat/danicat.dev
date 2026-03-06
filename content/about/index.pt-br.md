@@ -29,7 +29,7 @@ Daniela Petruzalek é uma profissional de TI experiente com formação em engenh
 
 Se você gostaria de me convidar para palestrar em seu evento, por favor, envie uma mensagem para daniela@danicat.dev com detalhes sobre o evento, incluindo público, local e data.
 
-Você pode ver meu conteúdo anterior no [GitHub](https://github.com/danicat83/public-speaking).
+Você pode ver meu conteúdo anterior no [GitHub](https://github.com/danicat/public-speaking).
 
 ## Mídias Sociais
 

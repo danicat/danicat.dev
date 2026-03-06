@@ -34,7 +34,7 @@ In her spare time, she contributes to open source, plays video games, and pets r
 
 If you would like to invite me to speak at your event please drop me a message at [daniela@danicat.dev](mailto:daniela@danicat.dev) with details about the event including audience, location and date.
 
-You can see my previous content on [GitHub](https://github.com/danicat83/public-speaking).
+You can see my previous content on [GitHub](https://github.com/danicat/public-speaking).
 
 ## Social Media
 
