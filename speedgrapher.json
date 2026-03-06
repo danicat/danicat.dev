@@ -1,0 +1,16 @@
+{
+  "accept": [
+    "agentic",
+    "hardcoded",
+    "LLMs",
+    "overengineered",
+    "underengineered",
+    "SDKs",
+    "reimplementation",
+    "vibe-coding",
+    "golangci-lint",
+    "ruff",
+    "PII",
+    "MCP"
+  ]
+}

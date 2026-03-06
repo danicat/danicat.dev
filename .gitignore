@@ -7,3 +7,4 @@ resources/*
 .issue/
 nanobanana-output/
 .playwright-mcp/
+.gemini

@@ -1,0 +1,8 @@
+{{ range .AllTranslations }}
+<link rel="alternate" hreflang="{{ .Language.LanguageCode }}" href="{{ .Permalink }}" />
+{{ end }}
+{{ range .AllTranslations }}
+{{ if eq .Language.LanguageCode "en" }}
+<link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
+{{ end }}
+{{ end }}
