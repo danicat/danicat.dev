@@ -11,6 +11,14 @@
     "golangci-lint",
     "ruff",
     "PII",
-    "MCP"
+    "MCP",
+    "ebitengine",
+    "godoctor",
+    "multimodal",
+    "codelab",
+    "playtesting",
+    "Orkut",
+    "ICQ",
+    "Three.js"
   ]
 }
