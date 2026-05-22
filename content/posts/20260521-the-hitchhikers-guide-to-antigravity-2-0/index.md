@@ -81,7 +81,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-This Python library gives developers programmatic access to the same agentic runtime and orchestration harness. The SDK is runtime-agnostic and allows spinning up a stateful agent loop in under 15 lines of code. It supports modular capabilities including built-in tools, custom functions, Model Context Protocol servers, sub-agents, and reusable skills under a unified pipeline.
+This [Python](https://xkcd.com/353/ "import antigravity") library gives developers programmatic access to the same agentic runtime and orchestration harness. The SDK is runtime-agnostic and allows spinning up a stateful agent loop in under 15 lines of code. It supports modular capabilities including built-in tools, custom functions, Model Context Protocol servers, sub-agents, and reusable skills under a unified pipeline.
 
 ## Getting started
 

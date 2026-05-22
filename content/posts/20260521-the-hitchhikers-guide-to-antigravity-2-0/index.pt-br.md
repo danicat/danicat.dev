@@ -81,7 +81,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-Esta biblioteca Python dá aos desenvolvedores acesso programático ao mesmo runtime agêntico e harness de orquestração. O SDK é agnóstico em relação ao runtime e permite iniciar um loop de agente stateful em menos de 15 linhas de código. Suporta capacidades modulares incluindo ferramentas integradas, funções personalizadas, servidores Model Context Protocol, subagentes e skills reutilizáveis sob um pipeline unificado.
+Esta biblioteca [Python](https://xkcd.com/353/ "import antigravity") dá aos desenvolvedores acesso programático ao mesmo runtime agêntico e harness de orquestração. O SDK é agnóstico em relação ao runtime e permite iniciar um loop de agente stateful em menos de 15 linhas de código. Suporta capacidades modulares incluindo ferramentas integradas, funções personalizadas, servidores Model Context Protocol, subagentes e skills reutilizáveis sob um pipeline unificado.
 
 ## Primeiros passos
 
