@@ -4,6 +4,7 @@ date: 2026-05-15T12:00:00Z
 categories: ["Workflow & Best Practices"]
 tags: ["agile", "agentic-coding", "gemini-cli", "mcp", "architecture"]
 summary: "As transformações Ágeis estão obsoletas? Saiba como as práticas tradicionais do Ágil se mapeiam para os fluxos de trabalho agênticos e como escalá-los por toda a corporação."
+heroStyle: "big"
 ---
 
 Se você passou algum tempo significativo na indústria de software na última década, provavelmente já vivenciou uma transformação Ágil. Você participou de intermináveis reuniões de planejamento de sprint, compartilhou suas atualizações em daily standups e talvez até tenha se questionado se tudo isso fazia algum sentido.

@@ -4,6 +4,7 @@ date: 2026-05-07T09:00:00Z
 categories: ["Workflow & Best Practices", "AI & Development"]
 tags: ["gemini-cli", "golang", "codelab", "vibe-coding", "sub-agents"]
 summary: "Aprenda como construir um jogo Match-3 totalmente funcional usando programação agêntica, o Gemini CLI e Go. Nós exploramos o modo plano e sub-agents personalizados."
+heroStyle: "big"
 ---
 
 O único motivo de eu ter me tornado um desenvolvedor de software foi porque eu amava videogames quando criança. Eu passava incontáveis horas jogando e ficava profundamente intrigado sobre como eles eram construídos. Meu pai tentava ao máximo explicar como TVs e computadores funcionavam, mas isso nunca entrava de verdade na minha cabeça.

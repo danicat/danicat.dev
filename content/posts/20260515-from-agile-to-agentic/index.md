@@ -4,6 +4,7 @@ date: 2026-05-15T12:00:00Z
 categories: ["Workflow & Best Practices"]
 tags: ["agile", "agentic-coding", "gemini-cli", "mcp", "architecture"]
 summary: "Are Agile transformations obsolete? Learn how traditional Agile practices map to agentic workflows and how to scale them across the enterprise."
+heroStyle: "big"
 ---
 
 If you have spent any significant amount of time in the software industry over the last decade, you have probably lived through an Agile transformation. You have sat through endless sprint plannings, shared your updates in daily standups, and maybe even questioned if the whole thing made any sense.
