@@ -1,6 +1,6 @@
 ---
 title: "Dominando Hooks em Agentes de Codificação"
-date: 2026-05-21T11:00:00Z
+date: 2026-06-10T00:00:00Z
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["antigravity", "agy-cli", "agentic-coding"]
 summary: "Aprenda a usar hooks de agentes para incorporar as melhores práticas de engenharia em seus loops de codificação agentivos."

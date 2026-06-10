@@ -1,6 +1,6 @@
 ---
 title: "コーディングエージェントにおけるフックのマスター"
-date: 2026-05-21T11:00:00Z
+date: 2026-06-10T00:00:00Z
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["antigravity", "agy-cli", "agentic-coding"]
 summary: "エージェントフックを使用して、エンジニアリングのベストプラクティスを自律型コーディングループに組み込む方法について解説します。"
