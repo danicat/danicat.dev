@@ -17,10 +17,10 @@ While MCPs and skills are focusing on extending agentic capabilities (by adding 
 
 ## Agent hooks explained
 
-The name hook might not ring a bell at first, but hooks are simply "callbacks" — procedures that are called at specific moments during the agent processing lifecycle.
+The name hook might not ring a bell at first, but hooks are "callbacks" — procedures that are called at specific moments during the agent processing lifecycle.
 
 Hooks have three components:
-- A trigger event: when the hook will be called. Typically composed of an execution phase (pre or post) and a context, such as a tool call or model invocation. For example, in Antigravity, we have events like `PreToolUse` and `PostInvocation`. Some engines also support a `Stop` hook (upon agent termination) and a `PreCompact` hook (before auto-compaction, which is unique to Claude-based implementations).
+- A trigger event: when the hook will be called. Typically composed of an execution phase (pre or post) and a context, such as a tool call or model invocation. For example, in Antigravity, we have events like `PreToolUse`, `PostInvocation` and `Stop` (upon agent termination).
 - A condition or filter: a regular expression based on the trigger event. For example, in a tool call, the filter can be the tool name and may include the tool arguments. For example, it is possible to create a hook for the tool call `run_command(git)`.
 - A procedure: the body of the hook, either as a shell script or command. The procedure can be used to either allow or disallow an operation, to override model or tool calls completely, and to produce side effects like logging or telemetry.
 
@@ -30,19 +30,15 @@ Hooks intercept the agent lifecycle at specific moments to inject custom command
 
 For example, developers often attempt to enforce coding guidelines via either a system prompt or an AGENTS.md file (or similar). However, prompt-based guidelines offer no execution guarantees due to the non-deterministic nature of large language models: the exact same prompt can produce different outcomes, and agents can selectively ignore parts of the prompt.
 
-Using hooks instead of prompts you can enforce a specific action. Let's say for example that you want to ensure your agent always run a static analysis tool in the code (a.k.a. a linter) after every code edit to ensure the code is always sanitised. If you add "always run a linter after edits" to your prompts, the agent has the "agency" to decide if they are going to run a linter or not, and the agent may skip validation entirely if it deems the edit "trivial." But if you create a hook instead — in this case a `PostToolUse` filtering for the file editing tool — you can deterministically ensure your static analysis tool will run after every edit.
+Using hooks instead of prompts, you can enforce a specific action. Let's say for example that you want to ensure your agent always runs a static analysis tool in the code (a.k.a. a linter) after every code edit to ensure the code is always sanitised. Adding "always run a linter after edits" to your prompts leaves validation up to the agent. It can selectively skip this step if it deems an edit "trivial." But if you create a hook instead — in this case a `PostToolUse` filtering for the file editing tool — you can deterministically ensure your static analysis tool will run after every edit.
 
-By intercepting these lifecycles, we can implement several powerful patterns to control agent behaviour, gather metrics, or keep workflows secure.
+By intercepting these lifecycle events, we can implement several patterns to control agent behaviour, gather metrics and keep workflows secure. Let's have a look at some of these below.
 
 ### Steer the agent towards specialised tools
 
-Hooks are useful in many scenarios, but my favourite use case is to put guardrails around the agent, or as sometimes I like to say: "constraining agent autonomy".
+Hooks are useful in many scenarios, but my favourite use case is to put guardrails around the agent, or as sometimes I like to say: "reducing the agency of the agent".
 
 We can implement this by pairing a `PreToolUse` hook with a script denying the tool access and returning a "steering hint" to the coding agent. This steering hint will contain the instructions you want it to perform instead. For example, let's say you want to prevent the agent from using shell commands to read Go files, a steering hint could look like this: "Tool call blocked - run_command(cat): do not use 'cat' for reading *.go files, use 'smart_read' instead".
-
-### Collect telemetry data
-
-The hook system is also a good place to put your telemetry collectors and loggers, as it gives you good visibility of the inner workings of the agent.
 
 ### Intercept malicious prompts
 
@@ -56,11 +52,15 @@ Developers sometimes accidentally paste env files or credentials into active fil
 
 Agents are typically stateless unless they are plugged into an external memory system like [Agent Platform Memory Bank](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank) or [MemPalace](https://github.com/mempalace/mempalace).
 
-One way to add memory capabilities to agents is by registering memorization and retrieval as tools, but doing so we depend on the agent explicitly making a decision to call the corresponding tools.
+One way to add memory capabilities to agents is by registering memorisation and retrieval as tools, but doing so we depend on the agent explicitly making a decision to call the corresponding tools.
 
 The hook system allows you to automate the memory persistence and retrieval. You can connect the [memory generation](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/generate-memories#triggering-memory-generation) to the end of a session (using a `Stop` hook) or after a certain number of turns (by monitoring step number or number of model invocations).
 
 Conversely, memory retrieval can be done automatically at the start of the session and before invoking models (e.g., a `PreInvocation` hook). For example, in Agent Platform Memory Bank you can retrieve memories by [scope](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#retrieve-all) (e.g., scope could be a user ID) or [similarity](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#similarity-search) (based on a query). This is essentially a memory-based retrieval augmented generation (RAG).
+
+### Collect telemetry data
+
+The hook system is also a good place to put your telemetry collectors and loggers, as it gives you good visibility of the inner workings of the agent. Personally, I have been tempted to create a "curse word counter" hook for a while, in an attempt to develop awareness and move towards a better relationship with my agents before the AI overlords take over (joking :).
 
 ## Configuring hooks in Antigravity
 
@@ -152,7 +152,7 @@ if __name__ == "__main__":
 
 ## Regaining control
 
-Agents are getting smarter and faster, allowing us to produce code faster than ever before. But speed without control is the recipe for disaster. I often use this analogy on my talks: if you like fast cars, the most important thing you need to care about is not the engine, but the brakes. If the brakes are less powerful than the engine, you won't be able to stop and your safety is compromised.
+Agents are getting smarter and faster, allowing us to produce code faster than ever before. But speed without control is the recipe for disaster. I often use this analogy in my talks: if you like fast cars, the most important thing you need to care about is not the engine, but the brakes. If the brakes are less powerful than the engine, you won't be able to stop and your safety is compromised.
 
 The same thinking should be applied to coding agents. If you want to write code fast, you need a powerful control system that ensures you are not sacrificing quality and introducing bugs, because if you do your application is going to have big problems sooner or later.
 

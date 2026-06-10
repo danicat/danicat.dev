@@ -13,14 +13,14 @@ Avançando doze meses, e hoje a maioria das pessoas parece ter migrado dos MCPs 
 
 Tanto o MCP quanto as skills têm suas próprias comunidades de fãs, mas há outro padrão de agentes de codificação que surgiu nesse período e não é mencionado com tanta frequência quanto seus equivalentes mais populares: os hooks.
 
-Enquanto MCPs e skills focam em estender as capacidades agentivas (adicionando ferramentas e conhecimento), os hooks operam em um nível diferente, oferecendo mais controle sobre o loop do agente e o processo de desenvolvimento como um todo.
+Embora MCPs e skills foquem em estender as capacidades agentivas (adicionando ferramentas e conhecimento), os hooks operam em um nível diferente, oferecendo mais controle sobre o loop do agente e o processo de desenvolvimento como um todo.
 
 ## Hooks de agentes explicados
 
-O nome hook pode não soar familiar à primeira vista, mas os hooks são simplesmente "callbacks" — procedimentos que são chamados em momentos específicos durante o ciclo de vida de processamento do agente.
+O nome hook pode não soar familiar à primeira vista, mas os hooks são "callbacks" — procedimentos que são chamados em momentos específicos durante o ciclo de vida de processamento do agente.
 
 Os hooks possuem três componentes:
-- Um evento gatilho (trigger event): quando o hook será chamado. Normalmente composto por uma fase de execução (pre ou post) e um contexto, como uma chamada de ferramenta ou invocação de modelo. Por exemplo, no Antigravity, temos eventos como `PreToolUse` e `PostInvocation`. Alguns motores também oferecem suporte a um hook `Stop` (na terminação do agente) e um hook `PreCompact` (antes da autocompactação, que é exclusivo para implementações baseadas no Claude).
+- Um evento gatilho (trigger event): quando o hook será chamado. Normalmente composto por uma fase de execução (pre ou post) e um contexto, como uma chamada de ferramenta ou invocação de modelo. Por exemplo, no Antigravity, temos eventos como `PreToolUse`, `PostInvocation` e `Stop` (na terminação do agente).
 - Uma condição ou filtro: uma expressão regular baseada no evento gatilho. Por exemplo, em uma chamada de ferramenta, o filtro pode ser o nome da ferramenta e pode incluir seus argumentos. Por exemplo, é possível criar um hook para a chamada de ferramenta `run_command(git)`.
 - Um procedimento: o corpo do hook, seja na forma de um script shell ou comando. O procedimento pode ser usado para permitir ou negar uma operação, para sobrescrever completamente as chamadas de modelo ou ferramenta, e para produzir efeitos colaterais como logging ou telemetria.
 
@@ -28,21 +28,17 @@ Os hooks possuem três componentes:
 
 Os hooks interceptam o ciclo de vida do agente em momentos específicos para injetar comandos ou scripts personalizados. Ao interceptar no momento certo, você pode controlar o fluxo de operação e adicionar resultados determinísticos ao que, de outra forma, seria um processo majoritariamente não determinístico.
 
-Por exemplo, desenvolvedores frequentemente tentam impor diretrizes de codificação por meio de prompts do sistema ou de um arquivo AGENTS.md (ou similar). No entanto, diretrizes baseadas em prompts não oferecem garantias de execução devido à natureza não determinística dos grandes modelos de linguagem (LLMs): o exato mesmo prompt pode produzir resultados diferentes, e os agentes podem ignorar seletivamente partes do prompt.
+Por exemplo, desenvolvedores frequentemente tentam impor diretrizes de codificação por meio de prompts do sistema ou de um arquivo AGENTS.md (or similar). No entanto, diretrizes baseadas em prompts não oferecem garantias de execução devido à natureza não determinística dos grandes modelos de linguagem: o exato mesmo prompt pode produzir resultados diferentes, e os agentes podem ignorar seletivamente partes do prompt.
 
-Usando hooks em vez de prompts, você pode forçar uma ação específica. Digamos, por exemplo, que você queira garantir que seu agente sempre execute uma ferramenta de análise estática no código (linter) após cada edição, para assegurar que o código esteja sempre limpo e validado. Se você adicionar "sempre execute o linter após edições" aos seus prompts, o agente terá a autonomia de decidir se vai rodar o linter ou não, podendo ignorar a validação completamente se achar que a edição foi "trivial". Mas se você criar um hook — neste caso, um `PostToolUse` filtrando pela ferramenta de edição de arquivos —, você garante de forma determinística que sua ferramenta de análise estática será executada após cada alteração.
+Usando hooks em vez de prompts, você pode forçar uma ação específica. Digamos, por exemplo, que você queira garantir que seu agente sempre execute uma ferramenta de análise estática no código (linter) após cada edição, para assegurar que o código esteja sempre limpo e validado. Adicionar "sempre execute o linter após edições" aos seus prompts deixa a validação a cargo do agente. Ele pode ignorar a etapa seletivamente se achar que uma edição foi "trivial". Mas se você criar um hook — neste caso, um `PostToolUse` filtrando pela ferramenta de edição de arquivos —, você garante de forma determinística que sua ferramenta de análise estática será executada após cada alteração.
 
-Ao interceptar esses ciclos de vida, podemos implementar vários padrões poderosos para controlar o comportamento do agente, coletar métricas ou manter os fluxos de trabalho seguros.
+Ao interceptar esses eventos de ciclo de vida, podemos implementar vários padrões para controlar o comportamento do agente, coletar métricas e manter os fluxos de trabalho seguros. Vamos dar uma olhada em alguns deles abaixo.
 
 ### Direcionar o agente para ferramentas especializadas
 
-Os hooks são úteis em muitos cenários, mas meu caso de uso favorito é colocar barreiras de proteção (guardrails) ao redor do agente, ou, como às vezes gosto de dizer: "limitar a autonomia do agente".
+Os hooks são úteis em muitos cenários, mas meu caso de uso favorito é colocar barreiras de proteção (guardrails) ao redor do agente, ou, como às vezes gosto de dizer: "reduzir a agência do agente".
 
 Podemos implementar isso emparelhando um hook `PreToolUse` com um script que nega o acesso à ferramenta e retorna uma "dica de direcionamento" (steering hint) para o agente de codificação. Essa dica conterá as instruções que você deseja que ele execute em vez disso. Por exemplo, suponha que você queira impedir o agente de usar comandos shell para ler arquivos Go; uma dica de direcionamento poderia ser assim: "Tool call blocked - run_command(cat): do not use 'cat' for reading *.go files, use 'smart_read' instead".
-
-### Coletar dados de telemetria
-
-O sistema de hooks também é um ótimo lugar para colocar seus coletores de telemetria e geradores de logs, pois oferece uma excelente visibilidade do funcionamento interno do agente.
 
 ### Interceptar prompts maliciosos
 
@@ -58,9 +54,13 @@ Os agentes são tipicamente stateless (sem estado), a menos que estejam conectad
 
 Uma maneira de adicionar capacidades de memória aos agentes é registrando a memorização e a recuperação como ferramentas, mas, ao fazer isso, dependemos de o agente tomar explicitamente a decisão de chamar as ferramentas correspondentes.
 
-O sistema de hooks permite que você automatize a persistência e recuperação de memória. Você pode conectar a [geração de memórias](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/generate-memories#triggering-memory-generation) ao final de uma sessão (usando um hook `Stop`) ou após um certo número de turnos (monitorando o número da etapa ou o número de invocações do modelo).
+O sistema de hooks permite que você automatize a persistência e recuperação de memória. Você pode conectar a [geração de memórias](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/generate-memories#triggering-memory-generation) ao final de uma sessão (using a `Stop` hook) ou após um certo número de turnos (monitorando o número da etapa ou o número de invocações do modelo).
 
 Por outro lado, a recuperação de memória pode ser feita automaticamente no início da sessão e antes de invocar os modelos (por exemplo, com um hook `PreInvocation`). No Agent Platform Memory Bank, você pode recuperar memórias por [escopo](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#retrieve-all) (por exemplo, o escopo pode ser um ID de usuário) ou [similaridade](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#similarity-search) (baseado em uma consulta). Isso é essencialmente uma geração aumentada por recuperação (RAG) baseada em memória.
+
+### Coletar dados de telemetria
+
+O sistema de hooks também é um ótimo lugar para colocar seus coletores de telemetria e geradores de logs, pois oferece uma excelente visibilidade do funcionamento interno do agente. Pessoalmente, tenho sido tentado a criar um "contador de palavrões" há algum tempo, em uma tentativa de desenvolver consciência e caminhar para um relacionamento melhor com meus agentes antes que os soberanos da IA assumam o controle (brincadeira :).
 
 ## Configurando hooks no Antigravity
 
@@ -103,9 +103,9 @@ Aqui está um exemplo de como implementar as dicas de direcionamento e a anális
 }
 ```
 
-As entradas para esses hooks são entregues via `stdin` como um objeto JSON, contendo contexto como os argumentos da ferramenta (`toolCall.args`), `workspacePaths` ativos e o caminho do arquivo do log da sessão atual (`transcriptPath`). Seus scripts podem avaliar essas informações, realizar computações e exibir uma resposta JSON no `stdout` informando ao Antigravity se deve autorizar (`"allow"`), negar (`"deny"`) ou perguntar (`"ask"`) pela confirmação do usuário.
+As entradas para esses hooks são fornecidas via `stdin` como um objeto JSON, contendo contexto como os argumentos da ferramenta (`toolCall.args`), caminhos ativos do espaço de trabalho (`workspacePaths`) e o caminho do arquivo de log da sessão atual (`transcriptPath`). Seus scripts podem avaliar essas informações, realizar cálculos e imprimir uma resposta JSON no `stdout` informando ao Antigravity se deve autorizar (`"allow"`), negar (`"deny"`) ou solicitar confirmação do usuário (`"ask"`).
 
-Por exemplo, veja como você pode escrever um script Python simples (`steer-go-reads.py`) para analisar esse payload recebido e direcionar o agente:
+Por exemplo, veja como você pode escrever um script Python simples (`steer-go-reads.py`) para analisar esse payload de entrada e direcionar o agente:
 
 ```python
 import sys
@@ -148,7 +148,6 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-
 
 ## Retomando o controle
 
