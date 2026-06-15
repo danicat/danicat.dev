@@ -10,6 +10,36 @@
   },
   "talks": [
     {
+      "title": "State of Agentic Coding",
+      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering. This talk covers the transition from simple code completion to autonomous agents that can plan, execute, and debug complex tasks.",
+      "image": null,
+      "events": [
+        {
+          "name": "Google I/O Extended London 2026",
+          "date": "2026-06-13",
+          "location": "London, UK",
+          "url": null
+        },
+        {
+          "name": "Google Cloud Summit Nordics 2026",
+          "date": "2026-06-03",
+          "location": "Stockholm, Sweden",
+          "url": null
+        }
+      ],
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "recording": null,
+      "tags": [
+        "AI",
+        "Agentic Coding",
+        "LLMs"
+      ],
+      "categories": [
+        "AI & Development"
+      ]
+    },
+    {
       "title": "Making of GoDoctor: an MCP server for Go development",
       "summary": "A deep dive into the design and implementation of GoDoctor, a specialized Model Context Protocol (MCP) server for Go. This talk explores how giving agents specialized tools can significantly improve their effectiveness and reliability.",
       "image": null,
