@@ -133,7 +133,7 @@ Entender essas diferenças de interface é fundamental para configurar seu ambie
 
 ## Try it yourself
 
-Acho que a melhor maneira de experimentar o poder dos subagents é testando você mesmo. Quer você queira tentar reproduzir meu prompt de exemplo ou criar o seu próprio, acredito que ficará impressionado com os resultados. Deixe-me saber sobre quaisquer coisas divertidas que você construir com o swarm. Enquanto isso, estarei por aqui refinando um pouco mais o Swarm Defense. :)
+Acho que a melhor maneira de experimentar o poder dos subagents é testando você mesmo. Quer você queira tentar reproduzir meu prompt de exemplo ou criar o seu próprio, acredito que ficará impressionado com os resultados. Deixe-me saber sobre quaisquer coisas divertidas que você construir com o swarm. Enquanto isso, estarei por aqui refinando um pouco mais o [Swarm Defense](https://github.com/danicat/swarm-defense). :)
 
 - Confira o swarm coding e todas as minhas outras skills em: https://github.com/danicat/skills
 - Baixe e leia mais sobre o Antigravity em: https://antigravity.google

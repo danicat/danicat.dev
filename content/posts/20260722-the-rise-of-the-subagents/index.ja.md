@@ -133,7 +133,7 @@ $ npx skills add github.com/danicat/skills --skill swarm-coding
 
 ## Try it yourself
 
-サブエージェントのパワーを体験する最善の方法は、ご自身で試してみることだと思います。私のサンプルプロンプトの再現に挑戦するにせよ、独自のアイデアを考え出すにせよ、その結果にはきっと感動していただけるはずです。スウォームを使って構築した面白いものがあれば、ぜひ教えてください。その間、私はここでもう少しSwarm Defenseを洗練させておきます。 :)
+サブエージェントのパワーを体験する最善の方法は、ご自身で試してみることだと思います。私のサンプルプロンプトの再現に挑戦するにせよ、独自のアイデアを考え出すにせよ、その結果にはきっと感動していただけるはずです。スウォームを使って構築した面白いものがあれば、ぜひ教えてください。その間、私はここでもう少し[Swarm Defense](https://github.com/danicat/swarm-defense)を洗練させておきます。 :)
 
 - swarm codingおよびその他すべてのスキルは、GitHubのこちらからチェックしてください：https://github.com/danicat/skills
 - Antigravityのダウンロードと詳細については、こちらをご覧ください：https://antigravity.google

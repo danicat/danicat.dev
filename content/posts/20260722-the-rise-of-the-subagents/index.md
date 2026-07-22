@@ -133,7 +133,7 @@ Understanding these interface differences is key to setting up your swarm enviro
 
 ## Try it yourself
 
-I think the best way to experience the power of subagents is to try it yourself. Whether you want to try reproducing my example prompt or come up with your own, I believe that you are going to be impressed with the results. Let me know about any fun things you build with the swarm. Meanwhile, I will be here polishing Swarm Defense a bit more. :)
+I think the best way to experience the power of subagents is to try it yourself. Whether you want to try reproducing my example prompt or come up with your own, I believe that you are going to be impressed with the results. Let me know about any fun things you build with the swarm. Meanwhile, I will be here polishing [Swarm Defense](https://github.com/danicat/swarm-defense) a bit more. :)
 
 - Check out swarm coding and all my other skills at: https://github.com/danicat/skills
 - Download and read more about Antigravity at https://antigravity.google
