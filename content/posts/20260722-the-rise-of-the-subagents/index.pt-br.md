@@ -3,7 +3,7 @@ title: "A Ascensão dos Subagentes"
 date: 2026-07-22T00:00:00Z
 categories: ["AI & Development", "Workflow & Best Practices"]
 tags: ["agentic-coding", "agile", "antigravity", "subagents"]
-summary: "Uma introdução à evolução e dinâmica do swarm coding, orquestração de subagentes e estruturação de fluxos de trabalho com o padrão swarm-coding."
+summary: "Uma exploração do paradigma de subagents no Antigravity, desde sua evolução e capacidades até aplicações práticas. Também compartilhamos uma skill chamada 'swarm-coding' para ajudar você a orquestrar subagentes especializados para tarefas complexas de engenharia."
 heroStyle: "big"
 ---
 Devo confessar que quando li pela primeira vez sobre **subagents**, fiquei um pouco cético. Eu conseguia entender os benefícios de rodar tarefas em janelas de contexto separadas, mas nunca tinha me ocorrido iniciar dezenas ou talvez até centenas de agentes em paralelo. Ou talvez seja melhor dizer que eu não via o benefício de fazer isso.
