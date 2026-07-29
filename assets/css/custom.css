@@ -141,3 +141,30 @@ html.dark .gist .gist-meta a {
   background-size: cover;
   background-position: center;
 }
+
+/* ==========================================================================
+   Comparison Table & Image Sizing
+   ========================================================================== */
+
+.article-content table {
+  width: 100%;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-content table td,
+.article-content table th {
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.5rem;
+}
+
+.article-content table img {
+  max-height: 300px;
+  width: auto;
+  object-fit: contain;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+}
+
