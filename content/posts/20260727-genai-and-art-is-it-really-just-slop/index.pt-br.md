@@ -36,7 +36,7 @@ Vamos dar uma olhada em algumas obras de arte e suas contrapartes.
 
 | *Mona Lisa* (Leonardo da Vinci) | *Mona Cat* (Romero Britto) |
 | :---: | :---: |
-| ![Mona Lisa de Leonardo Da Vinci](mona_lisa.jpg) | ![Mona Cat de Romero Britto](mona_cat.jpg) |
+| ![Mona Lisa de Leonardo Da Vinci](mona_lisa.jpg) | ![Mona Cat de Romero Britto](mona_cat.png) |
 
 A *Mona Lisa* de Da Vinci é universalmente aceita como arte refinada, mas e o *Mona Cat* de Romero Britto? Os críticos frequentemente chamam a obra de Britto de slop comercial devido ao uso de métodos industriais e produção em massa, além de ser derivada. Na sua opinião, a crítica é válida ou é apenas uma questão de gosto? Não há resposta certa para essa pergunta, pois sua arte evoca sentimentos diferentes em pessoas diferentes.
 
@@ -46,11 +46,11 @@ A *Mona Lisa* de Da Vinci é universalmente aceita como arte refinada, mas e o *
 | :---: | :---: |
 | ![Ecce Homo Original](ecce_homo_original.jpg) | ![Ecce Homo Restaurado](ecce_homo_restored.jpg) |
 
-O que seria considerado pela maioria um esforço desastrado na restauração de um afresco deteriorado acabou se tornando um acidente feliz para a pequena comunidade de Borja, na Espanha. Graças à internet, o interesse no [Ecce Homo](https://en.wikipedia.org/wiki/Ecce_Homo_(Garc%C3%ADa_Mart%C3%ADnez_and_Gim%C3%A9nez) (pintado por Elías García Martínez por volta de 1930) cresceu exponencialmente e se tornou um sucesso da pop art e um destino turístico internacional. Este é um caso em que a visão da artista-restauradora amadora Cecilia Giménez não correspondeu à sua técnica, mas a própria tentativa se tornou arte, mesmo que não fosse sua intenção original assumir essa forma.
+O que seria considerado pela maioria um esforço desastrado na restauração de um afresco deteriorado acabou se tornando um acidente feliz para a pequena comunidade de Borja, na Espanha. Graças à internet, o interesse no [Ecce Homo](https://en.wikipedia.org/wiki/Ecce_Homo_(Garc%C3%ADa_Mart%C3%ADnez_and_Gim%C3%A9nez)) (pintado por Elías García Martínez por volta de 1930) cresceu exponencialmente e se tornou um sucesso da pop art e um destino turístico internacional. Este é um caso em que a visão da artista-restauradora amadora Cecilia Giménez não correspondeu à sua técnica, mas a própria tentativa se tornou arte, mesmo que não fosse sua intenção original assumir essa forma.
 
 | *Girl with Balloon* (Banksy) | *Love is in the Bin* (Banksy) |
 | :---: | :---: |
-| ![Girl with Balloon de Banksy](banksy_girl_with_balloon.jpg) | ![Love is in the Bin de Banksy](banksy_love_is_in_the_bin.jpg) |
+| ![Girl with Balloon de Banksy](banksy_girl_with_balloon.png) | ![Love is in the Bin de Banksy](banksy_love_is_in_the_bin.jpg) |
 
 Outro caso famoso em que a intenção e a execução não corresponderam, mas acabaram criando uma nova obra de arte de qualquer maneira, é "Love is in the bin" de Banksy. O que supostamente seria um mecanismo de segurança para destruir sua pintura caso ela fosse a leilão engasgou no meio do processo de trituração, deixando "Girl with Balloon" apenas parcialmente destruída. Toda a experiência de assistir a uma obra de arte que recém tinha sido vendida por mais de um milhão de libras ser triturada em pedaços poderia ser considerada uma expressão artística por si só. Da última vez que foi vendida, alcançou mais de 18 milhões de libras!
 
@@ -78,7 +78,7 @@ Apertar um botão leva um segundo. Mas capturar uma imagem como *Eyes of the Nig
 
 Já separamos a visão da execução manual em outros campos:
 
-![Frieren Concert in London](frieren_orchestra_london.jpg "Frieren Concert in London. Foto por https://x.com/AnimeBlurayUK/status/2057571515827163444/photo/1")
+![Frieren Concert in London](frieren_orchestra_london.jpg "Frieren Concert in London. Foto por https://x.com/AnimeBlurayUK")
 
 Na música, creditamos ao compositor Evan Call a trilha sonora de *Frieren*. Em um concerto ao vivo, Call não toca todos os instrumentos. Dezenas de músicos tocam sob um regente, enquanto o compositor fornece a visão, a estrutura e a partitura.
 
@@ -112,11 +112,20 @@ Inspiração é pegar uma ideia em sua cabeça e transformá-la em algo que se c
 Compare um prompt de baixo esforço de duas palavras como `anime girl`, com este prompt que explora cuidadosamente a linguagem de domínio da criação de imagens para materializar uma visão:
 
 ```text
-Character: teenage girl with pink hair, shoulder length, wavy. Blue eyes, gentle smile. School uniform, white blouse, tartan skirt.
+Character: teenage girl with pink hair, shoulder length, wavy. 
+Blue eyes, gentle smile. School uniform, white blouse, tartan skirt.
+
 Scenario: classroom, back seat, close to the window.
-Action: girl is sitting at her desk, book open in front of her, but she is looking at the window, holding her chin with her left hand, melancholic look, pensive.
+
+Action: girl is sitting at her desk, book open in front of her, but 
+she is looking at the window, holding her chin with her left hand, 
+melancholic look, pensive.
+
 Style: anime, watercolor, 90's, pastel tones, shoujo
-Environment: midday light, natural light from the window, artificial light from the ceiling
+
+Environment: midday light, natural light from the window, artificial 
+light from the ceiling
+
 Camera: low angle, profile picture three-quarter view
 ```
 
@@ -130,7 +139,7 @@ Para guiar um modelo de forma eficaz, seja gerando imagens ou escrevendo código
 
 ![Guia de Estrutura de Prompt](prompt_structure_guide_kantakanta.jpg)
 
-Um prompt estruturado (como este framework de [@kantakanta1233](https://x.com/kantakanta1233)) cobre dez áreas específicas: estilo, assunto, características, roupas, pose, composição, fundo, iluminação, acabamento e palavras-chave negativas. Construir um prompt como este é direção criativa e, mesmo depois que o prompt é criado, haverá várias executions e ajustes antes de produzir o resultado final. Tudo parte do processo criativo.
+Um prompt estruturado (como este framework de [@kantakanta1233](https://x.com/kantakanta1233)) cobre dez áreas específicas: estilo, assunto, características, roupas, pose, composição, fundo, iluminação, acabamento e palavras-chave negativas. Construir um prompt como este é direção criativa e, mesmo depois que o prompt é criado, haverá várias execuções e ajustes antes de produzir o resultado final. Tudo parte do processo criativo.
 
 ## Ter um bom prompt não é suficiente, precisa ser o seu prompt
 
