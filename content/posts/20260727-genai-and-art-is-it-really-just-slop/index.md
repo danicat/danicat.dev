@@ -36,7 +36,7 @@ Let's have a look at some art pieces and their counterparts.
 
 | *Mona Lisa* (Leonardo da Vinci) | *Mona Cat* (Romero Britto) |
 | :---: | :---: |
-| ![Mona Lisa by Leonardo Da Vinci](mona_lisa.jpg) | ![Mona Cat by Romero Britto](mona_cat.jpg) |
+| ![Mona Lisa by Leonardo Da Vinci](mona_lisa.jpg) | ![Mona Cat by Romero Britto](mona_cat.png) |
 
 Da Vinci's *Mona Lisa* is universally accepted as fine art, but what about Romero Britto's *Mona Cat*? Critics often call Britto's work commercial slop due to his use of industrial methods and mass-production, while also being derivative. In your opinion, is the criticism valid or is it just a matter of taste? There is no right answer to this question, as his art evokes different feelings in different people.
 
@@ -46,11 +46,12 @@ Da Vinci's *Mona Lisa* is universally accepted as fine art, but what about Romer
 | :---: | :---: |
 | ![Original Ecce Homo](ecce_homo_original.jpg) | ![Restored Ecce Homo](ecce_homo_restored.jpg) |
 
-What would be considered by most a sloppy effort in restoring a decayed fresco ended up becoming a happy accident for the small community of Borja, Spain. Thanks to the internet, the interest on [Ecce Homo](https://en.wikipedia.org/wiki/Ecce_Homo_(Garc%C3%ADa_Mart%C3%ADnez_and_Gim%C3%A9nez) (painted by Elías García Martínez circa 1930) grew exponentially and it became a pop art hit and international tourist destination. This is a case where the vision of the amateur artist-restorer Cecilia Gimenez didn't match her technique, but the attempt itself became art, even if it wasn't her original intention that it would take this form.
+What would be considered by most a sloppy effort in restoring a decayed fresco ended up becoming a happy accident for the small community of Borja, Spain. Thanks to the internet, the interest on [Ecce Homo](https://en.wikipedia.org/wiki/Ecce_Homo_(Garc%C3%ADa_Mart%C3%ADnez_and_Gim%C3%A9nez)) (painted by Elías García Martínez circa 1930) grew exponentially and it became a pop art hit and international tourist destination. This is a case where the vision of the amateur artist-restorer Cecilia Gimenez didn't match her technique, but the attempt itself became art, even if it wasn't her original intention that it would take this form.
 
 | *Girl with Balloon* (Banksy) | *Love is in the Bin* (Banksy) |
 | :---: | :---: |
-| ![Girl with Balloon by Banksy](banksy_girl_with_balloon.jpg) | ![Love is in the Bin by Banksy](banksy_love_is_in_the_bin.jpg) |
+| ![Girl with Balloon by Banksy](banksy_girl_with_balloon.png) | ![Love is in the Bin by Banksy](banksy_love_is_in_the_bin.jpg) |
+
 Another famous case of where intention and execution didn't match, but ended up creating a new piece of art anyway, is Banksy's "Love is in the bin". What was supposedly a failsafe mechanism to destroy his painting if it ever went to auction malfunctioned in the middle of the shredding process leaving "Girl with Balloon" only partially destroyed. The whole experience of watching a piece of art that had just been sold for over one million pounds being shredded to pieces could be said to be an art expression by itself. Last time it was sold it fetched over 18 million pounds!
 
 ### Gallery banana vs. forgotten kiwi
@@ -77,12 +78,13 @@ Pressing a button takes a second. But capturing an image like Jade Gosrani's *Ey
 
 We already separate vision from manual execution in other fields:
 
-![Frieren Concert in London](frieren_orchestra_london.jpg "Frieren Concert in London. Photo by https://x.com/AnimeBlurayUK/status/2057571515827163444/photo/1")
+![Frieren Concert in London](frieren_orchestra_london.jpg "Frieren Concert in London. Photo by https://x.com/AnimeBlurayUK")
 In music, we credit the composer Evan Call for the *Frieren* soundtrack. At a live concert, Call does not play every instrument. Dozens of musicians play under a conductor, while the composer provides the vision, structure, and score.
 
 | *Akira* (Katsuhiro Otomo, 1988) | *Titanic* (James Cameron, 1997) |
 | :---: | :---: |
 | ![Akira 1988](akira_1988_bike_slide.jpg) | ![Titanic Behind the Scenes](titanic_behind_the_scenes_green_screen.jpg) |
+
 In film, Katsuhiro Otomo's *Akira* uses over 160,000 hand-drawn frames. Otomo did not draw every frame himself. A full studio executed his vision. On James Cameron's *Titanic*, dozens of crew members built models and ran visual effects. We credit the director who shapes the story, not every technician on set.
 
 Wikipedia offers this broad [definition of art](https://en.wikipedia.org/wiki/Art):
@@ -109,11 +111,20 @@ Inspiration is taking an idea in your head and turning it into something that co
 Compare a low effort two-word prompt like `anime girl`, against this prompt that carefully explores the domain language of image creation to materialise a vision:
 
 ```text
-Character: teenage girl with pink hair, shoulder length, wavy. Blue eyes, gentle smile. School uniform, white blouse, tartan skirt.
+Character: teenage girl with pink hair, shoulder length, wavy. 
+Blue eyes, gentle smile. School uniform, white blouse, tartan skirt.
+
 Scenario: classroom, back seat, close to the window.
-Action: girl is sitting at her desk, book open in front of her, but she is looking at the window, holding her chin with her left hand, melancholic look, pensive.
+
+Action: girl is sitting at her desk, book open in front of her, but 
+she is looking at the window, holding her chin with her left hand, 
+melancholic look, pensive.
+
 Style: anime, watercolor, 90's, pastel tones, shoujo
-Environment: midday light, natural light from the window, artificial light from the ceiling
+
+Environment: midday light, natural light from the window, artificial 
+light from the ceiling
+
 Camera: low angle, profile picture three-quarter view
 ```
 

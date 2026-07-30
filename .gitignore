@@ -8,3 +8,4 @@ resources/*
 nanobanana-output/
 .playwright-mcp/
 .gemini
+CONTENT_PLAN.md
