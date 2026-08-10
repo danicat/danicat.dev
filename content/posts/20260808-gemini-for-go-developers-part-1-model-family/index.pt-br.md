@@ -147,19 +147,19 @@ Embora a API Generate Content seja boa para gerações simples e sem estado, ela
 
 > Nota: Até a data de hoje, a API de Interações ainda não é suportada pelo SDK oficial do Go GenAI. O progresso da implementação está sendo acompanhado nesta [issue do GitHub](https://github.com/googleapis/go-genai/issues/658).
 
-A API de Interações é a interface unificada do Google projetada para todas as tarefas, desde chats simples e uso de ferramentas até fluxos de trabalho agentic complexos. Ela pode gerenciar o histórico de conversas no lado do servidor para que sua aplicação não precise fazer isso.
+A [API de Interações](https://ai.google.dev/gemini-api/docs/interactions-overview) é a interface unificada do Google projetada para todas as tarefas, desde chats simples e uso de ferramentas até fluxos de trabalho agentic complexos. Ela pode gerenciar o histórico de conversas no lado do servidor para que sua aplicação não precise fazer isso.
 
 ### Live API
 
-A API Live permite conversas em tempo real por voz e vídeo bidirecionais sobre WebSockets. Ela detecta automaticamente quando o usuário fala ou interrompe, fazendo com que as interações por voz pareçam naturais, enquanto suporta ferramentas como busca na web e chamada de função diretamente na sessão ao vivo.
+A [API Live](https://ai.google.dev/gemini-api/docs/live-api) permite conversas em tempo real por voz e vídeo bidirecionais sobre WebSockets. Ela detecta automaticamente quando o usuário fala ou interrompe, fazendo com que as interações por voz pareçam naturais, enquanto suporta ferramentas como busca na web e chamada de função diretamente na sessão ao vivo.
 
 ### Batch API
 
-A API Batch permite processar grandes volumes de dados de forma assíncrona pela metade do preço. Os trabalhos são executados em segundo plano durante horários fora de pico (geralmente concluídos em até 24 horas), sendo ideal para cargas de trabalho não urgentes.
+A [API Batch](https://ai.google.dev/gemini-api/docs/batch-api) permite processar grandes volumes de dados de forma assíncrona pela metade do preço. Os trabalhos são executados em segundo plano durante horários fora de pico (geralmente concluídos em até 24 horas), sendo ideal para cargas de trabalho não urgentes.
 
 ### API de Agentes Gerenciados (Managed Agents API)
 
-Os agentes gerenciados oferecem um ambiente de execução totalmente hospedado, onde agentes de IA planejam e executam tarefas de forma autônoma. Uma única chamada de API provisiona um sandbox Linux isolado com runtimes pré-instalados como Python e Node, permitindo que o agente execute código, gerencie arquivos e navegue na web.
+Os [agentes gerenciados](https://ai.google.dev/gemini-api/docs/agents) oferecem um ambiente de execução totalmente hospedado, onde agentes de IA planejam e executam tarefas de forma autônoma. Uma única chamada de API provisiona um sandbox Linux isolado com runtimes pré-instalados como Python e Node, permitindo que o agente execute código, gerencie arquivos e navegue na web.
 
 O Google oferece dois agentes gerenciados pré-construídos prontos para uso:
 - **Agente Antigravity** (`antigravity-preview-05-2026`): O agente de uso geral padrão alimentado pelo Gemini 3.6 Flash (configurável para Gemini 3.5 Flash ou Flash-Lite) para execução de código, gerenciamento de arquivos e acesso à web.

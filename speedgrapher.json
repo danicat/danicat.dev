@@ -27,6 +27,12 @@
     "Katsuhiro",
     "Lyria",
     "normalisation",
-    "commercialised"
+    "commercialised",
+    "Pydantic",
+    "Zod",
+    "PCM",
+    "VAD",
+    "Veo",
+    "Gemma"
   ]
 }

@@ -147,19 +147,19 @@ Generate Content APIはシンプルなステートレス生成に適していま
 
 > 注：本日時点で、Interactions APIは公式のGo GenAI SDKではまだサポートされていません。実装の進捗状況はこの [GitHub issue](https://github.com/googleapis/go-genai/issues/658) でトラッキングされています。
 
-Interactions APIは、シンプルなチャットやツールの利用から複雑なエージェンティックワークフローまで、すべてのタスク向けに設計されたGoogleの統一インターフェースです。会話履歴をサーバー側で管理できるため、アプリケーションで管理する必要がなくなります。
+[Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview)は、シンプルなチャットやツールの利用から複雑なエージェンティックワークフローまで、すべてのタスク向けに設計されたGoogleの統一インターフェースです。会話履歴をサーバー側で管理できるため、アプリケーションで管理する必要がなくなります。
 
 ### Live API
 
-Live APIは、WebSocketsを介したリアルタイムの双方向音声および動画会話を可能にします。ユーザーが話したり割り込んだりしたことを自動的に検出し、ライブセッション内でWeb検索やファンクションコーリングなどのツールをサポートしながら、自然な音声対話を実現します。
+[Live API](https://ai.google.dev/gemini-api/docs/live-api)は、WebSocketsを介したリアルタイムの双方向音声および動画会話を可能にします。ユーザーが話したり割り込んだりしたことを自動的に検出し、ライブセッション内でWeb検索やファンクションコーリングなどのツールをサポートしながら、自然な音声対話を実現します。
 
 ### Batch API
 
-Batch APIを使用すると、大量のデータを半額で非同期処理できます。ジョブはオフピーク時間帯にバックグラウンドで実行され（通常24時間以内に完了）、緊急性の低いワークロードに最適です。
+[Batch API](https://ai.google.dev/gemini-api/docs/batch-api)を使用すると、大量のデータを半額で非同期処理できます。ジョブはオフピーク時間帯にバックグラウンドで実行され（通常24時間以内に完了）、緊急性の低いワークロードに最適です。
 
 ### Managed Agents API
 
-Managed Agentsは、AIエージェントが自律的にタスクを計画・実行する完全ホスト型の実行環境を提供します。単一のAPI呼び出しで、PythonやNodeなどの実行環境がプリインストールされたOS隔離のLinuxサンドボックスがプロビジョニングされ、エージェントがコードの実行、ファイルの管理、Webの閲覧を行えるようになります。
+[Managed Agents](https://ai.google.dev/gemini-api/docs/agents)は、AIエージェントが自律的にタスクを計画・実行する完全ホスト型の実行環境を提供します。単一のAPI呼び出しで、PythonやNodeなどの実行環境がプリインストールされたOS隔離のLinuxサンドボックスがプロビジョニングされ、エージェントがコードの実行、ファイルの管理、Webの閲覧を行えるようになります。
 
 Googleは、箱から出してすぐに使える2つの事前構築済みマネージドエージェントを提供しています：
 - **Antigravity Agent** (`antigravity-preview-05-2026`): コード実行、ファイル管理、およびWebアクセスのための、Gemini 3.6 Flash（Gemini 3.5 FlashまたはFlash-Liteに変更可能）駆動のデフォルト汎用エージェント。

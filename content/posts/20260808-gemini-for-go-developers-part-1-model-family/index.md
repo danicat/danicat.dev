@@ -147,19 +147,19 @@ While the Generate Content API is good for simple stateless generations, it is b
 
 > Note: As of today, the Interactions API is not yet supported by the official Go GenAI SDK. Implementation progress is being tracked in this [GitHub issue](https://github.com/googleapis/go-genai/issues/658).
 
-The Interactions API is Google's unified interface designed for all tasks, from simple chat and tool use to complex agentic workflows. It can manage conversation history server-side so your application doesn't have to.
+The [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview) is Google's unified interface designed for all tasks, from simple chat and tool use to complex agentic workflows. It can manage conversation history server-side so your application doesn't have to.
 
 ### Live API
 
-The Live API enables real-time, two-way voice and video conversations over WebSockets. It automatically detects when a user speaks or interrupts, making voice interactions feel natural while supporting tools like web search and function calling directly within the live session.
+The [Live API](https://ai.google.dev/gemini-api/docs/live-api) enables real-time, two-way voice and video conversations over WebSockets. It automatically detects when a user speaks or interrupts, making voice interactions feel natural while supporting tools like web search and function calling directly within the live session.
 
 ### Batch API
 
-The Batch API lets you process large volumes of data asynchronously at half price. Jobs run in the background during off-peak hours (usually completing within 24 hours), making it ideal for non-urgent workloads.
+The [Batch API](https://ai.google.dev/gemini-api/docs/batch-api) lets you process large volumes of data asynchronously at half price. Jobs run in the background during off-peak hours (usually completing within 24 hours), making it ideal for non-urgent workloads.
 
 ### Managed Agents API
 
-Managed agents offer a fully hosted runtime environment where AI agents plan and execute tasks autonomously. A single API call provisions an OS-isolated Linux sandbox with pre-installed runtimes like Python and Node, enabling the agent to run code, manage files, and browse the web.
+[Managed agents](https://ai.google.dev/gemini-api/docs/agents) offer a fully hosted runtime environment where AI agents plan and execute tasks autonomously. A single API call provisions an OS-isolated Linux sandbox with pre-installed runtimes like Python and Node, enabling the agent to run code, manage files, and browse the web.
 
 Google provides two pre-built managed agents out of the box:
 - **Antigravity Agent** (`antigravity-preview-05-2026`): The default general-purpose agent powered by Gemini 3.6 Flash (configurable to Gemini 3.5 Flash or Flash-Lite) for code execution, file management, and web access.
