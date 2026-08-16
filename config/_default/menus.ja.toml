@@ -26,6 +26,11 @@
   weight = 18
 
 [[main]]
+  name = "スキル"
+  url = "https://skills.danicat.dev"
+  weight = 19
+
+[[main]]
   name = "私について"
 
   pageRef = "about"
