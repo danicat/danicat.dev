@@ -4,10 +4,10 @@ categories:
 date: '2025-06-11T00:00:00+01:00'
 summary: この記事では、システム指示、セッション履歴、エージェントツールの概念を探求し、よりスマートな診断アシスタントを作成します。
 tags:
-- gemini
-- vertex-ai
-- python
-- tutorial
+  - gemini
+  - python
+  - tutorial
+  - vertex-ai
 title: 大胆なプロンプト：システム指示とエージェントツールの実践ガイド
 ---
 {{< translation-notice >}}

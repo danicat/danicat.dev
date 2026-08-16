@@ -10,10 +10,10 @@ slug: agent-skills-gemini-cli
 summary: Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills
   in Gemini CLI to build modular, scalable, and autonomous workflows.
 tags:
-- gemini-cli
-- agent-skills
-- mcp
-- vibe-coding
+  - agent-skills
+  - gemini-cli
+  - mcp
+  - vibe-coding
 title: Mastering Agent Skills in Gemini CLI
 ---
 

@@ -5,10 +5,10 @@ date: '2025-06-11T00:00:00+01:00'
 summary: This article explores the concepts of system instruction, session history
   and agent tools to create a smarter diagnostic assistant.
 tags:
-- gemini
-- vertex-ai
-- python
-- tutorial
+  - gemini
+  - python
+  - tutorial
+  - vertex-ai
 title: 'Boldly Prompting: A Practical Guide to System Instructions and Agent Tools'
 ---
 ## Introduction

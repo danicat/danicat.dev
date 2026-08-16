@@ -6,8 +6,7 @@ heroStyle: big
 summary: Explore the evolution of agentic coding. Update on the shift to planning
   systems, strategic agent skills, and orchestrating subagents for better outcomes.
 tags:
-- antigravity
-- agentic-coding
+  - antigravity
 title: State of Agentic Coding
 ---
 

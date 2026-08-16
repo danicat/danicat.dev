@@ -4,8 +4,8 @@ categories:
 date: '2025-05-21T17:45:07+01:00'
 summary: O novo agente de codificação autônomo que todo desenvolvedor precisa conhecer.
 tags:
-- vibe-coding
-- jules
+  - jules
+  - vibe-coding
 title: Precisamos falar sobre o Jules!
 ---
 {{< translation-notice >}}

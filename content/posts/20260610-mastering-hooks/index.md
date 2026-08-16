@@ -6,8 +6,7 @@ heroStyle: big
 summary: Learn to use agent hooks to incorporate engineering best practices into your
   agentic coding loops.
 tags:
-- antigravity
-- agentic-coding
+  - antigravity
 title: Mastering Hooks in Coding Agents
 ---
 

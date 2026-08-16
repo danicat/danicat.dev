@@ -6,9 +6,9 @@ date: 2025-07-03
 summary: A detailed account of my iterative process working with Jules, an AI coding
   assistant, to implement a new featured post section on my blog's homepage.
 tags:
-- jules
-- vibe-coding
-- tutorial
+  - jules
+  - tutorial
+  - vibe-coding
 title: How I used Jules to add a featured post to this blog
 ---
 

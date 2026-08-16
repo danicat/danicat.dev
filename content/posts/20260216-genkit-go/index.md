@@ -6,11 +6,11 @@ heroStyle: big
 summary: Learn how to build a high-fidelity photo restoration tool using Go, Genkit,
   and Nano Banana Pro (Gemini 3 Pro Image) native 4K capabilities.
 tags:
-- genkit
-- golang
-- nano-banana
-- gemini
-- tutorial
+  - gemini
+  - genkit
+  - golang
+  - nano-banana
+  - tutorial
 title: Bringing Old Photos to Life with Genkit and Gemini 3
 ---
 

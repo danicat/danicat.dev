@@ -34,7 +34,7 @@ To work with this project, you need to have Hugo installed.
 *   **Multi-language Support:** The site supports English, Portuguese, and Japanese. Content for each language is provided in separate files (e.g., `index.md`, `index.pt-br.md`, `index.ja.md`). Language-specific configurations are in `config/_default/languages.<lang>.toml`.
 *   **Taxonomy Standards:**
     *   **Categories:** Every item must have **exactly one** category from: `Agentic Coding`, `Agent Development`, `Applied GenAI`, `Perspectives`, `Software Engineering`.
-    *   **Tags:** Must be strictly lowercase, kebab-case (e.g., `agentic-coding`, `gemini-cli`, `vertex-ai`). Use English tags across all language editions to ensure unified tag archives. Reference `EDITORIAL.md` for the canonical tag dictionary across the 6 core dimensions.
+    *   **Tags:** Must be strictly lowercase, kebab-case (e.g., `gemini-cli`, `vertex-ai`), sorted in **alphabetical order**, and must **never repeat the category name**. Use English tags across all language editions to ensure unified tag archives. Reference `EDITORIAL.md` for the canonical tag dictionary across the 6 core dimensions.
 *   **Configuration:**
     *   The main site configuration is in `hugo.yaml`.
     *   Detailed theme and site parameters are in `config/_default/hugo.toml` and `config/_default/params.toml`.

@@ -5,7 +5,7 @@ date: 2025-08-11
 summary: An exploration into why time seems to speed up as we age, using a simple
   mathematical model to uncover a surprising truth about our perception of life.
 tags:
-- reflection
+  - reflection
 title: A Model for Perceived Time
 ---
 

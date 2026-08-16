@@ -5,12 +5,11 @@ externalUrl: "https://codelabs.developers.google.com/cloud-crush-agy?hl=pt-br#0"
 featureimage: "/images/codelabs/placeholder.png"
 summary: "Neste codelab, você vai criar o CloudCrush, um jogo de arcade Match-3, usando o Gemini 3 e a Antigravity CLI."
 tags:
-  - gemini
   - antigravity
-  - agentic-coding
-  - golang
-  - game-dev
   - codelab
+  - game-dev
+  - gemini
+  - golang
 categories:
   - Agentic Coding
 showSummary: true

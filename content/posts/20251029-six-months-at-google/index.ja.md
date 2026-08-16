@@ -4,9 +4,9 @@ categories:
 date: 2025-10-29 09:00:00+00:00
 summary: Google 入社から最初の 6 ヶ月を祝して！5 カ国 15 のイベントに参加し、AI エコシステムに深く関わり、個人的な健康面でも大きな節目を迎えた、めまぐるしい日々を振り返ります。
 tags:
-- google-cloud
-- career
-- reflection
+  - career
+  - google-cloud
+  - reflection
 title: Google 入社 6 ヶ月を祝して！
 ---
 

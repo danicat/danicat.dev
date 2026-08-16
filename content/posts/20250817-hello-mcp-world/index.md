@@ -7,10 +7,10 @@ summary: Based on my keynote at Gophercon UK 2025, this article is an introducti
   and the building blocks — Tools, Prompts, and Resources — used to create AI-enabled
   applications with Go.
 tags:
-- mcp
-- gemini
-- golang
-- keynote
+  - gemini
+  - golang
+  - keynote
+  - mcp
 title: Hello, MCP World!
 ---
 ## Introduction

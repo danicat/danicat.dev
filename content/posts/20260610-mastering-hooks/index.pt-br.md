@@ -6,8 +6,7 @@ heroStyle: big
 summary: Aprenda a usar hooks de agentes para incorporar as melhores práticas de engenharia
   em seus loops de codificação agentivos.
 tags:
-- antigravity
-- agentic-coding
+  - antigravity
 title: Dominando Hooks em Agentes de Codificação
 ---
 

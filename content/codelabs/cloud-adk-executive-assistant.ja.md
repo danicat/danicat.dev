@@ -6,9 +6,8 @@ featureimage: "/images/codelabs/placeholder.png"
 summary: "この Codelab では、Agent Development Kit（ADK）と Gemini を使用して、独自の AI 役員アシスタントを作成する方法を学びます。"
 tags:
   - adk
-  - gemini
-  - agent-development
   - codelab
+  - gemini
 categories:
   - Agent Development
 showSummary: true

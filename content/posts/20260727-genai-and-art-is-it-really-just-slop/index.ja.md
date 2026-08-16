@@ -6,9 +6,9 @@ feature: feature.jpg
 heroStyle: big
 summary: 歴史上のあらゆる技術的変革は、新しい規範となる前に道徳的な抵抗に直面してきました。ゲートキーピング、ドメイン言語、自由な発想、そして人間の意図をめぐる考察。
 tags:
-- ai
-- art
-- perspectives
+  - ai
+  - art
+  - perspectives
 title: 生成AIとアート：本当にただの「スロップ（粗悪品）」なのか？
 ---
 

@@ -6,10 +6,10 @@ draft: false
 summary: Google への入社、Vibe Coding の習得から、独自の AI ツールの構築、そして人生とエンジニアリングにおける新しいリズムの発見まで、変革の年となった
   2025 年を振り返ります。
 tags:
-- reflection
-- google-cloud
-- career
-- vibe-coding
+  - career
+  - google-cloud
+  - reflection
+  - vibe-coding
 title: 2025 年の振り返り
 ---
 

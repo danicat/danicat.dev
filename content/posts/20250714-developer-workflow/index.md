@@ -6,9 +6,9 @@ date: 2025-07-11
 summary: A proposal for a modern developer workflow using AI tools and a simple prioritisation
   exercise.
 tags:
-- gemini-cli
-- vibe-coding
-- jules
+  - gemini-cli
+  - jules
+  - vibe-coding
 title: A Modern Developer Workflow for the AI Enabled World
 ---
 ## Introduction

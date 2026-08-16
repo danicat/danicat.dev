@@ -6,9 +6,8 @@ heroStyle: big
 summary: A practical guide to modern code reviews. Learn where to invest your time
   and effort to consistently write quality software in the agentic world.
 tags:
-- code-review
-- vibe-coding
-- agentic-coding
+  - code-review
+  - vibe-coding
 title: How to Do Code Reviews in the Agentic Era
 ---
 

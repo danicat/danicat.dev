@@ -5,9 +5,8 @@ date: 2026-03-06 00:00:00+00:00
 heroStyle: big
 summary: 最新のコードレビューのための実践的ガイド。エージェントの世界で一貫して高品質なソフトウェアを書くために、どこに時間と労力を投資すべきかを学びます。
 tags:
-- code-review
-- vibe-coding
-- agentic-coding
+  - code-review
+  - vibe-coding
 title: エージェントの時代におけるコードレビューのやり方
 ---
 

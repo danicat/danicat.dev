@@ -6,7 +6,7 @@ summary: Uma exploração do motivo pelo qual o tempo parece acelerar à medida 
   usando um modelo matemático simples para descobrir uma verdade surpreendente sobre
   nossa percepção da vida.
 tags:
-- reflection
+  - reflection
 title: Um Modelo para a Percepção do Tempo
 ---
 

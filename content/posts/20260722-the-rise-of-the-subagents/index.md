@@ -7,10 +7,9 @@ summary: An exploration of the subagent paradigm in Antigravity, from its evolut
   and capabilities to practical applications. We also share a 'swarm coding' skill
   to help you orchestrate specialized subagents for complex engineering tasks.
 tags:
-- agentic-coding
-- agile
-- antigravity
-- subagents
+  - agile
+  - antigravity
+  - subagents
 title: The Rise of the Subagents
 ---
 I must confess that when I first read about **subagents**, I was a bit sceptic. I could understand the benefits of running tasks in separate context windows, but it never really occurred to me to spawn dozens or maybe even hundreds of agents in parallel. Or maybe it's better said that I didn't see the benefit in doing so.

@@ -7,9 +7,8 @@ heroStyle: big
 summary: Every major technological shift faces moralizing resistance before becoming
   the new canon. An essay on gatekeeping, domain language, and human intent.
 tags:
-- ai
-- art
-- perspectives
+  - ai
+  - art
 title: 'Generative AI and Art: Is It Really Just Slop?'
 ---
 

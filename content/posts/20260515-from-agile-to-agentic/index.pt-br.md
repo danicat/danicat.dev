@@ -7,11 +7,10 @@ summary: As transformações Ágeis estão obsoletas? Saiba como as práticas tr
   do Ágil se mapeiam para os fluxos de trabalho agênticos e como escalá-los por toda
   a corporação.
 tags:
-- agile
-- agentic-coding
-- gemini-cli
-- mcp
-- software-engineering
+  - agile
+  - gemini-cli
+  - mcp
+  - software-engineering
 title: 'Do Ágil ao Agêntico: Um Guia para o Desenvolvimento Corporativo Moderno'
 ---
 

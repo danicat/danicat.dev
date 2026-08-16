@@ -7,12 +7,12 @@ summary: Um guia passo a passo sobre como eu construí o GoDoctor, um assistente
   desenvolvimento Go movido por IA, usando o Model Context Protocol (MCP) e o Gemini
   CLI.
 tags:
-- golang
-- gemini-cli
-- mcp
-- ai
-- codelab
-- tutorial
+  - ai
+  - codelab
+  - gemini-cli
+  - golang
+  - mcp
+  - tutorial
 title: 'Construindo o GoDoctor: Um Servidor MCP com Gemini CLI e Go'
 ---
 {{< translation-notice >}}

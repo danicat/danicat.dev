@@ -6,8 +6,8 @@ heroStyle: big
 summary: The first chapter of the Gemini for Go Developers series, focusing on the
   different models of the Gemini model family and the API surfaces to consume them.
 tags:
-- golang
-- gemini
+  - gemini
+  - golang
 title: 'Gemini for Go Developers - Part 1: The Gemini Model Family'
 ---
 

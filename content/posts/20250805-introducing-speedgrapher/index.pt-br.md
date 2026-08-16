@@ -7,11 +7,11 @@ summary: A história do Speedgrapher, um servidor MCP personalizado para 'vibe w
   Detalha a jornada de transformar uma coleção pessoal de prompts em um kit de ferramentas
   portátil e alimentado por IA para automatizar e estruturar o processo criativo.
 tags:
-- golang
-- gemini-cli
-- mcp
-- ai
-- vibe-coding
+  - ai
+  - gemini-cli
+  - golang
+  - mcp
+  - vibe-coding
 title: 'Apresentando o Speedgrapher: Um Servidor MCP para Vibe Writing'
 ---
 

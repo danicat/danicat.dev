@@ -7,10 +7,10 @@ summary: Baseado na minha palestra na Gophercon UK 2025, este artigo é uma intr
   arquitetura e os blocos de construção — Ferramentas, Prompts e Recursos — usados
   para criar aplicativos habilitados para IA com Go.
 tags:
-- mcp
-- gemini
-- golang
-- keynote
+  - gemini
+  - golang
+  - keynote
+  - mcp
 title: Olá, Mundo MCP!
 ---
 

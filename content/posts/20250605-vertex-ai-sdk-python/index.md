@@ -5,10 +5,10 @@ date: '2025-06-05T00:00:00+01:00'
 summary: This article explores the communication model between the client code and
   the Gemini API using the Vertex AI SDK for Python
 tags:
-- gemini
-- vertex-ai
-- python
-- tutorial
+  - gemini
+  - python
+  - tutorial
+  - vertex-ai
 title: Digging deeper into the Vertex AI SDK for Python
 ---
 ## Introduction

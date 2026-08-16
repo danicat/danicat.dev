@@ -5,8 +5,8 @@ date: 2026-08-08
 heroStyle: big
 summary: 「Go開発者のためのGemini」シリーズの第1章。Geminiモデルファミリーのさまざまなモデルと、それらを利用するためのAPIサーフェスに焦点を当てます。
 tags:
-- golang
-- gemini
+  - gemini
+  - golang
 title: 'Go開発者のためのGemini - 第1部: Geminiモデルファミリー'
 ---
 

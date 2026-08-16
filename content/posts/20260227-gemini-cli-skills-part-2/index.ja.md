@@ -8,9 +8,9 @@ series:
 series_order: 2
 summary: Gemini CLI に組み込まれた skill-creator を使用して、実践的な例を交えながら、独自のカスタム Agent Skills を自動的に生成、洗練、構造化する方法を学びます。
 tags:
-- gemini-cli
-- agent-skills
-- vibe-coding
+  - agent-skills
+  - gemini-cli
+  - vibe-coding
 title: skill-creator で Agent Skills を構築する
 ---
 

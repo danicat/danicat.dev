@@ -6,9 +6,8 @@ featureimage: "/images/codelabs/placeholder.png"
 summary: "Neste codelab, você vai aprender a criar seu próprio assistente executivo de IA usando o Agent Development Kit (ADK) e o Gemini."
 tags:
   - adk
-  - gemini
-  - agent-development
   - codelab
+  - gemini
 categories:
   - Agent Development
 showSummary: true

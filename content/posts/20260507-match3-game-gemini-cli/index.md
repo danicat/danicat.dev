@@ -6,11 +6,11 @@ heroStyle: big
 summary: Learn how to build a fully functional Match-3 game using agentic coding,
   the Gemini CLI, and Go. We explore plan mode and custom sub-agents.
 tags:
-- gemini-cli
-- golang
-- codelab
-- vibe-coding
-- subagents
+  - codelab
+  - gemini-cli
+  - golang
+  - subagents
+  - vibe-coding
 title: Build a Match 3 Arcade Game Using Gemini CLI
 ---
 

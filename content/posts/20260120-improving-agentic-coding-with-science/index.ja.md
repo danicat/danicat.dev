@@ -5,12 +5,12 @@ date: 2026-01-21 00:00:00+00:00
 draft: false
 summary: AIエージェントの制御にはバイブスだけでなく科学が必要です。A/Bテストと統計的厳密さが、コーディングエージェントをどのように測定可能なエンジニアリング規律に変えるかを解説します。
 tags:
-- agents
-- ai
-- golang
-- mcp
-- vibe-coding
-- gemini-cli
+  - agents
+  - ai
+  - gemini-cli
+  - golang
+  - mcp
+  - vibe-coding
 title: 科学の力を借りてコーディングエージェントを改善する
 ---
 

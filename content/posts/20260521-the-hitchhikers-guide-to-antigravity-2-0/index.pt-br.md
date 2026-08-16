@@ -7,9 +7,8 @@ summary: Um guia para o ecossistema Google Antigravity 2.0 anunciado no Google I
   2026. Analisamos a aplicação desktop standalone, a interface de linha de comando
   terminal CLI baseada em Go, e o SDK Python programático.
 tags:
-- antigravity
-- google-cloud
-- agentic-coding
+  - antigravity
+  - google-cloud
 title: O Guia do Mochileiro para o Antigravity 2.0
 ---
 

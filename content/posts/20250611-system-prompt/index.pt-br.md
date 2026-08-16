@@ -5,10 +5,10 @@ date: '2025-06-11T00:00:00+01:00'
 summary: Este artigo explora os conceitos de instrução de sistema, histórico de sessão
   e ferramentas de agente para criar um assistente de diagnóstico mais inteligente.
 tags:
-- gemini
-- vertex-ai
-- python
-- tutorial
+  - gemini
+  - python
+  - tutorial
+  - vertex-ai
 title: 'Prompt Audacioso: Um Guia Prático para Instruções de Sistema e Ferramentas
   de Agente'
 ---

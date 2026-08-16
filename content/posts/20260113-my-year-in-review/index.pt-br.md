@@ -7,10 +7,10 @@ summary: 'Refletindo sobre um 2025 transformador: desde ingressar no Google e do
   o vibe coding até construir minhas próprias ferramentas de IA e encontrar um novo
   ritmo na vida e na engenharia.'
 tags:
-- reflection
-- google-cloud
-- career
-- vibe-coding
+  - career
+  - google-cloud
+  - reflection
+  - vibe-coding
 title: 'Meu Ano em Revista: 2025'
 ---
 

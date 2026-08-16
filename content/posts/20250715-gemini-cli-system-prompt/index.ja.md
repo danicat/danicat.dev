@@ -5,9 +5,9 @@ categories:
 date: 2025-07-14
 summary: GEMINI.mdとカスタムシステム指示を使用して、コーディングスタイルに合わせてGemini CLIをカスタマイズする方法を学びます。
 tags:
-- gemini-cli
-- vibe-coding
-- tutorial
+  - gemini-cli
+  - tutorial
+  - vibe-coding
 title: プロアクティブさは有害か？コーディングスタイルに合わせてGemini CLIをカスタマイズするためのガイド
 ---
 {{< translation-notice >}}

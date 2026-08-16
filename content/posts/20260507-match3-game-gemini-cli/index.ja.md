@@ -5,11 +5,11 @@ date: 2026-05-07 09:00:00+00:00
 heroStyle: big
 summary: エージェンティック・コーディング、Gemini CLI、そしてGoを使って、完全に機能するマッチ3ゲームを構築する方法を学びます。プランモードやカスタムサブエージェントについて探求します。
 tags:
-- gemini-cli
-- golang
-- codelab
-- vibe-coding
-- subagents
+  - codelab
+  - gemini-cli
+  - golang
+  - subagents
+  - vibe-coding
 title: Gemini CLIを使ってマッチ3アーケードゲームを作ろう
 ---
 

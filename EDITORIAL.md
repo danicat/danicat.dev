@@ -43,14 +43,16 @@ Use **only** these five canonical categories:
 *   **`Software Engineering`**: Foundational Go systems engineering, testing methodology, mutation testing, and production-grade API architecture.
 
 ### Tags (Canonical tag dictionary)
-*   **Strict Formatting:** Always **lowercase** and **kebab-case** (e.g., `agentic-coding`, `gemini-cli`, `vertex-ai`). Never use uppercase, camelCase, or spaces.
+*   **Strict Formatting:** Always **lowercase** and **kebab-case** (e.g., `gemini-cli`, `vertex-ai`). Never use uppercase, camelCase, or spaces.
+*   **Alphabetical Order:** Tags must always be sorted in strictly **alphabetical order**.
+*   **No Category Duplication:** Tags must **never repeat the category name** (e.g., an article, codelab, or presentation in category `Software Engineering` must not have the tag `software-engineering`; in `Agentic Coding` must not have `agentic-coding`; in `Agent Development` must not have `agent-development`).
 *   **Language Agnostic:** Use English tags for all language editions (`index.md`, `index.pt-br.md`, `index.ja.md`) to maintain unified tag archives.
 *   **Canonical Dimensions:**
     *   *Languages & Runtimes:* `golang`, `python`
     *   *Models & Infrastructure:* `gemini`, `vertex-ai`, `genkit`, `google-cloud`, `nano-banana`
     *   *Agent Tooling & Protocols:* `antigravity`, `gemini-cli`, `adk`, `mcp`, `a2ui`, `osquery`, `jules`
-    *   *Methodologies & Patterns:* `agentic-coding`, `vibe-coding`, `agent-skills`, `subagents`, `rag`, `code-review`, `agile`, `game-dev`
-    *   *Core Engineering:* `software-engineering`, `testing`, `mutation-testing`
+    *   *Methodologies & Patterns:* `vibe-coding`, `agent-skills`, `subagents`, `rag`, `code-review`, `agile`, `game-dev`
+    *   *Core Engineering:* `testing`, `mutation-testing`
     *   *Content Formats:* `keynote`, `workshop`, `codelab`, `tutorial`, `train-the-trainer`
     *   *Perspectives & Culture:* `career`, `art`, `reflection`
 

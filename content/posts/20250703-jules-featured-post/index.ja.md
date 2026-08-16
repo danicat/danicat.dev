@@ -5,9 +5,9 @@ categories:
 date: 2025-07-03
 summary: AIコーディングアシスタントであるJulesと協力して、ブログのホームページに新しい特集記事セクションを実装した反復プロセスの詳細な説明。
 tags:
-- jules
-- vibe-coding
-- tutorial
+  - jules
+  - tutorial
+  - vibe-coding
 title: Julesを使ってこのブログに特集記事を追加した方法
 ---
 {{< translation-notice >}}

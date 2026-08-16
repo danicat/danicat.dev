@@ -5,11 +5,10 @@ externalUrl: "https://codelabs.developers.google.com/adk-gemini-a2ui?hl=pt-br#0"
 featureimage: "/images/codelabs/placeholder.png"
 summary: "Neste codelab, você vai explorar como aprimorar seu agente usando o A2UI para criar interfaces dinâmicas além de simples texto e markdown."
 tags:
-  - adk
   - a2ui
-  - gemini
-  - agent-development
+  - adk
   - codelab
+  - gemini
 categories:
   - Agent Development
 showSummary: true

@@ -4,7 +4,7 @@ categories:
 date: '2025-05-20T17:38:53+01:00'
 summary: このブログを始めるにあたってのちょっとした言葉！
 tags:
-- software-engineering
+  - software-engineering
 title: ハローワールド
 ---
 {{< translation-notice >}}

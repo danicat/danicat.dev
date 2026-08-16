@@ -5,11 +5,10 @@ date: 2026-05-15 12:00:00+00:00
 heroStyle: big
 summary: アジャイル変革は時代遅れなのでしょうか？従来のアジャイルの実践がどのようにエージェンティックなワークフローに対応し、企業全体にスケールできるのかを学びます。
 tags:
-- agile
-- agentic-coding
-- gemini-cli
-- mcp
-- software-engineering
+  - agile
+  - gemini-cli
+  - mcp
+  - software-engineering
 title: アジャイルからエージェンティックへ：現代のエンタープライズ開発ガイド
 ---
 

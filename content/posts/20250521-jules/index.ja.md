@@ -4,8 +4,8 @@ categories:
 date: '2025-05-21T17:45:07+01:00'
 summary: すべての開発者が知っておくべき新しい自律型コーディングエージェント。
 tags:
-- vibe-coding
-- jules
+  - jules
+  - vibe-coding
 title: Julesについて話す必要があります！
 ---
 {{< translation-notice >}}

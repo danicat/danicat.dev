@@ -5,12 +5,12 @@ categories:
 date: 2025-07-29
 summary: Model Context Protocol（MCP）とGemini CLIを使用して、AI搭載のGo開発アシスタントであるGoDoctorを構築した方法のステップバイステップガイド。
 tags:
-- golang
-- gemini-cli
-- mcp
-- ai
-- codelab
-- tutorial
+  - ai
+  - codelab
+  - gemini-cli
+  - golang
+  - mcp
+  - tutorial
 title: GoDoctorの構築：Gemini CLIとGoでMCPサーバーを作成する
 ---
 {{< translation-notice >}}

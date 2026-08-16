@@ -1,14 +1,9 @@
-{{ $now := now }}
+{{ $now := now.Format "2006-01-02" }}
 {{ $upcomingEvents := slice }}
 
 {{ range .Site.Data.talks.talks }}
-    {{ $talkTitle := .title }}
-    {{ $talkSummary := .summary }}
-    {{ range .events }}
-        {{ $eventDate := .date | time.AsTime }}
-        {{ if $eventDate.After $now }}
-            {{ $upcomingEvents = $upcomingEvents | append (dict "title" $talkTitle "summary" $talkSummary "name" .name "date" .date "location" .location "url" .url) }}
-        {{ end }}
+    {{ if and .date (ge .date $now) }}
+        {{ $upcomingEvents = $upcomingEvents | append . }}
     {{ end }}
 {{ end }}
 
@@ -31,7 +26,7 @@
           </div>
 
           <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-2">
-            <p class="font-medium text-primary-600 dark:text-primary-400">{{ .name }}</p>
+            <p class="font-medium text-primary-600 dark:text-primary-400">{{ .event }}</p>
             <p class="truncate">{{ .location }}</p>
             <p>{{ .date | time.Format ":date_medium" }}</p>
           </div>

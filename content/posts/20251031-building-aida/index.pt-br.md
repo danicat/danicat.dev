@@ -8,14 +8,14 @@ summary: Eleve seu agente Google ADK com uma interface personalizada em estilo r
   JavaScript puro, adicionando personalidade com um avatar gerado por IA com streaming
   em tempo real.
 tags:
-- ai
-- tutorial
-- adk
-- gemini
-- python
-- fastapi
-- frontend
-- agents
+  - adk
+  - agents
+  - ai
+  - fastapi
+  - frontend
+  - gemini
+  - python
+  - tutorial
 title: 'Além da Dev-UI: Como construir uma interface para um agente ADK'
 ---
 

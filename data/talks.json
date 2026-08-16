@@ -10,6 +10,30 @@
   },
   "talks": [
     {
+      "id": "2026-06-09-google-cloud-summit-dach-2026-building-rich-agent-uis-from-text-to-web-components-with-adk-a2ui",
+      "title": "Building Rich Agent UIs: From Text to Web Components with ADK & A2UI",
+      "event": "Google Cloud Summit DACH 2026",
+      "date": "2026-06-09",
+      "location": "Frankfurt, Germany",
+      "url": "https://cloudonair.withgoogle.com/events/google-cloud-summit-dach-2026?talk=dev-hands-studio4-2",
+      "summary": "Hands-on workshop demonstrating how to transform standard text-based LLM chatbots into interactive, rich web applications using the Agent Development Kit (ADK), AG-UI protocol, and A2UI to map agent outputs directly to dynamic web components.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "a2ui",
+        "adk",
+        "ai-agents",
+        "google-cloud",
+        "web-components"
+      ],
+      "categories": [
+        "Agent Development"
+      ],
+      "codelab": "https://codelabs.developers.google.com/adk-gemini-a2ui#0"
+    },
+    {
       "id": "sessionize-proposal-build-a-photo-restoration-app-using-genkit-go-and-nano-banana-pro",
       "title": "Build a photo restoration app using Genkit Go and Nano Banana Pro",
       "event": null,
@@ -22,11 +46,11 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "golang",
-        "genkit",
-        "gemini",
         "ai",
-        "codelab"
+        "codelab",
+        "gemini",
+        "genkit",
+        "golang"
       ],
       "categories": [
         "Applied GenAI"
@@ -36,20 +60,20 @@
     {
       "id": "2026-08-12-gophercon-uk-2026-vibe-code-a-2d-game-using-go-and-gemini",
       "title": "Vibe Code a 2D Game using Go and Gemini",
-      "event": "Gophercon UK 2026",
+      "event": "GopherCon UK 2026",
       "date": "2026-08-12",
       "location": "London, UK",
-      "url": null,
+      "url": "https://www.gophercon.co.uk/",
       "summary": "This talk provides supporting material for a workshop focused on \"vibe coding\" a 2D game. It demonstrates how to build such a game using the Go programming language and the Gemini AI.",
       "slides": "https://speakerdeck.com/danicat/vibe-code-a-2d-game-using-go-and-gemini",
       "recording": null,
-      "source_code": null,
+      "source_code": "https://github.com/danicat/gcuk26",
       "image": "https://files.speakerdeck.com/presentations/d7f99ca5f4d04b0fa5e0df209cb5bd90/preview_slide_0.jpg?40280407",
       "tags": [
-        "golang",
-        "gemini",
         "ai",
         "game-dev",
+        "gemini",
+        "golang",
         "vibe-coding",
         "workshop"
       ],
@@ -70,10 +94,10 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "ai",
-        "agents",
         "a2ui",
-        "adk"
+        "adk",
+        "agents",
+        "ai"
       ],
       "categories": [
         "Agent Development"
@@ -93,8 +117,7 @@
       "image": null,
       "tags": [
         "ai",
-        "vibe-coding",
-        "agentic-coding"
+        "vibe-coding"
       ],
       "categories": [
         "Agentic Coding"
@@ -135,11 +158,11 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "adk",
         "a2ui",
+        "adk",
         "agents",
-        "gemini",
-        "ai"
+        "ai",
+        "gemini"
       ],
       "categories": [
         "Agent Development"
@@ -160,7 +183,6 @@
       "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
       "tags": [
         "ai",
-        "agentic-coding",
         "llms"
       ],
       "categories": [
@@ -181,7 +203,6 @@
       "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
       "tags": [
         "ai",
-        "agentic-coding",
         "llms"
       ],
       "categories": [
@@ -202,7 +223,6 @@
       "image": null,
       "tags": [
         "ai",
-        "agentic-coding",
         "game-dev",
         "google-cloud"
       ],
@@ -246,9 +266,8 @@
       "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
       "tags": [
         "ai",
-        "agentic-coding",
-        "train-the-trainer",
-        "llms"
+        "llms",
+        "train-the-trainer"
       ],
       "categories": [
         "Agentic Coding"
@@ -267,9 +286,9 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "google-cloud",
+        "ai",
         "codelab",
-        "ai"
+        "google-cloud"
       ],
       "categories": [
         "Applied GenAI"
@@ -288,9 +307,9 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/cca74a8411e549308ed8892f263107db/preview_slide_0.jpg?39701534",
       "tags": [
+        "adk",
         "ai",
-        "gemini",
-        "adk"
+        "gemini"
       ],
       "categories": [
         "Agent Development"
@@ -311,13 +330,13 @@
       "image": null,
       "tags": [
         "adk",
-        "vertex-ai",
         "agents",
+        "ai",
         "gemini",
+        "gemini-cli",
         "mcp",
         "rag",
-        "gemini-cli",
-        "ai"
+        "vertex-ai"
       ],
       "categories": [
         "Agent Development"
@@ -338,9 +357,8 @@
       "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
       "tags": [
         "ai",
-        "agentic-coding",
-        "train-the-trainer",
-        "llms"
+        "llms",
+        "train-the-trainer"
       ],
       "categories": [
         "Agentic Coding"
@@ -359,8 +377,8 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/3b1328a8b6f9456e88318dbb2c1efaaf/preview_slide_0.jpg?38277323",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "mcp"
       ],
       "categories": [
@@ -425,8 +443,8 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "mcp",
         "workshop"
       ],
@@ -447,8 +465,8 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "vibe-coding"
       ],
       "categories": [
@@ -469,9 +487,9 @@
       "image": "https://files.speakerdeck.com/presentations/305f7186f46542c68c8f8328579ceea6/preview_slide_0.jpg?37576975",
       "tags": [
         "ai",
-        "mcp",
         "golang",
-        "keynote"
+        "keynote",
+        "mcp"
       ],
       "categories": [
         "Agent Development"
@@ -490,8 +508,8 @@
       "source_code": null,
       "image": "/images/talks/go-genai.jpg",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "keynote"
       ],
       "categories": [
@@ -512,8 +530,8 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "mcp",
         "workshop"
       ],
@@ -557,8 +575,8 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/175701bb35bd4722a8b59ee9c9ae06d0/preview_slide_0.jpg?38277118",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "mcp"
       ],
       "categories": [
@@ -580,9 +598,9 @@
       "language": "en",
       "tags": [
         "ai",
-        "mcp",
         "golang",
-        "keynote"
+        "keynote",
+        "mcp"
       ],
       "categories": [
         "Agent Development"
@@ -602,12 +620,12 @@
       "image": "https://files.speakerdeck.com/presentations/6b5cd0ea918744c6ab99c3e2da4df857/preview_slide_0.jpg?36647960",
       "language": "pt-BR",
       "tags": [
-        "python",
-        "vertex-ai",
-        "gemini",
-        "osquery",
         "ai",
-        "llms"
+        "gemini",
+        "llms",
+        "osquery",
+        "python",
+        "vertex-ai"
       ],
       "categories": [
         "Agent Development"
@@ -626,8 +644,8 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "vibe-coding"
       ],
       "categories": [
@@ -648,9 +666,9 @@
       "image": "https://files.speakerdeck.com/presentations/8cb8430f99d04755a82112edaeff756d/preview_slide_0.jpg?36265557",
       "tags": [
         "ai",
-        "mcp",
         "golang",
-        "keynote"
+        "keynote",
+        "mcp"
       ],
       "categories": [
         "Agent Development"
@@ -669,8 +687,8 @@
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
       "tags": [
-        "golang",
         "ai",
+        "golang",
         "vibe-coding"
       ],
       "categories": [
@@ -711,8 +729,7 @@
       "source_code": null,
       "image": null,
       "tags": [
-        "golang",
-        "software-engineering"
+        "golang"
       ],
       "categories": [
         "Software Engineering"
@@ -732,8 +749,8 @@
       "image": null,
       "tags": [
         "golang",
-        "testing",
-        "mutation-testing"
+        "mutation-testing",
+        "testing"
       ],
       "categories": [
         "Software Engineering"

@@ -6,11 +6,10 @@ heroStyle: big
 summary: Are Agile transformations obsolete? Learn how traditional Agile practices
   map to agentic workflows and how to scale them across the enterprise.
 tags:
-- agile
-- agentic-coding
-- gemini-cli
-- mcp
-- software-engineering
+  - agile
+  - gemini-cli
+  - mcp
+  - software-engineering
 title: 'From Agile to Agentic: A Guide to Modern Enterprise Development'
 ---
 

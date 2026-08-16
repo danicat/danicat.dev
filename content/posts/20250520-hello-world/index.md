@@ -5,7 +5,7 @@ date: '2025-05-20T17:38:53+01:00'
 summary: 'An introduction to this blog''s purpose: sharing technical journeys in software
   development, cloud computing, and AI.'
 tags:
-- software-engineering
+  - software-engineering
 title: 'Hello World: A New Space for Technical Narratives'
 ---
 

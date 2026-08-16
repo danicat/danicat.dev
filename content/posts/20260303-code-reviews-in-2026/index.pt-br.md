@@ -7,9 +7,8 @@ summary: Um guia prático para code reviews modernos. Aprenda onde investir seu 
   e esforço para escrever software de qualidade de forma consistente no mundo dos
   agentes.
 tags:
-- code-review
-- vibe-coding
-- agentic-coding
+  - code-review
+  - vibe-coding
 title: Como Fazer Code Reviews na Era dos Agentes
 ---
 

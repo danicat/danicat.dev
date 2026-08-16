@@ -6,9 +6,9 @@ summary: Celebrating my first six months at Google! Reflecting on a whirlwind of
   events across 5 countries, diving deep into the AI ecosystem, and achieving a major
   personal health milestone along the way.
 tags:
-- google-cloud
-- career
-- reflection
+  - career
+  - google-cloud
+  - reflection
 title: Celebrating Six Months at Google!
 ---
 

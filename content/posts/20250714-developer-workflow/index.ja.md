@@ -5,9 +5,9 @@ categories:
 date: 2025-07-11
 summary: AIツールと単純な優先順位付け演習を使用した現代的な開発者ワークフローの提案。
 tags:
-- gemini-cli
-- vibe-coding
-- jules
+  - gemini-cli
+  - jules
+  - vibe-coding
 title: AI対応の世界のための現代的な開発者ワークフロー
 ---
 {{< translation-notice >}}

@@ -7,9 +7,9 @@ summary: Um relato detalhado do meu processo iterativo trabalhando com o Jules, 
   assistente de codificação de IA, para implementar uma nova seção de post em destaque
   na página inicial do meu blog.
 tags:
-- jules
-- vibe-coding
-- tutorial
+  - jules
+  - tutorial
+  - vibe-coding
 title: Como usei o Jules para adicionar um post em destaque a este blog
 ---
 {{< translation-notice >}}

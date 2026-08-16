@@ -7,12 +7,12 @@ summary: Domar agentes de IA exige ciência, não apenas vibes. Descubra como te
   A/B e rigor estatístico transformam agentes de programação em uma disciplina de
   engenharia mensurável.
 tags:
-- agents
-- ai
-- golang
-- mcp
-- vibe-coding
-- gemini-cli
+  - agents
+  - ai
+  - gemini-cli
+  - golang
+  - mcp
+  - vibe-coding
 title: Melhorando Agentes de Programação com Ajuda da Ciência
 ---
 

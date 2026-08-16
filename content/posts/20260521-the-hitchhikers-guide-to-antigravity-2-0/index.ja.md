@@ -6,9 +6,8 @@ heroStyle: big
 summary: Google I/O 2026 で発表された Google Antigravity 2.0 エコシステムのガイドです。スタンドアロンのデスクトップアプリケーション、Go
   ベースのターミナル CLI、およびプログラムによる Python SDK について検証します。
 tags:
-- antigravity
-- google-cloud
-- agentic-coding
+  - antigravity
+  - google-cloud
 title: Antigravity 2.0 への銀河ヒッチハイク・ガイド
 ---
 

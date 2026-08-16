@@ -4,8 +4,8 @@ categories:
 date: '2025-05-28T16:30:00+01:00'
 summary: A reflection on the future of the software engineering career.
 tags:
-- perspectives
-- vibe-coding
+  - perspectives
+  - vibe-coding
 title: Can anyone vibe code?
 ---
 ## Introduction

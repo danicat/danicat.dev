@@ -6,11 +6,11 @@ draft: false
 summary: Obtenha a velocidade da IA sem a bagunça. Aplique fundamentos de engenharia
   para manter seu código estruturado, seguro e feito para durar.
 tags:
-- vibe-coding
-- ai
-- mcp
-- gemini-cli
-- jules
+  - ai
+  - gemini-cli
+  - jules
+  - mcp
+  - vibe-coding
 title: 'Domando o Vibe Coding: O Guia do Engenheiro'
 ---
 

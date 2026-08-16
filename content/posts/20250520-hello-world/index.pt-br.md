@@ -4,7 +4,7 @@ categories:
 date: '2025-05-20T17:38:53+01:00'
 summary: Apenas algumas palavras para dar o pontapé inicial neste blog!
 tags:
-- software-engineering
+  - software-engineering
 title: Olá Mundo
 ---
 {{< translation-notice >}}

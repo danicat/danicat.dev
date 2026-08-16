@@ -10,10 +10,10 @@ series_order: 1
 slug: agent-skills-gemini-cli
 summary: AIエージェントにオンデマンドの専門知識を。Gemini CLI の Agent Skills を使用して、モジュール式でスケーラブルかつ自律的なワークフローを構築する方法を学びましょう。
 tags:
-- gemini-cli
-- agent-skills
-- mcp
-- vibe-coding
+  - agent-skills
+  - gemini-cli
+  - mcp
+  - vibe-coding
 title: Gemini CLI で Agent Skills をマスターする
 ---
 

@@ -6,9 +6,9 @@ date: 2025-07-11
 summary: Uma proposta de um fluxo de trabalho de desenvolvedor moderno usando ferramentas
   de IA e um exercício simples de priorização.
 tags:
-- gemini-cli
-- vibe-coding
-- jules
+  - gemini-cli
+  - jules
+  - vibe-coding
 title: Um modelo de trabalho para o desenvolvedor moderno usando IA
 ---
 {{< translation-notice >}}

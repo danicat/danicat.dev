@@ -7,9 +7,8 @@ summary: A guide to the Google Antigravity 2.0 ecosystem announced at Google I/O
   We examine the standalone desktop application, the Go-based terminal CLI, and the
   programmatic Python SDK.
 tags:
-- antigravity
-- google-cloud
-- agentic-coding
+  - antigravity
+  - google-cloud
 title: The Hitchhiker's Guide to Antigravity 2.0
 ---
 

@@ -6,12 +6,12 @@ draft: false
 summary: Taming AI agents requires science, not just vibes. Discover how A/B testing
   and statistical rigor turn coding agents into a measurable engineering discipline.
 tags:
-- agents
-- ai
-- golang
-- mcp
-- vibe-coding
-- gemini-cli
+  - agents
+  - ai
+  - gemini-cli
+  - golang
+  - mcp
+  - vibe-coding
 title: Improving Coding Agents with Help from Science
 ---
 

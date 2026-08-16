@@ -6,9 +6,9 @@ summary: Comemorando meus primeiros seis meses no Google! Refletindo sobre um tu
   de 15 eventos em 5 países, mergulhando fundo no ecossistema de IA e alcançando um
   grande marco de saúde pessoal ao longo do caminho.
 tags:
-- google-cloud
-- career
-- reflection
+  - career
+  - google-cloud
+  - reflection
 title: Comemorando Seis Meses de Google!
 ---
 

@@ -8,9 +8,9 @@ summary: Cada grande mudança tecnológica enfrenta resistência moralizadora an
   se tornar o novo cânone. Um ensaio sobre gatekeeping, linguagem de domínio e intenção
   humana.
 tags:
-- ai
-- art
-- perspectives
+  - ai
+  - art
+  - perspectives
 title: 'IA Generativa e Arte: É Realmente Apenas Slop?'
 ---
 

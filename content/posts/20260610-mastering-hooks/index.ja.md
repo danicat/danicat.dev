@@ -5,8 +5,7 @@ date: 2026-06-10 00:00:00+00:00
 heroStyle: big
 summary: エージェントフックを使用して、エンジニアリングのベストプラクティスを自律型コーディングループに組み込む方法について解説します。
 tags:
-- antigravity
-- agentic-coding
+  - antigravity
 title: コーディングエージェントにおけるフックのマスター
 ---
 

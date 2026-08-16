@@ -7,8 +7,7 @@ summary: Explore a evolução da codificação agente. Atualização sobre a mud
   sistemas de planejamento, habilidades estratégicas de agentes e orquestração de
   subagentes para melhores resultados.
 tags:
-- antigravity
-- agentic-coding
+  - antigravity
 title: Estado da Codificação Agente
 ---
 

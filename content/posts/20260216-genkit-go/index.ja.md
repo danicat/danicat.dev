@@ -5,11 +5,11 @@ date: 2026-02-16
 heroStyle: big
 summary: Go、Genkit、およびNano Banana Pro (Gemini 3 Pro Image) のネイティブ4K機能を使用して、高忠実度の写真復元ツールを構築する方法を学びましょう。
 tags:
-- genkit
-- golang
-- nano-banana
-- gemini
-- tutorial
+  - gemini
+  - genkit
+  - golang
+  - nano-banana
+  - tutorial
 title: GenkitとGemini 3で古い写真に命を吹き込む
 ---
 

@@ -14,29 +14,28 @@ import datetime
 import json
 import os
 import re
-import shutil
 import sys
 from pathlib import Path
-from typing import List, Literal, Optional
+from typing import Dict, List, Literal, Optional, Set, Tuple
 
 import feedparser
 import requests
 from google import genai
 from google.genai import types
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
+from rich import box
 from rich.console import Console
 from rich.prompt import Confirm, Prompt
 from rich.table import Table
-from rich import box
 
-# Standardized 120-column budget for clean readable terminal tables
-console = Console(width=120)
+console = Console(width=130)
 
+SPEAKER_CANONICAL_NAME = "Daniela Petruzalek"
 SPEAKERDECK_RSS_URL = "https://speakerdeck.com/danicat.rss"
 SESSIONIZE_API_URL = os.environ.get("SESSIONIZE_API_URL")
 TALKS_JSON_PATH = Path(__file__).resolve().parent.parent / "data" / "talks.json"
-MODEL_NAME = os.environ.get("GEMINI_MODEL", "gemini-3.7-flash")
-LOCATION = os.environ.get("GEMINI_LOCATION", "global")
+MODEL_NAME = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+
 VALID_CATEGORIES = [
     "Agentic Coding",
     "Agent Development",
@@ -46,20 +45,13 @@ VALID_CATEGORIES = [
 ]
 
 
-class EventItem(BaseModel):
-    name: str = Field(description="Name of the conference, meetup, or event")
-    date: str = Field(description="Date of the event in YYYY-MM-DD format")
-    location: str = Field(description="City and country of the event or 'Online'")
-    url: Optional[str] = Field(default=None, description="Official event website URL if known")
-
-
 class EventRecord(BaseModel):
-    id: str = Field(description="Deterministic slug: YYYY-MM-DD-event-name-talk-title")
-    title: str = Field(description="Clean talk title")
-    event: Optional[str] = Field(default=None, description="Name of the conference, meetup, or event")
-    date: Optional[str] = Field(default=None, description="Date of presentation in YYYY-MM-DD format")
-    location: Optional[str] = Field(default=None, description="City and country of the event or 'Online'")
-    url: Optional[str] = Field(default=None, description="Official event website URL if known")
+    id: str = Field(description="Deterministic slug: YYYY-MM-DD-event-name-talk-title or talk-title if undated")
+    title: str = Field(description="Clean canonical talk title")
+    event: Optional[str] = Field(default=None, description="Verified conference, meetup, or event name (null if none)")
+    date: Optional[str] = Field(default=None, description="Verified date of presentation in YYYY-MM-DD format (null if unverified)")
+    location: Optional[str] = Field(default=None, description="Verified City, Country or 'Online' (null if unverified)")
+    url: Optional[str] = Field(default=None, description="Official event schedule/website URL (null if none)")
     summary: str = Field(description="Concise 1-3 sentence summary of the talk")
     image: Optional[str] = Field(default=None, description="Custom thumbnail or slide preview URL")
     slides: Optional[str] = Field(default=None, description="Slides URL")
@@ -68,13 +60,23 @@ class EventRecord(BaseModel):
     codelab: Optional[str] = Field(default=None, description="Hands-on codelab or workshop tutorial URL")
     materials: Optional[str] = Field(default=None, description="Supporting materials URL")
     language: Optional[str] = Field(default="en", description="Delivery language code, e.g. 'en', 'pt-BR', 'ja'")
-    tags: List[str] = Field(description="Lowercase relevant tags")
-    categories: List[str] = Field(description="Strictly valid taxonomy categories")
+    tags: List[str] = Field(description="Lowercase kebab-case relevant tags, strictly sorted in alphabetical order, must never repeat category name")
+    categories: List[str] = Field(description="Strictly ONE valid taxonomy category from VALID_CATEGORIES")
+
+    @model_validator(mode="after")
+    def clean_and_sort_tags(self) -> "EventRecord":
+        cat_slugs = {slugify(c) for c in self.categories}
+        cleaned = [
+            t.strip().lower() for t in self.tags
+            if t.strip() and slugify(t) not in cat_slugs
+        ]
+        self.tags = sorted(list(dict.fromkeys(cleaned)))
+        return self
 
 
 class JudgeVerdict(BaseModel):
     decision: Literal["accept", "auto_corrected", "merge"] = Field(
-        description="'accept' if record is pristine; 'auto_corrected' if normalized/taxonomy-fixed; 'merge' if it should enrich an existing record"
+        description="'accept' if pristine; 'auto_corrected' if normalized; 'merge' if it enriches an existing record"
     )
     target_id: Optional[str] = Field(
         default=None,
@@ -89,72 +91,6 @@ class JudgeVerdict(BaseModel):
     )
 
 
-BLACKLISTED_EVENT_NAMES = {
-    "speaker deck",
-    "speaker deck presentation",
-    "google cloud online presentation",
-    "conference presentation",
-    "online presentation",
-    "accepted conference session",
-}
-
-
-class SpeakerDeckExtraction(BaseModel):
-    title: str = Field(description="Canonical, clean talk title with any bracketed prefixes or event names stripped")
-    event_name: Optional[str] = Field(
-        default=None,
-        description="The real-world conference or meetup name ONLY if explicitly written in the title or description (e.g. 'FOSDEM 2026', 'DevFest Pisa 2026', 'GoLab 2025', 'Python Brasil 14'). If no event name is mentioned, MUST be None. NEVER guess or invent an event name."
-    )
-    event_date: Optional[str] = Field(
-        default=None,
-        description="Actual date of presentation in YYYY-MM-DD format if explicitly specified in description text. If not mentioned, MUST be None."
-    )
-    location: Optional[str] = Field(
-        default=None,
-        description="City and country of the event if explicitly mentioned in the text. Otherwise None."
-    )
-    summary: str = Field(description="Concise 1-2 sentence summary of the talk content")
-
-
-def extract_speakerdeck_llm(client: genai.Client, raw_title: str, raw_desc: str, pub_date: str) -> SpeakerDeckExtraction:
-    """Use Gemini LLM to extract clean title and strictly factual metadata from unstructured Speaker Deck notes without guessing."""
-    prompt = f"""
-Extract strictly factual presentation metadata from this Speaker Deck upload.
-
-Raw Title: {raw_title}
-Description: {raw_desc}
-Published Upload Date: {pub_date}
-
-ABSOLUTE FACTUALITY RULES:
-1. title: Clean the title by stripping leading bracketed tags (e.g. '[DevFest Pisa 2026]' -> 'Build...').
-2. event_name: Extract the event name ONLY IF EXPLICITLY STATED in the raw title or description (e.g. 'DevFest Pisa 2026', 'FOSDEM 2026', 'GoLab 2025', 'Python Brasil 14').
-   NEVER invent, guess, or synthesize an event name. If no event name is explicitly mentioned in the text, return null.
-3. event_date: Extract the presentation date (YYYY-MM-DD) if explicitly mentioned in the description. If no presentation date is stated, return null.
-4. location: Extract the city/country ONLY if explicitly mentioned in the description. Otherwise return null.
-5. summary: Concise 1-2 sentence summary of the talk content.
-"""
-    try:
-        response = client.models.generate_content(
-            model=MODEL_NAME,
-            contents=prompt,
-            config=types.GenerateContentConfig(
-                response_mime_type="application/json",
-                response_schema=SpeakerDeckExtraction,
-                temperature=0.0,
-            ),
-        )
-        return response.parsed
-    except Exception as e:
-        clean_title = re.sub(r"^\[.*?\]\s*", "", raw_title).strip()
-        return SpeakerDeckExtraction(
-            title=clean_title,
-            event_name=None,
-            event_date=None,
-            location=None,
-            summary=raw_desc.split("\n")[0] if raw_desc else clean_title,
-        )
-
-
 def slugify(text: str) -> str:
     """Generate a clean URL/ID slug from text."""
     text = text.lower()
@@ -163,10 +99,15 @@ def slugify(text: str) -> str:
     return text
 
 
-def generate_deterministic_id(date_str: str, event_name: str, talk_title: str) -> str:
-    """Generate deterministic event ID: YYYY-MM-DD-event-talk."""
-    d = date_str if date_str else datetime.date.today().isoformat()
-    return f"{slugify(d)}-{slugify(event_name)}-{slugify(talk_title)}"
+def generate_deterministic_id(date_str: Optional[str], event_name: Optional[str], talk_title: str) -> str:
+    """Generate deterministic event ID: YYYY-MM-DD-event-talk or talk-title if undated."""
+    parts = []
+    if date_str:
+        parts.append(slugify(date_str))
+    if event_name:
+        parts.append(slugify(event_name))
+    parts.append(slugify(talk_title))
+    return "-".join(parts)
 
 
 def normalize_url(url: Optional[str]) -> str:
@@ -177,7 +118,7 @@ def normalize_url(url: Optional[str]) -> str:
 
 
 def fetch_speakerdeck_preview(slide_url: Optional[str]) -> Optional[str]:
-    """Fetch exact presentation preview image from Speaker Deck HTML/player."""
+    """Fetch presentation preview image from Speaker Deck HTML/player."""
     if not slide_url or "speakerdeck.com" not in slide_url:
         return None
     try:
@@ -220,59 +161,112 @@ def extract_thumbnail_url(entry) -> Optional[str]:
     return None
 
 
-def load_talks() -> dict:
-    if not TALKS_JSON_PATH.exists():
-        console.print(f"[red]ERROR:[/red] Talks data file not found at {TALKS_JSON_PATH}")
-        sys.exit(1)
-    with open(TALKS_JSON_PATH, "r", encoding="utf-8") as f:
-        return json.load(f)
+def research_event_with_google_search(
+    client: genai.Client,
+    talk_title: str,
+    raw_description: str = "",
+    event_hint: str = "",
+) -> str:
+    """Stage 1: Use Gemini with Google Search tool to find verified conference and presentation details for Daniela Petruzalek."""
+    prompt = f"""
+Search Google to find verified conference, meetup, or presentation event details for speaker "{SPEAKER_CANONICAL_NAME}".
 
+Target Presentation Title: "{talk_title}"
+Event Hint (if any): "{event_hint}"
+Description Snippet: "{raw_description}"
 
-def save_talks(data: dict):
-    with open(TALKS_JSON_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+Query instructions:
+Search for "{SPEAKER_CANONICAL_NAME}" together with "{talk_title}" and any event hints.
+Find and report:
+1. Conference / Meetup / Event Name (e.g., 'DevFest Pisa 2026', 'GoLab 2025', 'GopherCon UK 2025', 'FOSDEM 2026', 'TDC São Paulo 2025')
+2. Date of presentation (YYYY-MM-DD format). If only month and year are available, note it.
+3. Location (City, Country or 'Online')
+4. Official Schedule / Event URL
+
+If this talk has not been presented at an actual event or you cannot find verified conference details, state: NO_VERIFIED_EVENT_FOUND.
+"""
+    try:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                tools=[types.Tool(google_search=types.GoogleSearch())],
+                temperature=0.0,
+            ),
+        )
+        return response.text or ""
+    except Exception as e:
+        console.print(f"[yellow]Google Search grounding note: {e}[/yellow]")
+        return ""
 
 
 def evaluate_and_heal_record(
     client: genai.Client,
     raw_title: str,
     raw_description: str,
-    pub_date: str,
     slide_url: Optional[str],
     thumbnail: Optional[str],
     existing_talks: List[dict],
+    event_hint: str = "",
 ) -> JudgeVerdict:
-    """LLM-as-a-Judge: Extracts, validates, auto-heals, and deduplicates the talk entry."""
+    """Stage 2: Structured Output normalization using Gemini native response_schema."""
+    bracket_match = re.match(r"^\[(.*?)\]\s*(.*)", raw_title)
+    if bracket_match:
+        if not event_hint:
+            event_hint = bracket_match.group(1).strip()
+        clean_title_cand = bracket_match.group(2).strip()
+    else:
+        clean_title_cand = raw_title.strip()
+
+    # Stage 1: Google Search Grounding for Daniela Petruzalek
+    grounded_research = research_event_with_google_search(
+        client=client,
+        talk_title=clean_title_cand,
+        raw_description=raw_description,
+        event_hint=event_hint,
+    )
+
     existing_summaries = [
-        {"id": t.get("id") or t.get("title"), "title": t.get("title"), "events": [e.get("name") for e in t.get("events", [])]}
-        for t in existing_talks[:15]
+        {"id": t.get("id") or t.get("title"), "title": t.get("title"), "event": t.get("event"), "date": t.get("date")}
+        for t in existing_talks[:25]
     ]
 
     prompt = f"""
-You are an expert technical editor and automated quality judge for a developer portfolio.
-Evaluate and structure this incoming talk/presentation entry.
+You are an expert technical editor for {SPEAKER_CANONICAL_NAME}'s developer portfolio.
+Structure and normalize this presentation entry using the verified web research findings and input data.
 
-Incoming Data:
+Input Presentation:
 - Raw Title: {raw_title}
+- Event Hint: {event_hint}
 - Description: {raw_description}
-- Published/Date: {pub_date}
 - Slide URL: {slide_url}
 
-Existing Recent Talks in System:
+Verified Web Research Findings (from Google Search for {SPEAKER_CANONICAL_NAME}):
+{grounded_research if grounded_research else "NO_VERIFIED_EVENT_FOUND"}
+
+Existing Recent Talks in Portfolio:
 {json.dumps(existing_summaries, indent=2)}
 
-Allowed Taxonomy Categories (Must choose 1 or 2 strictly from this list):
+Allowed Taxonomy Categories (Must choose EXACTLY ONE strictly from this list):
 {json.dumps(VALID_CATEGORIES)}
 
-Quality Gate & Factuality Rules:
-1. Title: Strip bracketed prefixes (e.g. '[DevFest Pisa 2026]').
-2. Event & Date: Extract ONLY event names explicitly stated in the input (e.g. 'FOSDEM 2026', 'DevFest Pisa 2026', 'GoLab 2025', 'Python Brasil 14').
-   CRITICAL: NEVER invent or guess a conference/event name. If no event name is explicitly mentioned in the text, use 'Unspecified'.
-3. Slug ID: Construct deterministic id = "YYYY-MM-DD-eventname-talktitle" (slugified).
-4. Taxonomy Auto-Correction: Map any informal categories (e.g. 'Golang', 'AI Agents') to the allowed categories.
-5. Deduplication / Merge: Check if this is an update to an existing talk in the system. If it matches an existing talk, set decision = 'merge' and target_id to the existing talk's id.
-6. If everything is clean or auto-corrected, set decision = 'auto_corrected' or 'accept'.
+Factuality & Structuring Rules:
+1. Title: Clean canonical title (strip any bracketed event prefix like '[DevFest Pisa 2026]').
+2. Event & Presentation Date:
+   - Use the verified conference name, date (YYYY-MM-DD), location, and event URL discovered in the Web Research Findings or explicitly written in the notes.
+   - If Web Research Findings say NO_VERIFIED_EVENT_FOUND or no event was verified, set event = null, date = null, location = null, url = null.
+   - NEVER use the slide deck upload date as an event date.
+   - NEVER use hosting platforms like Speaker Deck or Sessionize as event names.
+3. Summary:
+   - Provide a concise 1-3 sentence summary. Prioritize the detailed description provided.
+4. Slug ID:
+   - If date and event are known: deterministic id = "YYYY-MM-DD-eventname-talktitle" (slugified).
+   - If undated: id = "talktitle" (slugified).
+5. Category: Assign EXACTLY ONE valid category from Allowed Taxonomy Categories.
+6. Tags: Lowercase, kebab-case (e.g. 'go', 'gemini-api', 'mcp', 'agentic-coding').
+7. Deduplication / Merge:
+   - Check if this matches an existing talk in the portfolio. If so, set decision = 'merge' and target_id to the existing talk's id.
+   - Otherwise, set decision = 'accept' or 'auto_corrected'.
 """
 
     try:
@@ -293,415 +287,320 @@ Quality Gate & Factuality Rules:
         return verdict
 
     except Exception as e:
-        console.print(f"[yellow]Judge fallback triggered ({e}). Applying rule-based self-healing.[/yellow]")
-        clean_title = re.sub(r"^\[.*?\]\s*", "", raw_title).strip()
-        safe_date = pub_date[:10] if pub_date and len(pub_date) >= 10 else datetime.date.today().isoformat()
-        safe_id = generate_deterministic_id(safe_date, "Unspecified", clean_title)
+        console.print(f"[yellow]Structured judge fallback ({e}). Applying rule-based normalization.[/yellow]")
+        clean_title = clean_title_cand or raw_title
+        safe_id = generate_deterministic_id(None, None, clean_title)
 
         fallback_record = EventRecord(
             id=safe_id,
             title=clean_title,
+            event=None,
+            date=None,
+            location=None,
+            url=None,
             summary=raw_description.split("\n")[0] if raw_description else clean_title,
             image=thumbnail,
-            events=[
-                EventItem(
-                    name="Unspecified",
-                    date=safe_date,
-                    location="-",
-                    url=None,
-                )
-            ],
             slides=slide_url,
             source_code=None,
             recording=None,
-            tags=["tech", "development"],
-            categories=["AI & Development"],
+            codelab=None,
+            materials=None,
+            language="en",
+            tags=["tech", "software-engineering"],
+            categories=["Software Engineering"],
         )
         return JudgeVerdict(
             decision="auto_corrected",
             target_id=None,
-            auto_fixes_applied=[f"Applied emergency fallback due to LLM error: {e}"],
+            auto_fixes_applied=[f"Applied fallback normalization: {e}"],
             final_record=fallback_record,
         )
 
 
-def sync_speakerdeck(data: dict, api_key: str) -> int:
-    """Sync talks from Speaker Deck RSS with self-healing judge."""
-    existing_talks = data.get("talks", [])
-    existing_slide_urls = {
-        normalize_url(t.get("slides")) for t in existing_talks if t.get("slides")
-    }
-
-    console.print(f"\n[bold cyan]Fetching Speaker Deck RSS:[/bold cyan] [blue]{SPEAKERDECK_RSS_URL}[/blue]...")
-    feed = feedparser.parse(SPEAKERDECK_RSS_URL)
-
-    if not feed.entries:
-        console.print("[yellow]No entries found in Speaker Deck feed.[/yellow]")
-        return 0
-
-    new_entries = [
-        e for e in feed.entries
-        if normalize_url(e.get("link", "")) and normalize_url(e.get("link", "")) not in existing_slide_urls
-        and (e.get("published_parsed") is None or e.get("published_parsed").tm_year >= 2024)
-    ]
-
-    if not new_entries:
-        console.print("[green]✓ talks.json is up to date with Speaker Deck![/green]")
-        return 0
-
-    console.print(f"[bold]Found {len(new_entries)} new deck(s) on Speaker Deck to evaluate:[/bold]")
-    client = genai.Client(api_key=api_key)
-    added_count = 0
-
-    for entry in new_entries:
-        title = entry.get("title", "")
-        description = entry.get("description", "") or entry.get("summary", "")
-        pub_date = entry.get("published", "")
-        slide_url = entry.get("link", "")
-        thumbnail = extract_thumbnail_url(entry)
-
-        console.print(f"\nEvaluating '[bold]{title}[/bold]' with {MODEL_NAME} Judge...")
-        verdict = evaluate_and_heal_record(
-            client=client,
-            raw_title=title,
-            raw_description=description,
-            pub_date=pub_date,
-            slide_url=slide_url,
-            thumbnail=thumbnail,
-            existing_talks=existing_talks,
-        )
-
-        record_dict = verdict.final_record.model_dump()
-
-        if verdict.decision == "merge" and verdict.target_id:
-            # Merge into existing talk
-            merged = False
-            for t in data["talks"]:
-                if t.get("id") == verdict.target_id or t.get("title") == verdict.final_record.title:
-                    if slide_url:
-                        t["slides"] = slide_url
-                    if thumbnail and not t.get("image"):
-                        t["image"] = thumbnail
-                    merged = True
-                    break
-            if merged:
-                console.print(f"[green]✓ Merged slides into existing talk: {verdict.target_id}[/green]")
-                added_count += 1
-                continue
-
-        # Insert new self-healed record
-        data["talks"].insert(0, record_dict)
-        added_count += 1
-        console.print(f"[green]✓ [{verdict.decision.upper()}] Approved & Added:[/green] {record_dict['title']} (ID: {record_dict['id']})")
-        if verdict.auto_fixes_applied:
-            for fix in verdict.auto_fixes_applied:
-                console.print(f"  [dim]↳ Auto-fix: {fix}[/dim]")
-
-    return added_count
-
-
-def sync_sessionize(data: dict, api_key: Optional[str]) -> int:
-    """Sync speaker bio and sessions from Sessionize JSON API endpoint."""
-    if not SESSIONIZE_API_URL:
-        console.print("\n[yellow]Notice: SESSIONIZE_API_URL is not set. Skipping Sessionize sync.[/yellow]")
-        return 0
-
-    console.print(f"\n[bold cyan]Fetching Sessionize Profile & Sessions...[/bold cyan]")
-    try:
-        resp = requests.get(SESSIONIZE_API_URL, timeout=10)
-        resp.raise_for_status()
-        sess_data = resp.json()
-    except Exception as e:
-        console.print(f"[red]Failed to fetch Sessionize data:[/red] {e}")
-        return 0
-
-    # 1. Update Speaker Bio
-    if "speaker" in sess_data:
-        sp = sess_data["speaker"]
-        data["speaker"] = {
-            "firstName": sp.get("firstName", ""),
-            "lastName": sp.get("lastName", ""),
-            "tagline": sp.get("tagline", ""),
-            "bio": sp.get("bio", ""),
-            "speakerProfileUrl": sp.get("speakerProfileUrl", "https://sessionize.com/daniela"),
-            "photoUrl": sp.get("photoUrl", ""),
-            "photoLargeUrl": sp.get("photoLargeUrl", ""),
-        }
-        console.print(f"[green]✓ Updated speaker bio & profile photo for {sp.get('firstName')} {sp.get('lastName')}[/green]")
-
-    # 2. Check Sessions
-    sessions = sess_data.get("sessions", [])
-    if not sessions:
-        return 0
-
-    existing_talks = data.get("talks", [])
-    existing_titles = {slugify(t.get("title", "")) for t in existing_talks}
-    added_count = 0
-
-    client = genai.Client(api_key=api_key) if api_key else None
-
-    for sess in sessions:
-        title = sess.get("title", "")
-        desc = sess.get("description", "").strip()
-        slug_title = slugify(title)
-
-        if slug_title not in existing_titles:
-            console.print(f"Found new Sessionize session: [bold]{title}[/bold]")
-            if client:
-                verdict = evaluate_and_heal_record(
-                    client=client,
-                    raw_title=title,
-                    raw_description=desc,
-                    pub_date=datetime.date.today().isoformat(),
-                    slide_url=None,
-                    thumbnail=None,
-                    existing_talks=existing_talks,
-                )
-                rec = verdict.final_record.model_dump()
-                rec["events"] = None
-                rec["id"] = slugify(rec["title"])
-            else:
-                rec = {
-                    "id": slugify(title),
-                    "title": title,
-                    "summary": desc.split("\n")[0] if desc else title,
-                    "image": None,
-                    "events": None,
-                    "slides": None,
-                    "source_code": None,
-                    "recording": None,
-                    "tags": ["sessionize", "talk"],
-                    "categories": ["AI & Development"],
-                }
-
-            data["talks"].insert(0, rec)
-            existing_titles.add(slug_title)
-            added_count += 1
-            console.print(f"[green]✓ Added session:[/green] {title}")
-
-    return added_count
-
-
-def cmd_import(args):
-    """Import talks from Speaker Deck and/or Sessionize."""
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        console.print("[red]ERROR:[/red] GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
+def load_talks() -> dict:
+    if not TALKS_JSON_PATH.exists():
+        console.print(f"[red]ERROR:[/red] Talks data file not found at {TALKS_JSON_PATH}")
         sys.exit(1)
-
-    data = load_talks()
-    run_all = not args.speakerdeck and not args.sessionize
-    deck_count = 0
-    sess_count = 0
-
-    if run_all or args.speakerdeck:
-        deck_count = sync_speakerdeck(data, api_key)
-
-    if run_all or args.sessionize:
-        sess_count = sync_sessionize(data, api_key)
-
-    total_added = deck_count + sess_count
-    if total_added > 0 or run_all or args.sessionize:
-        # Backfill deterministic IDs if missing on existing items
-        for t in data.get("talks", []):
-            if "id" not in t or not t["id"]:
-                first_event = t.get("events", [{}])[0]
-                t_date = first_event.get("date", "2026-01-01")
-                t_name = first_event.get("name", "Event")
-                t["id"] = generate_deterministic_id(t_date, t_name, t.get("title", "talk"))
-
-        save_talks(data)
-        console.print(f"\n[bold green]✓ talks.json updated! Added {total_added} item(s).[/bold green]")
+    with open(TALKS_JSON_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-def cmd_list(args):
-    """List all events across local and live remote sources with Date, Event, Location, Title, Description, Data Source, and Status."""
-    data = load_talks()
-    talks = data.get("talks", [])
+def save_talks(data: dict):
+    # Ensure tags for all talks are strictly sorted alphabetically, deduplicated, and do not repeat category names
+    for t in data.get("talks", []):
+        if "tags" in t and isinstance(t["tags"], list):
+            cat_slugs = {slugify(c) for c in t.get("categories", [])}
+            t["tags"] = sorted(list(dict.fromkeys(
+                tag.strip().lower() for tag in t["tags"]
+                if tag.strip() and slugify(tag) not in cat_slugs
+            )))
+    with open(TALKS_JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
 
-    local_slide_urls = {normalize_url(t.get("slides")) for t in talks if t.get("slides")}
-    local_titles = {slugify(t.get("title", "")) for t in talks if t.get("title")}
 
-    # 1. Fetch live remote data (unless --local is passed)
+def fetch_remote_sources(sessionize_url: Optional[str] = None) -> Tuple[List[dict], List[dict], Optional[dict]]:
+    """Fetch live Speaker Deck RSS entries and Sessionize profile/sessions."""
     remote_speakerdeck = []
     remote_sessionize = []
+    sessionize_speaker = None
 
-    if not getattr(args, "local", False):
-        # Speaker Deck
+    # 1. Fetch Speaker Deck
+    try:
+        feed = feedparser.parse(SPEAKERDECK_RSS_URL)
+        if feed.entries:
+            remote_speakerdeck = feed.entries
+    except Exception as e:
+        console.print(f"[yellow]Warning: Could not fetch Speaker Deck feed ({e})[/yellow]")
+
+    # 2. Fetch Sessionize
+    sess_endpoint = sessionize_url or SESSIONIZE_API_URL
+    if sess_endpoint:
         try:
-            feed = feedparser.parse(SPEAKERDECK_RSS_URL)
-            if feed.entries:
-                remote_speakerdeck = feed.entries
+            resp = requests.get(sess_endpoint, timeout=10)
+            if resp.status_code == 200:
+                sess_json = resp.json()
+                remote_sessionize = sess_json.get("sessions", [])
+                sessionize_speaker = sess_json.get("speaker")
         except Exception as e:
-            console.print(f"[yellow]Warning: Could not fetch live Speaker Deck feed ({e})[/yellow]")
+            console.print(f"[yellow]Warning: Could not fetch Sessionize API ({e})[/yellow]")
 
-        # Sessionize
-        if SESSIONIZE_API_URL:
-            try:
-                resp = requests.get(SESSIONIZE_API_URL, timeout=8)
-                if resp.status_code == 200:
-                    remote_sessionize = resp.json().get("sessions", [])
-            except Exception as e:
-                console.print(f"[yellow]Warning: Could not fetch live Sessionize API ({e})[/yellow]")
+    return remote_speakerdeck, remote_sessionize, sessionize_speaker
 
-    rows = []
-    today = datetime.date.today().isoformat()
 
-    # 2. Build entries
-    # Local entries
-    for talk in talks:
-        talk_title = talk.get("title", "")
-        summary = (talk.get("summary") or "").strip().replace("\r", " ").replace("\n", " ")
-        talk_slides = normalize_url(talk.get("slides"))
-
-        # Check if local talk has remote counterparts
-        has_remote_deck = talk_slides in {normalize_url(d.get("link")) for d in remote_speakerdeck} or slugify(talk_title) in {slugify(d.get("title", "")) for d in remote_speakerdeck}
-        has_remote_sess = slugify(talk_title) in {slugify(s.get("title", "")) for s in remote_sessionize}
-
-        e_date = talk.get("date") or "-"
-        e_name = talk.get("event") or "-"
-        e_loc = talk.get("location") or "-"
-
-        rows.append({
-            "date": e_date,
-            "event": e_name,
-            "location": e_loc,
-            "title": talk_title,
-            "description": summary,
-            "data_source": "local",
-            "status": "ok",
-            "has_remote_deck": has_remote_deck,
-            "has_remote_sess": has_remote_sess,
-            "slug": slugify(f"{e_name}-{talk_title}" if e_name != "-" else talk_title),
-        })
-
-    local_talks_by_slide = {normalize_url(t.get("slides")): t for t in talks if t.get("slides")}
-    local_talks_by_slug = {slugify(t.get("title", "")): t for t in talks if t.get("title")}
-    api_key = os.environ.get("GEMINI_API_KEY")
+def process_discovery_pipeline(
+    data: dict,
+    api_key: Optional[str],
+    local_only: bool = False,
+    dry_run: bool = False,
+) -> Tuple[List[dict], int, int]:
+    """
+    Unified discovery and sync engine:
+    1. Cross-references Speaker Deck (slides/previews) and Sessionize (descriptions).
+    2. Identifies matching local entries vs new candidates.
+    3. Runs Stage 1 (Google Search Grounding for Daniela Petruzalek) & Stage 2 (Gemini Structured Output) for new items.
+    4. Detects field-level diffs (+slides, +image, +date, +event) for local entries.
+    5. Updates talks.json if dry_run is False.
+    """
+    talks = data.get("talks", [])
     client = genai.Client(api_key=api_key) if api_key else None
 
-    # Speaker Deck entries
-    for deck in remote_speakerdeck:
-        d_url = normalize_url(deck.get("link", ""))
-        raw_title = deck.get("title", "")
-        raw_desc = (deck.get("description") or deck.get("summary") or "").strip().replace("\r", " ").replace("\n", " ")
-        pub_date = deck.get("published", "")
+    if local_only:
+        # Simple offline view
+        display_rows = []
+        for t in talks:
+            display_rows.append({
+                "date": t.get("date") or "-",
+                "event": t.get("event") or "-",
+                "location": t.get("location") or "-",
+                "title": t.get("title", ""),
+                "description": t.get("summary", ""),
+                "data_source": "local",
+                "status": "ok",
+                "diff_detail": "",
+                "record": t,
+            })
+        return display_rows, 0, 0
 
-        # Skip pre-2024 items
+    remote_decks, remote_sessions, sess_speaker = fetch_remote_sources()
+
+    # 1. Index local talks
+    local_by_slide = {normalize_url(t.get("slides")): t for t in talks if t.get("slides")}
+    local_by_slug = {slugify(t.get("title", "")): t for t in talks if t.get("title")}
+
+    # 2. Combine remote sources: Precedence is Sessionize description over Speaker Deck description
+    # Group remote entries by normalized title slug
+    remote_candidates: Dict[str, dict] = {}
+
+    # A. Index Sessionize sessions first (rich descriptions)
+    for sess in remote_sessions:
+        s_title = sess.get("title", "").strip()
+        s_slug = slugify(s_title)
+        s_desc = (sess.get("description") or "").strip()
+        remote_candidates[s_slug] = {
+            "title": s_title,
+            "description": s_desc,
+            "slides": None,
+            "image": None,
+            "sources": {"sessionize"},
+            "raw_deck": None,
+            "raw_sess": sess,
+        }
+
+    # B. Index Speaker Deck decks (slides & preview images)
+    for deck in remote_decks:
+        d_url = normalize_url(deck.get("link", ""))
+        raw_title = deck.get("title", "").strip()
+        raw_desc = (deck.get("description") or deck.get("summary") or "").strip()
+
+        # Skip pre-2024 decks
         if "published_parsed" in deck and deck["published_parsed"] and deck["published_parsed"].tm_year < 2024:
             continue
 
-        # Check if already matched locally
-        matched_local = local_talks_by_slide.get(d_url) or local_talks_by_slug.get(slugify(re.sub(r"^\[.*?\]\s*", "", raw_title)))
-        if matched_local:
-            d_title = matched_local.get("title", raw_title)
-            d_event = matched_local.get("event", "-") or "-"
-            d_loc = matched_local.get("location", "-") or "-"
-            d_date = matched_local.get("date", pub_date[:10] if pub_date else today) or "-"
-            d_desc = matched_local.get("summary", raw_desc)
-            d_slug = slugify(f"{d_event}-{d_title}" if d_event != "-" else d_title)
-            status = "ok"
+        clean_d_title = re.sub(r"^\[.*?\]\s*", "", raw_title).strip()
+        d_slug = slugify(clean_d_title)
+        thumb = extract_thumbnail_url(deck)
+
+        if d_slug in remote_candidates:
+            # Match existing Sessionize session: attach slides & image, keep Sessionize description!
+            cand = remote_candidates[d_slug]
+            cand["slides"] = d_url
+            cand["image"] = thumb
+            cand["sources"].add("speakerdeck")
+            cand["raw_deck"] = deck
+            # Only use Speaker Deck description if Sessionize was empty
+            if not cand["description"] and raw_desc:
+                cand["description"] = raw_desc
         else:
-            # Genuinely new deck: use Gemini LLM extraction
-            if client:
-                extracted = extract_speakerdeck_llm(client, raw_title, raw_desc, pub_date)
-                d_title = extracted.title
-                d_event = extracted.event_name or "-"
-                d_loc = extracted.location or "-"
-                d_date = extracted.event_date or (pub_date[:10] if pub_date else today)
-                d_desc = extracted.summary
-                d_slug = slugify(extracted.title)
-            else:
-                d_title = re.sub(r"^\[.*?\]\s*", "", raw_title).strip()
-                d_event = "-"
-                d_loc = "-"
-                d_date = pub_date[:10] if pub_date else today
-                d_desc = raw_desc
-                d_slug = slugify(d_title)
-            status = "needs sync"
+            remote_candidates[d_slug] = {
+                "title": clean_d_title,
+                "description": raw_desc,
+                "slides": d_url,
+                "image": thumb,
+                "sources": {"speakerdeck"},
+                "raw_deck": deck,
+                "raw_sess": None,
+            }
 
-        rows.append({
-            "date": d_date,
-            "event": d_event,
-            "location": d_loc,
-            "title": d_title,
-            "description": d_desc,
-            "data_source": "speakerdeck",
-            "status": status,
-            "slug": d_slug,
-        })
+    # 3. Match against local talks and process diffs/new discoveries
+    processed_local_ids: Set[str] = set()
+    display_rows: List[dict] = []
+    new_added_count = 0
+    updated_diff_count = 0
 
-    # Sessionize entries
-    for sess in remote_sessionize:
-        s_title = sess.get("title", "")
-        s_slug = slugify(s_title)
-        s_desc = (sess.get("description") or "").strip().replace("\r", " ").replace("\n", " ")
+    for cand_slug, cand in remote_candidates.items():
+        matched_local = None
+        if cand.get("slides") and cand["slides"] in local_by_slide:
+            matched_local = local_by_slide[cand["slides"]]
+        elif cand_slug in local_by_slug:
+            matched_local = local_by_slug[cand_slug]
 
-        # Check if synced locally
-        is_synced = s_slug in local_titles
-        status = "ok" if is_synced else "needs sync"
+        if matched_local:
+            processed_local_ids.add(matched_local.get("id", matched_local.get("title")))
+            sources = {"local"} | cand["sources"]
 
-        rows.append({
-            "date": "-",
-            "event": "Sessionize",
-            "location": "-",
-            "title": s_title,
-            "description": s_desc,
-            "data_source": "sessionize",
-            "status": status,
-            "slug": s_slug,
-        })
+            # Diff detection
+            diffs = []
+            if cand.get("slides") and not matched_local.get("slides"):
+                diffs.append("+slides")
+                if not dry_run:
+                    matched_local["slides"] = cand["slides"]
+            if cand.get("image") and not matched_local.get("image"):
+                diffs.append("+image")
+                if not dry_run:
+                    matched_local["image"] = cand["image"]
 
-    # 3. Deduplicate if --dedup is passed
-    if getattr(args, "dedup", False):
-        dedup_map = {}
-        for r in rows:
-            key = r["slug"]
-            if key not in dedup_map:
-                dedup_map[key] = {
-                    "date": r["date"],
-                    "event": r["event"],
-                    "location": r["location"],
-                    "title": r["title"],
-                    "description": r["description"],
-                    "sources": {r["data_source"]},
-                    "status": r["status"],
-                }
-            else:
-                existing = dedup_map[key]
-                existing["sources"].add(r["data_source"])
-                # Prefer named event over placeholder/unspecified
-                if existing["event"] in ("-", "Speaker Deck", "Sessionize", "Unspecified") and r["event"] not in ("-", "Speaker Deck", "Sessionize", "Unspecified"):
-                    existing["event"] = r["event"]
-                # Prefer known location over placeholder
-                if existing["location"] in ("-", "TBD") and r["location"] not in ("-", "TBD"):
-                    existing["location"] = r["location"]
-                # Prefer earlier/actual presentation date over upload date
-                if existing["date"] == "-" or (r["date"] != "-" and r["data_source"] == "local"):
-                    existing["date"] = r["date"]
-                if "local" in existing["sources"]:
-                    existing["status"] = "ok"
+            status_str = f"diff: {', '.join(diffs)}" if diffs else "ok"
+            if diffs:
+                updated_diff_count += 1
 
-        deduped_rows = []
-        for v in dedup_map.values():
-            deduped_rows.append({
-                "date": v["date"],
-                "event": v["event"],
-                "location": v["location"],
-                "title": v["title"],
-                "description": v["description"],
-                "data_source": ", ".join(sorted(v["sources"])),
-                "status": v["status"],
+            display_rows.append({
+                "date": matched_local.get("date") or "-",
+                "event": matched_local.get("event") or "-",
+                "location": matched_local.get("location") or "-",
+                "title": matched_local.get("title", cand["title"]),
+                "description": matched_local.get("summary") or cand["description"],
+                "data_source": ", ".join(sorted(sources)),
+                "status": status_str,
+                "diff_detail": ", ".join(diffs),
+                "record": matched_local,
             })
-        display_rows = deduped_rows
-    else:
-        display_rows = rows
+        else:
+            # Genuinely new talk discovered from remote sources!
+            sources = cand["sources"]
+            sources_label = ", ".join(sorted(sources))
 
-    # Sort descending by date
-    display_rows.sort(key=lambda x: x["date"] if x["date"] != "-" else "1970-01-01", reverse=True)
+            if client:
+                console.print(f"[dim]Processing Stage 1 & Stage 2 for new presentation:[/dim] [bold]{cand['title']}[/bold]...")
+                verdict = evaluate_and_heal_record(
+                    client=client,
+                    raw_title=cand["title"],
+                    raw_description=cand["description"],
+                    slide_url=cand.get("slides"),
+                    thumbnail=cand.get("image"),
+                    existing_talks=talks,
+                )
+                final_rec = verdict.final_record.model_dump()
+            else:
+                safe_id = generate_deterministic_id(None, None, cand["title"])
+                final_rec = {
+                    "id": safe_id,
+                    "title": cand["title"],
+                    "event": None,
+                    "date": None,
+                    "location": None,
+                    "url": None,
+                    "summary": cand["description"].split("\n")[0] if cand["description"] else cand["title"],
+                    "image": cand.get("image"),
+                    "slides": cand.get("slides"),
+                    "source_code": None,
+                    "recording": None,
+                    "codelab": None,
+                    "materials": None,
+                    "language": "en",
+                    "tags": ["tech"],
+                    "categories": ["Software Engineering"],
+                }
+
+            if not dry_run:
+                talks.insert(0, final_rec)
+                new_added_count += 1
+
+            display_rows.append({
+                "date": final_rec.get("date") or "-",
+                "event": final_rec.get("event") or "-",
+                "location": final_rec.get("location") or "-",
+                "title": final_rec.get("title", cand["title"]),
+                "description": final_rec.get("summary", cand["description"]),
+                "data_source": sources_label,
+                "status": f"new ({sources_label})",
+                "diff_detail": "new item",
+                "record": final_rec,
+            })
+
+    # 4. Include remaining local talks that had no remote match
+    for t in talks:
+        t_id = t.get("id", t.get("title"))
+        if t_id not in processed_local_ids:
+            display_rows.append({
+                "date": t.get("date") or "-",
+                "event": t.get("event") or "-",
+                "location": t.get("location") or "-",
+                "title": t.get("title", ""),
+                "description": t.get("summary", ""),
+                "data_source": "local",
+                "status": "ok",
+                "diff_detail": "",
+                "record": t,
+            })
+
+    # 5. If not dry_run and Sessionize speaker data is present, update speaker bio
+    if not dry_run and sess_speaker:
+        data["speaker"] = {
+            "firstName": sess_speaker.get("firstName", ""),
+            "lastName": sess_speaker.get("lastName", ""),
+            "tagline": sess_speaker.get("tagline", ""),
+            "bio": sess_speaker.get("bio", ""),
+            "speakerProfileUrl": sess_speaker.get("speakerProfileUrl", "https://sessionize.com/daniela"),
+            "photoUrl": sess_speaker.get("photoUrl", ""),
+            "photoLargeUrl": sess_speaker.get("photoLargeUrl", ""),
+        }
+
+    return display_rows, new_added_count, updated_diff_count
+
+
+def render_events_table(rows: List[dict], title_suffix: str = ""):
+    """Render standardized table with dated talks first (descending) and undated proposals at bottom."""
+    dated_rows = [r for r in rows if r["date"] != "-"]
+    undated_rows = [r for r in rows if r["date"] == "-"]
+
+    dated_rows.sort(key=lambda x: x["date"], reverse=True)
+    undated_rows.sort(key=lambda x: x["title"].lower())
+
+    sorted_rows = dated_rows + undated_rows
 
     table = Table(
-        title=f"\n[bold cyan]Events & Presentations[/bold cyan] [dim]({len(display_rows)} entries)[/dim]\n",
+        title=f"\n[bold cyan]Events & Presentations {title_suffix}[/bold cyan] [dim]({len(sorted_rows)} entries)[/dim]\n",
         header_style="bold magenta",
         box=box.ROUNDED,
     )
@@ -710,11 +609,20 @@ def cmd_list(args):
     table.add_column("Location", style="dim", max_width=13, overflow="ellipsis")
     table.add_column("Title", style="bold green", max_width=26, overflow="ellipsis")
     table.add_column("Description", style="white", max_width=32, overflow="ellipsis")
-    table.add_column("Source", style="blue", no_wrap=True, min_width=18)
-    table.add_column("Status", no_wrap=True, min_width=8)
+    table.add_column("Source", style="blue", no_wrap=True, min_width=16)
+    table.add_column("Status / Diff", no_wrap=True, min_width=14)
 
-    for r in display_rows:
-        status_styled = "[bold green]ok[/bold green]" if r["status"] == "ok" else "[bold yellow]needs sync[/bold yellow]"
+    for r in sorted_rows:
+        status_text = r["status"]
+        if status_text == "ok":
+            status_styled = "[bold green]ok[/bold green]"
+        elif status_text.startswith("diff:"):
+            status_styled = f"[bold cyan]{status_text}[/bold cyan]"
+        elif status_text.startswith("new"):
+            status_styled = f"[bold yellow]{status_text}[/bold yellow]"
+        else:
+            status_styled = f"[bold white]{status_text}[/bold white]"
+
         clean_desc = (r["description"] or "").strip().replace("\n", " ").replace("\r", " ")
         if len(clean_desc) > 65:
             clean_desc = clean_desc[:62].rstrip() + "..."
@@ -731,6 +639,57 @@ def cmd_list(args):
 
     console.print(table)
     console.print()
+
+
+def cmd_list(args):
+    """
+    Discovery mode: Runs the full Stage 1 & Stage 2 discovery and diff pipeline
+    without modifying talks.json.
+    """
+    api_key = os.environ.get("GEMINI_API_KEY")
+    data = load_talks()
+    local_only = getattr(args, "local", False)
+
+    console.print(f"\n[bold cyan]Running discovery pipeline...[/bold cyan]")
+    rows, _, _ = process_discovery_pipeline(
+        data=data,
+        api_key=api_key,
+        local_only=local_only,
+        dry_run=True,
+    )
+
+    render_events_table(rows, title_suffix="[Discovery View]")
+
+
+def cmd_import(args):
+    """
+    Sync mode: Runs the full Stage 1 & Stage 2 discovery pipeline and updates talks.json.
+    """
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        console.print("[red]ERROR:[/red] GEMINI_API_KEY environment variable is not set.", file=sys.stderr)
+        sys.exit(1)
+
+    data = load_talks()
+    console.print(f"\n[bold cyan]Running discovery & sync pipeline...[/bold cyan]")
+
+    rows, added_count, diff_count = process_discovery_pipeline(
+        data=data,
+        api_key=api_key,
+        local_only=False,
+        dry_run=False,
+    )
+
+    # Backfill deterministic IDs if missing on existing items
+    for t in data.get("talks", []):
+        if "id" not in t or not t["id"]:
+            t_date = t.get("date")
+            t_name = t.get("event")
+            t["id"] = generate_deterministic_id(t_date, t_name, t.get("title", "talk"))
+
+    save_talks(data)
+    render_events_table(rows, title_suffix="[Sync Result]")
+    console.print(f"[bold green]✓ talks.json updated! Added {added_count} new item(s), enriched {diff_count} existing item(s).[/bold green]\n")
 
 
 def cmd_validate(args):
@@ -753,12 +712,6 @@ def cmd_validate(args):
                 console.print(f"[red]Error in '{title}':[/red] Invalid category '{cat}' (must be one of {VALID_CATEGORIES})")
                 errors += 1
 
-        ev_name = (talk.get("event") or "").strip()
-        if ev_name:
-            if ev_name.lower() in BLACKLISTED_EVENT_NAMES or "speaker deck" in ev_name.lower():
-                console.print(f"[red]Error in '{title}':[/red] Invalid generic event name '{ev_name}' (Event cannot be named after hosting platforms or generic filler)")
-                errors += 1
-
         d = talk.get("date")
         if d:
             try:
@@ -767,6 +720,23 @@ def cmd_validate(args):
                 console.print(f"[red]Error in '{title}':[/red] Invalid date format '{d}' (expected YYYY-MM-DD)")
                 errors += 1
 
+        t_id = talk.get("id")
+        if not t_id:
+            console.print(f"[red]Error in '{title}':[/red] Missing unique 'id' field")
+            errors += 1
+
+        tags = talk.get("tags", [])
+        cat_slugs = {slugify(c) for c in categories}
+        repeated_tags = [t for t in tags if slugify(t) in cat_slugs]
+        if repeated_tags:
+            console.print(f"[red]Error in '{title}':[/red] Tags repeat category name: {repeated_tags} for category {categories}")
+            errors += 1
+
+        sorted_tags = sorted(list(dict.fromkeys(t.strip().lower() for t in tags if t.strip() and slugify(t) not in cat_slugs)))
+        if tags != sorted_tags:
+            console.print(f"[red]Error in '{title}':[/red] Tags are not properly formatted/sorted: {tags} (expected {sorted_tags})")
+            errors += 1
+
     if errors == 0 and warnings == 0:
         console.print("[green]✓ All presentations are strictly valid![/green]")
     else:
@@ -774,7 +744,7 @@ def cmd_validate(args):
 
 
 def cmd_add(args):
-    """Interactive wizard to add a talk or workshop with LLM Judge."""
+    """Interactive wizard to add a talk or workshop with Google Search Grounding and Structured Output Judge."""
     api_key = os.environ.get("GEMINI_API_KEY")
     data = load_talks()
 
@@ -782,13 +752,12 @@ def cmd_add(args):
     input_text = Prompt.ask("Paste URL (Google Slides, YouTube, Sessionize) or brief description", default="")
 
     if input_text and api_key:
-        console.print(f"\n[dim]Evaluating input with {MODEL_NAME} Judge...[/dim]")
+        console.print(f"\n[dim]Searching web for '{SPEAKER_CANONICAL_NAME}' and structuring with {MODEL_NAME}...[/dim]")
         client = genai.Client(api_key=api_key)
         verdict = evaluate_and_heal_record(
             client=client,
             raw_title=input_text,
             raw_description=input_text,
-            pub_date=datetime.date.today().isoformat(),
             slide_url=input_text if "speakerdeck" in input_text or "docs.google.com" in input_text else None,
             thumbnail=None,
             existing_talks=data.get("talks", []),
@@ -797,25 +766,31 @@ def cmd_add(args):
     else:
         title = Prompt.ask("Talk Title")
         summary = Prompt.ask("Summary")
-        event_name = Prompt.ask("Event Name")
-        event_date = Prompt.ask("Event Date (YYYY-MM-DD)", default=datetime.date.today().isoformat())
-        event_loc = Prompt.ask("Location", default="London, UK")
+        event_name = Prompt.ask("Event Name", default="")
+        event_date = Prompt.ask("Event Date (YYYY-MM-DD)", default="")
+        event_loc = Prompt.ask("Location", default="")
         slides = Prompt.ask("Slides URL", default="")
         recording = Prompt.ask("Recording URL", default="")
-        tags_str = Prompt.ask("Tags (comma-separated)", default="golang, ai")
+        tags_str = Prompt.ask("Tags (comma-separated)", default="software-engineering")
         tags = [t.strip().lower() for t in tags_str.split(",") if t.strip()]
 
         rec = {
-            "id": generate_deterministic_id(event_date, event_name, title),
+            "id": generate_deterministic_id(event_date if event_date else None, event_name if event_name else None, title),
             "title": title,
+            "event": event_name or None,
+            "date": event_date or None,
+            "location": event_loc or None,
+            "url": None,
             "summary": summary,
             "image": None,
-            "events": [{"name": event_name, "date": event_date, "location": event_loc, "url": None}],
             "slides": slides or None,
             "source_code": None,
             "recording": recording or None,
+            "codelab": None,
+            "materials": None,
+            "language": "en",
             "tags": tags,
-            "categories": ["AI & Development"],
+            "categories": ["Software Engineering"],
         }
 
     console.print("\n[bold]Validated Entry:[/bold]")
@@ -827,27 +802,20 @@ def cmd_add(args):
         console.print(f"[green]✓ Successfully added '{rec['title']}' to talks.json![/green]")
 
 
-def configure_import_parser(parser: argparse.ArgumentParser):
-    parser.add_argument("--speakerdeck", action="store_true", help="Import only from Speaker Deck")
-    parser.add_argument("--sessionize", action="store_true", help="Import only from Sessionize")
-    parser.set_defaults(func=cmd_import)
-
-
 def main():
     parser = argparse.ArgumentParser(description="Events Management CLI for danicat.dev")
     subparsers = parser.add_subparsers(dest="command", help="Command to run")
 
-    import_parser = subparsers.add_parser("import", help="Import/sync talks from Speaker Deck and Sessionize (no flags = all)")
-    configure_import_parser(import_parser)
+    import_parser = subparsers.add_parser("import", help="Import/sync talks from Speaker Deck and Sessionize into talks.json")
+    import_parser.set_defaults(func=cmd_import)
 
     sync_parser = subparsers.add_parser("sync", help="Alias for 'import'")
-    configure_import_parser(sync_parser)
+    sync_parser.set_defaults(func=cmd_import)
 
     add_parser = subparsers.add_parser("add", help="Add a new talk or workshop interactively")
     add_parser.set_defaults(func=cmd_add)
 
-    list_parser = subparsers.add_parser("list", help="List all events across sources (date | event | location | title | description | data source | status)")
-    list_parser.add_argument("--dedup", action="store_true", help="Deduplicate identical events across sources into single combined rows")
+    list_parser = subparsers.add_parser("list", help="Discovery mode: list all events, highlight diffs, and discover new material without modifying talks.json")
     list_parser.add_argument("--local", action="store_true", help="Offline mode: list only local talks.json without fetching remote sources")
     list_parser.set_defaults(func=cmd_list)
 

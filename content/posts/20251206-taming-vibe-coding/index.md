@@ -6,11 +6,11 @@ draft: false
 summary: Get the speed of AI without the mess. Apply engineering basics to keep your
   code structured, safe, and built to last.
 tags:
-- vibe-coding
-- ai
-- mcp
-- gemini-cli
-- jules
+  - ai
+  - gemini-cli
+  - jules
+  - mcp
+  - vibe-coding
 title: 'Taming Vibe Coding: The Engineer''s Guide'
 ---
 

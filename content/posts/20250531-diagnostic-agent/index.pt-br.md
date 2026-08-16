@@ -5,10 +5,10 @@ date: '2025-05-31T01:00:00+01:00'
 summary: Como criar um agente de diagnóstico que fala linguagem natural usando Gemini
   e Vertex AI Agent Engine
 tags:
-- gemini
-- vertex-ai
-- python
-- tutorial
+  - gemini
+  - python
+  - tutorial
+  - vertex-ai
 title: Como transformei meu computador na "USS Enterprise" usando Agentes de IA
 ---
 {{< translation-notice >}}

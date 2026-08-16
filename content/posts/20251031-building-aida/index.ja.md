@@ -5,14 +5,14 @@ date: '2025-10-31T11:43:35Z'
 draft: false
 summary: Google ADKエージェントを、カスタムなレトロスタイル・インターフェースでアップグレードしましょう。このステップバイステップガイドでは、FastAPIとバニラJavaScriptを使って標準のDev-UIを置き換え、リアルタイム・ストリーミングに対応したAI生成アバターで個性をプラスする方法を紹介します。
 tags:
-- ai
-- tutorial
-- adk
-- gemini
-- python
-- fastapi
-- frontend
-- agents
+  - adk
+  - agents
+  - ai
+  - fastapi
+  - frontend
+  - gemini
+  - python
+  - tutorial
 title: Dev-UIの先へ：ADKエージェントのインターフェースを構築する方法
 ---
 

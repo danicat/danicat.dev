@@ -8,10 +8,9 @@ summary: Uma exploração do paradigma de subagents no Antigravity, desde sua ev
   para ajudar você a orquestrar subagentes especializados para tarefas complexas de
   engenharia.
 tags:
-- agentic-coding
-- agile
-- antigravity
-- subagents
+  - agile
+  - antigravity
+  - subagents
 title: A Ascensão dos Subagentes
 ---
 Devo confessar que quando li pela primeira vez sobre **subagents**, fiquei um pouco cético. Eu conseguia entender os benefícios de rodar tarefas em janelas de contexto separadas, mas nunca tinha me ocorrido iniciar dezenas ou talvez até centenas de agentes em paralelo. Ou talvez seja melhor dizer que eu não via o benefício de fazer isso.

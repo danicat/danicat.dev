@@ -5,11 +5,11 @@ date: 2025-12-06 02:00:00+00:00
 draft: false
 summary: AIのスピードを、混乱なしに手に入れましょう。エンジニアリングの基本を適用して、構造化され、安全で、長持ちするコードを維持する方法を解説します。
 tags:
-- vibe-coding
-- ai
-- mcp
-- gemini-cli
-- jules
+  - ai
+  - gemini-cli
+  - jules
+  - mcp
+  - vibe-coding
 title: 'Taming Vibe Coding: エンジニアのためのガイド'
 ---
 

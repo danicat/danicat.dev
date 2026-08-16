@@ -6,10 +6,10 @@ draft: false
 summary: 'Reflecting on a transformative 2025: from joining Google and mastering vibe
   coding to building my own AI tools and finding a new rhythm in life and engineering.'
 tags:
-- reflection
-- google-cloud
-- career
-- vibe-coding
+  - career
+  - google-cloud
+  - reflection
+  - vibe-coding
 title: 'My Year in Review: 2025'
 ---
 

@@ -6,9 +6,9 @@ date: 2025-07-14
 summary: Learn how to customise the Gemini CLI to suit your coding style using GEMINI.md
   and custom system instructions.
 tags:
-- gemini-cli
-- vibe-coding
-- tutorial
+  - gemini-cli
+  - tutorial
+  - vibe-coding
 title: Proactiveness considered harmful? A guide to customise the Gemini CLI to suit
   your coding style
 ---
