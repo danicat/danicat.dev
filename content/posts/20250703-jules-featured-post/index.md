@@ -1,10 +1,15 @@
 ---
-title: "How I used Jules to add a featured post to this blog"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-07-03
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["jules", "vibe-coding", "tutorial"]
-summary: "A detailed account of my iterative process working with Jules, an AI coding assistant, to implement a new featured post section on my blog's homepage."
+summary: A detailed account of my iterative process working with Jules, an AI coding
+  assistant, to implement a new featured post section on my blog's homepage.
+tags:
+- jules
+- vibe-coding
+- tutorial
+title: How I used Jules to add a featured post to this blog
 ---
 
 > *Author's note:* about 90% of this blog post is written by AI, but I proofread and edited it to ensure the post read nicely. It was funny how Jules had the tendency to brag about itself. I had to guide it with many prompts to get to this final result, but the last edit was easier to do manually. You can see the full edit history on the [PR commit history](https://github.com/danicat/danicat.dev/pull/6). A notable mention is that it completely refused to translate this post to Portuguese (Brazil) stating that it doesn't have translation capabilities, but the entirety of this blog was translated using Jules in a previous interaction. I guess it was not in the mood. :)

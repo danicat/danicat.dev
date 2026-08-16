@@ -1,10 +1,15 @@
 ---
-title: "Estado da Codificação Agente"
-date: 2026-06-15T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["antigravity", "agy-cli", "agentic-coding"]
-summary: "Explore a evolução da codificação agente. Atualização sobre a mudança para sistemas de planejamento, habilidades estratégicas de agentes e orquestração de subagentes para melhores resultados."
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-06-15 00:00:00+00:00
+heroStyle: big
+summary: Explore a evolução da codificação agente. Atualização sobre a mudança para
+  sistemas de planejamento, habilidades estratégicas de agentes e orquestração de
+  subagentes para melhores resultados.
+tags:
+- antigravity
+- agentic-coding
+title: Estado da Codificação Agente
 ---
 
 Já se passaram mais de seis meses desde que publiquei o artigo [Taming Vibe Coding]({{< ref "/posts/20251206-taming-vibe-coding" >}}), que consolidou todas as principais práticas que eu vinha usando para aumentar minha produtividade com agentes de codificação.

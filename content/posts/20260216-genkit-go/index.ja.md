@@ -1,10 +1,16 @@
 ---
-title: "GenkitとGemini 3で古い写真に命を吹き込む"
+categories:
+- Agentic Coding
 date: 2026-02-16
-summary: "Go、Genkit、およびNano Banana Pro (Gemini 3 Pro Image) のネイティブ4K機能を使用して、高忠実度の写真復元ツールを構築する方法を学びましょう。"
-tags: ["genkit", "golang", "nano-banana", "gemini", "tutorial"]
-categories: ["AI & Development"]
-heroStyle: "big"
+heroStyle: big
+summary: Go、Genkit、およびNano Banana Pro (Gemini 3 Pro Image) のネイティブ4K機能を使用して、高忠実度の写真復元ツールを構築する方法を学びましょう。
+tags:
+- genkit
+- golang
+- nano-banana
+- gemini
+- tutorial
+title: GenkitとGemini 3で古い写真に命を吹き込む
 ---
 
 私の仕事の一環として、様々な人々と知り合う機会がありますが、会話の非常に一般的な話題の一つは私のルーツについてです。私の苗字は明らかに東ヨーロッパ風の響きを持っているだけでなく、見た目もそれっぽいため、多くの人は私がポーランド人かチェコ人だと思い込みます。そのため、私が実際にはブラジル出身だと言うと、多くの人が驚きます。
@@ -310,7 +316,7 @@ GlowUpの構築は、AIを使用して感情的なレベルで私の過去と再
 結論として、可能性は無限大です。これが、技術的であろうと個人的であろうと、あなた自身のニッチな問題に 目を向け、それらを解決するために何を構築できるかを確認するインスピレーションになることを願っています 。
 
 
-**自分で構築してみたいですか？** この写真復元アプリをゼロから構築できる[ステップバイステップの Codelab](https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0) を用意しました。��
+**自分で構築してみたいですか？** この写真復元アプリをゼロから構築できる[ステップバイステップの Codelab](https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0) を用意しました。��
 
 詳細については、[Genkit のドキュメント](https://firebase.google.com/docs/genkit) や [GlowUp のソースコード](https://github.com/danicat/glowup) もあわせて確認してください。
 

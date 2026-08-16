@@ -1,0 +1,17 @@
+---
+title: "Gemini と Antigravity でマッチ 3 アーケード ゲームを作成する"
+date: 2026-05-07
+externalUrl: "https://codelabs.developers.google.com/cloud-crush-agy?hl=ja#0"
+featureimage: "/images/codelabs/placeholder.png"
+summary: "この Codelab では、Gemini 3 とコマンドライン コーディング エージェントである Antigravity CLI を使用して、マッチ 3 アーケード ゲーム CloudCrush を構築します。"
+tags:
+  - gemini
+  - antigravity
+  - agentic-coding
+  - golang
+  - game-dev
+  - codelab
+categories:
+  - Agentic Coding
+showSummary: true
+---

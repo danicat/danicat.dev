@@ -12,133 +12,376 @@
 </header>
 
 {{ if .Content }}
-<section class="mt-12 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
+<section class="mt-6 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
     <div class="min-w-0 min-h-0 max-w-prose">
       {{ .Content }}
     </div>
 </section>
 {{ end }}
 
-{{/* Flatten and sort events from talks.json */}}
+{{/* Collect categories and valid dated events */}}
 {{ $allEvents := slice }}
+{{ $categories := slice }}
 {{ range .Site.Data.talks.talks }}
-    {{ $talk := . }}
-    {{ range .events }}
-        {{ $allEvents = $allEvents | append (dict "talk" $talk "event" . "date" .date) }}
+    {{ if .date }}
+        {{ $allEvents = $allEvents | append . }}
+        {{ range .categories }}
+            {{ if not (in $categories .) }}
+                {{ $categories = $categories | append . }}
+            {{ end }}
+        {{ end }}
     {{ end }}
 {{ end }}
 
 {{/* Sort all events by date descending */}}
 {{ $sortedEvents := sort $allEvents "date" "desc" }}
+{{ $now := now.Format "2006-01-02" }}
 
 {{ if gt (len $sortedEvents) 0 }}
-<section class="space-y-10 w-full mt-0 flex flex-col">
+
+{{/* Category Filter Tabs */}}
+<div class="flex flex-wrap gap-2 my-8 print:hidden items-center" id="event-filters">
+    <button class="event-filter-btn active px-3 py-1 text-xs md:text-sm font-medium rounded-full transition-colors bg-primary-600 text-white" data-filter="all">
+        All ({{ len $sortedEvents }})
+    </button>
+    {{ range $cat := $categories }}
+    <button class="event-filter-btn px-3 py-1 text-xs md:text-sm font-medium rounded-full transition-colors bg-neutral-200 text-neutral-700 hover:bg-neutral-300 dark:bg-neutral-800 dark:text-neutral-300 dark:hover:bg-neutral-700" data-filter="{{ $cat | urlize }}">
+        {{ $cat }}
+    </button>
+    {{ end }}
+</div>
+
+<section class="space-y-10 w-full mt-0 flex flex-col" id="events-list">
     {{ $lastYear := "" }}
-    {{ range $sortedEvents }}
-        {{ $currentYear := (time.AsTime .date).Year }}
-        
+    {{ range $idx, $e := $sortedEvents }}
+        {{ $currentYear := (time.AsTime $e.date).Year }}
+        {{ $isUpcoming := ge $e.date $now }}
+        {{ $eventCategories := slice }}
+        {{ range $e.categories }}
+            {{ $eventCategories = $eventCategories | append (. | urlize) }}
+        {{ end }}
+        {{ $categoriesAttr := delimit $eventCategories " " }}
+
         {{ if ne $currentYear $lastYear }}
-            <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-0 dark:text-neutral-300">
+            <h2 class="year-header mt-12 text-2xl font-bold text-neutral-700 first:mt-0 dark:text-neutral-300 border-b pb-2 border-neutral-200 dark:border-neutral-800" data-year="{{ $currentYear }}">
                 {{ $currentYear }}
             </h2>
             {{ $lastYear = $currentYear }}
         {{ end }}
 
-        {{ $t := .talk }}
-        {{ $e := .event }}
-        <div class="flex flex-wrap md:flex-nowrap article">
+        <div class="event-card article" data-categories="{{ $categoriesAttr }}" data-year="{{ $currentYear }}">
             
-            {{/* Image Column */}}
-            {{ if $t.image }}
-            <div class="w-full md:w-auto h-full thumbnail_card nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url({{ $t.image }});"></div>
-            {{ else }}
-            <div class="w-full md:w-auto h-full thumbnail_card nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url(/images/talks/placeholder.png);"></div>
+            {{/* Strict Thumbnail Priority: 1. Video -> 2. Slide -> 3. Custom (user defined) -> 4. Placeholder */}}
+            {{ $resolvedThumbnail := "" }}
+
+            {{/* 1. Video Thumbnail */}}
+            {{ if $e.recording }}
+                {{ if (strings.Contains $e.recording "youtu.be/") }}
+                    {{ $videoId := index (split (index (split $e.recording "youtu.be/") 1) "?") 0 }}
+                    {{ if $videoId }}
+                        {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+                    {{ end }}
+                {{ else if (strings.Contains $e.recording "watch?v=") }}
+                    {{ $videoId := index (split (index (split $e.recording "watch?v=") 1) "&") 0 }}
+                    {{ if $videoId }}
+                        {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+                    {{ end }}
+                {{ end }}
             {{ end }}
 
-            {{/* Content Column */}}
-            <div class="mt-3 md:mt-0 flex flex-col flex-grow min-w-0">
-                <div class="mb-2">
-                    <h3 class="text-xl font-bold text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
-                        {{ $t.title }}
-                    </h3>
-                </div>
+            {{/* 2. Slide Deck or Custom Image */}}
+            {{ if and (not $resolvedThumbnail) $e.image }}
+                {{ $resolvedThumbnail = $e.image }}
+            {{ end }}
 
-                <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
-                    <div class="flex flex-wrap items-baseline gap-x-1">
-                        {{ if $e.url }}
-                        <a href="{{ $e.url }}" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline text-primary-600 dark:text-primary-400">
-                            {{ $e.name }}
-                        </a>
-                        {{ else }}
-                        <span class="font-medium">{{ $e.name }}</span>
-                        {{ end }}
-                        <span class="opacity-75">• {{ $e.date | time.Format ":date_medium" }} • {{ $e.location }}</span>
+            {{/* 3. Placeholder Fallback */}}
+            {{ if not $resolvedThumbnail }}
+                {{ $resolvedThumbnail = "/images/talks/placeholder.png" }}
+            {{ end }}
+
+            {{/* Priority Thumbnail Action: 1. Video -> 2. Slides -> 3. Codelab/Materials -> 4. Source Code -> 5. Event URL */}}
+            {{ $thumbAction := "" }}
+            {{ $thumbUrl := "" }}
+            {{ $thumbTarget := "" }}
+            {{ $thumbType := "" }}
+            {{ if $e.recording }}
+                {{ $thumbAction = "video" }}
+                {{ $thumbTarget = printf "video-%d" $idx }}
+                {{ $thumbUrl = $e.recording }}
+            {{ else if $e.slides }}
+                {{ $thumbAction = "link" }}
+                {{ $thumbUrl = $e.slides }}
+                {{ $thumbType = "slides" }}
+            {{ else if or $e.codelab $e.materials }}
+                {{ $thumbAction = "link" }}
+                {{ $thumbUrl = $e.codelab | default $e.materials }}
+                {{ $thumbType = "codelab" }}
+            {{ else if $e.source_code }}
+                {{ $thumbAction = "link" }}
+                {{ $thumbUrl = $e.source_code }}
+                {{ $thumbType = "code" }}
+            {{ else if $e.url }}
+                {{ $thumbAction = "link" }}
+                {{ $thumbUrl = $e.url }}
+                {{ $thumbType = "url" }}
+            {{ end }}
+
+            {{/* Thumbnail Column (Strictly 260-280px via custom.css) */}}
+            {{ if eq $thumbAction "video" }}
+            <div class="event-thumbnail-wrapper thumb-action-video group/thumb cursor-pointer"
+                 data-target="{{ $thumbTarget }}" data-video-url="{{ $thumbUrl }}" title="Click to play recording">
+                <div class="event-thumbnail-img" style="background-image:url({{ $resolvedThumbnail }});"></div>
+                <div class="absolute inset-0 bg-black/25 group-hover/thumb:bg-black/40 transition-colors flex items-center justify-center">
+                    <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/70 backdrop-blur-sm text-white flex items-center justify-center shadow-lg group-hover/thumb:scale-110 group-hover/thumb:bg-primary-600 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
                     </div>
                 </div>
+            </div>
+            {{ else if eq $thumbAction "link" }}
+            <a href="{{ $thumbUrl }}" target="_blank" rel="noopener noreferrer"
+               class="event-thumbnail-wrapper group/thumb cursor-pointer"
+               title="{{ if eq $thumbType "slides" }}Open Slide Deck{{ else if eq $thumbType "codelab" }}Open Codelab & Workshop Materials{{ else if eq $thumbType "code" }}Open Source Code{{ else }}Open Event Link{{ end }}">
+                <div class="event-thumbnail-img" style="background-image:url({{ $resolvedThumbnail }});"></div>
+                <div class="absolute inset-0 bg-transparent group-hover/thumb:bg-black/20 transition-colors flex items-end justify-end p-2.5 opacity-0 group-hover/thumb:opacity-100 transition-opacity">
+                    <span class="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-md bg-black/80 text-white backdrop-blur-sm shadow">
+                        {{ if eq $thumbType "slides" }}Slides ↗{{ else if eq $thumbType "codelab" }}Codelab ↗{{ else if eq $thumbType "code" }}Code ↗{{ else }}Open ↗{{ end }}
+                    </span>
+                </div>
+            </a>
+            {{ else }}
+            <div class="event-thumbnail-wrapper">
+                <div class="event-thumbnail-img" style="background-image:url({{ $resolvedThumbnail }});"></div>
+            </div>
+            {{ end }}
 
-                <div class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4 prose dark:prose-invert max-w-none">
-                    {{ $t.summary }}
+            {{/* Content Column (Takes remaining 65-70% width) */}}
+            <div class="event-content-wrapper">
+                <div>
+                    <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                        {{ if $isUpcoming }}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-primary-100 text-primary-800 dark:bg-primary-900/60 dark:text-primary-300">
+                            Upcoming
+                        </span>
+                        {{ end }}
+                        {{ $lang := lower ($e.language | default "en") }}
+                        {{ if or (eq $lang "pt-br") (eq $lang "pt") }}
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/70 dark:bg-emerald-950/50 dark:text-emerald-300 dark:border-emerald-800/70" title="Delivered in Portuguese (PT-BR)">
+                            <span class="text-sm leading-none">🇧🇷</span> PT-BR
+                        </span>
+                        {{ else if or (eq $lang "ja") (eq $lang "ja-jp") }}
+                        <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200/70 dark:bg-rose-950/50 dark:text-rose-300 dark:border-rose-800/70" title="Delivered in Japanese">
+                            <span class="text-sm leading-none">🇯🇵</span> JA
+                        </span>
+                        {{ end }}
+                        {{ range $e.categories }}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-neutral-100 text-neutral-600 dark:bg-neutral-800 dark:text-neutral-300">
+                            {{ . }}
+                        </span>
+                        {{ end }}
+                    </div>
+
+                    <div class="mb-1">
+                        <h3 class="text-xl lg:text-2xl font-bold text-neutral-900 dark:text-neutral-50 tracking-tight leading-snug decoration-primary-500 hover:underline hover:underline-offset-2">
+                            {{ $e.title }}
+                        </h3>
+                    </div>
+
+                    <div class="text-xs sm:text-sm text-neutral-500 dark:text-neutral-400 mb-2.5">
+                        <div class="flex flex-wrap items-baseline gap-x-1.5">
+                            {{ if $e.event }}
+                                {{ if $e.url }}
+                                <a href="{{ $e.url }}" target="_blank" rel="noopener noreferrer" class="font-semibold hover:underline text-primary-600 dark:text-primary-400">
+                                    {{ $e.event }}
+                                </a>
+                                {{ else }}
+                                <span class="font-semibold text-neutral-700 dark:text-neutral-300">{{ $e.event }}</span>
+                                {{ end }}
+                            {{ end }}
+                            {{ if and $e.date (ne $e.date "-") }}
+                            <span class="opacity-75">• {{ $e.date | time.Format ":date_medium" }}</span>
+                            {{ end }}
+                            {{ if and $e.location (ne $e.location "-") }}
+                            <span class="opacity-75">• {{ $e.location }}</span>
+                            {{ end }}
+                        </div>
+                    </div>
+
+                    <div class="text-neutral-700 dark:text-neutral-300 text-sm md:text-base leading-relaxed mb-3 prose dark:prose-invert max-w-none">
+                        {{ $e.summary }}
+                    </div>
+
+                    {{ if $e.tags }}
+                    <div class="event-tags-wrapper">
+                        {{ range $e.tags }}
+                        <span class="event-tag-pill bg-neutral-100 text-neutral-600 dark:bg-neutral-800/80 dark:text-neutral-400 border border-neutral-200/50 dark:border-neutral-700/50">
+                            #{{ . }}
+                        </span>
+                        {{ end }}
+                    </div>
+                    {{ end }}
                 </div>
 
-                                    <div class="flex flex-wrap gap-6 items-center mt-4" style="gap: 1.5rem;">
+                {{/* Action Buttons */}}
+                <div class="event-action-buttons">
+                    {{ if $e.slides }}
+                    <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="event-action-btn text-xs md:text-sm font-medium px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        {{ i18n "event_decks_label" | default "Slides" }}
+                    </a>
+                    {{ end }}
 
-                                        {{ if $t.slides }}
+                    {{ if or $e.codelab $e.materials }}
+                    {{ $matUrl := $e.codelab | default $e.materials }}
+                    <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="event-action-btn text-xs md:text-sm font-medium px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        {{ if $e.codelab }}Codelab{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }}
+                    </a>
+                    {{ end }}
 
-                                        <a href="{{ $t.slides }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
+                    {{ if $e.source_code }}
+                    <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="event-action-btn text-xs md:text-sm font-medium px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        {{ i18n "event_source_code_label" | default "Source Code" }}
+                    </a>
+                    {{ end }}
 
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
+                    {{ if $e.recording }}
+                    <button type="button" class="video-toggle-btn event-action-btn text-xs md:text-sm font-medium px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-target="video-{{ $idx }}" data-video-url="{{ $e.recording }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span class="btn-label">{{ i18n "event_recording_label" | default "Recording" }}</span>
+                    </button>
+                    {{ end }}
+                </div>
 
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                {{ if $e.recording }}
+                <div id="video-{{ $idx }}" class="video-player-container hidden mt-4 w-full aspect-video rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md">
+                    <!-- lazy loaded on button click -->
+                </div>
+                {{ end }}
 
-                                            </svg>
-
-                                            {{ i18n "event_decks_label" | default "Slides" }}
-
-                                        </a>
-
-                                        {{ end }}
-
-                                        {{ if $t.source_code }}
-
-                                        <a href="{{ $t.source_code }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
-
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24" style="width: 1rem; height: 1rem;">
-
-                                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-
-                                            </svg>
-
-                                            &nbsp;{{ i18n "event_source_code_label" | default "Source Code" }}
-
-                                        </a>
-
-                                        {{ end }}
-
-                                        {{ if $t.recording }}
-
-                                        <a href="{{ $t.recording }}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors whitespace-nowrap" style="white-space: nowrap; word-break: normal;">
-
-                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="width: 1rem; height: 1rem;">
-
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-
-                                            </svg>
-
-                                            &nbsp;{{ i18n "event_recording_label" | default "Recording" }}
-
-                                        </a>
-
-                                        {{ end }}
-
-                                    </div>
-
-                
             </div>
         </div>
     {{ end }}
 </section>
+
+<script>
+function initEventsPage() {
+    // Filter functionality
+    const filterButtons = document.querySelectorAll('.event-filter-btn');
+    const cards = document.querySelectorAll('.event-card');
+    const yearHeaders = document.querySelectorAll('.year-header');
+
+    if (!filterButtons.length || !cards.length) return;
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => {
+                b.classList.remove('active', 'bg-primary-600', 'text-white');
+                b.classList.add('bg-neutral-200', 'text-neutral-700', 'dark:bg-neutral-800', 'dark:text-neutral-300');
+            });
+            btn.classList.add('active', 'bg-primary-600', 'text-white');
+            btn.classList.remove('bg-neutral-200', 'text-neutral-700', 'dark:bg-neutral-800', 'dark:text-neutral-300');
+
+            const filter = btn.getAttribute('data-filter');
+            cards.forEach(card => {
+                if (filter === 'all') {
+                    card.classList.remove('is-hidden');
+                } else {
+                    const rawCats = card.getAttribute('data-categories') || '';
+                    const categories = rawCats.split(/\s+/).filter(Boolean);
+                    if (categories.includes(filter)) {
+                        card.classList.remove('is-hidden');
+                    } else {
+                        card.classList.add('is-hidden');
+                    }
+                }
+            });
+
+            // Update year headers visibility
+            yearHeaders.forEach(header => {
+                const year = header.getAttribute('data-year');
+                const hasVisibleCards = Array.from(cards).some(card => 
+                    card.getAttribute('data-year') === year && !card.classList.contains('is-hidden')
+                );
+                header.classList.toggle('is-hidden', !hasVisibleCards);
+            });
+        });
+    });
+
+    // Thumbnail video click trigger
+    document.querySelectorAll('.thumb-action-video').forEach(thumb => {
+        thumb.addEventListener('click', () => {
+            const targetId = thumb.getAttribute('data-target');
+            const toggleBtn = document.querySelector(`.video-toggle-btn[data-target="${targetId}"]`);
+            if (toggleBtn) {
+                toggleBtn.click();
+                const container = document.getElementById(targetId);
+                if (container && !container.classList.contains('hidden')) {
+                    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        });
+    });
+
+    // Inline video toggle functionality
+    document.querySelectorAll('.video-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const videoUrl = btn.getAttribute('data-video-url');
+            const container = document.getElementById(targetId);
+            const labelSpan = btn.querySelector('.btn-label');
+            
+            if (container.classList.contains('hidden')) {
+                // Expand and embed video
+                container.classList.remove('hidden');
+                btn.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+                if (labelSpan) labelSpan.textContent = 'Hide Video';
+
+                if (!container.hasChildNodes() || container.innerHTML.trim() === '') {
+                    let embedHtml = '';
+                    if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+                        let videoId = '';
+                        if (videoUrl.includes('youtu.be/')) {
+                            videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+                        } else if (videoUrl.includes('watch?v=')) {
+                            videoId = videoUrl.split('watch?v=')[1].split('&')[0];
+                        }
+                        embedHtml = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+                    } else if (videoUrl.endsWith('.webm') || videoUrl.endsWith('.mp4')) {
+                        embedHtml = `<video class="w-full h-full bg-black" controls autoplay><source src="${videoUrl}" type="video/${videoUrl.endsWith('.webm') ? 'webm' : 'mp4'}">Your browser does not support video.</video>`;
+                    } else {
+                        embedHtml = `<iframe class="w-full h-full" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
+                    }
+                    container.innerHTML = embedHtml;
+                }
+            } else {
+                // Collapse video
+                container.classList.add('hidden');
+                btn.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+                if (labelSpan) labelSpan.textContent = '{{ i18n "event_recording_label" | default "Recording" }}';
+                container.innerHTML = ''; // Stop playback
+            }
+        });
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initEventsPage);
+} else {
+    initEventsPage();
+}
+</script>
 {{ end }}
 
 {{ end }}

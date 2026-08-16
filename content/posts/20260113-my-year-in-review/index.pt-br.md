@@ -1,10 +1,17 @@
 ---
-title: "Meu Ano em Revista: 2025"
-date: 2026-01-13T00:00:00Z
+categories:
+- Agentic Coding
+date: 2026-01-13 00:00:00+00:00
 draft: false
-categories: ["Career & Personal"]
-tags: ["reflection", "year-in-review", "google", "career", "vibe-coding"]
-summary: "Refletindo sobre um 2025 transformador: desde ingressar no Google e dominar o vibe coding até construir minhas próprias ferramentas de IA e encontrar um novo ritmo na vida e na engenharia."
+summary: 'Refletindo sobre um 2025 transformador: desde ingressar no Google e dominar
+  o vibe coding até construir minhas próprias ferramentas de IA e encontrar um novo
+  ritmo na vida e na engenharia.'
+tags:
+- reflection
+- google-cloud
+- career
+- vibe-coding
+title: 'Meu Ano em Revista: 2025'
 ---
 
 À medida que 2025 desaparece no retrovisor, encontro-me sentada com uma xícara de café (naturalmente), tentando processar o que acabou de acontecer. Se eu tivesse que escolher uma única palavra para este ano, seria **aceleração**.

@@ -1,10 +1,13 @@
 ---
-title: "Go開発者のためのGemini - 第1部: Geminiモデルファミリー"
+categories:
+- Agentic Coding
 date: 2026-08-08
-summary: "「Go開発者のためのGemini」シリーズの第1章。Geminiモデルファミリーのさまざまなモデルと、それらを利用するためのAPIサーフェスに焦点を当てます。"
-tags: ["golang", "gemini"]
-categories: ["AI & Development"]
-heroStyle: "big"
+heroStyle: big
+summary: 「Go開発者のためのGemini」シリーズの第1章。Geminiモデルファミリーのさまざまなモデルと、それらを利用するためのAPIサーフェスに焦点を当てます。
+tags:
+- golang
+- gemini
+title: 'Go開発者のためのGemini - 第1部: Geminiモデルファミリー'
 ---
 
 **Go開発者のためのGemini**へようこそ！このシリーズは、GoとGeminiを使用したプロダクションレベルのAIアプリケーション構築に関する完全ガイドです。7つの実践的な章を通じて、エージェンティック・コーディングから、**Genkit**や**ADK**を使用した自律型エージェントの構築、ゲーム開発、そしてフル**G3スタック**（Go、Gemini、GCP）を使用したクラウドへのデプロイまでをカバーします。

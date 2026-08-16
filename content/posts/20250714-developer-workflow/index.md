@@ -1,10 +1,15 @@
 ---
-title: "A Modern Developer Workflow for the AI Enabled World"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-07-11
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["gemini-cli", "vibe-coding", "jules"]
-summary: "A proposal for a modern developer workflow using AI tools and a simple prioritisation exercise."
+summary: A proposal for a modern developer workflow using AI tools and a simple prioritisation
+  exercise.
+tags:
+- gemini-cli
+- vibe-coding
+- jules
+title: A Modern Developer Workflow for the AI Enabled World
 ---
 ## Introduction
 

@@ -1,10 +1,19 @@
 ---
+categories:
+- Agentic Coding
 date: '2025-10-31T11:43:35Z'
 draft: false
-title: 'Dev-UIの先へ：ADKエージェントのインターフェースを構築する方法'
-summary: "Google ADKエージェントを、カスタムなレトロスタイル・インターフェースでアップグレードしましょう。このステップバイステップガイドでは、FastAPIとバニラJavaScriptを使って標準のDev-UIを置き換え、リアルタイム・ストリーミングに対応したAI生成アバターで個性をプラスする方法を紹介します。"
-categories: ["AI & Development"]
-tags: ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
+summary: Google ADKエージェントを、カスタムなレトロスタイル・インターフェースでアップグレードしましょう。このステップバイステップガイドでは、FastAPIとバニラJavaScriptを使って標準のDev-UIを置き換え、リアルタイム・ストリーミングに対応したAI生成アバターで個性をプラスする方法を紹介します。
+tags:
+- ai
+- tutorial
+- adk
+- gemini
+- python
+- fastapi
+- frontend
+- agents
+title: Dev-UIの先へ：ADKエージェントのインターフェースを構築する方法
 ---
 
 過去6か月間、私はGoogleのDevRelとしての役割の一環として、GenAI、vibe coding、エージェント、そしてその間のすべてを探求してきました。新しい技術を学びたいときはいつでも、それを使って何かを構築するのが最善の方法だと気づきました。この期間中の私の情熱的なプロジェクトの1つは、診断エージェントでした。これは、自然言語を使用して人々がコンピューターの問題を診断するのを助けることができるソフトウェアです。

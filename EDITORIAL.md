@@ -31,19 +31,28 @@ Consider these models as inspiration, not rigid templates:
 
 ## Taxonomy standards
 
-We use a strict taxonomy to keep content organized and discoverable.
+We use a strict, high-signal taxonomy to keep content organized, avoid keyword dilution, and maximize search discovery. Every article, codelab, and presentation must be associated with **exactly one** primary category.
 
-### Categories (Broad themes)
-Use **only** these four core categories. Do not create new ones.
-*   **`AI & Development`**: For all technical deep dives, coding, GenAI, MCP, etc.
-*   **`Workflow & Best Practices`**: For process, tools, and "vibe coding" philosophy.
-*   **`Career & Personal`**: For non-technical reflections, milestones, and career advice.
-*   **`Meta`**: For posts about the blog itself.
+### Categories (Core technical pillars)
+Use **only** these five canonical categories:
 
-### Tags (Specific topics)
-*   **Format:** Always **lowercase** and **kebab-case** (e.g., `vibe-coding`, `google-cloud`).
-*   **Language Agnostic:** Use English tags even for translated posts to ensure unified linking across languages.
-*   **Content Types as Tags:** Use tags for content types like `tutorial`, `keynote`, or `interview` instead of categories.
+*   **`Agentic Coding`**: Coding *with* AI agents, vibe coding workflows with engineering rigor, Gemini CLI, Antigravity 2.0, Agent Skills & Hooks, subagent orchestration, and modern code reviews.
+*   **`Agent Development`**: Architecting and *building* autonomous agents, Agent Development Kit (ADK), Model Context Protocol (MCP servers and tool protocols), Agent UI (`A2UI`), OSQuery diagnostics, and RAG.
+*   **`Applied GenAI`**: Real-world integration of foundation models, Gemini API & SDKs, Genkit Go framework, multimodal image processing (Nano Banana Pro), and cloud codelabs.
+*   **`Perspectives`**: Thought-provoking essays, philosophical critiques (*GenAI and Art: Is it really just slop?*), cognitive/mathematical models (perceived time), and career narratives.
+*   **`Software Engineering`**: Foundational Go systems engineering, testing methodology, mutation testing, and production-grade API architecture.
+
+### Tags (Canonical tag dictionary)
+*   **Strict Formatting:** Always **lowercase** and **kebab-case** (e.g., `agentic-coding`, `gemini-cli`, `vertex-ai`). Never use uppercase, camelCase, or spaces.
+*   **Language Agnostic:** Use English tags for all language editions (`index.md`, `index.pt-br.md`, `index.ja.md`) to maintain unified tag archives.
+*   **Canonical Dimensions:**
+    *   *Languages & Runtimes:* `golang`, `python`
+    *   *Models & Infrastructure:* `gemini`, `vertex-ai`, `genkit`, `google-cloud`, `nano-banana`
+    *   *Agent Tooling & Protocols:* `antigravity`, `gemini-cli`, `adk`, `mcp`, `a2ui`, `osquery`, `jules`
+    *   *Methodologies & Patterns:* `agentic-coding`, `vibe-coding`, `agent-skills`, `subagents`, `rag`, `code-review`, `agile`, `game-dev`
+    *   *Core Engineering:* `software-engineering`, `testing`, `mutation-testing`
+    *   *Content Formats:* `keynote`, `workshop`, `codelab`, `tutorial`, `train-the-trainer`
+    *   *Perspectives & Culture:* `career`, `art`, `reflection`
 
 ## Capitalization standards
 

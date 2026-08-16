@@ -1,10 +1,18 @@
 ---
-title: "Apresentando o Speedgrapher: Um Servidor MCP para Vibe Writing"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-08-05
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["golang", "gemini-cli", "mcp", "ai", "vibe-coding"]
-summary: "A história do Speedgrapher, um servidor MCP personalizado para 'vibe writing'. Detalha a jornada de transformar uma coleção pessoal de prompts em um kit de ferramentas portátil e alimentado por IA para automatizar e estruturar o processo criativo."
+summary: A história do Speedgrapher, um servidor MCP personalizado para 'vibe writing'.
+  Detalha a jornada de transformar uma coleção pessoal de prompts em um kit de ferramentas
+  portátil e alimentado por IA para automatizar e estruturar o processo criativo.
+tags:
+- golang
+- gemini-cli
+- mcp
+- ai
+- vibe-coding
+title: 'Apresentando o Speedgrapher: Um Servidor MCP para Vibe Writing'
 ---
 
 {{< translation-notice >}}

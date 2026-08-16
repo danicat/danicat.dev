@@ -1,10 +1,16 @@
 ---
-title: "Como usei o Jules para adicionar um post em destaque a este blog"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-07-03
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["jules", "vibe-coding", "tutorial"]
-summary: "Um relato detalhado do meu processo iterativo trabalhando com o Jules, um assistente de codificação de IA, para implementar uma nova seção de post em destaque na página inicial do meu blog."
+summary: Um relato detalhado do meu processo iterativo trabalhando com o Jules, um
+  assistente de codificação de IA, para implementar uma nova seção de post em destaque
+  na página inicial do meu blog.
+tags:
+- jules
+- vibe-coding
+- tutorial
+title: Como usei o Jules para adicionar um post em destaque a este blog
 ---
 {{< translation-notice >}}
 > *Nota da autora:* cerca de 90% deste post foi escrito por IA, mas eu revisei e editei para garantir que o post tivesse uma leitura agradável. Foi engraçado como o Jules tinha a tendência de se gabar de si mesmo. Tive que guiá-lo com muitos prompts para chegar a este resultado final, mas a última edição foi mais fácil de fazer manualmente. Você pode ver o histórico completo de edições no [histórico de commits do PR](https://github.com/danicat/danicat.dev/pull/6). Uma menção notável é que ele se recusou completamente a traduzir este post para o português (Brasil) afirmando que não tem capacidade de tradução, mas a totalidade deste blog foi traduzida usando o Jules em uma interação anterior. Acho que não estava no clima. :)

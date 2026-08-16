@@ -1,10 +1,17 @@
 ---
-title: "GoDoctorの構築：Gemini CLIとGoでMCPサーバーを作成する"
+author: Daniela Petruzalek
+categories:
+- Agent Development
 date: 2025-07-29
-author: "Daniela Petruzalek"
-categories: ["AI & Development"]
-tags: ["golang", "gemini-cli", "mcp", "ai", "codelab", "tutorial"]
-summary: "Model Context Protocol（MCP）とGemini CLIを使用して、AI搭載のGo開発アシスタントであるGoDoctorを構築した方法のステップバイステップガイド。"
+summary: Model Context Protocol（MCP）とGemini CLIを使用して、AI搭載のGo開発アシスタントであるGoDoctorを構築した方法のステップバイステップガイド。
+tags:
+- golang
+- gemini-cli
+- mcp
+- ai
+- codelab
+- tutorial
+title: GoDoctorの構築：Gemini CLIとGoでMCPサーバーを作成する
 ---
 {{< translation-notice >}}
 
@@ -252,7 +259,7 @@ GoDoctorとの旅はまだ終わっていません。まだ実験的なプロジ
 もし、あなた自身でこの旅を体験し、ゼロから独自のMCPサーバーを構築したい場合は、そのプロセスをガイドするためのハンズオンワークショップを用意しました。**[Gemini CLI と Go を使用して MCP サーバーを構築する方法](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=ja#0)**のコードラボをぜひチェックしてみてください。
 
 これらの概念が公式のGoツールチェーンでどのように適用されているかに関心のある方は、多くの同じ目的を共有する`gopls` MCPサーバーについて読むことを強くお勧めします。[公式のGoドキュメントWebサイト](https://tip.golang.org/gopls/features/mcp)で詳細情報を見つけることができます。
-す。��
+す。��
 
 ### リソースとリンク
 

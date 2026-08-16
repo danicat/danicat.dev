@@ -1,10 +1,16 @@
 ---
-title: "Taming Vibe Coding: エンジニアのためのガイド"
-date: 2025-12-06T02:00:00Z
+categories:
+- Agentic Coding
+date: 2025-12-06 02:00:00+00:00
 draft: false
-categories: ["Workflow & Best Practices"]
-tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
-summary: "AIのスピードを、混乱なしに手に入れましょう。エンジニアリングの基本を適用して、構造化され、安全で、長持ちするコードを維持する方法を解説します。"
+summary: AIのスピードを、混乱なしに手に入れましょう。エンジニアリングの基本を適用して、構造化され、安全で、長持ちするコードを維持する方法を解説します。
+tags:
+- vibe-coding
+- ai
+- mcp
+- gemini-cli
+- jules
+title: 'Taming Vibe Coding: エンジニアのためのガイド'
 ---
 
 一年の終わりに、自分がやったこと、そしてやっておけばよかったことを振り返る時期がやってきました。今年は私にとって激動の一年でした。4月にGoogleに入社し、AIの世界に向けて自分自身をリファクタリングするノンストップのレースが始まりました。一年が終わろうとしている今、その努力は報われたと自信を持って言えます。私はより良いエンジニアになりました。

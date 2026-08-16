@@ -5,403 +5,738 @@
     "tagline": "Developer Relations Engineer at Google",
     "bio": "Daniela Petruzalek is a developer relations engineer at Google focused on Google Cloud Platform. Her specialisation is backend development and data engineering. She has previously worked at companies like JPMorgan, Oracle and ThoughtWorks. On her spare time she contributes to open source, plays video games and pets random cats on the streets.",
     "speakerProfileUrl": "https://sessionize.com/daniela",
-    "photoUrl": "https://sessionize.com/image/838f-200o200o2-4RWiEd2HdfW1LrdrkkrE92.JPG",
-    "photoLargeUrl": "https://sessionize.com/image/ec0a-1000o1000o1-4RWiEd2HdfW1LrdrkkrE92.JPG"
+    "photoUrl": "https://cdn.sessionize.com/image/838f-200o200o2-4RWiEd2HdfW1LrdrkkrE92.JPG",
+    "photoLargeUrl": "https://cdn.sessionize.com/image/ec0a-1000o1000o1-4RWiEd2HdfW1LrdrkkrE92.JPG"
   },
   "talks": [
     {
-      "title": "State of Agentic Coding",
-      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering. This talk covers the transition from simple code completion to autonomous agents that can plan, execute, and debug complex tasks.",
-      "image": null,
-      "events": [
-        {
-          "name": "Google I/O Extended London 2026",
-          "date": "2026-06-13",
-          "location": "London, UK",
-          "url": null
-        },
-        {
-          "name": "Google Cloud Summit Nordics 2026",
-          "date": "2026-06-03",
-          "location": "Stockholm, Sweden",
-          "url": null
-        }
-      ],
-      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
-      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "id": "sessionize-proposal-build-a-photo-restoration-app-using-genkit-go-and-nano-banana-pro",
+      "title": "Build a photo restoration app using Genkit Go and Nano Banana Pro",
+      "event": null,
+      "date": null,
+      "location": null,
+      "url": null,
+      "summary": "In this codelab, we are going to build GlowUp, a photo restoration tool. GlowUp uses AI to restore old, damaged, or black-and-white photos, creating high-quality 4K color images. You can use this tool to give a new life to your family photos, or even adapt it to restore damaged illustrations, drawings, paintings or other forms of images.",
+      "slides": null,
       "recording": null,
+      "source_code": null,
+      "image": null,
       "tags": [
-        "AI",
-        "Agentic Coding",
-        "LLMs"
+        "golang",
+        "genkit",
+        "gemini",
+        "ai",
+        "codelab"
       ],
       "categories": [
-        "AI & Development"
+        "Applied GenAI"
+      ],
+      "codelab": "https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0"
+    },
+    {
+      "id": "2026-08-12-gophercon-uk-2026-vibe-code-a-2d-game-using-go-and-gemini",
+      "title": "Vibe Code a 2D Game using Go and Gemini",
+      "event": "Gophercon UK 2026",
+      "date": "2026-08-12",
+      "location": "London, UK",
+      "url": null,
+      "summary": "This talk provides supporting material for a workshop focused on \"vibe coding\" a 2D game. It demonstrates how to build such a game using the Go programming language and the Gemini AI.",
+      "slides": "https://speakerdeck.com/danicat/vibe-code-a-2d-game-using-go-and-gemini",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/d7f99ca5f4d04b0fa5e0df209cb5bd90/preview_slide_0.jpg?40280407",
+      "tags": [
+        "golang",
+        "gemini",
+        "ai",
+        "game-dev",
+        "vibe-coding",
+        "workshop"
+      ],
+      "categories": [
+        "Agentic Coding"
       ]
     },
     {
-      "title": "Making of GoDoctor: an MCP server for Go development",
-      "summary": "A deep dive into the design and implementation of GoDoctor, a specialized Model Context Protocol (MCP) server for Go. This talk explores how giving agents specialized tools can significantly improve their effectiveness and reliability.",
+      "id": "2026-06-26-gde-summit-berlin-building-agentic-interfaces-with-a2ui",
+      "title": "Building Agentic Interfaces with A2UI",
+      "event": "GDE Summit Berlin",
+      "date": "2026-06-26",
+      "location": "Berlin, Germany",
+      "url": null,
+      "summary": "Deep dive into building rich, dynamic user interfaces for autonomous agents using A2UI and the Agent Development Kit (ADK).",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
       "image": null,
-      "events": [
-        {
-          "name": "FOSDEM 2026",
-          "date": "2026-02-01",
-          "location": "Brussels, Belgium",
-          "url": "https://fosdem.org/2026/schedule/event/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development/"
-        }
+      "tags": [
+        "ai",
+        "agents",
+        "a2ui",
+        "adk"
       ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-06-25-google-io-connect-extended-berlin-ai-driven-development",
+      "title": "AI-driven development",
+      "event": "Google I/O Connect Extended Berlin",
+      "date": "2026-06-25",
+      "location": "Berlin, Germany",
+      "url": null,
+      "summary": "Exploring modern AI-driven development workflows, developer tooling, and the evolution from code assistance to autonomous agent pair programming.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "ai",
+        "vibe-coding",
+        "agentic-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-06-24-gdg-community-summit-berlin-genai-and-art-is-it-really-just-slop",
+      "title": "GenAI and Art: Is it really just slop?",
+      "event": "GDG Community Summit Berlin",
+      "date": "2026-06-24",
+      "location": "Berlin, Germany",
+      "url": null,
+      "summary": "This talk explores the intersection of generative AI and art, questioning whether AI-generated art is merely 'slop'. It also draws a parallel between the evolution of generative art and the career progression of a software engineer.",
+      "slides": "https://speakerdeck.com/danicat/genai-and-art-is-it-really-just-slop",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/b935c602724a444e817afaf60d92e3c1/preview_slide_0.jpg?40078254",
+      "tags": [
+        "ai",
+        "art",
+        "career",
+        "software-engineering"
+      ],
+      "categories": [
+        "Perspectives"
+      ]
+    },
+    {
+      "id": "2026-06-17-wednesday-build-hour-build-rich-agentic-interfaces-with-adk-and-a2ui",
+      "title": "Build Rich Agentic Interfaces with ADK and A2UI",
+      "event": "Wednesday Build Hour",
+      "date": "2026-06-17",
+      "location": "Online",
+      "url": "https://cloud.google.com/resources/wednesday-build-hour",
+      "summary": "Hands-on session demonstrating how to design and build interactive, multimodal agentic user interfaces with Google's ADK and A2UI framework.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "adk",
+        "a2ui",
+        "agents",
+        "gemini",
+        "ai"
+      ],
+      "categories": [
+        "Agent Development"
+      ],
+      "codelab": "https://codelabs.developers.google.com/adk-gemini-a2ui#0"
+    },
+    {
+      "id": "2026-06-13-google-io-extended-london-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "Google I/O Extended London 2026",
+      "date": "2026-06-13",
+      "location": "London, UK",
+      "url": null,
+      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering. This talk covers the transition from simple code completion to autonomous agents that can plan, execute, and debug complex tasks.",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "recording": null,
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
+      "tags": [
+        "ai",
+        "agentic-coding",
+        "llms"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-06-03-google-cloud-summit-nordics-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "Google Cloud Summit Nordics 2026",
+      "date": "2026-06-03",
+      "location": "Stockholm, Sweden",
+      "url": null,
+      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering. This talk covers the transition from simple code completion to autonomous agents that can plan, execute, and debug complex tasks.",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "recording": null,
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
+      "tags": [
+        "ai",
+        "agentic-coding",
+        "llms"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-06-03-google-cloud-summit-nordics-hands-on-agentic-coding-build-and-deploy-an-arcade-game",
+      "title": "Hands-On Agentic Coding: Build and Deploy an Arcade Game",
+      "event": "Google Cloud Summit Nordics",
+      "date": "2026-06-03",
+      "location": "Stockholm, Sweden",
+      "url": null,
+      "summary": "Hands-on workshop exploring agentic coding workflows by designing, building, and deploying a playable retro arcade game with AI agents.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "ai",
+        "agentic-coding",
+        "game-dev",
+        "google-cloud"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-05-27-wednesday-build-hour-build-a-cloud-native-game-with-natural-language",
+      "title": "Build a cloud-native game with Natural Language",
+      "event": "Wednesday Build Hour",
+      "date": "2026-05-27",
+      "location": "Online",
+      "url": "https://cloud.google.com/resources/wednesday-build-hour",
+      "summary": "Live build demonstrating how natural language prompt engineering and AI coding agents can construct and deploy a full cloud-native game.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "ai",
+        "game-dev",
+        "google-cloud"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ],
+      "codelab": "http://goo.gle/cloud-crush-agy"
+    },
+    {
+      "id": "2026-05-07-train-the-trainer-dubai-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "Train the Trainer: Dubai",
+      "date": "2026-05-07",
+      "location": "Online",
+      "url": null,
+      "summary": "Training session exploring the current state and emerging patterns of AI agent-assisted software engineering, multi-agent workflows, and practical applications.",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "recording": null,
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
+      "tags": [
+        "ai",
+        "agentic-coding",
+        "train-the-trainer",
+        "llms"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-04-23-wednesday-build-hour-top-5-codelabs-from-next",
+      "title": "Top 5 Codelabs From NEXT",
+      "event": "Wednesday Build Hour",
+      "date": "2026-04-23",
+      "location": "Online",
+      "url": "https://cloud.google.com/resources/wednesday-build-hour",
+      "summary": "A walkthrough and practical demonstration of the top 5 developer codelabs from Google Cloud NEXT, highlighting key developer features and AI integration patterns.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "google-cloud",
+        "codelab",
+        "ai"
+      ],
+      "categories": [
+        "Applied GenAI"
+      ]
+    },
+    {
+      "id": "2026-04-18-devfest-pisa-2026-build-your-own-executive-assistant-with-adk-and-gemini",
+      "title": "Build your own executive assistant with ADK and Gemini",
+      "event": "DevFest Pisa 2026",
+      "date": "2026-04-18",
+      "location": "Pisa, Italy",
+      "url": null,
+      "summary": "This talk explores how to leverage ADK (Assistant Development Kit) and Gemini to create a personalized executive assistant. Attendees will learn the practical steps and tools involved in developing an AI-powered assistant to streamline their workflow.",
+      "slides": "https://speakerdeck.com/danicat/devfest-pisa-2026-build-your-own-executive-assistant-with-adk-and-gemini",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/cca74a8411e549308ed8892f263107db/preview_slide_0.jpg?39701534",
+      "tags": [
+        "ai",
+        "gemini",
+        "adk"
+      ],
+      "categories": [
+        "Agent Development"
+      ],
+      "codelab": "https://codelabs.developers.google.com/cloud-adk-executive-assistant#0"
+    },
+    {
+      "id": "2026-03-11-wednesday-build-hour-advanced-techniques-for-building-agents-with-adk-and-vertex-ai",
+      "title": "Advanced Techniques for Building Agents with ADK and Vertex AI",
+      "event": "Wednesday Build Hour",
+      "date": "2026-03-11",
+      "location": "Online",
+      "url": "https://cloud.google.com/resources/wednesday-build-hour",
+      "summary": "Agent Development Kit (ADK) is an open source agent development framework built by Google. In this talk we are going to see how to leverage Vertex AI to make production-ready agents that include features like memory, session management, artifact management, RAG and others. The session will walk you through the development of an “Executive Assistant” agent that will learn not only about your tasks, but your preferences. Even if you have never built an agent before, in this talk you will learn how to quickly ramp up using Gemini CLI, the developer knowledge MCP and codewiki, for a truly modern agent development experience.",
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "image": null,
+      "tags": [
+        "adk",
+        "vertex-ai",
+        "agents",
+        "gemini",
+        "mcp",
+        "rag",
+        "gemini-cli",
+        "ai"
+      ],
+      "categories": [
+        "Agent Development"
+      ],
+      "codelab": "https://codelabs.developers.google.com/cloud-adk-executive-assistant#0"
+    },
+    {
+      "id": "2026-02-25-train-the-trainer-berlin-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "Train the Trainer: Berlin",
+      "date": "2026-02-25",
+      "location": "Berlin, Germany",
+      "url": null,
+      "summary": "Training session exploring the current state and emerging patterns of AI agent-assisted software engineering, multi-agent workflows, and practical applications.",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "recording": null,
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
+      "tags": [
+        "ai",
+        "agentic-coding",
+        "train-the-trainer",
+        "llms"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-02-01-fosdem-2026-making-of-godoctor-an-mcp-server-for-go-development",
+      "title": "Making of GoDoctor: an MCP server for Go development",
+      "event": "FOSDEM 2026",
+      "date": "2026-02-01",
+      "location": "Brussels, Belgium",
+      "url": "https://fosdem.org/2026/schedule/event/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development/",
+      "summary": "A deep dive into the design and implementation of GoDoctor, a specialized Model Context Protocol (MCP) server for Go. This talk explores how giving agents specialized tools can significantly improve their effectiveness and reliability.",
       "slides": "https://speakerdeck.com/danicat/making-of-godoctor-lessons-learned-while-building-a-go-aware-mcp-server",
       "recording": "https://video.fosdem.org/2026/ub5132/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development.av1.webm",
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/3b1328a8b6f9456e88318dbb2c1efaaf/preview_slide_0.jpg?38277323",
       "tags": [
         "golang",
-        "AI",
-        "MCP",
-        "FOSDEM"
+        "ai",
+        "mcp"
       ],
       "categories": [
-        "AI & Development"
+        "Agent Development"
       ]
     },
     {
+      "id": "2026-01-22-aicamp-london-tech-talk-diagnostic-agent-using-gemini-and-osquery",
       "title": "Tech Talk: Diagnostic agent using Gemini and OSQuery",
+      "event": "AICamp London",
+      "date": "2026-01-22",
+      "location": "London, UK",
+      "url": "https://www.aicamp.ai/event/eventdetails/W2026012210",
       "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\". This AI agent will be built step by step using Python, Vertex AI, Gemini and OSQuery.",
-      "image": null,
-      "events": [
-        {
-          "name": "AICamp London",
-          "date": "2026-01-22",
-          "location": "London, UK",
-          "url": "https://www.aicamp.ai/event/eventdetails/W2026012210"
-        }
-      ],
       "slides": "https://speakerdeck.com/danicat/diagnostics-agent-with-adk-gemini-and-osquery",
+      "recording": null,
       "source_code": "https://github.com/GoogleCloudPlatform/devrel-demos/tree/main/agents/aicamp",
-      "recording": null,
+      "image": "https://files.speakerdeck.com/presentations/fe547fbd11a34efaa7cb6187bc3be42d/preview_slide_0.jpg?38167487",
       "tags": [
-        "AI",
-        "Gemini",
-        "OSQuery",
-        "Python"
+        "ai",
+        "gemini",
+        "osquery",
+        "python"
       ],
       "categories": [
-        "AI & Development"
+        "Agent Development"
       ]
     },
     {
-      "title": "The Gopher's Craft in the Age of AI",
-      "summary": "The talk explores the evolving role of Gophers in the age of AI, focusing on extending language models with custom tools and integrating AI as a powerful extension of skills, using the Model Context Protocol (MCP) and live Go demonstrations.",
-      "image": null,
-      "events": [
-        {
-          "name": "GoLab 2025",
-          "date": "2025-10-06",
-          "location": "Florence, Italy",
-          "url": "https://golab.io/talks/the-gopher-s-craft-in-the-age-of-ai"
-        }
-      ],
-      "slides": "https://speakerdeck.com/danicat/golab-2025-the-gophers-craft-in-the-age-of-ai",
-      "recording": null,
-      "tags": [
-        "golang",
-        "AI",
-        "MCP"
-      ],
-      "categories": [
-        "AI & Development"
-      ]
-    },
-    {
+      "id": "2025-11-29-devfest-scotland-2025-how-to-create-a-diagnostics-agent-using-gemini-and-osquery",
       "title": "How to create a diagnostics agent using Gemini and OSQuery",
+      "event": "DevFest Scotland 2025",
+      "date": "2025-11-29",
+      "location": "Edinburgh, UK",
+      "url": "https://devfestscotland.com",
       "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\".",
-      "image": "/images/talks/diagnostic-agent.jpg",
-      "events": [
-        {
-          "name": "DevFest Scotland 2025",
-          "date": "2025-11-29",
-          "location": "Edinburgh, UK",
-          "url": "https://devfestscotland.com"
-        },
-        {
-          "name": "BiznagaFest 2025",
-          "date": "2025-10-25",
-          "location": "Malaga, Spain",
-          "url": "https://biznagafest.com/"
-        },
-        {
-          "name": "TDC Sao Paulo 2025",
-          "date": "2025-09-17",
-          "location": "Sao Paulo, Brazil",
-          "url": "https://thedevconf.com/tdc/2025/saopaulo/"
-        }
-      ],
       "slides": "https://speakerdeck.com/danicat/how-to-create-a-diagnostic-agent-with-gemini-and-osquery",
       "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/5be2853a637a45989e6ff95a7fb74972/preview_slide_0.jpg?37577046",
       "tags": [
-        "AI",
-        "Gemini",
-        "OSQuery",
-        "Python"
+        "ai",
+        "gemini",
+        "osquery",
+        "python"
       ],
       "categories": [
-        "AI & Development"
+        "Agent Development"
       ]
     },
     {
+      "id": "2025-11-22-devfest-london-2025-how-to-build-an-mcp-server-with-go-and-gemini-cli",
       "title": "How to Build an MCP Server with Go and Gemini CLI",
+      "event": "DevFest London 2025",
+      "date": "2025-11-22",
+      "location": "London, UK",
+      "url": "https://devfestlondon.com",
       "summary": "Hands-on workshop on building and deploying a Model Context Protocol (MCP) server to extend the capabilities of the Gemini CLI, transforming it into a specialized development expert.",
-      "image": null,
-      "events": [
-        {
-          "name": "DevFest London 2025",
-          "date": "2025-11-22",
-          "location": "London, UK",
-          "url": "https://devfestlondon.com"
-        },
-        {
-          "name": "DevFest @ Bletchley Park 2025",
-          "date": "2025-11-15",
-          "location": "Bletchley Park, UK",
-          "url": "https://tnmoc.org"
-        }
-      ],
       "slides": null,
+      "codelab": "https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go",
       "recording": null,
+      "source_code": null,
+      "image": null,
       "tags": [
         "golang",
-        "AI",
-        "MCP",
-        "Workshop"
+        "ai",
+        "mcp",
+        "workshop"
       ],
       "categories": [
-        "AI & Development"
+        "Agent Development"
       ]
     },
     {
+      "id": "2025-11-21-devfest-birmingham-2025-a-gophers-guide-to-vibe-coding",
       "title": "A Gopher's Guide to Vibe Coding",
+      "event": "DevFest Birmingham 2025",
+      "date": "2025-11-21",
+      "location": "Birmingham, UK",
+      "url": "https://devfestbirmingham.com",
       "summary": "As vibe coding quickly becomes the new buzzword we Gophers could not be left out of this party. In this talk I'm going to share my experiences while developing testquery - a tool to extract information from Go tests - starting from product ideation to the implementation.",
-      "image": "/images/talks/vibe-coding.jpg",
-      "events": [
-        {
-          "name": "DevFest Birmingham 2025",
-          "date": "2025-11-21",
-          "location": "Birmingham, UK",
-          "url": "https://devfestbirmingham.com"
-        },
-        {
-          "name": "GopherCon South Africa 2025",
-          "date": "2025-08-06",
-          "location": "Online",
-          "url": "https://gopherconf.co.za/"
-        },
-        {
-          "name": "GopherCon UK 2025",
-          "date": "2025-08-15",
-          "location": "London, UK",
-          "url": "https://www.gophercon.co.uk/"
-        }
-      ],
       "slides": "https://speakerdeck.com/danicat/a-gophers-guide-to-vibe-coding-b7ee3039-5fc6-45a0-8e94-ef4ade3f1e73",
-      "recording": "https://www.youtube.com/watch?v=keh-_VJtIwE",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
       "tags": [
         "golang",
-        "AI",
-        "Vibe Coding"
+        "ai",
+        "vibe-coding"
       ],
       "categories": [
-        "AI & Development"
+        "Agentic Coding"
       ]
     },
     {
+      "id": "2025-11-15-devfest-bletchley-park-2025-hello-mcp-world",
       "title": "Hello, MCP World!",
-      "summary": "Keynote presentation at GopherCon UK 2025. An introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks used to create AI-enabled applications with Go.",
-      "image": "/images/talks/hello-mcp-world.jpg",
-      "events": [
-        {
-          "name": "DevFest @ Bletchley Park 2025",
-          "date": "2025-11-16",
-          "location": "Bletchley Park, UK",
-          "url": "https://tnmoc.org"
-        },
-        {
-          "name": "GopherCon UK 2025",
-          "date": "2025-08-14",
-          "location": "London, UK",
-          "url": "https://www.gophercon.co.uk/"
-        }
-      ],
+      "event": "DevFest @ Bletchley Park 2025",
+      "date": "2025-11-15",
+      "location": "Bletchley Park, UK",
+      "url": "https://www.tnmoc.org/events/2025/11/15/devfest-bletchley-park-2025",
+      "summary": "Keynote presentation introducing the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks used to create AI-enabled applications with Go.",
       "slides": "https://speakerdeck.com/danicat/hello-mcp-world",
-      "recording": "https://www.youtube.com/watch?v=WzfYd6cV4gE",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/305f7186f46542c68c8f8328579ceea6/preview_slide_0.jpg?37576975",
       "tags": [
-        "AI",
-        "MCP",
+        "ai",
+        "mcp",
         "golang",
-        "Keynote"
+        "keynote"
       ],
       "categories": [
-        "AI & Development"
+        "Agent Development"
       ]
     },
     {
+      "id": "2025-11-15-devfest-bletchley-park-2025-go-for-genai",
       "title": "Go for GenAI!",
+      "event": "DevFest @ Bletchley Park 2025",
+      "date": "2025-11-15",
+      "location": "Bletchley Park, UK",
+      "url": "https://www.tnmoc.org/events/2025/11/15/devfest-bletchley-park-2025",
       "summary": "Keynote presentation at DevFest @ Bletchley Park 2025. Exploring the intersection of Go and Generative AI, demonstrating how to build robust, production-ready AI applications using the Go ecosystem.",
-      "image": "/images/talks/go-genai.jpg",
-      "events": [
-        {
-          "name": "DevFest @ Bletchley Park 2025",
-          "date": "2025-11-15",
-          "location": "Bletchley Park, UK",
-          "url": "https://tnmoc.org"
-        }
-      ],
       "slides": "https://speakerdeck.com/danicat/go-for-genai",
       "recording": null,
+      "source_code": null,
+      "image": "/images/talks/go-genai.jpg",
       "tags": [
         "golang",
-        "AI",
-        "GenAI",
-        "Keynote"
+        "ai",
+        "keynote"
       ],
       "categories": [
-        "AI & Development"
+        "Applied GenAI"
       ]
     },
     {
-      "title": "Gemini 2.x for Developers",
-      "summary": "Hands-on workshop on building and deploying applications with the latest Gemini 2.x models, covering multimodal capabilities, tool use, and best practices for developer workflows.",
+      "id": "2025-11-15-devfest-bletchley-park-2025-how-to-build-an-mcp-server-with-go-and-gemini-cli",
+      "title": "How to Build an MCP Server with Go and Gemini CLI",
+      "event": "DevFest @ Bletchley Park 2025",
+      "date": "2025-11-15",
+      "location": "Bletchley Park, UK",
+      "url": "https://www.tnmoc.org/events/2025/11/15/devfest-bletchley-park-2025",
+      "summary": "Hands-on workshop on building and deploying a Model Context Protocol (MCP) server to extend the capabilities of the Gemini CLI, transforming it into a specialized development expert.",
+      "slides": null,
+      "codelab": "https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go",
+      "recording": null,
+      "source_code": null,
       "image": null,
-      "events": [
-        {
-          "name": "WeAreDevelopers World Congress 2025",
-          "date": "2025-07-09",
-          "location": "Berlin, Germany",
-          "url": "https://www.wearedevelopers.com/world-congress/"
-        }
+      "tags": [
+        "golang",
+        "ai",
+        "mcp",
+        "workshop"
       ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-10-25-biznagafest-2025-how-to-create-a-diagnostic-agent-using-gemini-and-osquery",
+      "title": "How to create a diagnostic agent using Gemini and OSQuery",
+      "event": "BiznagaFest 2025",
+      "date": "2025-10-25",
+      "location": "Malaga, Spain",
+      "url": "https://biznagafest.com/",
+      "summary": "Inspired by the \"computer\" in Star Trek, in this talk we are going to create a natural language diagnostic agent that can answer questions about your computer, from asking the number of cores and amount of memory installed to running a \"Level 1 Diagnostic Procedure\".",
+      "slides": "https://speakerdeck.com/danicat/how-to-create-a-diagnostic-agent-using-gemini-and-osquery",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/6b0facdf9ca5431794cfc5a3941ffc33/preview_slide_0.jpg?37130882",
+      "tags": [
+        "ai",
+        "gemini",
+        "osquery",
+        "python",
+        "vertex-ai"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-10-06-golab-2025-the-gophers-craft-in-the-age-of-ai",
+      "title": "The Gopher's Craft in the Age of AI",
+      "event": "GoLab 2025",
+      "date": "2025-10-06",
+      "location": "Florence, Italy",
+      "url": "https://golab.io/talks/the-gopher-s-craft-in-the-age-of-ai",
+      "summary": "The talk explores the evolving role of Gophers in the age of AI, focusing on extending language models with custom tools and integrating AI as a powerful extension of skills, using the Model Context Protocol (MCP) and live Go demonstrations.",
+      "slides": "https://speakerdeck.com/danicat/golab-2025-the-gophers-craft-in-the-age-of-ai",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/175701bb35bd4722a8b59ee9c9ae06d0/preview_slide_0.jpg?38277118",
+      "tags": [
+        "golang",
+        "ai",
+        "mcp"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-09-27-future-forward-the-job-titles-of-2030-hello-mcp-world",
+      "title": "Hello, MCP World!",
+      "event": "Future Forward: The Job Titles of 2030",
+      "date": "2025-09-27",
+      "location": "Bletchley Park, UK",
+      "url": "https://www.eventbrite.co.uk/e/future-forward-the-job-titles-of-2030-at-the-national-museum-of-computing-tickets-1560763257919",
+      "summary": "Keynote presentation at The National Museum of Computing exploring the Model Context Protocol (MCP), its core architecture, and how AI agents and developer tooling are shaping the technical job roles of 2030.",
+      "slides": "https://speakerdeck.com/danicat/hello-mcp-world",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/8cb8430f99d04755a82112edaeff756d/preview_slide_0.jpg?36265557",
+      "language": "en",
+      "tags": [
+        "ai",
+        "mcp",
+        "golang",
+        "keynote"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-09-19-tdc-sao-paulo-como-criar-um-agente-de-diagnosticos-usando-gemini-e-osquery",
+      "title": "Como criar um agente de diagnósticos usando Gemini e Osquery",
+      "event": "TDC São Paulo 2025",
+      "date": "2025-09-19",
+      "location": "São Paulo, Brazil",
+      "url": "https://thedevconf.com/tdc/2025/saopaulo/",
+      "summary": "This talk demonstrates how to build an AI agent step-by-step using Python, Vertex AI, Gemini, and Osquery. It explores how Osquery, a tool for exposing OS information via SQL, can be leveraged by large language models to enable advanced diagnostics through natural language queries, eliminating the need to memorize complex command lines.",
+      "slides": "https://speakerdeck.com/danicat/como-criar-um-agente-de-diagnosticos-usando-gemini-e-osquery",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/6b5cd0ea918744c6ab99c3e2da4df857/preview_slide_0.jpg?36647960",
+      "language": "pt-BR",
+      "tags": [
+        "python",
+        "vertex-ai",
+        "gemini",
+        "osquery",
+        "ai",
+        "llms"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-08-15-gophercon-uk-2025-a-gophers-guide-to-vibe-coding",
+      "title": "A Gopher's Guide to Vibe Coding",
+      "event": "GopherCon UK 2025",
+      "date": "2025-08-15",
+      "location": "London, UK",
+      "url": "https://www.gophercon.co.uk/",
+      "summary": "As vibe coding quickly becomes the new buzzword we Gophers could not be left out of this party. In this talk I'm going to share my experiences while developing testquery - a tool to extract information from Go tests - starting from product ideation to the implementation.",
+      "slides": "https://speakerdeck.com/danicat/a-gophers-guide-to-vibe-coding-b7ee3039-5fc6-45a0-8e94-ef4ade3f1e73",
+      "recording": "https://www.youtube.com/watch?v=keh-_VJtIwE",
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
+      "tags": [
+        "golang",
+        "ai",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2025-08-14-gophercon-uk-2025-hello-mcp-world",
+      "title": "Hello, MCP World!",
+      "event": "GopherCon UK 2025",
+      "date": "2025-08-14",
+      "location": "London, UK",
+      "url": "https://www.gophercon.co.uk/",
+      "summary": "Keynote presentation at GopherCon UK 2025. An introduction to the Model Context Protocol (MCP), exploring its core concepts, architecture, and the building blocks used to create AI-enabled applications with Go.",
+      "slides": "https://speakerdeck.com/danicat/hello-mcp-world",
+      "recording": "https://www.youtube.com/watch?v=WzfYd6cV4gE",
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/8cb8430f99d04755a82112edaeff756d/preview_slide_0.jpg?36265557",
+      "tags": [
+        "ai",
+        "mcp",
+        "golang",
+        "keynote"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2025-08-06-gophercon-south-africa-2025-a-gophers-guide-to-vibe-coding",
+      "title": "A Gopher's Guide to Vibe Coding",
+      "event": "GopherCon South Africa 2025",
+      "date": "2025-08-06",
+      "location": "Online",
+      "url": "https://gopherconf.co.za/",
+      "summary": "As vibe coding quickly becomes the new buzzword we Gophers could not be left out of this party. In this talk I'm going to share my experiences while developing testquery - a tool to extract information from Go tests - starting from product ideation to the implementation.",
+      "slides": "https://speakerdeck.com/danicat/a-gophers-guide-to-vibe-coding-b7ee3039-5fc6-45a0-8e94-ef4ade3f1e73",
+      "recording": null,
+      "source_code": null,
+      "image": "https://files.speakerdeck.com/presentations/64b33d287e314196832b3946d8dbe1f9/preview_slide_0.jpg?37576999",
+      "tags": [
+        "golang",
+        "ai",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2025-07-09-wearedevelopers-world-congress-2025-gemini-2x-for-developers",
+      "title": "Gemini 2.x for Developers",
+      "event": "WeAreDevelopers World Congress 2025",
+      "date": "2025-07-09",
+      "location": "Berlin, Germany",
+      "url": "https://www.wearedevelopers.com/world-congress/",
+      "summary": "Hands-on workshop on building and deploying applications with the latest Gemini 2.x models, covering multimodal capabilities, tool use, and best practices for developer workflows.",
       "slides": null,
       "recording": null,
+      "source_code": null,
+      "image": null,
       "tags": [
-        "AI",
-        "Gemini",
-        "Workshop"
+        "ai",
+        "gemini",
+        "workshop"
       ],
       "categories": [
-        "AI & Development"
+        "Applied GenAI"
       ]
     },
     {
+      "id": "2024-08-14-gophercon-uk-2024-production-ready-hello-world",
       "title": "Production Ready 'Hello, World!'",
+      "event": "GopherCon UK 2024",
+      "date": "2024-08-14",
+      "location": "London, UK",
+      "url": "https://www.gophercon.co.uk/",
       "summary": "Going beyond the basics to implement a 'hello world' API with production-grade documentation, logging, error handling, configuration, and testing.",
-      "image": "/images/talks/production-ready-hello-world.jpg",
-      "events": [
-        {
-          "name": "GopherCon UK 2024",
-          "date": "2024-08-14",
-          "location": "London, UK",
-          "url": "https://www.gophercon.co.uk/"
-        }
-      ],
       "slides": "https://docs.google.com/presentation/d/1zkAvvb1jP2qhlOor4ka_W2EEv-f7rX_kgIWr-v1maC4/pub?start=false&loop=false&delayms=3000",
       "recording": "https://www.youtube.com/watch?v=Lw4CVypP7jI",
+      "source_code": null,
+      "image": null,
       "tags": [
         "golang",
-        "Best Practices",
-        "API"
+        "software-engineering"
       ],
       "categories": [
-        "AI & Development"
+        "Software Engineering"
       ]
     },
     {
+      "id": "2024-07-09-gophercon-2024-who-test-the-tests",
       "title": "Who test the tests?",
+      "event": "GopherCon 2024",
+      "date": "2024-07-09",
+      "location": "Chicago, IL, USA",
+      "url": "https://gophercon.com",
       "summary": "An exploration of mutation testing in Go. Learn how to programmatically rewrite code to ensure your tests are actually catching bugs.",
-      "image": "/images/talks/who-tests-the-tests.jpg",
-      "events": [
-        {
-          "name": "GopherCon 2024",
-          "date": "2024-07-09",
-          "location": "Chicago, IL, USA",
-          "url": "https://gophercon.com"
-        }
-      ],
       "slides": "https://github.com/gophercon/2024-talks/tree/main/DanielaPetruzalek-WhoTestsTheTests",
       "recording": "https://www.youtube.com/watch?v=av2f2okDOyk",
-      "tags": [
-        "golang",
-        "Testing",
-        "Mutation Testing"
-      ],
-      "categories": [
-        "AI & Development"
-      ]
-    },
-    {
-      "title": "Fun with Generics",
-      "summary": "Two years after their introduction, how can we use Go generics for more than just slices and maps? A deep dive into building a monads library and an Option type.",
-      "image": "/images/talks/fun-with-generics.jpg",
-      "events": [
-        {
-          "name": "GopherCon UK 2023",
-          "date": "2023-08-17",
-          "location": "London, UK",
-          "url": "https://www.gophercon.co.uk/"
-        }
-      ],
-      "slides": "https://docs.google.com/presentation/d/1bpuzlhJ0yA9mNYkyk24fsSYnDlvjmCXSXtAenpBz7-8/pub?start=false&loop=false&delayms=3000",
-      "recording": "https://www.youtube.com/watch?v=gTUUkRugpDc",
-      "tags": [
-        "golang",
-        "Generics",
-        "Functional Programming"
-      ],
-      "categories": [
-        "AI & Development"
-      ]
-    },
-    {
-      "title": "Fun with Slices",
-      "summary": "A deep dive on the slice type, starting from arrays and slice declaration syntax, slicing operations, copying, resizing and its surprising (or not) side effects.",
-      "image": "/images/talks/fun-with-slices.jpg",
-      "events": [
-        {
-          "name": "Go Conference 2023 Online",
-          "date": "2023-06-02",
-          "location": "Online",
-          "url": "https://gocon.jp/2023/sessions/B3-L/"
-        }
-      ],
-      "slides": "https://docs.google.com/presentation/d/1iCbxw6X-fv92ec_ANCmtFLAcomcpyHbIDTmDqz6kL9w/pub?start=false&loop=false&delayms=3000",
-      "recording": "https://www.youtube.com/watch?v=9yHts5xZtX8",
-      "tags": [
-        "golang",
-        "Slices",
-        "Internals"
-      ],
-      "categories": [
-        "AI & Development"
-      ]
-    },
-    {
-      "title": "Fun With Pointers",
-      "summary": "This talk covers effective pointer usage in Go, from declaration and memory allocation (stack vs. heap) to practical use cases, including pointer vs. value receivers, unsafe package tricks, and nuances of nil pointers with interfaces.",
+      "source_code": null,
       "image": null,
-      "events": [
-        {
-          "name": "GopherCon UK 2019",
-          "date": "2019-08-15",
-          "location": "London, UK",
-          "url": "https://www.youtube.com/watch?v=yEiaCx0fR9k"
-        }
-      ],
-      "slides": null,
-      "recording": "https://www.youtube.com/watch?v=yEiaCx0fR9k",
       "tags": [
         "golang",
-        "Pointers",
-        "Internals"
+        "testing",
+        "mutation-testing"
       ],
       "categories": [
-        "AI & Development"
+        "Software Engineering"
       ]
     }
   ]

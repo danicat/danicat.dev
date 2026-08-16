@@ -1,10 +1,13 @@
 ---
-title: "コーディングエージェントにおけるフックのマスター"
-date: 2026-06-10T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["antigravity", "agy-cli", "agentic-coding"]
-summary: "エージェントフックを使用して、エンジニアリングのベストプラクティスを自律型コーディングループに組み込む方法について解説します。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-06-10 00:00:00+00:00
+heroStyle: big
+summary: エージェントフックを使用して、エンジニアリングのベストプラクティスを自律型コーディングループに組み込む方法について解説します。
+tags:
+- antigravity
+- agentic-coding
+title: コーディングエージェントにおけるフックのマスター
 ---
 
 コーディングエージェントの機能は急速に進歩しています。私が初めてエージェントに触れたのは、Googleに入社して間もない約1年前のことでした。当時、大きな話題を呼んでいたのはModel Context Protocol（MCP）でした。これは、ツールのその場限りの個別実装を、ポータブルな共通実装へと置きえる（その他の機能も備えた）柔軟な技術です。

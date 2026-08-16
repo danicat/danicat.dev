@@ -1,10 +1,18 @@
 ---
-title: "Improving Coding Agents with Help from Science"
-date: 2026-01-21T00:00:00Z
+categories:
+- Agentic Coding
+date: 2026-01-21 00:00:00+00:00
 draft: false
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["agent", "ai", "golang", "mcp", "vibe-coding", "gemini-cli"]
-summary: "Taming AI agents requires science, not just vibes. Discover how A/B testing and statistical rigor turn coding agents into a measurable engineering discipline."
+summary: Taming AI agents requires science, not just vibes. Discover how A/B testing
+  and statistical rigor turn coding agents into a measurable engineering discipline.
+tags:
+- agents
+- ai
+- golang
+- mcp
+- vibe-coding
+- gemini-cli
+title: Improving Coding Agents with Help from Science
 ---
 
 The shift from [determinism to non-determinism](https://newsletter.pragmaticengineer.com/p/martin-fowler) in software development is one of the biggest challenges we are facing as an industry right now.

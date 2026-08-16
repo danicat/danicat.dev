@@ -1,9 +1,13 @@
 ---
+categories:
+- Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
-title: 'Gemini Cloud Assistでプロンプトからインフラストラクチャへ'
-summary: "Gemini Cloud Assistを使用してGoogle Cloudで自然言語を使用してインフラストラクチャを設計する方法"
-categories: ["AI & Development"]
-tags: ["gemini", "cloud-assist", "terraform", "tutorial"]
+summary: Gemini Cloud Assistを使用してGoogle Cloudで自然言語を使用してインフラストラクチャを設計する方法
+tags:
+- gemini
+- google-cloud
+- tutorial
+title: Gemini Cloud Assistでプロンプトからインフラストラクチャへ
 ---
 {{< translation-notice >}}
 

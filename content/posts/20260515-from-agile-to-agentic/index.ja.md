@@ -1,10 +1,16 @@
 ---
-title: "アジャイルからエージェンティックへ：現代のエンタープライズ開発ガイド"
-date: 2026-05-15T12:00:00Z
-categories: ["Workflow & Best Practices"]
-tags: ["agile", "agentic-coding", "gemini-cli", "mcp", "architecture"]
-summary: "アジャイル変革は時代遅れなのでしょうか？従来のアジャイルの実践がどのようにエージェンティックなワークフローに対応し、企業全体にスケールできるのかを学びます。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-05-15 12:00:00+00:00
+heroStyle: big
+summary: アジャイル変革は時代遅れなのでしょうか？従来のアジャイルの実践がどのようにエージェンティックなワークフローに対応し、企業全体にスケールできるのかを学びます。
+tags:
+- agile
+- agentic-coding
+- gemini-cli
+- mcp
+- software-engineering
+title: アジャイルからエージェンティックへ：現代のエンタープライズ開発ガイド
 ---
 
 過去10年間、ソフトウェア業界でかなりの時間を過ごしてきたなら、おそらくアジャイル変革を経験したことがあるでしょう。終わりのないスプリント計画会議に出席し、デイリースタンドアップで進捗を共有し、あるいはこのすべてに意味があるのかと疑問に思ったことさえあるかもしれません。

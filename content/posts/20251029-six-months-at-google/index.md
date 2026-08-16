@@ -1,9 +1,15 @@
 ---
-title: "Celebrating Six Months at Google!"
-date: 2025-10-29T09:00:00Z
-categories: ["Career & Personal"]
-tags: ["google", "milestone", "community", "devrel", "mental-health"]
-summary: "Celebrating my first six months at Google! Reflecting on a whirlwind of 15 events across 5 countries, diving deep into the AI ecosystem, and achieving a major personal health milestone along the way."
+categories:
+- Perspectives
+date: 2025-10-29 09:00:00+00:00
+summary: Celebrating my first six months at Google! Reflecting on a whirlwind of 15
+  events across 5 countries, diving deep into the AI ecosystem, and achieving a major
+  personal health milestone along the way.
+tags:
+- google-cloud
+- career
+- reflection
+title: Celebrating Six Months at Google!
 ---
 
 Today marks a very special milestone for me: I have officially completed my first six months at Google!

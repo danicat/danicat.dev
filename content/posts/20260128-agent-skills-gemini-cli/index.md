@@ -1,13 +1,20 @@
 ---
-title: "Mastering Agent Skills in Gemini CLI"
-date: 2026-01-29T12:00:00Z
-summary: "Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills in Gemini CLI to build modular, scalable, and autonomous workflows."
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
-series: ["Agent Skills"]
+categories:
+- Agentic Coding
+date: 2026-01-29 12:00:00+00:00
+heroStyle: big
+series:
+- Agent Skills
 series_order: 1
-slug: "agent-skills-gemini-cli"
-heroStyle: "big"
+slug: agent-skills-gemini-cli
+summary: Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills
+  in Gemini CLI to build modular, scalable, and autonomous workflows.
+tags:
+- gemini-cli
+- agent-skills
+- mcp
+- vibe-coding
+title: Mastering Agent Skills in Gemini CLI
 ---
 
 When I wrote about [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) last week I didn't cover one important aspect about experiment analysis: how to extract insights from experiments. Even though I have a nice frontend with summaries and statistical metrics and tests, it is really hard to capture the nuances of each configuration from just a summary.

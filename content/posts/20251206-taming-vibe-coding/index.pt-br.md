@@ -1,10 +1,17 @@
 ---
-title: "Domando o Vibe Coding: O Guia do Engenheiro"
-date: 2025-12-06T02:00:00Z
+categories:
+- Agentic Coding
+date: 2025-12-06 02:00:00+00:00
 draft: false
-categories: ["Workflow & Best Practices"]
-tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
-summary: "Obtenha a velocidade da IA sem a bagunça. Aplique fundamentos de engenharia para manter seu código estruturado, seguro e feito para durar."
+summary: Obtenha a velocidade da IA sem a bagunça. Aplique fundamentos de engenharia
+  para manter seu código estruturado, seguro e feito para durar.
+tags:
+- vibe-coding
+- ai
+- mcp
+- gemini-cli
+- jules
+title: 'Domando o Vibe Coding: O Guia do Engenheiro'
 ---
 
 É aquela época do ano para refletir sobre o que você fez e o que gostaria de ter feito. Este ano foi intenso para mim: entrei no Google em abril e comecei uma corrida sem fim para me refatorar para o mundo da IA. Com o ano terminando, posso dizer com confiança que o esforço valeu a pena — tornei-me uma engenheira melhor.

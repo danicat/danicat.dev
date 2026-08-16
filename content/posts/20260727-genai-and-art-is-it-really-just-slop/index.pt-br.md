@@ -1,11 +1,17 @@
 ---
-title: "IA Generativa e Arte: É Realmente Apenas Slop?"
-date: 2026-07-27T19:40:00Z
-categories: ["AI & Development"]
-tags: ["generative-ai", "art", "opinion"]
-summary: "Cada grande mudança tecnológica enfrenta resistência moralizadora antes de se tornar o novo cânone. Um ensaio sobre gatekeeping, linguagem de domínio e intenção humana."
-heroStyle: "big"
-feature: "feature.jpg"
+categories:
+- Agentic Coding
+date: 2026-07-27 19:40:00+00:00
+feature: feature.jpg
+heroStyle: big
+summary: Cada grande mudança tecnológica enfrenta resistência moralizadora antes de
+  se tornar o novo cânone. Um ensaio sobre gatekeeping, linguagem de domínio e intenção
+  humana.
+tags:
+- ai
+- art
+- perspectives
+title: 'IA Generativa e Arte: É Realmente Apenas Slop?'
 ---
 
 "Slop" é o insulto que define este ciclo tecnológico. É uma palavra útil. Ela descreve o cansaço de abrir um feed cheio de conteúdo preguiçoso gerado ao digitar três palavras em uma caixa de prompt e publicar os resultados sem qualquer tipo de revisão. Mas ela deveria ser usada para descrever toda uma nova categoria de arte sem qualquer consideração?

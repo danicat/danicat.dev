@@ -1,10 +1,15 @@
 ---
-title: "サブエージェントの台頭"
-date: 2026-07-22T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["agentic-coding", "agile", "antigravity", "subagents"]
-summary: "Antigravityでのサブエージェント・パラダイムの進化から実用例までを追いかける、等身大の探求記事。複数の専門エージェントを並列で動かして、複雑な開発を一気に進めるための「swarm-coding」スキルも一緒に公開しています。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-07-22 00:00:00+00:00
+heroStyle: big
+summary: Antigravityでのサブエージェント・パラダイムの進化から実用例までを追いかける、等身大の探求記事。複数の専門エージェントを並列で動かして、複雑な開発を一気に進めるための「swarm-coding」スキルも一緒に公開しています。
+tags:
+- agentic-coding
+- agile
+- antigravity
+- subagents
+title: サブエージェントの台頭
 ---
 正直に告白すると、最初に**サブエージェント（subagents）**について読んだとき、私は少し懐疑的でした。個別のコンテキストウィンドウでタスクを実行することのメリットは理解できましたが、並列で数十、あるいは数百ものエージェントを立ち上げるという発想はまったくありませんでした。というより、そうすることのメリットが見出せなかったと言ったほうが正確かもしれません。
 

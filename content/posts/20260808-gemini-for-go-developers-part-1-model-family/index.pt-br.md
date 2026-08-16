@@ -1,10 +1,14 @@
 ---
-title: "Gemini para Desenvolvedores Go - Parte 1: A Família de Modelos Gemini"
+categories:
+- Agentic Coding
 date: 2026-08-08
-summary: "O primeiro capítulo da série Gemini para Desenvolvedores Go, focando nos diferentes modelos da família Gemini e nas superfícies de API para consumi-los."
-tags: ["golang", "gemini"]
-categories: ["AI & Development"]
-heroStyle: "big"
+heroStyle: big
+summary: O primeiro capítulo da série Gemini para Desenvolvedores Go, focando nos
+  diferentes modelos da família Gemini e nas superfícies de API para consumi-los.
+tags:
+- golang
+- gemini
+title: 'Gemini para Desenvolvedores Go - Parte 1: A Família de Modelos Gemini'
 ---
 
 Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir aplicações de IA em Go prontas para produção. Ao longo de sete capítulos práticos, cobriremos desde programação agentic, até a construção de agentes autônomos com **Genkit** e **ADK**, desenvolvimento de jogos e o uso da **Stack G3** completa (Go, Gemini, GCP) para implantar aplicações na nuvem.

@@ -1,10 +1,14 @@
 ---
-title: "プロアクティブさは有害か？コーディングスタイルに合わせてGemini CLIをカスタマイズするためのガイド"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-07-14
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["gemini-cli", "vibe-coding", "tutorial"]
-summary: "GEMINI.mdとカスタムシステム指示を使用して、コーディングスタイルに合わせてGemini CLIをカスタマイズする方法を学びます。"
+summary: GEMINI.mdとカスタムシステム指示を使用して、コーディングスタイルに合わせてGemini CLIをカスタマイズする方法を学びます。
+tags:
+- gemini-cli
+- vibe-coding
+- tutorial
+title: プロアクティブさは有害か？コーディングスタイルに合わせてGemini CLIをカスタマイズするためのガイド
 ---
 {{< translation-notice >}}
 

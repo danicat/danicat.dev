@@ -1,10 +1,22 @@
 ---
+categories:
+- Agentic Coding
 date: '2025-10-31T11:43:35Z'
 draft: false
+summary: Eleve seu agente Google ADK com uma interface personalizada em estilo retrô.
+  Este guia passo a passo mostra como substituir a Dev-UI padrão usando FastAPI e
+  JavaScript puro, adicionando personalidade com um avatar gerado por IA com streaming
+  em tempo real.
+tags:
+- ai
+- tutorial
+- adk
+- gemini
+- python
+- fastapi
+- frontend
+- agents
 title: 'Além da Dev-UI: Como construir uma interface para um agente ADK'
-summary: "Eleve seu agente Google ADK com uma interface personalizada em estilo retrô. Este guia passo a passo mostra como substituir a Dev-UI padrão usando FastAPI e JavaScript puro, adicionando personalidade com um avatar gerado por IA com streaming em tempo real."
-categories: ["AI & Development"]
-tags: ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
 ---
 
 Nos últimos seis meses, tenho explorado GenAI, vibe coding, agentes e tudo mais como parte da minha função de DevRel no Google. Sempre que quero aprender uma nova tecnologia, descubro que a melhor maneira é construir algo com ela. Um dos meus projetos de paixão durante esse tempo tem sido o agente de diagnóstico: um software que poderia ajudar as pessoas a diagnosticar problemas em seus computadores usando linguagem natural.

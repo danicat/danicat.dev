@@ -133,13 +133,152 @@ html.dark .gist .gist-meta a {
   color: #58a6ff !important;
 }
 
-/* Fix for card images on Home and Events */
+/* Fix for card images on Home */
 .thumbnail_card {
   height: auto !important;
   min-height: 0 !important;
   aspect-ratio: 16 / 9;
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
   background-position: center;
+}
+
+/* ==========================================================================
+   Events & Presentations Layout & Balanced Thumbnail Styling
+   ========================================================================== */
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 2rem;
+  transition: all 0.2s ease;
+}
+
+.event-card.is-hidden,
+.year-header.is-hidden {
+  display: none !important;
+}
+
+html.dark .event-card {
+  border-color: rgba(38, 38, 38, 0.8);
+  background-color: rgba(23, 23, 23, 0.4);
+}
+
+.event-card:hover {
+  border-color: rgba(209, 213, 219, 1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
+}
+
+html.dark .event-card:hover {
+  border-color: rgba(64, 64, 64, 1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+@media (min-width: 768px) {
+  .event-card {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+}
+
+/* Event Thumbnail Container (Strictly bounded: ~280px on desktop) */
+.event-thumbnail-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 16 / 9 !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(229, 231, 235, 0.8) !important;
+  background-color: #1a1a1a !important;
+  flex-shrink: 0 !important;
+  display: block !important;
+}
+
+html.dark .event-thumbnail-wrapper {
+  border-color: rgba(38, 38, 38, 0.8) !important;
+  background-color: #0a0a0a !important;
+}
+
+@media (min-width: 768px) {
+  .event-thumbnail-wrapper {
+    width: 260px !important;
+    max-width: 260px !important;
+    height: 146px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .event-thumbnail-wrapper {
+    width: 280px !important;
+    max-width: 280px !important;
+    height: 157.5px !important;
+  }
+}
+
+.event-thumbnail-img {
+  width: 100% !important;
+  height: 100% !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  transition: transform 0.3s ease !important;
+}
+
+.event-thumbnail-wrapper:hover .event-thumbnail-img {
+  transform: scale(1.04) !important;
+}
+
+/* Event Content Container (Takes remaining 65-70% width) */
+.event-content-wrapper {
+  flex: 1 1 0% !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+
+/* Event Tags Container & spacing */
+.event-tags-wrapper {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+.event-tag-pill {
+  display: inline-block !important;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  font-size: 0.75rem !important;
+  line-height: 1rem !important;
+  padding: 0.2rem 0.55rem !important;
+  border-radius: 0.375rem !important;
+}
+
+/* Event Action Buttons container & spacing */
+.event-action-buttons {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  margin-top: 0.75rem !important;
+  padding-top: 0.75rem !important;
+  border-top: 1px solid rgba(229, 231, 235, 0.8) !important;
+}
+
+html.dark .event-action-buttons {
+  border-top-color: rgba(38, 38, 38, 0.8) !important;
+}
+
+.event-action-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.375rem !important;
+  margin: 0 !important;
 }
 
 /* ==========================================================================

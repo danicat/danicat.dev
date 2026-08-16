@@ -1,9 +1,12 @@
 ---
+categories:
+- Perspectives
 date: '2025-05-20T17:38:53+01:00'
+summary: 'An introduction to this blog''s purpose: sharing technical journeys in software
+  development, cloud computing, and AI.'
+tags:
+- software-engineering
 title: 'Hello World: A New Space for Technical Narratives'
-summary: "An introduction to this blog's purpose: sharing technical journeys in software development, cloud computing, and AI."
-categories: ["Meta"]
-tags: ["hugo", "blogging"]
 ---
 
 After more than 20 years in the technology industry, I've found that the most effective way to solidify my own understanding of a topic is to share it with others. This blog, `danicat.dev`, is a dedicated space for that purpose.

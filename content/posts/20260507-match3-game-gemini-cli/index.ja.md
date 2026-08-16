@@ -1,10 +1,16 @@
 ---
-title: "Gemini CLIを使ってマッチ3アーケードゲームを作ろう"
-date: 2026-05-07T09:00:00Z
-categories: ["Workflow & Best Practices", "AI & Development"]
-tags: ["gemini-cli", "golang", "codelab", "vibe-coding", "sub-agents"]
-summary: "エージェンティック・コーディング、Gemini CLI、そしてGoを使って、完全に機能するマッチ3ゲームを構築する方法を学びます。プランモードやカスタムサブエージェントについて探求します。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-05-07 09:00:00+00:00
+heroStyle: big
+summary: エージェンティック・コーディング、Gemini CLI、そしてGoを使って、完全に機能するマッチ3ゲームを構築する方法を学びます。プランモードやカスタムサブエージェントについて探求します。
+tags:
+- gemini-cli
+- golang
+- codelab
+- vibe-coding
+- subagents
+title: Gemini CLIを使ってマッチ3アーケードゲームを作ろう
 ---
 
 私がソフトウェア開発者になった最大の理由は、子供の頃にビデオゲームが大好きだったからです。数え切れないほどの時間をゲームに費やし、それがどのように作られているのかに深く興味を持っていました。父はテレビやコンピューターの仕組みについて一生懸命説明してくれましたが、当時は全く頭に入ってきませんでした。

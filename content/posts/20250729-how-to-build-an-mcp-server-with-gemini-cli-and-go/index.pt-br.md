@@ -1,10 +1,19 @@
 ---
-title: "Construindo o GoDoctor: Um Servidor MCP com Gemini CLI e Go"
+author: Daniela Petruzalek
+categories:
+- Agent Development
 date: 2025-07-29
-author: "Daniela Petruzalek"
-categories: ["AI & Development"]
-tags: ["golang", "gemini-cli", "mcp", "ai", "codelab", "tutorial"]
-summary: "Um guia passo a passo sobre como eu construí o GoDoctor, um assistente de desenvolvimento Go movido por IA, usando o Model Context Protocol (MCP) e o Gemini CLI."
+summary: Um guia passo a passo sobre como eu construí o GoDoctor, um assistente de
+  desenvolvimento Go movido por IA, usando o Model Context Protocol (MCP) e o Gemini
+  CLI.
+tags:
+- golang
+- gemini-cli
+- mcp
+- ai
+- codelab
+- tutorial
+title: 'Construindo o GoDoctor: Um Servidor MCP com Gemini CLI e Go'
 ---
 {{< translation-notice >}}
 

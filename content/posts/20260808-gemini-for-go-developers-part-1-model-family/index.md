@@ -1,10 +1,14 @@
 ---
-title: "Gemini for Go Developers - Part 1: The Gemini Model Family"
+categories:
+- Applied GenAI
 date: 2026-08-08
-summary: "The first chapter of the Gemini for Go Developers series, focusing on the different models of the Gemini model family and the API surfaces to consume them."
-tags: ["golang", "gemini"]
-categories: ["AI & Development"]
-heroStyle: "big"
+heroStyle: big
+summary: The first chapter of the Gemini for Go Developers series, focusing on the
+  different models of the Gemini model family and the API surfaces to consume them.
+tags:
+- golang
+- gemini
+title: 'Gemini for Go Developers - Part 1: The Gemini Model Family'
 ---
 
 Welcome to **Gemini for Go Developers**! This series is your complete guide to building AI-powered software in Go. Across seven hands-on chapters, we will cover everything from agentic coding, to building autonomous agents with **Genkit** and **ADK**, developing games, and using the full **G3 Stack** (Go, Gemini, GCP) to deploy applications to the cloud.

@@ -1,10 +1,17 @@
 ---
-title: "Build a Match 3 Arcade Game Using Gemini CLI"
-date: 2026-05-07T09:00:00Z
-categories: ["Workflow & Best Practices", "AI & Development"]
-tags: ["gemini-cli", "golang", "codelab", "vibe-coding", "sub-agents"]
-summary: "Learn how to build a fully functional Match-3 game using agentic coding, the Gemini CLI, and Go. We explore plan mode and custom sub-agents."
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-05-07 09:00:00+00:00
+heroStyle: big
+summary: Learn how to build a fully functional Match-3 game using agentic coding,
+  the Gemini CLI, and Go. We explore plan mode and custom sub-agents.
+tags:
+- gemini-cli
+- golang
+- codelab
+- vibe-coding
+- subagents
+title: Build a Match 3 Arcade Game Using Gemini CLI
 ---
 
 The whole reason I became a software developer was because I loved video games as a child. I spent countless hours playing them, and I was deeply intrigued about how they were built. My father tried his best to explain about how TVs and computers worked, but it never really got into my head.

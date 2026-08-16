@@ -1,10 +1,17 @@
 ---
-title: "The Rise of the Subagents"
-date: 2026-07-22T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["agentic-coding", "agile", "antigravity", "subagents"]
-summary: "An exploration of the subagent paradigm in Antigravity, from its evolution and capabilities to practical applications. We also share a 'swarm coding' skill to help you orchestrate specialized subagents for complex engineering tasks."
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-07-22 00:00:00+00:00
+heroStyle: big
+summary: An exploration of the subagent paradigm in Antigravity, from its evolution
+  and capabilities to practical applications. We also share a 'swarm coding' skill
+  to help you orchestrate specialized subagents for complex engineering tasks.
+tags:
+- agentic-coding
+- agile
+- antigravity
+- subagents
+title: The Rise of the Subagents
 ---
 I must confess that when I first read about **subagents**, I was a bit sceptic. I could understand the benefits of running tasks in separate context windows, but it never really occurred to me to spawn dozens or maybe even hundreds of agents in parallel. Or maybe it's better said that I didn't see the benefit in doing so.
 

@@ -1,10 +1,14 @@
 ---
-title: "Julesを使ってこのブログに特集記事を追加した方法"
+author: ダニエラ・ペトルザレク
+categories:
+- Agentic Coding
 date: 2025-07-03
-author: "ダニエラ・ペトルザレク"
-categories: ["Workflow & Best Practices"]
-tags: ["jules", "vibe-coding", "tutorial"]
-summary: "AIコーディングアシスタントであるJulesと協力して、ブログのホームページに新しい特集記事セクションを実装した反復プロセスの詳細な説明。"
+summary: AIコーディングアシスタントであるJulesと協力して、ブログのホームページに新しい特集記事セクションを実装した反復プロセスの詳細な説明。
+tags:
+- jules
+- vibe-coding
+- tutorial
+title: Julesを使ってこのブログに特集記事を追加した方法
 ---
 {{< translation-notice >}}
 

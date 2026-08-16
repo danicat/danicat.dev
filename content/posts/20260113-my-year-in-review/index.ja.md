@@ -1,10 +1,16 @@
 ---
-title: "2025 年の振り返り"
-date: 2026-01-13T00:00:00Z
+categories:
+- Agentic Coding
+date: 2026-01-13 00:00:00+00:00
 draft: false
-categories: ["Career & Personal"]
-tags: ["reflection", "year-in-review", "google", "career", "vibe-coding"]
-summary: "Google への入社、Vibe Coding の習得から、独自の AI ツールの構築、そして人生とエンジニアリングにおける新しいリズムの発見まで、変革の年となった 2025 年を振り返ります。"
+summary: Google への入社、Vibe Coding の習得から、独自の AI ツールの構築、そして人生とエンジニアリングにおける新しいリズムの発見まで、変革の年となった
+  2025 年を振り返ります。
+tags:
+- reflection
+- google-cloud
+- career
+- vibe-coding
+title: 2025 年の振り返り
 ---
 
 2025 年がバックミラーの中に消えていく中、私は（当然ながら）コーヒーを片手に座り、一体何が起きたのかを処理しようとしています。今年の言葉を一つ選ぶとしたら、それは **acceleration**（加速）でしょう。

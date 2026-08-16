@@ -1,10 +1,17 @@
 ---
-title: "Trazendo Fotos Antigas à Vida com Genkit e Gemini 3"
+categories:
+- Agentic Coding
 date: 2026-02-16
-summary: "Aprenda como construir uma ferramenta de restauração de fotos de alta fidelidade usando Go, Genkit e as capacidades 4K nativas do Nano Banana Pro (Gemini 3 Pro Image)."
-tags: ["genkit", "golang", "nano-banana", "gemini", "tutorial"]
-categories: ["AI & Development"]
-heroStyle: "big"
+heroStyle: big
+summary: Aprenda como construir uma ferramenta de restauração de fotos de alta fidelidade
+  usando Go, Genkit e as capacidades 4K nativas do Nano Banana Pro (Gemini 3 Pro Image).
+tags:
+- genkit
+- golang
+- nano-banana
+- gemini
+- tutorial
+title: Trazendo Fotos Antigas à Vida com Genkit e Gemini 3
 ---
 
 Como parte do meu trabalho, eu conheço todo tipo de pessoa e um tópico muito comum de conversa é sobre a minha herança. Não apenas eu tenho um sobrenome que soa obviamente como do Leste Europeu, mas eu também tenho a aparência, então as pessoas frequentemente assumem que eu sou polonesa ou tcheca. Muitas pessoas ficam surpresas quando eu digo que, na realidade, sou originalmente do Brasil.

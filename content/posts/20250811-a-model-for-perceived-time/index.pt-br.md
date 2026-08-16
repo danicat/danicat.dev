@@ -1,9 +1,13 @@
 ---
-title: "Um Modelo para a Percepção do Tempo"
+categories:
+- Agentic Coding
 date: 2025-08-11
-summary: "Uma exploração do motivo pelo qual o tempo parece acelerar à medida que envelhecemos, usando um modelo matemático simples para descobrir uma verdade surpreendente sobre nossa percepção da vida."
-categories: ["Career & Personal"]
-tags: ["psychology", "time-perception", "mental-models"]
+summary: Uma exploração do motivo pelo qual o tempo parece acelerar à medida que envelhecemos,
+  usando um modelo matemático simples para descobrir uma verdade surpreendente sobre
+  nossa percepção da vida.
+tags:
+- reflection
+title: Um Modelo para a Percepção do Tempo
 ---
 
 {{< translation-notice >}}

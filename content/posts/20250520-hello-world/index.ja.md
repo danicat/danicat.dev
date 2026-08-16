@@ -1,9 +1,11 @@
 ---
+categories:
+- Agentic Coding
 date: '2025-05-20T17:38:53+01:00'
-title: 'ハローワールド'
-summary: "このブログを始めるにあたってのちょっとした言葉！"
-categories: ["Meta"]
-tags: ["hugo", "blogging"]
+summary: このブログを始めるにあたってのちょっとした言葉！
+tags:
+- software-engineering
+title: ハローワールド
 ---
 {{< translation-notice >}}
 

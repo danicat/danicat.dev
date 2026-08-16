@@ -1,9 +1,12 @@
 ---
-date: "2025-05-28T16:30:00+01:00"
-title: "誰でもvibe codeできるのか？"
-categories: ["Workflow & Best Practices"]
-tags: ["opinion", "vibe-coding"]
-summary: "ソフトウェアエンジニアリングのキャリアの未来についての考察。"
+categories:
+- Agentic Coding
+date: '2025-05-28T16:30:00+01:00'
+summary: ソフトウェアエンジニアリングのキャリアの未来についての考察。
+tags:
+- perspectives
+- vibe-coding
+title: 誰でもvibe codeできるのか？
 ---
 {{< translation-notice >}}
 

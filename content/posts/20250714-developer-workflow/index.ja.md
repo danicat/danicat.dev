@@ -1,10 +1,14 @@
 ---
-title: "AI対応の世界のための現代的な開発者ワークフロー"
+author: ダニエラ・ペトルザレク
+categories:
+- Agentic Coding
 date: 2025-07-11
-author: "ダニエラ・ペトルザレク"
-categories: ["Workflow & Best Practices"]
-tags: ["gemini-cli", "vibe-coding", "jules"]
-summary: "AIツールと単純な優先順位付け演習を使用した現代的な開発者ワークフローの提案。"
+summary: AIツールと単純な優先順位付け演習を使用した現代的な開発者ワークフローの提案。
+tags:
+- gemini-cli
+- vibe-coding
+- jules
+title: AI対応の世界のための現代的な開発者ワークフロー
 ---
 {{< translation-notice >}}
 

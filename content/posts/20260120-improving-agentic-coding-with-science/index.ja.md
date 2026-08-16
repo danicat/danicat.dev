@@ -1,10 +1,17 @@
 ---
-title: "科学の力を借りてコーディングエージェントを改善する"
-date: 2026-01-21T00:00:00Z
+categories:
+- Agentic Coding
+date: 2026-01-21 00:00:00+00:00
 draft: false
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["agent", "ai", "golang", "mcp", "vibe-coding", "gemini-cli"]
-summary: "AIエージェントの制御にはバイブスだけでなく科学が必要です。A/Bテストと統計的厳密さが、コーディングエージェントをどのように測定可能なエンジニアリング規律に変えるかを解説します。"
+summary: AIエージェントの制御にはバイブスだけでなく科学が必要です。A/Bテストと統計的厳密さが、コーディングエージェントをどのように測定可能なエンジニアリング規律に変えるかを解説します。
+tags:
+- agents
+- ai
+- golang
+- mcp
+- vibe-coding
+- gemini-cli
+title: 科学の力を借りてコーディングエージェントを改善する
 ---
 
 ソフトウェア開発における[決定論から非決定論への移行](https://newsletter.pragmaticengineer.com/p/martin-fowler)は、現在、私たちが業界として直面している最大の課題の一つです。

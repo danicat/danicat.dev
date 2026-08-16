@@ -1,9 +1,15 @@
 ---
-title: "Comemorando Seis Meses de Google!"
-date: 2025-10-29T09:00:00Z
-categories: ["Career & Personal"]
-tags: ["google", "milestone", "community", "devrel", "mental-health"]
-summary: "Comemorando meus primeiros seis meses no Google! Refletindo sobre um turbilhão de 15 eventos em 5 países, mergulhando fundo no ecossistema de IA e alcançando um grande marco de saúde pessoal ao longo do caminho."
+categories:
+- Agentic Coding
+date: 2025-10-29 09:00:00+00:00
+summary: Comemorando meus primeiros seis meses no Google! Refletindo sobre um turbilhão
+  de 15 eventos em 5 países, mergulhando fundo no ecossistema de IA e alcançando um
+  grande marco de saúde pessoal ao longo do caminho.
+tags:
+- google-cloud
+- career
+- reflection
+title: Comemorando Seis Meses de Google!
 ---
 
 Hoje marca um marco muito especial para mim: completei oficialmente meus primeiros seis meses no Google!

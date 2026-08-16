@@ -1,10 +1,14 @@
 ---
-title: "Dominando Hooks em Agentes de Codificação"
-date: 2026-06-10T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["antigravity", "agy-cli", "agentic-coding"]
-summary: "Aprenda a usar hooks de agentes para incorporar as melhores práticas de engenharia em seus loops de codificação agentivos."
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-06-10 00:00:00+00:00
+heroStyle: big
+summary: Aprenda a usar hooks de agentes para incorporar as melhores práticas de engenharia
+  em seus loops de codificação agentivos.
+tags:
+- antigravity
+- agentic-coding
+title: Dominando Hooks em Agentes de Codificação
 ---
 
 As capacidades dos agentes de codificação estão avançando rapidamente. Meu primeiro contato com eles foi há cerca de um ano, logo após eu entrar no Google. Naquela época, a grande novidade era o Model Context Protocol (MCP), uma tecnologia flexível que substitui implementações ad-hoc de ferramentas por soluções portáteis (entre outras coisas).

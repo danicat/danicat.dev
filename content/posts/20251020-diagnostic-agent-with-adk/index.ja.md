@@ -1,9 +1,17 @@
 ---
+categories:
+- Agentic Coding
 date: '2025-10-21T15:44:03+01:00'
-title: 'Agent Development Kit を使用して診断エージェントを作成する方法'
-summary: "この記事は、Agent Development Kit (ADK) を使用して診断エージェントを作成するためのガイドです。開発プロセスを取り上げ、Vertex AI RAG を使用してエージェントの応答品質を向上させる方法を説明します。"
-categories: ["AI & Development"]
-tags: ["adk", "gemini", "vertex-ai", "python", "rag", "tutorial"]
+summary: この記事は、Agent Development Kit (ADK) を使用して診断エージェントを作成するためのガイドです。開発プロセスを取り上げ、Vertex
+  AI RAG を使用してエージェントの応答品質を向上させる方法を説明します。
+tags:
+- adk
+- gemini
+- vertex-ai
+- python
+- rag
+- tutorial
+title: Agent Development Kit を使用して診断エージェントを作成する方法
 ---
 ## はじめに
 

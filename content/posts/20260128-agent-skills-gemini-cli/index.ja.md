@@ -1,14 +1,20 @@
 ---
-title: "Gemini CLI で Agent Skills をマスターする"
-date: 2026-01-29T12:00:00Z
+categories:
+- Agentic Coding
+date: 2026-01-29 12:00:00+00:00
 draft: false
-summary: "AIエージェントにオンデマンドの専門知識を。Gemini CLI の Agent Skills を使用して、モジュール式でスケーラブルかつ自律的なワークフローを構築する方法を学びましょう。"
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["gemini-cli", "agent-skills", "mcp", "vibe-coding"]
-series: ["Agent Skills"]
+heroStyle: big
+series:
+- Agent Skills
 series_order: 1
-slug: "agent-skills-gemini-cli"
-heroStyle: "big"
+slug: agent-skills-gemini-cli
+summary: AIエージェントにオンデマンドの専門知識を。Gemini CLI の Agent Skills を使用して、モジュール式でスケーラブルかつ自律的なワークフローを構築する方法を学びましょう。
+tags:
+- gemini-cli
+- agent-skills
+- mcp
+- vibe-coding
+title: Gemini CLI で Agent Skills をマスターする
 ---
 
 先週 [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) について書いたとき、実験分析に関する重要な側面に触れませんでした。それは、実験からどのように洞察を抽出するかということです。要約や統計的指標、テストを備えた素晴らしい frontend があるとはいえ、単なる要約から各設定のニュアンスを捉えるのは非常に困難です。

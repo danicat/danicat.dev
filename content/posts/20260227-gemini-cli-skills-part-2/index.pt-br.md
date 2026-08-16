@@ -1,12 +1,19 @@
 ---
-title: "Construindo Agent Skills com skill-creator"
-date: 2026-02-27T12:00:00Z
-summary: "Aprenda a usar o skill-creator integrado da Gemini CLI para gerar, refinar e estruturar automaticamente suas próprias Agent Skills personalizadas usando exemplos práticos."
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["gemini-cli", "agent-skills", "vibe-coding"]
-series: ["Agent Skills"]
+categories:
+- Agentic Coding
+date: 2026-02-27 12:00:00+00:00
+heroStyle: big
+series:
+- Agent Skills
 series_order: 2
-heroStyle: "big"
+summary: Aprenda a usar o skill-creator integrado da Gemini CLI para gerar, refinar
+  e estruturar automaticamente suas próprias Agent Skills personalizadas usando exemplos
+  práticos.
+tags:
+- gemini-cli
+- agent-skills
+- vibe-coding
+title: Construindo Agent Skills com skill-creator
 ---
 
 No [artigo anterior]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), exploramos como as Agent Skills adicionam novos recursos à Gemini CLI. Analisamos a skill `experiment-analyst` como um exemplo prático de como manter o contexto do agente limpo, fornecendo-lhe instruções específicas para uma tarefa.

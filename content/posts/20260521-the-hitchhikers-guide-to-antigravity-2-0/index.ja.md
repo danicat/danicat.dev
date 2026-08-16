@@ -1,10 +1,15 @@
 ---
-title: "Antigravity 2.0 への銀河ヒッチハイク・ガイド"
-date: 2026-05-21T11:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["antigravity", "agy-cli", "agy-sdk", "google-io", "agentic-coding"]
-summary: "Google I/O 2026 で発表された Google Antigravity 2.0 エコシステムのガイドです。スタンドアロンのデスクトップアプリケーション、Go ベースのターミナル CLI、およびプログラムによる Python SDK について検証します。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-05-21 11:00:00+00:00
+heroStyle: big
+summary: Google I/O 2026 で発表された Google Antigravity 2.0 エコシステムのガイドです。スタンドアロンのデスクトップアプリケーション、Go
+  ベースのターミナル CLI、およびプログラムによる Python SDK について検証します。
+tags:
+- antigravity
+- google-cloud
+- agentic-coding
+title: Antigravity 2.0 への銀河ヒッチハイク・ガイド
 ---
 
 [Google I/O 2026](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/) が無事に終了した今、新しいリリースやそれらが現在および近い将来のワークフローにどのように影響するのかを整理して分析する時期が来ました。多くの興味深い発表がありましたが、今日フォーカスしたいのは、開発者に最も大きな影響を与える [Antigravity 2.0](https://antigravity.google/blog/introducing-google-antigravity-2-0) のリリースと、[Antigravity CLI](https://antigravity.google/blog/introducing-google-antigravity-cli) や [Antigravity SDK](https://antigravity.google/blog/introducing-google-antigravity-sdk) を含む拡張された Antigravity (agy) エコシステム (詳細は [Google I/O 2026 Antigravity highlights](https://antigravity.google/blog/google-io-2026) を参照) です。

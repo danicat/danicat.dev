@@ -1,9 +1,12 @@
 ---
-title: "A Model for Perceived Time"
+categories:
+- Perspectives
 date: 2025-08-11
-summary: "An exploration into why time seems to speed up as we age, using a simple mathematical model to uncover a surprising truth about our perception of life."
-categories: ["Career & Personal"]
-tags: ["psychology", "time-perception", "mental-models"]
+summary: An exploration into why time seems to speed up as we age, using a simple
+  mathematical model to uncover a surprising truth about our perception of life.
+tags:
+- reflection
+title: A Model for Perceived Time
 ---
 
 ## Introduction

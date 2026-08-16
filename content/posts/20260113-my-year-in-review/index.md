@@ -1,10 +1,16 @@
 ---
-title: "My Year in Review: 2025"
-date: 2026-01-13T00:00:00Z
+categories:
+- Perspectives
+date: 2026-01-13 00:00:00+00:00
 draft: false
-categories: ["Career & Personal"]
-tags: ["reflection", "year-in-review", "google", "career", "vibe-coding"]
-summary: "Reflecting on a transformative 2025: from joining Google and mastering vibe coding to building my own AI tools and finding a new rhythm in life and engineering."
+summary: 'Reflecting on a transformative 2025: from joining Google and mastering vibe
+  coding to building my own AI tools and finding a new rhythm in life and engineering.'
+tags:
+- reflection
+- google-cloud
+- career
+- vibe-coding
+title: 'My Year in Review: 2025'
 ---
 
 As 2025 fades into the rearview mirror, I find myself sitting with a cup of coffee (naturally), trying to process what just happened. If I had to pick a single word for this year, it would be **acceleration**.

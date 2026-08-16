@@ -1,10 +1,13 @@
 ---
-title: "エージェント・コーディングの現状"
-date: 2026-06-15T00:00:00Z
-categories: ["AI & Development", "Workflow & Best Practices"]
-tags: ["antigravity", "agy-cli", "agentic-coding"]
-summary: "エージェント・コーディングの進化を探る。プランニング・システムへの移行、戦略的なエージェント・スキル、そしてより良い成果のためのサブエージェントのオーケストレーションに関する最新情報。"
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-06-15 00:00:00+00:00
+heroStyle: big
+summary: エージェント・コーディングの進化を探る。プランニング・システムへの移行、戦略的なエージェント・スキル、そしてより良い成果のためのサブエージェントのオーケストレーションに関する最新情報。
+tags:
+- antigravity
+- agentic-coding
+title: エージェント・コーディングの現状
 ---
 
 [Taming Vibe Coding]({{< ref "/posts/20251206-taming-vibe-coding" >}}) という記事を公開してから6ヶ月以上が経過しました。この記事では、コーディング・エージェントを使用して生産性を向上させるために私が実践してきた主要な手法をまとめました。

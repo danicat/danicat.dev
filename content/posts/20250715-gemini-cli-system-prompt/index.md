@@ -1,10 +1,16 @@
 ---
-title: "Proactiveness considered harmful? A guide to customise the Gemini CLI to suit your coding style"
+author: Daniela Petruzalek
+categories:
+- Agentic Coding
 date: 2025-07-14
-author: "Daniela Petruzalek"
-categories: ["Workflow & Best Practices"]
-tags: ["gemini-cli", "vibe-coding", "tutorial"]
-summary: "Learn how to customise the Gemini CLI to suit your coding style using GEMINI.md and custom system instructions."
+summary: Learn how to customise the Gemini CLI to suit your coding style using GEMINI.md
+  and custom system instructions.
+tags:
+- gemini-cli
+- vibe-coding
+- tutorial
+title: Proactiveness considered harmful? A guide to customise the Gemini CLI to suit
+  your coding style
 ---
 ## Introduction
 

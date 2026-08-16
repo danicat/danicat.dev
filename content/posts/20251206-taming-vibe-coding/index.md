@@ -1,10 +1,17 @@
 ---
-title: "Taming Vibe Coding: The Engineer's Guide"
-date: 2025-12-06T02:00:00Z
+categories:
+- Agentic Coding
+date: 2025-12-06 02:00:00+00:00
 draft: false
-categories: ["Workflow & Best Practices"]
-tags: ["vibe-coding", "ai", "mcp", "gemini-cli", "jules"]
-summary: "Get the speed of AI without the mess. Apply engineering basics to keep your code structured, safe, and built to last."
+summary: Get the speed of AI without the mess. Apply engineering basics to keep your
+  code structured, safe, and built to last.
+tags:
+- vibe-coding
+- ai
+- mcp
+- gemini-cli
+- jules
+title: 'Taming Vibe Coding: The Engineer''s Guide'
 ---
 
 It is that time of the year to reflect on what you did and what you wish you had done. This year was intense for me: I joined Google in April and began a non-stop race to refactor myself for the AI world. As the year ends, I can confidently say the effort paid off — I've become a better engineer.

@@ -1,10 +1,16 @@
 ---
-title: "Como Fazer Code Reviews na Era dos Agentes"
-date: 2026-03-06T00:00:00Z
-summary: "Um guia prático para code reviews modernos. Aprenda onde investir seu tempo e esforço para escrever software de qualidade de forma consistente no mundo dos agentes."
-categories: ["Workflow & Best Practices"]
-tags: ["code-review", "vibe-coding", "agentic-coding"]
-heroStyle: "big"
+categories:
+- Agentic Coding
+date: 2026-03-06 00:00:00+00:00
+heroStyle: big
+summary: Um guia prático para code reviews modernos. Aprenda onde investir seu tempo
+  e esforço para escrever software de qualidade de forma consistente no mundo dos
+  agentes.
+tags:
+- code-review
+- vibe-coding
+- agentic-coding
+title: Como Fazer Code Reviews na Era dos Agentes
 ---
 
 Em 2025 vimos a ascensão do agentic coding (aparentemente o termo "vibe coding" está obsoleto). Entre assistentes de IA e workflows agentic, as features estão voando das prateleiras a um ritmo que nunca vimos antes. Não é incomum que as empresas se gabem de quantos pontos percentuais de sua codebase são agora escritos inteiramente por IA.
