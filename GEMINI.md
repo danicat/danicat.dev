@@ -40,3 +40,11 @@ To work with this project, you need to have Hugo installed.
     *   Detailed theme and site parameters are in `config/_default/hugo.toml` and `config/_default/params.toml`.
 *   **Customization:** Custom CSS styles are located in `assets/css/custom.css`.
 *   **Dependencies:** The project uses Hugo Modules, and dependencies are managed in the `go.mod` file.
+
+# Editorial Invariants & Voice Preservation (MANDATORY FOR ALL AGENTS)
+
+*   **Author Prose is Inviolable at Sentence Level:** When prose is already written or drafted by the author, **NEVER** rewrite, summarize, or replace the author's original sentences, argumentation, tone, or narrative structure. Limit all edits strictly to **non-destructive copyediting** (correcting typos, spelling errors, mechanical punctuation, and broken links).
+*   **Metrics are Strictly Advisory:** Automated tools and scores (e.g. `slop`, `fog`, `vale`) are informative heuristics only. **NEVER** alter or sanitize the author's prose to satisfy or optimize metric scores. The author's authentic voice and intent always override automated linters.
+*   **Authentic "Cozy Web" Tone:** Preserve the author's conversational, first-person ("I", "we"), pragmatic developer perspective. Never sterilize human writing into dry corporate, marketing, or academic textbook summaries.
+*   **Explicit Rewrite Mandate:** An agent must **ONLY** rewrite or rephrase human-drafted paragraphs when the user explicitly requests it (e.g. "rewrite this paragraph" or "rephrase this section"). When asked to "polish" or "check", perform copyediting only.
+*   **Fearless Macro-Structural Feedback:** While sentence-level prose is inviolable, reviewing agents **must** proactively diagnose and flag macro-structural issues: narrative redundancies, sections that reopen resolved arguments, stalled pacing between theory and practice, and inconsistent hyperlink hygiene.

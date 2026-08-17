@@ -86,6 +86,16 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
 
 *   **Em Dashes:** Always surround em dashes ( — ) with spaces. Do not glue words together. For example: "The models had evolved — significantly" is correct, while "The models had evolved—significantly" is incorrect.
 
+## Macro-narrative and structural integrity
+
+Quality technical writing requires narrative economy and relentless forward momentum:
+
+*   **Zero Structural Redundancy:** Never reopen or re-litigate a thesis once it has been established. If the opening section addresses *why* a language or paradigm matters, subsequent practical and tooling sections must not re-preach the same philosophy.
+*   **Action-Oriented Practical Sections:** Tooling, quickstart, and configuration sections should jump straight to execution. Eliminate theoretical throat-clearing before code examples or tool lists.
+*   **Hyperlink Consistency:**
+    *   **Tool & Library Names:** Always hyperlink the canonical name of tools, libraries, and utilities directly on first mention (e.g., [**`golangci-lint`**](https://golangci-lint.run/), [**`goreleaser`**](https://goreleaser.com/), [**`deadcode`**](https://pkg.go.dev/golang.org/x/tools/cmd/deadcode)). Avoid printing raw domain URLs or long package paths in prose when introducing tools.
+    *   **Open Specifications & Platforms:** Hyperlink foundational open standards and specifications on first mention or primary heading (e.g., [Agent Skills](https://agentskills.io), [Model Context Protocol](https://modelcontextprotocol.io), [AGENTS.md](https://agents.md)).
+
 ## Visual standards
 
 We aim for a consistent, high-quality visual identity that blends modern tech aesthetics with a touch of personal flair.
@@ -133,6 +143,15 @@ We aim for a consistent, high-quality visual identity that blends modern tech ae
 ### 4. Minimizing language
 *   **Watch list:** `simply`, `just` (as in "just run this"), `obviously`, `easy`, `straightforward`.
 *   **Fix:** Remove them. "Run this command" is stronger and kinder than "Just run this command."
+
+## Invariants for AI writing assistants & automated tooling
+
+To ensure that AI assistants collaborate effectively without compromising the author's authenticity:
+
+*   **Author Prose is Inviolable at Sentence Level:** When reviewing or editing drafts, **never** rewrite, replace, or summarize human-authored text unless explicitly requested by the author (e.g. "rewrite this paragraph"). Confine standard editing passes strictly to non-destructive copyediting (spelling, typos, punctuation, grammar, and broken links).
+*   **Metrics are Advisory Only:** Metric scores from tools like `slop`, `fog`, or `vale` are advisory heuristics designed to prompt reflection, **never** automated rewrite triggers. Human warmth, conversational humor, personal vulnerability, and peer-to-peer storytelling always supersede automated linter scores.
+*   **Preserve the Authentic Voice:** Never convert conversational first-person narrative ("I", "we", "in my experience") into sterile, impersonal, academic, or corporate summaries.
+*   **Fearless Macro-Structural Feedback:** While sentence-level prose is inviolable, AI reviewers **must** proactively diagnose and flag macro-structural issues: narrative redundancies, sections that reopen resolved arguments, stalled pacing between theory and practice, and inconsistent hyperlink hygiene.
 
 ## Current taxonomy
 
