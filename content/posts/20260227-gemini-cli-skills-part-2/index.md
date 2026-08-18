@@ -15,6 +15,10 @@ tags:
 title: Building Agent Skills with skill-creator
 ---
 
+{{< alert "circle-info" >}}
+**Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the updated platform and features.
+{{< /alert >}}
+
 In the [previous article]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), we explored how Agent Skills add new features to the Gemini CLI. We looked at the `experiment-analyst` skill as a practical example of keeping the agent's context clean while giving it specific instructions for a task.
 
 Today, we are going to dive into the core principles of skill design and look at a few practical examples of skills I use daily.

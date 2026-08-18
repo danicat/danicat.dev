@@ -17,6 +17,10 @@ tags:
 title: Mastering Agent Skills in Gemini CLI
 ---
 
+{{< alert "circle-info" >}}
+**Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the updated platform and features.
+{{< /alert >}}
+
 When I wrote about [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) last week I didn't cover one important aspect about experiment analysis: how to extract insights from experiments. Even though I have a nice frontend with summaries and statistical metrics and tests, it is really hard to capture the nuances of each configuration from just a summary.
 
 For example, I often find that read operations (e.g. `read_file` or godoctor's `smart_read`) are strongly correlated with scenarios that either failed or took longer to complete. Is this because the read operations are bad? No, this is because to recover from an error, the agent had to refresh its knowledge of the source code by reading it again. So, while there is a strong correlation between read and slowness and failure, by no means is this a relation of causality or, as statisticians like to say, "correlation doesn't mean causation".

@@ -1,0 +1,105 @@
+{{ if .IsHome -}}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": {{ site.Home.Permalink | safeURL }},
+    "name": "{{ .Site.Title | safeJS }}",
+    {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
+    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+    "url": {{ site.Home.Permalink | safeURL }},
+    {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
+    "publisher" : {
+      "@type": "Person",
+      "name": "{{ .Site.Params.Author.name | safeJS }}",
+      "url": {{ site.Home.Permalink | safeURL }}
+    }
+  }
+  </script>
+{{ else }}
+  {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+  {{- $images := .Resources.ByType "image" -}}
+  {{- $featured := $images.GetMatch "*feature*" -}}
+  {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*,image*}" }}{{ end -}}
+  {{- $imageUrl := "" -}}
+  {{- with $featured -}}
+    {{- $imageUrl = .Permalink -}}
+  {{- else -}}
+    {{- with .Site.Params.defaultSocialImage -}}
+      {{- $imageUrl = . | absURL -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $schemaType := "TechArticle" -}}
+  {{- if not (eq .Section "posts") -}}
+    {{- $schemaType = "Article" -}}
+  {{- end -}}
+  <script type="application/ld+json">
+  [{
+    "@context": "https://schema.org",
+    "@type": "{{ $schemaType }}",
+    "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
+    "name": "{{ .Title | safeJS }}",
+    "headline": "{{ .Title | safeJS }}",
+    {{ with or .Description .Summary }}"description": "{{ . | plainify | safeJS }}",{{ end }}
+    {{ with $imageUrl }}"image": "{{ . }}",{{ end }}
+    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+    "url" : {{ .Permalink }},
+    "author" : {
+      "@type": "Person",
+      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
+      "jobTitle": "{{ .Site.Params.Author.bio | default "Developer Relations Engineer" | safeJS }}",
+      "url": "https://danicat.dev"
+    },
+    "publisher" : {
+      "@type": "Person",
+      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
+      "url": "https://danicat.dev"
+    },
+    {{ with .PublishDate }}"copyrightYear": "{{ .Format "2006" }}",{{ end }}
+    {{ with .Date }}"dateCreated": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .ExpiryDate }}"expires": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .Lastmod }}"dateModified": "{{ .Format $iso8601 }}",{{ end }}
+    {{ if .Keywords }}
+    {{ with .Keywords }}"keywords": {{ . }},{{ end }}
+    {{ else }}
+    {{ with .Params.tags }}"keywords": {{ . }},{{ end }}
+    {{ end }}
+    {{ with .Params.tags }}"dependencies": "{{ delimit . ", " | safeJS }}",{{ end }}
+    "proficiencyLevel": "Intermediate",
+    "mainEntityOfPage": {{ .Permalink }},
+    "wordCount": "{{ .WordCount }}"
+  }{{- $position := 0 -}}
+  {{- $hasAncestors := false -}}
+  {{- range .Ancestors -}}
+    {{- if not .IsHome -}}
+      {{- $hasAncestors = true -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if or $hasAncestors true }},
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {{- range .Ancestors -}}
+        {{- if not .IsHome -}}
+          {{- $position = add $position 1 -}}
+          {
+            "@type": "ListItem",
+            "position": {{ $position }},
+            "name": "{{ .Title }}",
+            "item": {{ .Permalink }}
+          },
+        {{- end -}}
+      {{- end -}}
+      {{- $position = add $position 1 -}}
+      {
+        "@type": "ListItem",
+        "position": {{ $position }},
+        "name": "{{ .Title }}",
+        "item": {{ .Permalink }}
+      }
+    ]
+  }{{ end }}]
+  </script>
+{{ end }}
