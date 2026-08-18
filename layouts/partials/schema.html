@@ -38,12 +38,12 @@
     "@context": "https://schema.org",
     "@type": "{{ $schemaType }}",
     "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
-    "name": "{{ .Title | safeJS }}",
     "headline": "{{ .Title | safeJS }}",
     {{ with or .Description .Summary }}"description": "{{ . | plainify | safeJS }}",{{ end }}
     {{ with $imageUrl }}"image": "{{ . }}",{{ end }}
     {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
     "url" : {{ .Permalink }},
+    "mainEntityOfPage": {{ .Permalink }},
     "author" : {
       "@type": "Person",
       "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
@@ -60,15 +60,10 @@
     {{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 }}",{{ end }}
     {{ with .ExpiryDate }}"expires": "{{ .Format $iso8601 }}",{{ end }}
     {{ with .Lastmod }}"dateModified": "{{ .Format $iso8601 }}",{{ end }}
-    {{ if .Keywords }}
-    {{ with .Keywords }}"keywords": {{ . }},{{ end }}
-    {{ else }}
-    {{ with .Params.tags }}"keywords": {{ . }},{{ end }}
-    {{ end }}
-    {{ with .Params.tags }}"dependencies": "{{ delimit . ", " | safeJS }}",{{ end }}
-    "proficiencyLevel": "Intermediate",
-    "mainEntityOfPage": {{ .Permalink }},
-    "wordCount": "{{ .WordCount }}"
+    {{ with or .Keywords .Params.tags }}"keywords": {{ . }},{{ end }}
+    {{ with .Params.dependencies }}"dependencies": "{{ if reflect.IsSlice . }}{{ delimit . ", " | safeJS }}{{ else }}{{ . | safeJS }}{{ end }}",{{ end }}
+    {{ with .Params.proficiencyLevel }}"proficiencyLevel": "{{ . | safeJS }}",{{ end }}
+    "wordCount": {{ .WordCount }}
   }{{- $position := 0 -}}
   {{- $hasAncestors := false -}}
   {{- range .Ancestors -}}

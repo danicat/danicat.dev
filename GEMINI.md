@@ -20,9 +20,9 @@ To work with this project, you need to have Hugo installed.
 
 *   **Build the site for deployment:**
     ```bash
-    hugo
+    hugo --baseURL "https://danicat.dev/" --minify
     ```
-    This command generates the static site in the `public/` directory.
+    Always specify `--baseURL "https://danicat.dev/"` for production builds to ensure valid absolute URLs in `sitemap.xml`, canonical headers, and multilingual `hreflang` alternates.
 
 # Development Conventions
 
@@ -32,9 +32,12 @@ To work with this project, you need to have Hugo installed.
     hugo new posts/my-new-post/index.md
     ```
 *   **Multi-language Support:** The site supports English, Portuguese, and Japanese. Content for each language is provided in separate files (e.g., `index.md`, `index.pt-br.md`, `index.ja.md`). Language-specific configurations are in `config/_default/languages.<lang>.toml`.
-*   **Taxonomy Standards:**
+*   **Taxonomy & Metadata Standards:**
     *   **Categories:** Every item must have **exactly one** category from: `Agentic Coding`, `Agent Development`, `Applied GenAI`, `Perspectives`, `Software Engineering`.
     *   **Tags:** Must be strictly lowercase, kebab-case (e.g., `gemini-cli`, `vertex-ai`), sorted in **alphabetical order**, and must **never repeat the category name**. Use English tags across all language editions to ensure unified tag archives. Reference `EDITORIAL.md` for the canonical tag dictionary across the 6 core dimensions.
+    *   **Series:** Multi-part posts use `series: ["<Series Title>"]` and `series_order: <int>`. Keep series names consistent across all language editions.
+    *   **Schema.org Structured Data:** Handled automatically via `layouts/partials/schema.html` (`TechArticle` + `BreadcrumbList` JSON-LD). Supports optional frontmatter overrides for `dependencies` (runtime prerequisites) and `proficiencyLevel` (`"Beginner"` | `"Intermediate"` | `"Advanced"` | `"Expert"`).
+*   **Multilingual Linking Rules:** Internal cross-references within translated editions (`index.ja.md`, `index.pt-br.md`) must link to the localized edition of the target post with localized anchor text. Never force artificial cross-links between orthogonal topics.
 *   **Configuration:**
     *   The main site configuration is in `hugo.yaml`.
     *   Detailed theme and site parameters are in `config/_default/hugo.toml` and `config/_default/params.toml`.

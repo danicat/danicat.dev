@@ -56,6 +56,24 @@ Use **only** these five canonical categories:
     *   *Content Formats:* `keynote`, `workshop`, `codelab`, `tutorial`, `train-the-trainer`
     *   *Perspectives & Culture:* `career`, `art`, `reflection`
 
+### Series Taxonomy & Multi-part Content
+*   **`series`:** String array naming the series in Title Case (e.g., `series: ["Gemini for Go Developers"]`).
+*   **`series_order`:** Integer indicating the chapter/part number within the series (e.g., `series_order: 1`).
+*   **Consistency:** Use the identical series name across all language editions (`index.md`, `index.ja.md`, `index.pt-br.md`) so Hugo groups them correctly into unified series taxonomies.
+
+### Frontmatter Metadata & Schema.org (`TechArticle`) Standards
+All articles in `content/posts/` automatically generate clean Schema.org `TechArticle` and `BreadcrumbList` JSON-LD structured data via `layouts/partials/schema.html`.
+*   **`headline`:** Automatically set from the article `.Title`. (No duplicate `name` field).
+*   **`summary` / `description`:** High-signal 1-2 sentence overview. Feeds into meta descriptions, OpenGraph, and `TechArticle.description`.
+*   **`keywords`:** Mapped directly from canonical `tags` into a JSON string array.
+*   **`dependencies` (Optional):** Specific runtime or tool prerequisites (e.g., `dependencies: ["Go 1.24+", "Antigravity CLI"]`). Emitted in JSON-LD only when explicitly provided in frontmatter. Never duplicated from tags.
+*   **`proficiencyLevel` (Optional):** Target reader experience level (`"Beginner"`, `"Intermediate"`, `"Advanced"`, `"Expert"`). Emitted only when explicitly declared in frontmatter.
+*   **`wordCount`:** Emitted as an integer for machine readability.
+
+### Internal & Multilingual Linking Standards
+*   **Localized Target Parity:** When linking between articles within localized translations (`index.ja.md` or `index.pt-br.md`), internal links **must** resolve to the corresponding localized article edition using the localized post title as anchor text (e.g., `[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/..." >}})`).
+*   **Authentic Relevance Only:** Never artificially force cross-links between orthogonal technical concepts (e.g., Agent Skills vs Hooks). Internal links must have direct contextual, logical, or architectural relevance to the reader.
+
 ## Capitalization standards
 
 To maintain a consistent, modern, and conversational feel, we adhere to the following capitalization rules:
