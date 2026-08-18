@@ -1,11 +1,11 @@
 ---
 categories:
-- Agentic Coding
+- Agent Development
 date: 2025-08-17 15:00:00+00:00
-summary: Baseado na minha palestra na Gophercon UK 2025, este artigo é uma introdução
-  ao Protocolo de Contexto de Modelo (MCP), explorando seus conceitos principais,
-  arquitetura e os blocos de construção — Ferramentas, Prompts e Recursos — usados
-  para criar aplicativos habilitados para IA com Go.
+summary: Baseado na minha keynote na GopherCon UK 2025, este artigo é uma introdução
+  ao Model Context Protocol (MCP), explorando seus conceitos centrais, arquitetura
+  e os blocos fundamentais — Tools, Prompts e Resources — usados para criar aplicações
+  com suporte a IA em Go.
 tags:
   - gemini
   - golang
@@ -18,72 +18,73 @@ title: Olá, Mundo MCP!
 
 ## Introdução
 
-Neste artigo, vamos explorar o Protocolo de Contexto de Modelo (MCP), um protocolo desenvolvido pela Anthropic para padronizar as comunicações entre Modelos de Linguagem Grandes (LLMs) e aplicativos. Este artigo é baseado na [palestra de mesmo nome que apresentei na Gophercon UK](https://speakerdeck.com/danicat/hello-mcp-world) na semana passada.
+Neste artigo, vamos explorar o Model Context Protocol (MCP), um protocolo criado pela Anthropic para padronizar a comunicação entre Large Language Models (LLMs) e aplicações. Este artigo é baseado na [keynote de mesmo nome que apresentei na GopherCon UK](https://speakerdeck.com/danicat/hello-mcp-world) na semana passada.
 
-Para construir um entendimento claro, começaremos com os fundamentos, depois explicaremos os principais componentes da arquitetura, transportes e blocos de construção (ferramentas, prompts e recursos). Vamos lançar alguns exemplos práticos ao longo do caminho com base nos servidores que escrevi anteriormente (godoctor e speedgrapher). Finalmente, veremos como você pode escrever seu próprio servidor usando o SDK Go para MCP através de um exemplo simples, "vibe-coded", usando o Gemini CLI.
+Para construir um entendimento sólido, começaremos pelos fundamentos, passando pelos principais componentes de arquitetura, camadas de transporte e blocos fundamentais (*tools*, *prompts* e *resources*). Ao longo do caminho, veremos exemplos práticos baseados em servidores que escrevi anteriormente ([GoDoctor](https://github.com/danicat/godoctor) e [Speedgrapher](https://github.com/danicat/speedgrapher)). Por fim, mostrarei como você pode criar seu próprio servidor usando o Go SDK oficial para MCP por meio de um exemplo simples "vibe-coded" com o Gemini CLI.
 
-Seja esta a primeira vez que você ouve falar sobre este protocolo, ou se você já escreveu um ou dois servidores, este artigo visa fornecer informações úteis para vários níveis de experiência.
+Seja esta a sua primeira vez ouvindo falar do protocolo ou se você já implementou um servidor ou outro, este artigo traz informações valiosas para diferentes níveis de experiência.
 
 ## Um Novo Padrão Nasce
 
-Sempre que falamos sobre padrões, esta tirinha do XKCD é a primeira coisa que me vem à mente:
+Sempre que falamos sobre padrões na tecnologia, a clássica tirinha do XKCD é a primeira coisa que me vem à mente:
 
 ![Standards](image.png)
 *Fonte: [xkcd.com](https://xkcd.com/927)*
 
-Curiosamente, esta pode ser a primeira vez na indústria que essa piada não se aplica totalmente (pelo menos por enquanto). Felizmente para nós, a indústria convergiu rapidamente para o MCP como o padrão para adicionar contexto aos LLMs.
+Curiosamente, esta talvez seja a primeira vez na indústria em que a piada não se aplica totalmente (pelo menos por enquanto). Para a nossa sorte, o mercado convergiu rapidamente para o MCP como padrão para fornecer contexto a LLMs.
 
-Da especificação, o MCP é:
+De acordo com a especificação oficial, o MCP é:
 
-> O MCP é um protocolo aberto que padroniza como os aplicativos fornecem contexto para modelos de linguagem grandes (LLMs). Pense no MCP como uma porta USB-C para aplicativos de IA. Assim como o USB-C fornece uma maneira padronizada de conectar seus dispositivos a vários periféricos e acessórios, o MCP fornece uma maneira padronizada de conectar modelos de IA a diferentes fontes de dados e ferramentas. O MCP permite que você construa agentes e fluxos de trabalho complexos sobre LLMs e conecta seus modelos com o mundo.
+> O MCP é um protocolo aberto que padroniza como as aplicações fornecem contexto para grandes modelos de linguagem (LLMs). Pense no MCP como uma porta USB-C para aplicações de IA. Assim como o USB-C oferece uma forma padronizada de conectar dispositivos a vários periféricos e acessórios, o MCP oferece uma forma padronizada de conectar modelos de IA a diferentes fontes de dados e ferramentas. O MCP permite criar agentes e fluxos de trabalho complexos sobre LLMs e conecta seus modelos com o mundo.
 
-Embora eu entenda a analogia com o USB-C, prefiro pensar no MCP como o novo HTTP/REST. Assim como o HTTP forneceu uma linguagem universal para os serviços da web se comunicarem, o MCP fornece uma estrutura comum para os modelos de IA interagirem com sistemas externos. Como engenheiros, passamos aproximadamente as últimas duas décadas tornando tudo "API-first", permitindo que nossos sistemas de software se tornassem interconectados e impulsionando novos níveis de automação. Talvez não seja para os próximos 20 anos, mas acredito que nos próximos 5 a 10 anos gastaremos bastante poder de engenharia para adaptar todos esses sistemas (e criar novos) para se tornarem habilitados para IA, e o MCP é um componente chave desse processo.
+Embora eu entenda a analogia com o USB-C, prefiro enxergar o MCP como o novo HTTP/REST. Da mesma forma que o HTTP estabeleceu uma linguagem universal para serviços web se comunicarem, o MCP fornece uma base comum para modelos de IA interagirem com sistemas externos. Como engenheiras e desenvolvedores, passamos praticamente as últimas duas décadas adotando a filosofia "API-first", tornando nossos sistemas de software interconectados e impulsionando novos patamares de automação. Talvez não dure 20 anos, mas acredito que nos próximos 5 a 10 anos dedicaremos muito esforço de engenharia para adaptar todos esses sistemas (e construir novos) para que sejam integrados com IA — e o MCP é uma peça central nessa transformação.
 
-## Arquitetura MCP
+## Arquitetura do MCP
 
-Olhando para o diagrama abaixo, a arquitetura MCP pode parecer mais complexa do que realmente é:
+Olhando para o diagrama abaixo, a arquitetura do MCP pode parecer mais complexa do que realmente é:
 
 ![MCP Architecture](image-1.png)
 *Fonte: [Especificação MCP](https://modelcontextprotocol.io/docs/learn/architecture)*
 
-Os principais componentes da arquitetura MCP são:
+Os componentes principais da arquitetura MCP são:
 
-*   **Host MCP:** O aplicativo de IA principal, como sua IDE ou um agente de codificação.
-*   **Servidor MCP:** Um processo que fornece acesso a alguma capacidade (por exemplo, ferramentas ou prompts).
-*   **Cliente MCP:** Conecta o host a um único servidor.
+*   **Host MCP:** A aplicação de IA principal, como sua IDE ou um agente de código.
+*   **Servidor MCP (MCP Server):** Um processo que disponibiliza capacidades específicas (como *tools* ou *prompts*).
+*   **Cliente MCP (MCP Client):** Conecta o host a um servidor específico.
 
-Em essência, um aplicativo host cria e gerencia vários clientes, com cada cliente tendo um relacionamento 1:1 com um servidor específico.
+Em resumo, uma aplicação host instancia e gerencia múltiplos clientes, e cada cliente mantém uma conexão 1:1 com um servidor dedicado.
 
-## Camadas MCP
+## Camadas do MCP
 
 A comunicação acontece em duas camadas:
 
-* **Camada de dados**: é um protocolo baseado em JSON-RPC. Você pode ver exemplos do formato da mensagem na próxima seção.
-* **Camada de transporte**: define os canais de comunicação, sendo os principais:
-  - E/S padrão: para servidores locais
-  - HTTPS streamable: para comunicações pela rede. (Substitui HTTPS+SSE).
-  - HTTPS+SSE: preterido na última versão da especificação por questões de segurança.
+* **Camada de dados (*data layer*)**: protocolo baseado em JSON-RPC. Veremos exemplos do formato de mensagens na próxima seção.
+* **Camada de transporte (*transport layer*)**: define os canais de comunicação, sendo os principais:
+  - **Standard I/O (stdio)**: para servidores locais executados no mesmo ambiente.
+  - **Streamable HTTPS**: para comunicações via rede (substituindo HTTPS+SSE).
+  - **HTTPS+SSE**: depreciado na versão mais recente da especificação por questões de segurança.
 
-A camada de dados é gerenciada pelo SDK e, exceto para fins de teste, você não precisará construir as mensagens manualmente. A escolha do transporte dependerá do seu caso de uso, mas em geral recomendo começar com stdio e adicionar HTTPS posteriormente. Existem até adaptadores de código aberto que convertem MCPs stdio em HTTPS e vice-versa, mas adicionar esse recurso é tão trivial que eu só os usaria para servidores dos quais não controlo o código-fonte.
+A camada de dados é gerenciada pelo próprio SDK; portanto, a menos que esteja fazendo testes manuais, você não precisará montar essas mensagens na mão. A escolha do transporte depende do seu caso de uso, mas, em geral, recomendo começar com `stdio` e adicionar suporte a HTTPS depois. Existem adaptadores open source que convertem servidores MCP de stdio para HTTPS e vice-versa, mas implementar esse suporte diretamente é tão trivial que eu só usaria esses adaptadores para servidores cujo código-fonte eu não controlo.
 
 ## Fluxo de Inicialização
 
-O cliente e o servidor realizam um handshake para estabelecer uma conexão. Isso envolve três mensagens principais:
+O cliente e o servidor realizam um *handshake* para estabelecer a conexão. Esse processo envolve três mensagens essenciais:
 
-1. O cliente envia uma solicitação de `initialize` ao servidor, especificando a versão do protocolo que ele suporta. (O servidor envia uma mensagem de resposta de inicialização de volta para o cliente.)
-2. O cliente confirma a inicialização com uma mensagem `notifications/initialized`.
-3.  O cliente pode então começar a fazer solicitações, como `tools/list`, para descobrir as capacidades do servidor.
+1. O cliente envia uma requisição `initialize` ao servidor, indicando a versão do protocolo suportada (e o servidor responde confirmando a inicialização).
+2. O cliente confirma a conclusão da inicialização com uma notificação `notifications/initialized`.
+3. A partir daí, o cliente pode começar a enviar requisições normais, como `tools/list`, para descobrir as capacidades expostas pelo servidor.
 
-É assim que o fluxo de inicialização se parece na rede do lado do cliente usando a representação JSON-RPC:
+É assim que o fluxo de inicialização trafega na rede (ou no pipe stdio) do ponto de vista do cliente, em formato JSON-RPC:
 
 ```json
 {"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}
 {"jsonrpc":"2.0","method":"notifications/initialized","params":{}}
 {"jsonrpc":"2.0","id":2,"method":"tools/list","params":{}}
 ```
-Por favor, note que você não pode simplesmente enviar uma mensagem "tools/list" ou "tools/call" diretamente, ou você receberá um erro do tipo "servidor não pronto".
 
-Se estou codificando um servidor MCP por meio de um agente de codificação, como por exemplo o Gemini CLI, costumo instruí-los a enviar essas mensagens via shell assim:
+Vale ressaltar que você não pode simplesmente disparar uma mensagem `tools/list` ou `tools/call` diretamente sem antes inicializar a conexão — caso contrário, receberá um erro de "servidor não pronto".
+
+Quando estou desenvolvendo um servidor MCP com o apoio de um agente de código (como o Gemini CLI), costumo instruí-lo a testar essas mensagens via shell desta forma:
 
 ```sh
 (
@@ -93,78 +94,78 @@ Se estou codificando um servidor MCP por meio de um agente de codificação, com
 ) | ./bin/godoctor
 ```
 
-Gosto de fazer isso para ter certeza de que a implementação está sólida, pois antes de entender completamente esse fluxo, meus agentes de codificação costumavam fazer suposições erradas como "o servidor precisa de mais tempo para inicializar, então vou adicionar um sleep antes da chamada da ferramenta". Quanto mais cedo você ensinar seu agente de codificação a se comunicar adequadamente com o servidor MCP que você está desenvolvendo, melhor!
+Gosto de fazer isso para garantir que a implementação está sólida. Antes de entender esse fluxo a fundo, meus agentes de código frequentemente assumiam coisas erradas, como achar que "o servidor precisava de mais tempo para subir" e colocar um `sleep` arbitrário antes de chamar a ferramenta. Quanto mais cedo você ensinar seu agente a se comunicar corretamente com o servidor MCP em desenvolvimento, melhor!
 
-## Os Blocos de Construção de um Servidor MCP
+## Os Blocos Fundamentais de um Servidor MCP
 
-Em sua essência, a funcionalidade de um servidor MCP é exposta por meio de três blocos de construção fundamentais, às vezes também chamados de "primitivos" ou "conceitos de servidor":
+Em essência, a funcionalidade de um servidor MCP é exposta por meio de três blocos de construção fundamentais — às vezes chamados de "primitivos" ou "conceitos de servidor":
 
-| Bloco de Construção | Propósito                  | Quem o controla         | Exemplo do mundo real                               |
-| :------------- | :----------------------- | :---------------------- | :----------------------------------------------- |
-| **Ferramentas**      | Para ações de IA           | Controlado pelo modelo        | Pesquisar voos, enviar mensagens, revisar código       |
-| **Recursos**  | Para dados de contexto         | Controlado pelo aplicativo  | Documentos, calendários, e-mails, dados meteorológicos       |
-| **Prompts**    | Para modelos de interação| Controlado pelo usuário         | "Planejar férias", "Resumir minhas reuniões"       |
+| Bloco Fundamental | Finalidade               | Quem Controla           | Exemplo Real                                     |
+| :---------------- | :----------------------- | :---------------------- | :----------------------------------------------- |
+| **Tools**         | Ações executadas pela IA | Controlado pelo modelo  | Buscar voos, enviar mensagens, revisar código    |
+| **Resources**     | Dados de contexto        | Controlado pela aplicação| Documentos, calendários, e-mails, dados de clima |
+| **Prompts**       | Templates de interação   | Controlado pela usuária | "Planejar férias", "Resumir minhas reuniões"     |
 
-Vamos dar uma olhada mais de perto em cada um deles.
+Vamos examinar cada um deles em detalhes.
 
-### Ferramentas
+### Tools (Ferramentas)
 
-Ferramentas são funções que permitem que um modelo de IA execute ações, por exemplo, expondo uma API, banco de dados ou ferramenta de linha de comando.
+*Tools* são funções que permitem a um modelo de IA executar ações — por exemplo, acessar uma API, consultar um banco de dados ou rodar um utilitário de linha de comando.
 
-O servidor que escrevi para experimentar o conceito de ferramentas é chamado GoDoctor, que é projetado para fornecer ferramentas para melhorar as capacidades dos LLMs na escrita de código Go. O nome GoDoctor vem como uma brincadeira com a ferramenta de linha de comando "go doc" que expõe a documentação sobre pacotes Go.
+O servidor que criei para experimentar com o conceito de tools chama-se [GoDoctor](https://github.com/danicat/godoctor), projetado para equipar LLMs com ferramentas que melhoram sua capacidade de escrever código Go. O nome GoDoctor é um trocadilho com o comando `go doc`, que exibe documentação de pacotes Go.
 
-Minha hipótese era que, ao fornecer a documentação correta, os LLMs alucinariam menos e escreveriam um código melhor. Ou, pelo menos, teriam os recursos para aprender e autocorrigir seus erros.
+Minha hipótese era de que, tendo acesso à documentação exata das bibliotecas, os LLMs alucinariam menos e gerariam códigos muito melhores — ou, ao menos, teriam insumos para aprender e autocorrigir eventuais erros.
 
-A implementação de ferramentas consiste em dois componentes principais: registrar a ferramenta em seu servidor MCP e implementar um manipulador.
+A implementação de tools é dividida em duas etapas principais: registrar a ferramenta no servidor MCP e implementar sua função manipuladora (*handler*).
 
-O registro é feito usando a função `mcp.AddTool`:
+O registro é feito chamando a função `mcp.AddTool`:
 
 {{< github user="danicat" repo="godoctor" path="internal/tools/get_documentation/get_documentation.go" lang="golang" start="35" end="40" >}}
 
-O manipulador é um adaptador que chama uma API, comando ou função e retorna a resposta de uma forma compatível com o protocolo (uma estrutura `mcp.CallToolResult`).
+O *handler* atua como um adaptador que executa uma API, comando ou função interna e retorna a resposta no formato esperado pelo protocolo (uma struct `mcp.CallToolResult`).
 
-Aqui está o manipulador para a ferramenta de documentação do GoDoctor:
+Aqui está o handler da ferramenta de documentação do GoDoctor:
 
 {{< github user="danicat" repo="godoctor" path="internal/tools/get_documentation/get_documentation.go" lang="golang" start="49" end="86" >}}
 
 ### Prompts
 
-Prompts fornecem modelos reutilizáveis e controlados pelo usuário que podem ser parametrizados. Eles geralmente aparecem como comandos de barra em um agente de IA, permitindo que um usuário invoque um fluxo de trabalho complexo com um comando simples.
+*Prompts* fornecem templates reutilizáveis e parametrizáveis controlados diretamente pela pessoa usuária. Frequentemente se manifestam como slash commands em agentes de IA, permitindo acionar fluxos de trabalho sofisticados com um comando simples.
 
-Para ver isso em ação, vamos dar uma olhada em um servidor MCP diferente que escrevi chamado `speedgrapher`, que é uma coleção de prompts e ferramentas para ajudar na minha escrita técnica.
+Para ver isso na prática, vejamos outro servidor MCP que construí: o `speedgrapher`, uma suíte de prompts e tools criada para acelerar minha produção de escrita técnica.
 
-Um dos prompts mais simples no `speedgrapher` é `/haiku`. Assim como com as ferramentas, o processo envolve a definição do prompt e, em seguida, a implementação de um manipulador para ele.
+Um dos prompts mais simples do `speedgrapher` é o `/haiku`. Assim como nas tools, o processo consiste em declarar o prompt e implementar seu respectivo *handler*:
 
 {{< github user="danicat" repo="speedgrapher" path="internal/prompts/haiku.go" lang="golang" start="24" end="54" >}}
 
-### Recursos
+### Resources (Recursos)
 
-Recursos expõem dados de arquivos, APIs ou bancos de dados, fornecendo o contexto que uma IA precisa para executar uma tarefa. Conceitualmente, uma Ferramenta é para executar uma ação, enquanto um Recurso é para fornecer informações.
+*Resources* expõem dados vindos de arquivos, APIs ou bancos de dados, fornecendo o contexto necessário para a IA cumprir uma tarefa. Conceitualmente, uma **Tool** serve para executar uma ação, enquanto um **Resource** serve para disponibilizar informações.
 
-Dito isso, no mundo real, ainda não vi uma boa implementação de recursos, pois a maioria dos desenvolvedores está usando ferramentas para expor dados (como você faria em uma API com uma solicitação GET). Acho que este é um dos casos em que a especificação pode estar tentando ser muito inteligente, mas talvez no futuro veremos bons usos para os recursos assim que a comunidade se sentir mais confortável com eles.
+Dito isso, na prática do ecossistema atual, ainda não vi implementações realmente expressivas de resources: a grande maioria dos desenvolvedores tem usado tools até mesmo para expor dados (como faríamos com uma requisição HTTP `GET` em uma API REST). Acredito que aqui a especificação tenha tentado ser um pouco sofisticada demais, mas talvez vejamos ótimos casos de uso de resources no futuro, conforme a comunidade for amadurecendo o uso do protocolo.
 
-## Conceitos do Cliente
+## Conceitos de Cliente (Client Concepts)
 
-Além dos blocos de construção do servidor, o protocolo também define **Conceitos do Cliente**, que são capacidades que o servidor pode solicitar do cliente. Estes incluem:
+Além dos blocos do servidor, o protocolo também define **Conceitos de Cliente** (*Client Concepts*), que são capacidades que o servidor pode solicitar ao cliente:
 
-*   **Amostragem:** Permite que um servidor solicite conclusões de LLM do modelo do cliente. Isso é promissor do ponto de vista de segurança e faturamento, pois os autores do servidor não precisam usar suas próprias chaves de API para chamar modelos.
-*   **Raízes:** Um mecanismo para um cliente comunicar os limites do sistema de arquivos, dizendo a um servidor em quais diretórios ele tem permissão para operar.
-*   **Elicitação:** Uma maneira estruturada para um servidor solicitar informações específicas do usuário, pausando sua operação para coletar informações quando necessário.
+*   **Sampling:** Permite que o servidor requisite completações de LLM através do próprio modelo configurado no cliente. Isso é muito promissor sob a ótica de segurança e custos, já que quem desenvolve o servidor não precisa embutir ou expor chaves de API próprias para chamar modelos.
+*   **Roots:** Mecanismo pelo qual o cliente comunica os limites de acesso ao sistema de arquivos, delimitando em quais diretórios o servidor tem permissão para operar.
+*   **Elicitation:** Uma forma estruturada para o servidor solicitar informações específicas da pessoa usuária, pausando a execução até receber a resposta necessária.
 
-Este é outro caso em que a maioria dos aplicativos do mundo real que explorei ainda não alcançou a especificação, incluindo servidores e clientes. Pode levar um tempo até que tenhamos esses recursos amplamente disponíveis. É um dos problemas de trabalhar com tecnologia de ponta... Por exemplo, o Gemini CLI adicionou suporte a raízes há cerca de uma semana: https://github.com/google-gemini/gemini-cli/pull/5856
+Esse é outro ponto em que boa parte das aplicações do mundo real ainda está correndo atrás da especificação, tanto do lado do cliente quanto do servidor. Deve levar algum tempo até vermos essas funcionalidades amplamente adotadas — um clássico efeito colateral de trabalhar na fronteira tecnológica (*bleeding edge*). A título de exemplo, o Gemini CLI adicionou suporte a roots apenas recentemente: https://github.com/google-gemini/gemini-cli/pull/5856
 
-## Demonstração ao vivo: Vibe Coding um Servidor MCP
+## Demonstração Prática: Vibe Coding de um Servidor MCP
 
-Aqui está um prompt que você pode dar ao seu agente de codificação favorito para produzir um servidor do tipo "Olá, Mundo". Como os agentes hoje em dia não são determinísticos, pode não funcionar 100% na primeira tentativa e você pode precisar guiar o LLM com alguns prompts extras após o inicial, mas é um bom começo:
+Aqui está um prompt que você pode passar para o seu agente de código favorito para gerar um servidor no estilo "Hello, World". Como agentes atuais são não-determinísticos, o resultado pode não sair 100% perfeito de primeira e talvez você precise orientar a IA com alguns ajustes, mas é um excelente ponto de partida:
 
 ```text
-Sua tarefa é criar um servidor do Protocolo de Contexto de Modelo (MCP) para expor uma ferramenta "hello world". Para a implementação do MCP, você deve usar o SDK Go oficial para MCP e usar o transporte stdio.
+Your task is to create a Model Context Protocol (MCP) server to expose a "hello world" tool. For the MCP implementation, you should use the official Go SDK for MCP and use the stdio transport.
 
-Leia estas referências para coletar informações sobre a tecnologia e a estrutura do projeto antes de escrever qualquer código:
+Read these references to gather information about the technology and project structure before writing any code:
 - https://raw.githubusercontent.com/modelcontextprotocol/go-sdk/refs/heads/main/README.md
 - https://go.dev/doc/modules/layout
 
-Para testar o servidor, use comandos de shell como estes:
+To test the server, use shell commands like these:
 `( 
 	echo '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18"}}';
 	echo '{"jsonrpc":"2.0","method":"notifications/initialized","params":{}}';
@@ -172,30 +173,30 @@ Para testar o servidor, use comandos de shell como estes:
 ) | ./bin/hello`
 ```
 
-Se o agente for bem-sucedido em concluir esta tarefa, peça a ele para executar um "method tools/call" em sua nova ferramenta para ver os resultados!
+Se o agente concluir a tarefa com sucesso, peça a ele para executar um `tools/call` na sua nova ferramenta para testar o resultado!
 
-## Uma espiada no futuro
+## Um Olhar Para o Futuro
 
-A comunidade Go está investindo ativamente no ecossistema MCP. Dois projetos importantes a serem observados são:
+A comunidade Go vem investindo de forma muito ativa no ecossistema MCP. Dois projetos imperdíveis para acompanhar:
 
-*   **O SDK Go para MCP:** O SDK oficial que usei na demonstração, que é uma parceria entre o Google e a Anthropic. Ainda é experimental (a versão atual é 0.20), mas é funcional e está em desenvolvimento ativo. Você pode encontrá-lo em [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
-*   **Suporte MCP para `gopls`:** O servidor de linguagem Go, `gopls`, está ganhando suporte a MCP para fornecer capacidades aprimoradas de codificação Go para modelos. O projeto ainda está em seus estágios iniciais, e você pode acompanhar seu progresso em [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
+*   **O Go SDK para MCP:** O SDK oficial que utilizei na demonstração, desenvolvido em parceria entre o Google e a Anthropic. Ainda está em estágio experimental (versão 0.20), mas é totalmente funcional e segue em desenvolvimento acelerado. Confira em [github.com/modelcontextprotocol/go-sdk](https://github.com/modelcontextprotocol/go-sdk).
+*   **Suporte MCP no `gopls`:** O language server oficial de Go, `gopls`, está recebendo suporte nativo a MCP para turbinar as capacidades de assistência em Go para modelos de IA. O projeto está no início e você pode acompanhar o progresso em [tip.golang.org/gopls/features/mcp](https://tip.golang.org/gopls/features/mcp).
 
-## Servidores MCP úteis
+## Servidores MCP Úteis
 
-Aqui estão alguns servidores notáveis construídos pela comunidade:
+Aqui estão alguns servidores notáveis criados pela comunidade:
 
-*   **Playwright:** Mantido pela Microsoft, este servidor permite que um agente de IA navegue em páginas da web, tire capturas de tela e automatize tarefas do navegador. Você pode encontrá-lo em [https://github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp).
-*   **Context7:** Semelhante ao GoDoctor, este servidor fornece documentação para modelos para mitigar alucinações e melhorar as respostas. Ele recupera a documentação de um repositório de crowdsourcing. Saiba mais em [https://context7.com/](https://context7.com/).
+*   **Playwright:** Mantido pela Microsoft, permite que agentes de IA naveguem em páginas web, capturem screenshots e automatizem fluxos no navegador: [github.com/microsoft/playwright-mcp](https://github.com/microsoft/playwright-mcp).
+*   **Context7:** Na mesma linha do GoDoctor, fornece documentação técnica para modelos reduzirem alucinações e melhorarem respostas, consumindo documentações de um repositório colaborativo: [context7.com](https://context7.com/).
 
-## Que tal construir o seu próprio?
+## Que Tal Construir o Seu Próprio?
 
-O Protocolo de Contexto de Modelo fornece uma maneira padronizada de estender as capacidades dos agentes de IA. Ao construir seus próprios servidores, você pode criar assistentes especializados e cientes do contexto, adaptados aos seus fluxos de trabalho específicos.
+O Model Context Protocol oferece uma forma padronizada e elegante de expandir as capacidades de agentes de IA. Ao construir seus próprios servidores, você pode criar assistentes especializados, contextualizados e sob medida para os seus fluxos de trabalho.
 
-Se você quiser começar, criei um Codelab do Google que o guiará pelo processo de construção de seu próprio servidor MCP do zero.
+Se quiser colocar a mão na massa, preparei um Google Codelab completo que guia você passo a passo na criação de um servidor MCP do zero:
 
-[**Como construir um assistente de codificação com Gemini CLI, MCP e Go**](https://codelabs.developers.google.com/codelabs/gemini-cli-mcp-go)
+[**Como Construir um Assistente de Programação com Gemini CLI, MCP e Go**](https://codelabs.developers.google.com/codelabs/gemini-cli-mcp-go)
 
-## Palavras Finais
+## Considerações Finais
 
-Espero que você tenha gostado deste artigo. Se você tiver alguma dúvida ou comentário, sinta-se à vontade para entrar em contato na seção de comentários abaixo ou em qualquer uma das minhas redes sociais. Obrigada!
+Espero que tenha gostado do artigo! Se tiver dúvidas, sugestões ou comentários, fique à vontade para interagir na seção de comentários abaixo ou nas minhas redes sociais. Obrigada!

@@ -14,6 +14,10 @@ title: Proatividade pode ser prejudicial? Um guia para customizar o Gemini CLI p
 ---
 {{< translation-notice >}}
 
+{{< alert "circle-info" >}}
+**Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema Antigravity atualizado, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
+{{< /alert >}}
+
 ## Introdução
 
 Muitos de vocês já devem estar familiarizados com o [Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b432031389&utm_medium=external&utm_source=blog), mas caso não estejam, confiram o [blog de lançamento](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) oficial para uma visão geral rápida.

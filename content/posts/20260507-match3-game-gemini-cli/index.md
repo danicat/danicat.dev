@@ -14,6 +14,14 @@ tags:
 title: Build a Match 3 Arcade Game Using Gemini CLI
 ---
 
+{{< alert "circle-info" >}}
+**Note:** This article was written for Gemini CLI, which has since been deprecated and superseded by **Google Antigravity 2.0**. To learn more about the new Antigravity CLI (`agy`), the SDK, and the broader Antigravity ecosystem, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
+{{< /alert >}}
+
+{{< alert "circle-info" >}}
+**Updated Codelab:** Follow the modern version of this tutorial updated for Antigravity at [goo.gle/cloud-crush-agy](https://goo.gle/cloud-crush-agy).
+{{< /alert >}}
+
 The whole reason I became a software developer was because I loved video games as a child. I spent countless hours playing them, and I was deeply intrigued about how they were built. My father tried his best to explain about how TVs and computers worked, but it never really got into my head.
 
 It was only during my teenage years when we finally got access to the internet that I started understanding a bit more. While normal teenagers were filling chat rooms, chasing people on ICQ, and working on their Orkut profiles, I was researching game development tutorials. Those were the good days.

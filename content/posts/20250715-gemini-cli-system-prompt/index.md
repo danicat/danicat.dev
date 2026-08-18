@@ -12,6 +12,11 @@ tags:
 title: Proactiveness considered harmful? A guide to customise the Gemini CLI to suit
   your coding style
 ---
+
+{{< alert "circle-info" >}}
+**Note:** This article was written for Gemini CLI, which has since been deprecated and superseded by **Google Antigravity 2.0**. To learn more about the new Antigravity CLI (`agy`), the SDK, and the broader Antigravity ecosystem, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
+{{< /alert >}}
+
 ## Introduction
 
 Many of you should be familiar with the [Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b432031389&utm_medium=external&utm_source=blog) by now, but in case you are not, check the official [release blog](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) for a quick overview.

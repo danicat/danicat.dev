@@ -2,12 +2,10 @@
 categories:
   - Applied GenAI
 date: 2026-02-24
-externalUrl: https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=en#0
+externalUrl: https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=pt-br#0
 featureimage: /images/codelabs/placeholder.png
 showSummary: true
-summary: Aprenda a construir o GlowUp, uma ferramenta de restauração de fotos usando
-  Genkit Go e Nano Banana Pro para restaurar fotos antigas, danificadas ou em preto
-  e branco.
+summary: Aprenda a criar o GlowUp, uma ferramenta de restauração de fotos com o Genkit Go e o Nano Banana Pro para recuperar imagens antigas, danificadas ou em preto e branco.
 tags:
   - codelab
   - genkit

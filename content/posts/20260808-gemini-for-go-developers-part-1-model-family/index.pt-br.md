@@ -1,34 +1,34 @@
 ---
 categories:
-- Agentic Coding
+- Applied GenAI
 date: 2026-08-08
 heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 1
-summary: O primeiro capítulo da série Gemini para Desenvolvedores Go, focando nos
-  diferentes modelos da família Gemini e nas superfícies de API para consumi-los.
+summary: O primeiro capítulo da série Gemini para Desenvolvedores Go, explorando os
+  diferentes modelos da família Gemini e as superfícies de API para utilizá-los.
 tags:
   - gemini
   - golang
 title: 'Gemini para Desenvolvedores Go - Parte 1: A Família de Modelos Gemini'
 ---
 
-Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir aplicações de IA em Go prontas para produção. Ao longo de sete capítulos práticos, cobriremos desde programação agentic, até a construção de agentes autônomos com **Genkit** e **ADK**, desenvolvimento de jogos e o uso da **Stack G3** completa (Go, Gemini, GCP) para implantar aplicações na nuvem.
+Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir aplicações com inteligência artificial em Go. Ao longo de sete capítulos práticos, abordaremos desde o desenvolvimento agentivo e a criação de agentes autônomos com **Genkit** e **ADK**, até o desenvolvimento de jogos e o uso da **Stack G3** completa (Go, Gemini e GCP) para implantar aplicações na nuvem.
 
-No Capítulo 1, preparamos a base explorando a família de modelos Gemini, configurações de modelos e escrevendo nosso primeiro código com o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
+Neste Capítulo 1, preparamos a base explorando a família de modelos Gemini, suas configurações essenciais e escrevendo nossas primeiras linhas de código com o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
 
 ## A família de modelos Gemini
 
-Geralmente tratamos "Gemini" como um nome único para as ofertas de IA do Google, assim como usamos "Google" como sinônimo de busca. Na realidade, o Gemini é uma família de modelos distintos criados para diferentes compensações operacionais (trade-offs).
+Geralmente usamos "Gemini" como um termo guarda-chuva para os produtos de IA do Google, da mesma forma que dizemos "dar um Google" para pesquisas. Na prática, o Gemini é uma família de modelos distintos, cada um projetado com compromissos operacionais (*trade-offs*) específicos.
 
-Embora os modelos de fronteira sejam os que ganham as manchetes, saber quando usar modelos menores ou especializados é essencial para uma engenharia econômica. A seleção do modelo também [influencia diretamente a experiência do usuário](https://services.google.com/fh/files/blogs/google_delayexp.pdf) e a adoção do produto, pois a latência varia significativamente entre os níveis (tiers) de modelos.
+Embora os modelos de fronteira (*frontier models*) dominem as manchetes, saber quando optar por modelos menores ou especializados é um requisito fundamental para construir sistemas eficientes e econômicos. Além disso, a escolha do modelo [impacta diretamente a experiência do usuário](https://services.google.com/fh/files/blogs/google_delayexp.pdf) e a taxa de adoção do produto, já que a latência varia significativamente entre os diferentes níveis (*tiers*).
 
-Recorrer a um modelo Gemini Pro com altos níveis de raciocínio (thinking) para todas as tarefas é tentador, mas nem sempre é a escolha certa. Em muitos casos, isso apenas aumenta a latência por requisição e os custos de API sem entregar um resultado melhor.
+Recorrer a um modelo Gemini Pro com níveis altos de raciocínio (*thinking*) para qualquer demanda é tentador, mas nem sempre é a melhor decisão de arquitetura. Em muitos cenários, isso apenas encarece os custos de API e eleva o tempo de resposta sem trazer ganhos proporcionais de qualidade.
 
 ### Esquema de nomenclatura dos modelos
 
-Para navegar pelo catálogo do Gemini, ajuda entender como o Google nomeia seus modelos. Uma string de modelo padrão segue este padrão:
+Para navegar pelo catálogo do Gemini com facilidade, vale a pena entender a lógica que o Google adota na nomenclatura de seus modelos:
 
 {{< katex >}}
 \[
@@ -37,40 +37,40 @@ Para navegar pelo catálogo do Gemini, ajuda entender como o Google nomeia seus 
 
 Por exemplo: `gemini-3.6-flash` ou `gemini-3-pro-image`.
 
-* **Família**: Embora a maioria dos modelos esteja na família Gemini, o Google também possui outras famílias de modelos como Veo e Lyria.
-* **Números de Versão**: Representam saltos geracionais em inteligência, manipulação da janela de contexto e aderência a instruções.
-* **Níveis de Modelo (Tiers)**:
+* **Família**: Embora a maioria dos modelos pertença à família Gemini, o Google também mantém outras linhas especializadas, como Veo e Lyria.
+* **Versão**: Representa saltos geracionais em inteligência, suporte à janela de contexto e fidelidade às instruções do prompt.
+* **Nível (*Tier*)**:
   * **Pro**: Projetado para raciocínio complexo em múltiplas etapas.
-  * **Flash**: Modelo balanceado com foco em velocidade.
-  * **Flash-Lite**: Otimizado para velocidade e tarefas simples de alto volume (throughput).
-* **Modificadores**: Podem indicar uma subfamília ou especialização, como `image` em `gemini-3.1-flash-image` ou `live` em `gemini-3.1-flash-live-preview`. Também podem incluir modificadores de ciclo de vida como `-preview` ou `-exp` (para experimental).
+  * **Flash**: Modelo balanceado, priorizando velocidade e custo-benefício.
+  * **Flash-Lite**: Otimizado para altíssima vazão (*throughput*) e tarefas objetivas.
+* **Modificadores**: Indicam especializações ou subfamílias, como `image` em `gemini-3.1-flash-image` ou `live` em `gemini-3.1-flash-live-preview`. Também identificam fases do ciclo de vida, como `-preview` ou `-exp` (experimental).
 
 ### Visão geral dos modelos
 
-Aqui está uma visão geral dos principais modelos Gemini, começando com o modelo de fronteira Gemini 3.x:
+Abaixo está um resumo dos principais modelos disponíveis, a começar pela linha de fronteira Gemini 3.x:
 
 #### Gemini 3.x
 
-O Gemini 3.x é a linha principal de modelos de fronteira, disponível nos níveis Pro, Flash e Flash-Lite. Esses modelos de uso geral também são a escolha principal para geração de código e tarefas de engenharia de software.
+A linha Gemini 3.x representa a atual geração de modelos de fronteira, distribuída nos níveis Pro, Flash e Flash-Lite. Esses modelos de propósito geral são também a escolha prioritária para geração de código e tarefas avançadas de engenharia de software.
 
-Os modelos atuais incluem:
-- `gemini-3.6-flash`: Modelo de alta velocidade para raciocínio multimodal e tarefas agentic
-- `gemini-3.5-flash-lite`: Nível ultra-rápido de menor custo para microsserviços de alta vazão
-- `gemini-3.1-pro-preview`: Nível avançado para raciocínio complexo e análise profunda de código
+Modelos em destaque:
+- `gemini-3.6-flash`: O cavalo de batalha de alta velocidade para raciocínio multimodal e tarefas agentivas.
+- `gemini-3.5-flash-lite`: A opção mais econômica e veloz para microsserviços de alto volume.
+- `gemini-3.1-pro-preview`: Nível avançado para raciocínio profundo em múltiplos passos e análise de grandes bases de código.
 
 #### Modelos de imagem Gemini (Nano Banana)
 
-Embora tecnicamente ainda façam parte da família Gemini, esses são modelos especializados para geração de imagens, oferecendo entrada e saída multimodais (imagem e texto). Eles são capazes de produzir imagens do zero e realizar edições em imagens existentes.
+Apesar de pertencerem à família Gemini, estes são modelos especializados na geração e edição de imagens, oferecendo entrada e saída multimodais (imagem e texto). São capazes de criar imagens do zero ou modificar ilustrações existentes.
 
-Os modelos atuais incluem:
-- `gemini-2.5-flash-image` (também conhecido como Nano Banana)
-- `gemini-3-pro-image` (também conhecido como Nano Banana Pro)
-- `gemini-3.1-flash-image` (também conhecido como Nano Banana 2)
-- `gemini-3.1-flash-lite-image` (também conhecido como Nano Banana 2 Lite)
+Modelos atuais:
+- `gemini-2.5-flash-image` (conhecido como Nano Banana)
+- `gemini-3-pro-image` (conhecido como Nano Banana Pro)
+- `gemini-3.1-flash-image` (conhecido como Nano Banana 2)
+- `gemini-3.1-flash-lite-image` (conhecido como Nano Banana 2 Lite)
 
 #### Veo
 
-Um modelo especializado em [geração de vídeo com áudio nativo](https://ai.google.dev/gemini-api/docs/veo). Os vídeos são gerados com base em prompts de texto e imagens de referência para marcar transições (quadro inicial e final). O Veo 3.1 gera clipes de até 8 segundos, mas é possível estendê-los em até 20 vezes em incrementos de 7 segundos.
+Modelo dedicado à [geração de vídeos com áudio nativo](https://ai.google.dev/gemini-api/docs/veo). Gera vídeos a partir de prompts de texto e imagens-chave para guiar transições (quadro inicial e final) e referências de estilo. O Veo 3.1 cria cenas de até 8 segundos, com suporte a extensões de até 20 vezes em blocos adicionais de 7 segundos.
 
 Modelos atuais:
 - `veo-3.1-generate-preview`
@@ -78,124 +78,124 @@ Modelos atuais:
 
 #### Lyria
 
-O [Lyria](https://ai.google.dev/gemini-api/docs/music-generation) é especializado em geração de música, entregando composições instrumentais e vocais. O Lyria aceita tanto texto quanto imagens como entrada, com as imagens servindo de inspiração para a composição. Você também pode fornecer as letras ou deixar o modelo criá-las para você.
+O [Lyria](https://ai.google.dev/gemini-api/docs/music-generation) é especializado na criação musical, gerando tanto composições instrumentais quanto faixas com vocais completos. O modelo aceita texto e imagens como entrada (as imagens servem de inspiração conceitual para a composição). Você pode fornecer sua própria letra ou deixar que o modelo crie uma para você.
 
 Modelos atuais:
 - `lyria-3-pro-preview`
-- `lyria-3-clip-preview` (clipes curtos de 30s)
+- `lyria-3-clip-preview` (vinhetas curtas de até 30s)
 
 #### Gemma
 
-O [Gemma](https://ai.google.dev/gemma/docs) é a família de modelos de pesos abertos (open weights) do Google. Ele é treinado com a mesma tecnologia por trás do Gemini, mas projetado para ser implantado em sua própria infraestrutura. Além dos modelos oferecidos pelo Google, o Gemma conta com uma [forte comunidade](https://deepmind.google/models/gemma/gemmaverse/) que produz versões ajustadas (fine-tuned) para diversos casos de uso.
+A linha [Gemma](https://ai.google.dev/gemma/docs) reúne os modelos de pesos abertos (*open weights*) do Google. Criada com a mesma base tecnológica do Gemini, foi desenvolvida para ser implantada na sua própria infraestrutura. Além das versões oficiais, a linha conta com um [ecossistema comunitário vibrante](https://deepmind.google/models/gemma/gemmaverse/) de modelos com ajustes finos (*fine-tuning*) para os mais diversos nichos.
 
-Alguns modelos Gemma são pequenos o suficiente para rodar em máquinas locais, permitindo casos de uso em que a conectividade de rede é limitada ou inexistente. Os modelos maiores são muito capazes, permitindo casos de uso em que soberania de dados e isolamento de rede são necessários.
+As versões menores do Gemma são leves o bastante para rodar localmente, viabilizando soluções em ambientes com conectividade restrita. Já as variantes maiores oferecem alta precisão, atendendo a requisitos rígidos de soberania de dados e isolamento de rede.
 
-#### Menções notáveis
+#### Outros destaques
 
-- Modelos Live: Enquanto os modelos anteriores lidam com tarefas em lote ou requisição-resposta, o Google também oferece modelos ao vivo para streaming em tempo real. Procure por `-live` no nome (ex: `gemini-3.1-flash-live-preview`).
-- Text-to-speech (Texto para fala): Gera fala a partir de texto com controle de narração usando tags de áudio (`gemini-3.1-flash-tts-preview`).
-- Computer use (Uso de computador): Um modelo que consegue "ver" a tela e automatizar tarefas no navegador (`gemini-2.5-computer-use-preview-10-2025`).
+- **Modelos Live**: Enquanto modelos padrão respondem em lote ou no formato de requisição e resposta, os modelos Live operam com fluxos contínuos de áudio e vídeo em tempo real via streaming (identificados pelo sufixo `-live`, como `gemini-3.1-flash-live-preview`).
+- **Text-to-Speech**: Converte texto em fala com suporte a marcações de áudio para controle expressivo da narração (`gemini-3.1-flash-tts-preview`).
+- **Computer Use**: Modelo com capacidade de interpretar a tela e automatizar tarefas visuais no navegador (`gemini-2.5-computer-use-preview-10-2025`).
 
-Como você pode ver, o Gemini é muito mais do que um único modelo. É uma suíte completa que cobre desde chatbots básicos até criação multimodal e capacidades agentic.
+Como se vê, o Gemini vai muito além de um único modelo: é uma plataforma completa para atender desde chatbots básicos até criação multimodal e fluxos agentivos autônomos.
 
-Para especificações detalhadas de cada modelo, consulte a [documentação oficial dos modelos Gemini](https://ai.google.dev/gemini-api/docs/models).
+Para detalhes técnicos sobre cada variante, consulte a [documentação oficial dos modelos Gemini](https://ai.google.dev/gemini-api/docs/models).
 
-## Capacidades adicionais
+## Recursos avançados
 
-Além da conclusão de texto padrão, os modelos Gemini oferecem recursos adicionais para construir aplicações complexas. Aqui estão alguns dos mais importantes.
+Além da geração tradicional de texto, os modelos Gemini oferecem funcionalidades essenciais para a construção de aplicações robustas. Vamos analisar as principais:
 
-### Raciocínio (Thinking)
+### Raciocínio (*Thinking*)
 
-O Gemini 2.5 e modelos posteriores utilizam um processo de raciocínio interno que melhora significativamente o planejamento em múltiplas etapas, lógica, programação e capacidades matemáticas. Antes de gerar a resposta final, o modelo raciocina internamente gerando "tokens de pensamento" (thinking tokens) para analisar casos de borda e planejar estratégias.
+A partir da versão 2.5, os modelos Gemini contam com um processo de raciocínio interno que aprimora o planejamento em múltiplas etapas, a resolução lógica, a escrita de código e o cálculo matemático. Antes de formular a resposta final, o modelo produz internamente "tokens de pensamento" (*thinking tokens*) para avaliar cenários de borda e estruturar a estratégia de resolução.
 
-O raciocínio é um recurso que pode ser controlado usando os parâmetros de configuração `thinking budget` no 2.5 e `thinking level` no 3.x. Quanto maior o orçamento ou nível de raciocínio, mais tempo e tokens o modelo dedicará durante a fase de raciocínio.
+Esse comportamento pode ser calibrado por meio dos parâmetros de configuração: `thinking budget` no Gemini 2.5 e `thinking level` no Gemini 3.x. Quanto maior o valor estipulado, mais tempo e tokens o modelo dedicará ao raciocínio prévio.
 
-Quando o raciocínio está ativo, o total de tokens de saída faturáveis inclui tanto o texto de saída gerado quanto os tokens de pensamento do modelo. Ajustar o nível de raciocínio com base na complexidade da tarefa é um passo crítico para otimizar serviços em produção.
+Vale ressaltar que os tokens de pensamento são contabilizados no faturamento da requisição. Calibrar o nível de raciocínio conforme a complexidade de cada tarefa é uma etapa fundamental para a eficiência em produção.
 
-### Ferramentas integradas e chamadas de função (Function Calling)
+### Ferramentas integradas e chamadas de função (*Function Calling*)
 
-A chamada de função permite que os modelos Gemini se integrem a ferramentas externas, APIs e bancos de dados. O Gemini suporta tanto ferramentas integradas (como `google_search` e `code_execution`) quanto funções personalizadas definidas no nível da aplicação.
+O mecanismo de *function calling* permite que os modelos Gemini interajam com sistemas externos, bancos de dados e APIs. O Gemini suporta tanto ferramentas prontas e integradas (como `google_search` e `code_execution`) quanto funções customizadas declaradas na sua própria aplicação.
 
-A chamada de função tem três casos de uso principais:
-- **Executar Ações:** Interagir com sistemas externos via APIs, como agendar reuniões, enviar e-mails, criar faturas ou controlar dispositivos de casa inteligente.
-- **Aumentar Conhecimento:** Buscar informações em tempo real ou privadas em bancos de dados externos, microsserviços e bases de conhecimento.
-- **Estender Capacidades:** Realizar cálculos matemáticos precisos, conversão de dados ou geração de gráficos que excedem os limites dos LLMs.
+O uso de ferramentas atende a três necessidades fundamentais:
+- **Executar ações:** Interagir com serviços externos via API (agendar compromissos, enviar e-mails, emitir pedidos ou controlar dispositivos IoT).
+- **Enriquecer o conhecimento:** Consultar informações dinâmicas ou confidenciais em bancos de dados corporativos e sistemas internos.
+- **Estender capacidades:** Realizar cálculos exatos, conversões de formato ou compilação de relatórios estruturados que fogem ao escopo estocástico de um LLM.
 
-#### Como funciona a chamada de função
+#### Como funciona o ciclo de *function calling*
 
-A chamada de função segue um processo de execução em 4 etapas entre sua aplicação e o modelo:
+A comunicação ocorre em 4 passos entre o seu código e o modelo:
 
-1. **Declarar ferramentas**: Defina as declarações de função (nome, descrição clara e JSON Schemas de parâmetros) e passe-as na configuração da requisição.
-2. **Modelo identifica a intenção da ferramenta**: O modelo inspeciona o prompt e as declarações de ferramentas. Se uma ferramenta for necessária, ele retorna uma intenção estruturada contendo o nome da função e os argumentos.
-3. **Executar código da função**: O modelo *não* executa código por conta própria. Sua aplicação recebe a requisição de chamada de função, executa a lógica local correspondente e captura o resultado.
-4. **Retornar resultado da função**: Envie a saída da execução de volta ao modelo como uma etapa de resultado. O modelo usa esses dados para gerar sua resposta final em linguagem natural ou decidir se chamadas adicionais são necessárias.
+1. **Declaração das ferramentas**: Sua aplicação descreve as funções disponíveis (nome, descrição clara e os JSON Schemas dos parâmetros) na configuração da requisição.
+2. **Identificação da intenção**: O modelo avalia o prompt junto às declarações recebidas. Se o uso de uma ferramenta for necessário, ele retorna uma chamada estruturada com o nome da função e os argumentos calculados.
+3. **Execução local**: O modelo *não* executa o código diretamente. Sua aplicação recebe a requisição estruturada, roda a lógica correspondente no seu ambiente e obtém o resultado.
+4. **Envio do resultado**: O retorno da função é enviado de volta ao modelo em uma etapa de resultado. O modelo utiliza essa informação para compor a resposta final em linguagem natural ou para encadear novas chamadas, se necessário.
 
-### Saídas estruturadas (Structured Outputs)
+### Saídas estruturadas (*Structured Outputs*)
 
-Você pode configurar os modelos Gemini para gerar respostas que aderem a um [JSON Schema](https://ai.google.dev/gemini-api/docs/structured-output) fornecido. Isso simplifica a extração de dados estruturados a partir de texto, eliminando parsing frágil ao converter respostas do modelo em estruturas de dados.
+Você pode restringir as respostas dos modelos Gemini para que sigam rigorosamente um [JSON Schema](https://ai.google.dev/gemini-api/docs/structured-output) fornecido. Isso elimina a fragilidade do tratamento de texto livre, garantindo que o retorno seja desserializado diretamente nas estruturas de dados da sua aplicação.
 
-Além de escrever JSON Schemas brutos em payloads REST, os SDKs do Google GenAI permitem que os desenvolvedores definam schemas usando construções nativas da linguagem, como [Pydantic](https://docs.pydantic.dev/) em Python e struct tags em Go.
+Além de trabalhar com JSON Schemas manuais em requisições REST, os SDKs do Google GenAI permitem declarar esquemas diretamente em código nativo, utilizando *struct tags* em Go ou [Pydantic](https://docs.pydantic.dev/) em Python.
 
-## Consumindo modelos programaticamente
+## Consumindo modelos via código
 
-Com o ecossistema de modelos e suas capacidades cobertos, vamos ver como incorporar essas APIs em aplicações Go.
+Após conhecermos os modelos e seus recursos, vejamos como integrar essas APIs em projetos Go.
 
-Assim como existem modelos diferentes para casos de uso distintos, várias superfícies de API estão disponíveis. Vamos começar pela mais básica: Generate Content.
+Assim como há modelos dedicados a diferentes necessidades, existem também diferentes superfícies de API para consumi-los:
 
-### API Generate Content
+### Generate Content API
 
-Esta é a [API generativa](https://ai.google.dev/api/generate-content#method:-models.generatecontent) mais básica. É uma interface sem estado (stateless) que aceita uma única requisição e retorna uma resposta. Para conversas com múltiplos turnos, sua aplicação deve enviar todo o histórico do chat a cada chamada.
+É a [API generativa](https://ai.google.dev/api/generate-content#method:-models.generatecontent) fundamental. Opera de maneira *stateless* (sem estado), recebendo uma requisição isolada e devolvendo a resposta correspondente. Para fluxos de conversa com múltiplos turnos, sua aplicação precisa reenviar o histórico completo a cada chamada.
 
-Isso exige gerenciar ativamente o histórico da conversa para permanecer dentro dos limites da janela de contexto. As aplicações normalmente resumem o histórico assim que ele atinge um limite. Para reduzir os custos de entrada em sessões longas, a API do Gemini suporta [caching implícito](https://ai.google.dev/gemini-api/docs/caching) para todos os modelos desde o Gemini 2.5, bem como [caching explícito](https://ai.google.dev/gemini-api/docs/generate-content/caching) para payloads pesados.
+Essa abordagem exige gerenciar ativamente o histórico para não estourar a janela de contexto, resumindo mensagens antigas quando necessário. Para reduzir custos de entrada em sessões longas, a API do Gemini oferece suporte nativo a [caching implícito](https://ai.google.dev/gemini-api/docs/caching) em todos os modelos desde o Gemini 2.5, além de [caching explícito](https://ai.google.dev/gemini-api/docs/generate-content/caching) para grandes volumes de dados.
 
-Embora a API Generate Content seja boa para gerações simples e sem estado, ela está sendo gradualmente substituída pela nova e mais capaz API de Interações.
+Apesar de muito prática para chamadas simples, a Generate Content API vem sendo complementada pela moderna Interactions API.
 
-### API de Interações (Interactions API)
+### Interactions API
 
-> Nota: Até a data de hoje, a API de Interações ainda não é suportada pelo SDK oficial do Go GenAI. O progresso da implementação está sendo acompanhado nesta [issue do GitHub](https://github.com/googleapis/go-genai/issues/658).
+> **Nota**: No momento, a Interactions API ainda não está disponível no Go GenAI SDK oficial. O andamento da implementação pode ser acompanhado nesta [issue no GitHub](https://github.com/googleapis/go-genai/issues/658).
 
-A [API de Interações](https://ai.google.dev/gemini-api/docs/interactions-overview) é a interface unificada do Google projetada para todas as tarefas, desde chats simples e uso de ferramentas até fluxos de trabalho agentic complexos. Ela pode gerenciar o histórico de conversas no lado do servidor para que sua aplicação não precise fazer isso.
+A [Interactions API](https://ai.google.dev/gemini-api/docs/interactions-overview) é a interface unificada do Google pensada para todos os tipos de interação — desde conversas simples e chamadas de ferramentas até orquestrações agentivas complexas —, gerenciando o histórico de conversas diretamente no servidor.
 
 ### Live API
 
-A [API Live](https://ai.google.dev/gemini-api/docs/live-api) permite conversas em tempo real por voz e vídeo bidirecionais sobre WebSockets. Ela detecta automaticamente quando o usuário fala ou interrompe, fazendo com que as interações por voz pareçam naturais, enquanto suporta ferramentas como busca na web e chamada de função diretamente na sessão ao vivo.
+A [Live API](https://ai.google.dev/gemini-api/docs/live-api) viabiliza conversas bidirecionais de áudio e vídeo com baixa latência via WebSockets. O sistema reconhece automaticamente quando a usuária fala ou interrompe a resposta, criando uma dinâmica natural de conversa com suporte a chamadas de ferramentas durante a própria sessão.
 
 ### Batch API
 
-A [API Batch](https://ai.google.dev/gemini-api/docs/batch-api) permite processar grandes volumes de dados de forma assíncrona pela metade do preço. Os trabalhos são executados em segundo plano durante horários fora de pico (geralmente concluídos em até 24 horas), sendo ideal para cargas de trabalho não urgentes.
+A [Batch API](https://ai.google.dev/gemini-api/docs/batch-api) permite processar grandes volumes de dados em lote de forma assíncrona, com 50% de desconto no custo dos tokens. As tarefas são executadas em segundo plano fora dos horários de pico (geralmente concluídas em até 24 horas), sendo a escolha ideal para processamentos não urgentes.
 
-### API de Agentes Gerenciados (Managed Agents API)
+### Managed Agents API
 
-Os [agentes gerenciados](https://ai.google.dev/gemini-api/docs/agents) oferecem um ambiente de execução totalmente hospedado, onde agentes de IA planejam e executam tarefas de forma autônoma. Uma única chamada de API provisiona um sandbox Linux isolado com runtimes pré-instalados como Python e Node, permitindo que o agente execute código, gerencie arquivos e navegue na web.
+Os [agentes gerenciados](https://ai.google.dev/gemini-api/docs/agents) oferecem um ambiente de execução totalmente hospedado na nuvem, onde agentes autônomos planejam e executam tarefas. Uma única chamada de API provisiona um sandbox Linux isolado com runtimes pré-configurados (como Python e Node), permitindo ao agente rodar código, gerenciar arquivos e pesquisar na web.
 
-O Google oferece dois agentes gerenciados pré-construídos prontos para uso:
-- **Agente Antigravity** (`antigravity-preview-05-2026`): O agente de uso geral padrão alimentado pelo Gemini 3.6 Flash (configurável para Gemini 3.5 Flash ou Flash-Lite) para execução de código, gerenciamento de arquivos e acesso à web.
-- **Agente Deep Research** (`deep-research-preview-04-2026`): Um agente de pesquisa autônomo que consulta dados da web de múltiplas fontes e compila relatórios detalhados em segundo plano.
+O Google disponibiliza dois agentes gerenciados prontos para uso:
+- **Antigravity Agent** (`antigravity-preview-05-2026`): Agente geral padrão baseado no Gemini 3.6 Flash (configurável para Gemini 3.5 Flash ou Flash-Lite) para desenvolvimento de software, manipulação de arquivos e acesso à rede.
+- **Deep Research Agent** (`deep-research-preview-04-2026`): Agente autônomo para pesquisa aprofundada, capaz de sintetizar relatórios detalhados a partir de múltiplas fontes na web.
 
-Você também pode estender o agente Antigravity definindo regras de sistema inline ou montando um arquivo `AGENTS.md`, anexando diretórios de habilidades estruturados (`SKILL.md`), ou montando arquivos locais, buckets do Cloud Storage e repositórios Git diretamente no workspace remoto (`/workspace`).
+Você também pode customizar o agente Antigravity declarando regras inline, anexando um arquivo `AGENTS.md`, vinculando diretórios com skills (`SKILL.md`) ou montando arquivos locais, repositórios Git e buckets do Cloud Storage diretamente no diretório de trabalho remoto (`/workspace`).
 
-## Acesso e faturamento
+## Formas de acesso e faturamento
 
-Ao integrar o Gemini, o Google oferece dois modos principais de acesso e faturamento, dependendo das suas necessidades:
+Ao utilizar os modelos Gemini, o Google disponibiliza duas modalidades principais de autenticação e faturamento:
 
-1. **Google AI Studio (Google AI)**: Roteia requisições através da API do Gemini usando uma chave de API (`GEMINI_API_KEY` ou `GOOGLE_API_KEY`). Ideal para prototipagem, projetos pessoais, aplicações indie e integração rápida de desenvolvedores.
-2. **Gemini Enterprise (antigo Vertex AI)**: Roteia requisições através de endpoints do Google Cloud usando Google Cloud IAM, Application Default Credentials (ADC), chaves de conta de serviço ou tokens de usuário OAuth 2.0. Ideal para cargas de trabalho empresariais em produção que exigem privacidade rigorosa de dados, conformidade de segurança, SLAs, gerenciamento de recursos do GCP e descontos por uso comprometido.
+1. **Google AI Studio (Google AI)**: Utiliza chaves de API simples (`GEMINI_API_KEY` ou `GOOGLE_API_KEY`). Perfeito para prototipagem rápida, projetos pessoais, aplicativos independentes e testes de conceito.
+2. **Gemini Enterprise (antigo Vertex AI)**: Roteia o tráfego pela infraestrutura do Google Cloud utilizando IAM, Application Default Credentials (ADC), contas de serviço ou tokens OAuth 2.0. Indicado para ambientes corporativos que exigem SLAs formais, governança de dados, isolamento de rede e descontos por uso contínuo.
 
 ## Go GenAI SDK
 
-Agora vamos ver como isso funciona em código Go.
+Vejamos agora como colocar tudo isso em prática com código Go.
 
-O SDK oficial para integrar o Gemini em aplicações Go é [`google.golang.org/genai`](https://pkg.go.dev/google.golang.org/genai). 
+O pacote oficial para integração com o Gemini em Go é o [`google.golang.org/genai`](https://pkg.go.dev/google.golang.org/genai).
 
-Às vezes você o verá sendo chamado de SDK "unificado", pois foi projetado para suportar todos os modelos do Google e autenticação tanto no Google AI quanto no Gemini Enterprise. Ele substitui o pacote legado `github.com/google/generative-ai-go`, que foi descontinuado (deprecated).
+Ele é frequentemente chamado de SDK "unificado", pois foi desenvolvido para atender a todos os modelos do ecossistema e suportar autenticação tanto via Google AI quanto pelo Gemini Enterprise. Ele substitui o antigo pacote `github.com/google/generative-ai-go`, que foi descontinuado (*deprecated*).
 
-Instale-o com `go get`:
+Para adicioná-lo ao seu projeto:
 
 ```bash
 go get google.golang.org/genai
 ```
 
-Aqui está um exemplo usando autenticação e faturamento do Gemini Enterprise:
+Aqui está um exemplo completo utilizando autenticação corporativa com o Gemini Enterprise:
 
 ```go
 package main
@@ -256,19 +256,19 @@ func main() {
 }
 ```
 
-Você pode executar este programa usando o seguinte:
+Para executar este código no terminal:
 
 ```sh
-export GOOGLE_CLOUD_PROJECT="seu-id-de-projeto-aqui"
+export GOOGLE_CLOUD_PROJECT="your-project-id-goes-here"
 go run main.go
 ```
 
-Aqui está o resultado:
+Veja o resultado gerado:
 
-![Saída de imagem do gato mago gerada no terminal Go](image.png "O verdadeiro propósito da IA: geração infinita de fotos de gatos")
+![Saída de imagem do gato mago gerada no terminal Go](image.png "O verdadeiro propósito da IA: geração infinita de fotos de gatinhos")
 
-Embora este seja apenas um exemplo simples para mostrar como trabalhar com o SDK, ao longo desta série veremos mais exemplos do Go GenAI SDK e de frameworks de nível mais alto, como [Genkit](https://genkit.dev/) e o [Agent Development Kit (ADK)](https://adk.dev/).
+Este exemplo básico demonstra os primeiros passos com o SDK. Ao longo da nossa série, exploraremos integrações mais sofisticadas tanto com o Go GenAI SDK quanto com frameworks de orquestração de alto nível, como o [Genkit](https://genkit.dev/) e o [Agent Development Kit (ADK)](https://adk.dev/).
 
 ## O que vem a seguir?
 
-Na **Parte 2** da série **Gemini para Desenvolvedores Go**, faremos um mergulho profundo em agentes de programação e como preparar seu ambiente para trabalhar em bases de código Go. Fique ligado!
+Na **Parte 2** da série **Gemini para Desenvolvedores Go**, vamos nos aprofundar nos agentes de programação e em como estruturar seu ambiente para acelerar o desenvolvimento em bases de código Go. Não perca!

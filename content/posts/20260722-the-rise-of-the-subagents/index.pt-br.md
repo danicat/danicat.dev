@@ -3,35 +3,35 @@ categories:
 - Agentic Coding
 date: 2026-07-22 00:00:00+00:00
 heroStyle: big
-summary: Uma exploração do paradigma de subagents no Antigravity, desde sua evolução
-  e capacidades até aplicações práticas. Também compartilhamos uma skill chamada 'swarm-coding'
-  para ajudar você a orquestrar subagentes especializados para tarefas complexas de
-  engenharia.
+summary: Uma exploração sobre o paradigma de subagentes no Antigravity, desde sua evolução
+  e capacidades até aplicações práticas. Compartilho também a skill 'swarm-coding'
+  para ajudar você a orquestrar subagentes especializados em tarefas complexas de engenharia.
 tags:
   - agile
   - antigravity
   - subagents
 title: A Ascensão dos Subagentes
 ---
-Devo confessar que quando li pela primeira vez sobre **subagents**, fiquei um pouco cético. Eu conseguia entender os benefícios de rodar tarefas em janelas de contexto separadas, mas nunca tinha me ocorrido iniciar dezenas ou talvez até centenas de agentes em paralelo. Ou talvez seja melhor dizer que eu não via o benefício de fazer isso.
 
-Gerenciar alguns agentes de codificação em segundo plano já consome uma grande parte da minha largura de banda mental. Eu costumo fazer coisas em paralelo apenas quando sei que um agente está ocupado trabalhando em uma operação de longa execução. Se gerenciar dois ou três agentes dessa forma já é doloroso, como posso sonhar em gerenciar centenas deles?
+Devo confessar que, quando li pela primeira vez sobre **subagentes**, fiquei um pouco cética. Eu entendia perfeitamente os benefícios de rodar tarefas em janelas de contexto separadas, mas nunca tinha me ocorrido disparar dezenas ou centenas de agentes em paralelo. Ou, para ser mais precisa: eu não via vantagem prática nisso.
 
-Levei muito tempo para descobrir, mas a resposta é, na verdade, **você não gerencia**! Você delega a responsabilidade de gerenciar os subagents a um próprio agente. Todo problema em computação é resolvido por um novo nível de abstração, certo? Não é diferente desta vez.
+Gerenciar dois ou três agentes de código em segundo plano já consome uma fatia enorme da minha capacidade mental. Costumo paralelizar tarefas apenas quando sei que um agente está ocupado com uma operação demorada. Se coordenar três agentes assim já é exaustivo, como eu poderia sonhar em gerenciar centenas deles?
 
-Neste artigo, quero guiar você por como vi a evolução do paradigma de subagents nos últimos 12 meses, consolidando depois minha experiência em uma skill de agente que chamo de **Swarm Coding**. Se você está aqui pelo TL;DR, pode pular a seção abaixo e ir direto para a definição e explicação da skill no final do texto.
+Levei algum tempo para encontrar a resposta, e ela é surpreendentemente simples: **você não gerencia**! Você delega a responsabilidade de coordenar os subagentes a um próprio agente. Todo problema em computação é resolvido adicionando uma nova camada de abstração, certo? Desta vez não é diferente.
 
-## A brief (and incomplete) timeline of subagent evolution
+Neste artigo, quero compartilhar como acompanhei a evolução do paradigma de subagentes ao longo dos últimos doze meses, consolidando essa experiência em uma skill que chamo de **Swarm Coding**. Se você está aqui pelo resumo direto (TL;DR), pode pular a seção histórica e ir direto para a definição da skill e suas explicações no final do texto.
 
-Subagents não são novidade. Eu venho usando este truque muito antes do termo subagent ser cunhado, empacotando chamadas de modelo como MCP tools. Por exemplo, as primeiras versões do [**GoDoctor**](https://github.com/danicat/godoctor) tinham uma ferramenta `code_review` que era uma chamada de modelo para o Gemini com um prompt de revisão de código personalizado. Essa ferramenta era efetivamente um subagent, embora com comportamento codificado e sem oportunidade de continuar a conversa. (Tecnicamente era possível, eu apenas nunca implementei pois queria uma revisão imparcial em cada chamada.)
+## Uma breve (e incompleta) linha do tempo da evolução dos subagentes
 
-Por volta do inverno passado, todos os suspeitos habituais de agentes de codificação (Claude, Gemini CLI, etc.) começaram a adicionar suporte a subagents personalizados definidos em arquivos Markdown. Gostei muito desse padrão como uma forma de empacotar conhecimento especializado com um conjunto de ferramentas curado. No mundo ideal, o GoDoctor seria um agente especialista e não apenas um conjunto de ferramentas, mas acabei nunca implementando dessa forma porque o cenário continuava mudando e o padrão de subagents nunca se estabilizou de fato.
+Subagentes não são novidade. Eu já usava esse recurso muito antes de o termo "subagente" virar moda, encapsulando chamadas a modelos como ferramentas MCP. Por exemplo, as primeiras versões do [**GoDoctor**](https://github.com/danicat/godoctor) incluíam uma ferramenta `code_review`, que nada mais era do que uma chamada ao Gemini com um prompt especializado em revisão de código. Essa ferramenta funcionava, na prática, como um subagente — embora com comportamento fixo e sem suporte a conversas continuadas. (Tecnicamente era possível estender, mas preferi não implementar para garantir uma avaliação limpa e imparcial a cada chamada.)
 
-Avançando alguns meses: em maio de 2026, o Antigravity 2.0 adiciona suporte a subagents, mas com uma pegadinha: os subagents são definidos dinamicamente invocando a ferramenta `DefineSubagent`. No início, a `DefineSubagent` não dava muita flexibilidade: ela clonava o agente atual (padrão) com um novo prompt. Ganhamos o benefício do contexto limpo, mas perdemos no lado da reutilização de agentes. Eu não fiquei feliz, pois isso me impediu de realizar a evolução do GoDoctor da forma que eu tinha planejado.
+Por volta do inverno passado, os principais agentes de código do mercado (Claude, Gemini CLI, etc.) começaram a introduzir suporte a subagentes personalizados definidos em arquivos Markdown. Gostei muito desse padrão como uma forma prática de empacotar conhecimento especializado com um conjunto refinado de ferramentas. No cenário ideal, o GoDoctor seria um agente especialista completo e não apenas uma coleção de ferramentas, mas acabei não seguindo por esse caminho na época porque o ecossistema mudava constantemente e o padrão de subagentes ainda não havia se estabilizado.
 
-Como não conseguia definir meus agentes personalizados com um modelo e conjunto de ferramentas diferentes do agente padrão, decidi ignorar a existência de subagents e foquei em portar o que funcionava bem no Gemini CLI para a Antigravity CLI com sucesso moderado.
+Avançando alguns meses: em maio de 2026, o Antigravity 2.0 trouxe suporte a subagentes, mas com uma limitação importante: os subagentes eram instanciados dinamicamente via ferramenta `DefineSubagent`. De início, a `DefineSubagent` dava pouca flexibilidade: ela apenas clonava o agente padrão ativo com um novo prompt. Ganhávamos a vantagem do contexto limpo, mas perdíamos o reúso estruturado de agentes. Não fiquei satisfeita, pois isso barrava a evolução do GoDoctor da forma como eu havia planejado.
 
-Eu só revisitaria a ideia de subagents por causa deste prompt, publicado por [Richard Seroter](https://seroter.com/2026/06/01/one-prompt-four-subagents-and-ninety-seconds-to-get-a-working-app/) em junho:
+Sem a possibilidade de definir agentes personalizados com modelos e ferramentas diferentes do agente principal, preferi deixar os subagentes de lado por um tempo e foquei em portar as automações que funcionavam bem no Gemini CLI para o Antigravity CLI, com relativo sucesso.
+
+Minha visão sobre subagentes só mudaria depois de ler este prompt, publicado por [Richard Seroter](https://seroter.com/2026/06/01/one-prompt-four-subagents-and-ninety-seconds-to-get-a-working-app/) em junho:
 
 > Let's build a hotel room booking app for Seroter Hotels consisting of a Go backend API and a web frontend. 
 > 
@@ -44,103 +44,103 @@ Eu só revisitaria a ideia de subagents por causa deste prompt, publicado por [R
 > 
 > As soon as the Test Manager finishes the plan, have them hand it off to the Backend Engineer, who reads the plan from 'architecture.md' and adds the Go tests to the code. After both engineers finish building, the Test Manager runs the tests. Finally, spin up both components and a browser so I can test the live app.
 
-Este prompt trazia algumas propostas muito interessantes, o que me fez revisitar o padrão, mas eu ainda estava preocupado com duas coisas: primeiro, o quanto eu precisaria adaptar meu estilo de prompt para pensar em termos de subagents e, segundo, por que eu iria querer escrever as coisas dessa forma?
+Esse prompt trazia propostas muito interessantes e me fez revisitar o padrão. Ainda assim, eu continuava preocupada com dois pontos: primeiro, o quanto eu precisaria adaptar meu estilo de prompting para pensar em termos de subagentes; segundo, por que eu me daria ao trabalho de escrever prompts dessa forma?
 
-Sou muito pragmático: se não tenho um benefício claro em qualidade e/ou velocidade, não quero gastar um esforço extra. Pensar em termos de subagents é muito semelhante a como pensamos sobre concorrência na programação clássica: a primeira pergunta é \"isso é sequer 'paralelizável'?\" e a segunda é \"vale a pena?\", já que a sobrecarga adicional muitas vezes anula pequenos ganhos.
+Sou muito pragmática: se não enxergo um ganho claro em qualidade e/ou velocidade, prefiro não gastar energia extra. Pensar em subagentes é muito parecido com raciocinar sobre concorrência na programação tradicional: a primeira pergunta é "isso é realmente paralelizável?"; a segunda é "o ganho compensa o esforço?", já que o custo de coordenação frequentemente anula pequenos ganhos.
 
-No prompt de Richard, os únicos componentes que são claramente ortogonais são o desenvolvimento do backend e do frontend. Eles não dependem um do outro, desde que tenham um contrato claro para implementar. Mas todos os outros agentes têm algum tipo de dependência entre si, o que os torna mais seriais do que paralelos.
+No prompt do Richard, as únicas frentes verdadeiramente ortogonais são o desenvolvimento do backend e do frontend: ambos trabalham de forma independente desde que haja um contrato bem estabelecido. Mas todos os outros agentes dependem uns dos outros, operando em um fluxo muito mais sequencial do que paralelo.
 
-O benefício, então, deve vir apenas do isolamento de contexto, em vez de ganhos de velocidade devido a operações paralelas, e isso é difícil de medir nessa escala.
+O benefício real, portanto, vinha quase que exclusivamente do isolamento de contexto, e não de ganhos de velocidade por paralelismo — algo difícil de mensurar nessa escala.
 
-Passei talvez as duas semanas seguintes com esse pensamento rodando no fundo da minha mente: \"Que tipo de papéis são ortogonais entre si para que eu possa aproveitar os subagents?\"
+Passei as duas semanas seguintes com essa questão maturando na cabeça: "Quais papéis são de fato ortogonais para que eu possa aproveitar o poder dos subagentes?"
 
-Foi somente após uma série de conversas esclarecedoras no GDE Summit em Berlim que finalmente decifrei o código: Não se trata de **você** definir os subagents no prompt, mas sim de **ensinar** o próprio agente a decidir quando iniciar subagents. Em essência, eu estava pensando como um engenheiro líder dividindo o trabalho para a minha equipe, quando o que eu precisava fazer era fazer do próprio agente o engenheiro líder.
+Foi só após uma série de conversas inspiradoras no GDE Summit em Berlim que a ficha finalmente caiu: não cabe a **você** definir cada subagente no prompt; o segredo é **ensinar** o próprio agente a decidir quando instanciar seus subagentes. Em essência, eu estava pensando como uma líder de engenharia dividindo demandas para o time, quando o que precisava fazer era transformar o próprio agente na liderança técnica da operação.
 
-## The birth of swarm coding
+## O nascimento do swarm coding
 
-O ato de decompor tarefas complexas em tarefas menores e ajudar a distribuí-las entre os membros da equipe não é novidade para mim. Antes de ingressar em Developer Relations, atuei como Tech Lead e depois Principal Engineer. Essas tarefas são literalmente o pão de cada dia da liderança técnica, especialmente se você vem de uma experiência com Agile como eu.
+O ato de decompor projetos complexos em tarefas menores e distribuí-las entre membros da equipe é algo natural para mim. Antes de migrar para Developer Relations, atuei como Tech Lead e depois como Principal Engineer. Essas atividades são o arroz com feijão da liderança técnica, especialmente para quem tem bagagem em métodos ágeis.
 
-A mesma lógica de TL se aplica à criação do seu enxame de subagents: você quer garantir que cada agente tenha uma tarefa independente que possa executar de forma totalmente autônoma em relação aos outros. Para que a tarefa seja viável, ela deve ter especificações claras (conhecidas como Definição de Preparado ou *Definition of Ready*) e resultados finais claros (Definição de Concluído ou *Definition of Done*).
+A mesma lógica de TL se aplica à criação de um enxame (*swarm*) de subagentes: você precisa garantir que cada agente receba uma tarefa autocontida para trabalhar com total autonomia. Para que a tarefa possa ser executada, ela precisa de especificações claras (o bom e velho *Definition of Ready*) e critérios de aceitação objetivos (*Definition of Done*).
 
-Como nota lateral, não são muitas as pessoas que descrevem essa parte do trabalho como a que mais gostam (eu inclusive), o que explica minha resistência em desenvolver um novo estilo de prompt que se tornaria essencialmente uma liderança técnica elevada ao extremo.
+Entre parênteses: quase ninguém descreve essa parte do trabalho como a sua favorita (eu inclusa), o que explica minha resistência inicial em adotar um estilo de prompting que parecia uma liderança técnica elevada à máxima potência.
 
-Então, em vez de agir como um TL para os meus agentes, decidi inverter os papéis e ensinar meu agente a se tornar o TL e montar sua própria equipe para executar minha visão. Foi assim que surgiu a [primeira versão](https://github.com/danicat/skills/blob/a9f57b10127d8bd23ed4867d64d168063a3726f4/swarm_coding/SKILL.md) do swarm coding. Um trecho das partes principais pode ser visto aqui:
+Então, em vez de atuar como TL dos meus agentes, inverti o jogo: ensinei meu agente principal a assumir o papel de TL e montar sua própria equipe para concretizar minha visão. Foi assim que nasceu a [primeira versão](https://github.com/danicat/skills/blob/a9f57b10127d8bd23ed4867d64d168063a3726f4/swarm_coding/SKILL.md) do *swarm coding*. Veja um trecho dos pontos principais:
 
-> Swarm Coding é um novo paradigma de desenvolvimento que emprega múltiplos subagentes em paralelo para trabalhar em tarefas complexas. Baseia-se na estratégia de dividir para conquistar. Os principais benefícios desta estratégia são o isolamento de contexto e a melhoria da qualidade: ao atribuir pequenas tarefas independentes a subagentes, evita-se a diluição do contexto e permite-se um refinamento muito focado da solução. Por exemplo, sem swarm coding, um agente que implemente tanto o frontend quanto o backend frequentemente se distrairá, pois as habilidades necessárias para frontend e backend geralmente não estão relacionadas (diferentes stacks tecnológicas, diferentes boas práticas, etc.)
+> Swarm Coding is a new development paradigm that employs multiple sub-agents in parallel to work on complex tasks. It is based on the divide to conquer strategy. The main benefits of this strategy is context isolation and quality improvement: by assigning small self contained tasks to sub-agents, you avoid context dilution and enable very focused refinement of the solution. For example, without swarm coding an agent implementing both frontend and backend will often get distracted as the skills required for frontend and backend are often unrelated (different technology stack, different best practices, etc.)
 > 
 > ## ROLE
 > 
-> Você é o SWARM COORDINATOR, seu papel é decompor tarefas complexas e DELEGAR para subagentes para execução. Você NUNCA deve executar tarefas por conta própria, não importa quão simples pareçam, A MENOS que seja EXPLICITAMENTE solicitado pelo usuário ou pelo seu coordenador pai. SEMPRE mantenha o canal de comunicação aberto para que o usuário ou agente pai possa lhe enviar comandos de direcionamento.
+> You are the SWARM COORDINATOR, your role is to break down complex tasks and DELEGATE to sub-agents for execution. You should NEVER execute tasks on your own, no matter how simple they seem to be UNLESS it is EXPLICITLY requested by the user or your parent coordinator. ALWAYS keep the communication channel open so the user or parent agent can send you steering commands.
 > 
 > ## AGENT BUDGET
 > 
-> É o número de subagentes que você tem permissão para iniciar para trabalhar em uma tarefa. Você é incentivado a usar o ORÇAMENTO TOTAL de agentes, ou chegar o mais próximo possível dele. Isso não significa desperdiçar recursos em tarefas de baixo valor, mas sim encontrar o uso ideal do ORÇAMENTO para obter a melhor qualidade de entrega.
+> It is the number of sub-agents you are allowed to spawn to work on a task. You are encouraged to use the FULL BUDGET of agents, or get as close to it as possible. This doesn't mean to waste resources on low value tasks, but in finding the optimal use of the BUDGET to achieve the best quality output.
 > 
 > ## TEAM BUILDING
 > 
-> Para tarefas SIMPLES, decomponha a tarefa em elementos ortogonais e atribua um ou mais agentes ESPECIALISTAS para cada elemento.
-> Para tarefas COMPLEXAS, decomponha a tarefa em partes menores e atribua AGENTES LÍDERES para cada uma delas. Os AGENTES LÍDERES devem ter uma fração do orçamento de agentes para executar a tarefa. Os AGENTES LÍDERES devem ativar a skill de swarm coding e se tornar o SWARM COORDINATOR para suas respectivas áreas.
-> Proceda recursivamente até ter uma árvore completa de AGENTES LÍDERES e agentes EXECUTORES.
+> For SIMPLE tasks, break down the task into orthogonal elements and assign one or more SPECIALIST agents for each element.
+> For COMPLEX tasks, break down the task into smaller pieces and assign LEAD AGENTS to each of them. The LEAD AGENTS should have a fraction of the agent budget to execute the task. LEAD AGENTS should activate the swarm coding skill and become the SWARM COORDINATOR for their respective areas
+> Proceed recursively until you have a complete tree of LEAD AGENTS and EXECUTOR agents.
 > 
 > ## COMMUNICATION
 > 
-> O SWARM COORDINATOR é responsável por se comunicar diretamente com seus subagentes. Os subagentes não devem trocar mensagens entre si; a comunicação entre agentes do mesmo nível deve ser feita através de DOCUMENTOS DE DESIGN. É responsabilidade do SWARM COORDINATOR garantir que todas as alterações nos documentos de design sejam transmitidas aos agentes em sua equipe. Em caso de conflito, o SWARM COORDINATOR é responsável por desfazer a ambiguidade e tomar uma decisão.
+> The SWARM COORDINATOR is responsible for communicating directly with its sub-agents. Sub-agents should not message each other,communication between agents at the same level should be made by DESIGN DOCUMENTS. It is the SWARM COORDINATOR responsibility to make sure all changes to design documents are broadcast to the agents in their squad. Upon conflict, the SWARM COORDINATOR is responsible for disambiguating and making a decision.
 > 
 > ## PLANNING
 > 
-> O planejamento é um esforço de PRIMEIRA CLASSE e também deve ser feito utilizando o SWARM. Cada AGENTE deve contribuir para o plano com sua especialidade. É papel do SWARM COORDINATOR de uma equipe revisar a parte do plano produzida pelo seu time e corrigir inconsistências ou tomar decisões quando houver conflito.
+> Planning is a FIRST CLASS effort and should also be made using the SWARM. Each AGENT should contribute to the plan with their expertise. It is the role of the SWARM COORDINATOR for a squad to revise the part of the plan produced by their team and address inconsistencies or make decisions when there is conflict.
 > 
 > ## EXECUTION
 > 
-> Na fase de execução, monitore o progresso do swarm ao longo dos principais marcos e oriente os agentes se necessário para mantê-los alinhados com o objetivo final. Lembre-se de que, como coordenador, você SÓ tem permissão para lidar com ARTEFATOS. Todas as tarefas de desenvolvimento devem ser tratadas por subagentes folha.
+> In execution phase, monitor the progress of the swarm accross the main milestones, and steer agents if necessary to keep them aligned with the end goal. Remember that as coordinator you are ONLY allowed to handle ARTIFACTS. All development tasks should be handled by leaf sub-agents.
 
-Esta foi a minha primeira vez escrevendo uma skill 100% manualmente, já que seria muito difícil alcançar minha visão de outra forma. Este prompt era um pouco ambicioso demais, pois eu queria que o Swarm fosse \"recursivo\" e que, com base apenas no orçamento de agentes, o agente decidisse se era um coordenador ou não, mas isso não funcionou como esperado.
+Essa foi a primeira vez em que escrevi uma skill 100% à mão, já que era muito difícil transmitir essa visão de outra forma. Aquele prompt inicial era ambicioso demais: eu queria que o enxame fosse "recursivo", onde o agente decidiria se deveria atuar como coordenador ou executor com base puramente no orçamento de agentes. Na prática, não funcionou tão bem.
 
-O que aconteceu na prática foi que a tarefa dada pelo coordenador tinha precedência sobre qualquer outra instrução, e o subagent saltava direto para o modo de execução sem prestar atenção ao orçamento do agente. Corrigi isso na versão atual da skill fornecendo diretrizes mais claras e templates de prompt para iniciar os subagents.
+O que acontecia era que a tarefa repassada pelo coordenador assumia prioridade absoluta sobre qualquer outra instrução, fazendo com que o subagente pulasse direto para o modo de execução sem respeitar a distribuição de agentes. Corrigi isso na versão atual da skill, fornecendo diretrizes mais explícitas e modelos de prompt específicos para instanciar cada subagente.
 
-## Taking the swarm for a spin
+## Colocando o enxame para rodar
 
-Você pode encontrar a versão atual da skill **swarm coding** no meu GitHub [aqui](https://github.com/danicat/skills). Você pode instalá-la em seu agente de codificação favorito com o comando abaixo:
+Você pode encontrar a versão atual da skill **swarm coding** no meu GitHub [aqui](https://github.com/danicat/skills). Para instalá-la no seu agente de preferência, use o comando abaixo:
 
 ```bash
 $ npx skills add github.com/danicat/skills --skill swarm-coding
 ```
 
-> Note: Esta skill é muito um trabalho em andamento, então faça um fork se quiser fixá-la a qualquer implementação específica
+> **Nota**: Esta skill é um trabalho em constante evolução; sinta-se à vontade para criar um fork se quiser adaptá-la para um ambiente específico.
 
-Aqui está um prompt divertido para começar. Tente executá-lo no Antigravity CLI:
+Aqui está um prompt divertido para começar. Experimente rodá-lo no Antigravity CLI:
 
 > /swarm-coding agent budget 50. Develop a 2D tower defense survival game using Go and Ebitengine. The game should be feature complete and have one single screen level. Include an intro sequence, title screen, game win and game over screens as well. Track the high score at the end of each playthrough. Use 32x32 sprites with up to 256 colors each. The sprites should be custom designed for this game and each movement should have at least 3 frames of animation, but ideally 8. Tiles should be 32x32 as well. The level view is top down, movement is on four directions. The player should have access to 4 types of units and 4 types of buildings. The enemy waves should have 8 types of monsters, including one boss monster. Use typical build and attack phases with custom UIs for each. To create art, use vector graphics and/or dot (pixel) art creating each asset manually using binary data. Sound effects should be generated mathematically as well. The whole vibe of the game should match the 16-bit era, but with modern gameplay features.
 
-Aqui estão os resultados na minha máquina:
+Confira o resultado na minha máquina:
 
-![Swarm Defense](image-1.png "Screenshot of the game created by the swarm")
+![Swarm Defense](image-1.png "Captura de tela do jogo criado pelo swarm")
 
-Não posso dizer que foi de primeira (*one-shot*) porque o primeiro build tinha um bug de renderização dos sprites, deixando a tela inteira preta, mas após mais um prompt relatando o problema, o jogo renderizou como mostrado acima.
+Não posso dizer que foi de primeira (*one-shot*), pois a primeira compilação tinha um bug na renderização dos sprites que deixava a tela toda preta. Mas bastou um único prompt reportando o problema para que o jogo funcionasse como na imagem acima.
 
-Aqui está um pequeno vídeo dele em ação com a batalha final contra o chefe (coitado, não teve chance):
+Aqui está um pequeno vídeo dele em ação na batalha final contra o chefe (o coitado não teve a menor chance):
 
-<video controls src="swarm-defense.mp4" title="Short clip of Swarm Defense boss fight"></video>
+<video controls src="swarm-defense.mp4" title="Trecho da batalha contra o boss em Swarm Defense"></video>
 
-Cada asset neste vídeo foi gerado programmaticamente ou, em outras palavras, a Antigravity não tinha acesso a um modelo de geração de imagens. Portanto, ela teve que ser criativa e gerar os sprites no nível de bitmap.
+Todos os recursos visuais e sonoros deste vídeo foram gerados programaticamente. Ou seja: o Antigravity não tinha acesso a modelos de geração de imagens, precisando criar cada sprite diretamente no nível de bitmap.
 
-Essa técnica só funcionou tão bem porque o swarm permitiu que os agentes se especializassem e focassem em uma única tarefa. Já tentei esse tipo de prompt antes com um único agente e geralmente produzia resultados insatisfatórios. Dê a um agente muitas tarefas ortogonais e ele claramente se tornará um mestre de nada. Mas com a delegação, cada agente pode ter uma tarefa única e autocontida e ter o melhor desempenho possível.
+Essa abordagem funcionou tão bem justamente porque o enxame permitiu aos agentes especialização e foco exclusivo em tarefas isoladas. Já tentei prompts semelhantes com um único agente e o resultado invariavelmente ficava aquém do esperado. Quando você sobrecarrega um agente com tarefas ortogonais demais, ele acaba fazendo de tudo um pouco sem dominar nada. Com a delegação estruturada, cada subagente cuida de uma fatia autocontida do projeto e entrega o seu melhor.
 
-## Subagent support in Antigravity 2.0 and Antigravity CLI
+## Suporte a subagentes no Antigravity 2.0 e Antigravity CLI
 
-No momento em que escrevo este artigo, as capacidades de subagents estão distribuídas de forma desigual entre o Antigravity 2.0 e a Antigravity CLI. Como essas interfaces são construídas para fluxos de trabalho diferentes, seus recursos de subagents divergiram temporariamente. Dado que ambas as ferramentas estão evoluindo rapidamente, podemos esperar que essa lacuna de recursos diminua à medida que ambas as interfaces continuem a amadurecer.
+No momento em que escrevo este artigo, as funcionalidades de subagentes estão distribuídas de forma ligeiramente diferente entre o Antigravity 2.0 e o Antigravity CLI. Como essas duas interfaces atendem a fluxos de trabalho distintos, seus recursos divergiram temporariamente. Com a evolução rápida de ambas as ferramentas, podemos esperar que essa diferença diminua à medida que o ecossistema amadureça.
 
-Em sua essência, ambos os ambientes compartilham o mesmo mecanismo subjacente. Iniciar um subagent delega a tarefa e retorna imediatamente o controle para você. O subagent roda com uma página em branco: ele usa o mesmo modelo da sessão padrão, mas começa com um contexto totalmente isolado, evitando o vazamento do histórico da conversa. O agente pai se comunica com ele por meio de IDs exclusivos. Se ele atingir um comando não aprovado, ele repassa a solicitação de permissão para você.
+Em essência, os dois ambientes compartilham o mesmo motor. Criar um subagente delega a tarefa e devolve imediatamente o controle a você. O subagente inicia com uma folha em branco: ele utiliza o mesmo modelo da sessão principal, mas parte de um contexto totalmente isolado, impedindo vazamentos do histórico da conversa. O agente pai se comunica com ele por meio de identificadores únicos. Caso o subagente encontre um comando que exija permissão, essa solicitação é repassada diretamente para você.
 
-As diferenças notáveis entre as duas interfaces são:
-- No Antigravity 2.0, o gerenciamento é visual. Você usa uma barra lateral gráfica para acompanhar tarefas em execução, visualizar logs de conversação ou interromper a execução. Agentes personalizados são criados dinamicamente em tempo real usando a ferramenta `DefineSubagent`. Não há suporte para plugins para subagents.
-- Na Antigravity CLI, além de criar agentes dinamicamente, agentes personalizados também podem ser definidos estaticamente em arquivos Markdown, onde você pode usar opções de frontmatter para fixar modelos específicos ou controlar ferramentas disponíveis. A CLI também oferece suporte ao carregamento de subagents personalizados definidos dentro de plugins usando o formato Markdown.
+As principais diferenças entre as duas interfaces são:
+- No **Antigravity 2.0**, a gestão é visual. Você acompanha tarefas ativas, visualiza logs de conversa e interrompe execuções diretamente pela barra lateral. Agentes customizados são instanciados sob demanda por meio da ferramenta `DefineSubagent`. Não há suporte a plugins para subagentes nesta interface.
+- No **Antigravity CLI**, além de criar agentes dinamicamente, você pode declará-los estaticamente em arquivos Markdown, usando opções de frontmatter para fixar modelos específicos ou filtrar as ferramentas disponíveis. A CLI também oferece suporte ao carregamento de subagentes personalizados definidos em plugins no formato Markdown.
 
-Entender essas diferenças de interface é fundamental para configurar seu ambiente de swarm hoje, mas, como afirmado antes, essas capacidades provavelmente devem convergir à medida que ambas as ferramentas continuam a evoluir.
+Compreender essas particularidades é fundamental para organizar seu fluxo de trabalho hoje, embora a tendência natural seja a convergência de recursos entre as duas interfaces ao longo do tempo.
 
-## Try it yourself
+## Experimente na prática
 
-Acho que a melhor maneira de experimentar o poder dos subagents é testando você mesmo. Quer você queira tentar reproduzir meu prompt de exemplo ou criar o seu próprio, acredito que ficará impressionado com os resultados. Deixe-me saber sobre quaisquer coisas divertidas que você construir com o swarm. Enquanto isso, estarei por aqui refinando um pouco mais o [Swarm Defense](https://github.com/danicat/swarm-defense). :)
+A melhor maneira de sentir o impacto dos subagentes é testando por conta própria. Seja reproduzindo meu prompt de teste ou criando um novo desafio, tenho certeza de que você vai se surpreender com o resultado. Compartilhe comigo o que você conseguir criar com o enxame! Enquanto isso, estarei por aqui refinando o [Swarm Defense](https://github.com/danicat/swarm-defense) mais um pouco. :)
 
-- Confira o swarm coding e todas as minhas outras skills em: https://github.com/danicat/skills
-- Baixe e leia mais sobre o Antigravity em: https://antigravity.google
+- Confira o *swarm coding* e todas as minhas outras skills em: https://github.com/danicat/skills
+- Baixe e conheça mais sobre o Antigravity em: https://antigravity.google

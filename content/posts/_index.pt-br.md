@@ -1,5 +1,5 @@
 ---
 title: "Posts"
-description: "Mergulhos profundos em engenharia de software, agentes de IA e boas práticas técnicas."
-summary: "Mergulhos profundos em engenharia de software, agentes de IA e boas práticas técnicas."
+description: "Artigos aprofundados sobre engenharia de software, agentes de IA e boas práticas técnicas."
+summary: "Artigos aprofundados sobre engenharia de software, agentes de IA e boas práticas técnicas."
 ---

@@ -2,25 +2,26 @@
 categories:
 - Agentic Coding
 date: '2025-05-21T17:45:07+01:00'
-summary: O novo agente de codificação autônomo que todo desenvolvedor precisa conhecer.
+summary: O novo agente autônomo de programação que todo desenvolvedor precisa conhecer.
 tags:
   - jules
   - vibe-coding
 title: Precisamos falar sobre o Jules!
 ---
 {{< translation-notice >}}
-Olá a todos, vamos falar sobre o Jules! Saído direto do forno do Google I/O, isto é o que o Google chama de um agente de codificação autônomo… mas o que é um agente de codificação autônomo? Pense no [NotebookLM](https://notebooklm.google/), mas para codificação - uma IA especializada para ajudá-lo com tarefas de programação. A principal diferença da abordagem tradicional de “vibe coding” é que com o Jules você pode importar todo o seu projeto como contexto para a IA, então todas as respostas são baseadas no código em que você está realmente trabalhando!
 
-Depois que o projeto é importado, você pode interagir com o Jules enviando “tarefas”, que podem ser qualquer coisa, desde correções de bugs, atualizações de dependência, novos recursos, planejamento, documentação, testes e assim por diante. Assim que recebe uma tarefa, o Jules planejará assincronamente sua execução em etapas e realizará diferentes subtarefas para garantir que o resultado desejado seja alcançado. Por exemplo, garantindo que nenhum teste foi quebrado pela nova alteração.
+Olá, pessoal! Vamos falar sobre o Jules! Recém-saído do forno do Google I/O, este é o que o Google está chamando de agente autônomo de programação... mas o que é exatamente um agente autônomo de programação? Pense no [NotebookLM](https://notebooklm.google/), só que para código — uma IA especializada para te ajudar em tarefas de desenvolvimento. A grande diferença em relação à abordagem tradicional de “vibe coding” é que, com o Jules, você pode importar seu projeto inteiro como contexto para a IA, de modo que todas as respostas ficam ancoradas no código real em que você está trabalhando!
 
-Ele se integra diretamente com o GitHub, então há muito pouco atrito para começar a usá-lo. Ele ainda não substituirá completamente a IDE, mas você pode realizar muitas tarefas diretamente do Jules até o ponto em que ele cria uma branch com todas as alterações solicitadas, pronta para ser transformada em um pull request.
+Assim que o projeto é importado, você passa a interagir com o Jules enviando “tarefas” (tasks), que podem ser qualquer coisa: correções de bugs, atualizações de dependências, novas funcionalidades, planejamento, documentação, testes e muito mais. Ao receber uma tarefa, o Jules planeja sua execução assincronamente em etapas e realiza diferentes subtarefas para garantir o resultado esperado — como verificar se nenhum teste quebrou com a alteração, por exemplo.
 
-A consequência infeliz do anúncio do Jules ontem é que a ferramenta está atualmente sob forte carga, então pode levar um tempo depois que você envia uma tarefa para ver os resultados, mas o Jules fará o trabalho em segundo plano e se você tiver as notificações do navegador ativadas, ele o avisará quando estiver pronta.
+Ele se integra diretamente ao GitHub, o que torna a curva de adesão super suave. Ele ainda não substitui a IDE por completo, mas você consegue realizar várias tarefas direto pela interface do Jules, até o ponto em que ele cria uma branch com todas as alterações solicitadas pronta para virar um pull request.
 
-Diante disso, não consegui fazer grandes experimentos com ele, mas uma das coisas que fiz foi gerar o [README para o projeto do meu blog no Github](https://github.com/danicat/danicat.dev/pull/1) (a fonte desta mesma página que você está lendo agora). Também tentei algumas iterações mais complexas, como ajustar o template do blog. [Ele gerou os arquivos corretos](https://github.com/danicat/danicat.dev/pull/2), mas demorou um pouco para responder às minhas solicitações, então tive que fazer algumas alterações manualmente.
+A consequência (já esperada) do anúncio de ontem é que a ferramenta está enfrentando uma carga pesadíssima no momento. Por isso, pode demorar um pouco para você ver o resultado após enviar uma tarefa. Mesmo assim, o Jules faz todo o trabalho em segundo plano e, se você ativar as notificações do navegador, ele te avisa assim que terminar.
 
-Nada mal para o primeiro dia, eu diria, e há muito potencial a ser desbloqueado nas próximas semanas e meses. O recurso matador é a capacidade de trabalhar em uma base de código completa, em vez daquele fluxo tradicional de fazer uma pergunta ao Gemini (ou ChatGPT), copiar o código-fonte para a IDE, executar, copiar e colar de volta os resultados no LLM e iterar. Claro, ferramentas como Code Assist e CoPilot fornecerão algumas dessas capacidades sem sair da IDE, mas ainda sinto que a IDE não é o ambiente certo para o vibe coding, pois parece mais um hack.
+Por conta dessa fila, ainda não consegui fazer nenhum experimento monumental com ele, mas uma das primeiras coisas que testei foi gerar o [README do repositório deste blog no GitHub](https://github.com/danicat/danicat.dev/pull/1) (o código-fonte desta página em que você está agora). Também arrisquei algumas iterações mais complexas, como ajustar o template do blog. [Ele gerou os arquivos corretos](https://github.com/danicat/danicat.dev/pull/2), mas estava respondendo de forma um pouco lenta às requisições, então acabei fazendo alguns ajustes finos manualmente.
 
-Nesse espírito, talvez o Jules seja a injeção de inspiração que precisávamos para uma nova era de IDEs que desbloqueará o potencial da IA para desenvolvedores em todo o mundo de uma forma mais natural. Pelo menos é o que espero!
+Para um primeiro dia, o resultado foi impressionante, e há um potencial gigantesco a ser explorado nas próximas semanas e meses. O grande diferencial é a capacidade de trabalhar sobre uma base de código inteira, aposentando aquele fluxo cansativo de perguntar algo ao Gemini (ou ChatGPT), copiar o código para a IDE, rodar, copiar os erros de volta para o LLM e iterar. Claro, ferramentas como Code Assist e GitHub Copilot trazem parte desses recursos para dentro da IDE, mas ainda sinto que a IDE tradicional não é o ambiente ideal para o vibe coding — muitas vezes parece um remendo (um hack improvisado).
 
-O Jules está atualmente em beta público e você pode brincar com ele hoje inscrevendo-se em [https://jules.google](https://jules.google).
+Nesse sentido, talvez o Jules seja a dose de inspiração que faltava para uma nova era de ambientes de desenvolvimento que destravará o potencial da IA para pessoas desenvolvedoras do mundo todo de forma muito mais natural. Pelo menos é por isso que estou torcendo!
+
+O Jules está atualmente em beta público e você já pode experimentar se cadastrando em [https://jules.google](https://jules.google).

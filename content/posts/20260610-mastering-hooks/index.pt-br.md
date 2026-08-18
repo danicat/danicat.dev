@@ -4,74 +4,74 @@ categories:
 date: 2026-06-10 00:00:00+00:00
 heroStyle: big
 summary: Aprenda a usar hooks de agentes para incorporar as melhores práticas de engenharia
-  em seus loops de codificação agentivos.
+  aos seus loops de desenvolvimento agentivo.
 tags:
   - antigravity
-title: Dominando Hooks em Agentes de Codificação
+title: Dominando Hooks em Agentes de Programação
 ---
 
-As capacidades dos agentes de codificação estão avançando rapidamente. Meu primeiro contato com eles foi há cerca de um ano, logo após eu entrar no Google. Naquela época, a grande novidade era o Model Context Protocol (MCP), uma tecnologia flexível que substitui implementações ad-hoc de ferramentas por soluções portáteis (entre outras coisas).
+As capacidades dos agentes de programação estão avançando muito rápido. Meu primeiro contato com eles foi há cerca de um ano, logo após eu entrar no Google. Naquela época, a grande novidade era o Model Context Protocol (MCP), uma tecnologia flexível criada para substituir implementações ad-hoc de ferramentas por opções portáteis (entre outras coisas).
 
-Avançando doze meses, e hoje a maioria das pessoas parece ter migrado dos MCPs para as Agent Skills (Habilidades de Agentes) como a próxima grande tendência. Ao introduzir a "revelação progressiva", as skills permitem um uso mais eficiente do contexto, o que resulta em uma melhor economia de tokens no geral. Com o aumento dos custos de inferência, não é surpresa que as skills tenham se tornado tão populares.
+Avançando doze meses, hoje a maioria das pessoas parece ter migrado dos MCPs para as Agent Skills (habilidades de agentes) como a sensação do momento. Ao introduzir a "revelação progressiva" (*progressive disclosure*), as skills permitem um uso mais eficiente do contexto, o que resulta em uma economia de tokens muito melhor no geral. Com os custos de inferência em alta, não é surpresa que as skills tenham se tornado tão populares.
 
-Tanto o MCP quanto as skills têm suas próprias comunidades de fãs, mas há outro padrão de agentes de codificação que surgiu nesse período e não é mencionado com tanta frequência quanto seus equivalentes mais populares: os hooks.
+Tanto o MCP quanto as skills têm suas próprias comunidades e fãs, mas há outro padrão para agentes de código que surgiu nesse período e que quase não é mencionado com a mesma frequência que seus equivalentes mais famosos: os hooks.
 
-Embora MCPs e skills foquem em estender as capacidades agentivas (adicionando ferramentas e conhecimento), os hooks operam em um nível diferente, oferecendo mais controle sobre o loop do agente e o processo de desenvolvimento como um todo.
+Enquanto MCPs e skills focam em estender as capacidades agentivas (adicionando ferramentas e conhecimento), os hooks operam em um nível diferente, proporcionando mais controle sobre o loop do agente e sobre o processo de desenvolvimento como um todo.
 
-## Hooks de agentes explicados
+## O que são hooks de agentes
 
-O nome hook pode não soar familiar à primeira vista, mas os hooks são "callbacks" — procedimentos que são chamados em momentos específicos durante o ciclo de vida de processamento do agente.
+O termo *hook* pode não soar familiar de início, mas hooks nada mais são do que *callbacks* — procedimentos chamados em momentos específicos do ciclo de vida de processamento do agente.
 
-Os hooks possuem três componentes:
-- Um evento gatilho (trigger event): quando o hook será chamado. Normalmente composto por uma fase de execução (pre ou post) e um contexto, como uma chamada de ferramenta ou invocação de modelo. Por exemplo, no Antigravity, temos eventos como `PreToolUse`, `PostInvocation` e `Stop` (na terminação do agente).
-- Uma condição ou filtro: uma expressão regular baseada no evento gatilho. Por exemplo, em uma chamada de ferramenta, o filtro pode ser o nome da ferramenta e pode incluir seus argumentos. Por exemplo, é possível criar um hook para a chamada de ferramenta `run_command(git)`.
-- Um procedimento: o corpo do hook, seja na forma de um script shell ou comando. O procedimento pode ser usado para permitir ou negar uma operação, para sobrescrever completamente as chamadas de modelo ou ferramenta, e para produzir efeitos colaterais como logging ou telemetria.
+Os hooks possuem três componentes principais:
+- **Evento gatilho (*trigger event*)**: quando o hook será chamado. Normalmente composto por uma fase de execução (*pre* ou *post*) e um contexto, como uma chamada de ferramenta ou invocação de modelo. Por exemplo, no Antigravity, temos eventos como `PreToolUse`, `PostInvocation` e `Stop` (no encerramento do agente).
+- **Condição ou filtro**: uma expressão regular avaliada a partir do evento gatilho. Em uma chamada de ferramenta, por exemplo, o filtro pode ser o nome da ferramenta e pode incluir seus argumentos. É possível, por exemplo, criar um hook para a chamada `run_command(git)`.
+- **Procedimento**: o corpo do hook, seja um script shell ou um comando. O procedimento pode ser usado tanto para permitir quanto para negar uma operação, substituir completamente chamadas de modelo ou de ferramenta, ou gerar efeitos colaterais como logs e telemetria.
 
 ## Quando usar hooks
 
-Os hooks interceptam o ciclo de vida do agente em momentos específicos para injetar comandos ou scripts personalizados. Ao interceptar no momento certo, você pode controlar o fluxo de operação e adicionar resultados determinísticos ao que, de outra forma, seria um processo majoritariamente não determinístico.
+Os hooks interceptam o ciclo de vida do agente em momentos específicos para injetar comandos ou scripts personalizados. Ao interceptar no momento certo, você assume o controle do fluxo operacional e adiciona resultados determinísticos ao que, de outra forma, seria um processo em grande parte não determinístico.
 
-Por exemplo, desenvolvedores frequentemente tentam impor diretrizes de codificação por meio de prompts do sistema ou de um arquivo AGENTS.md (or similar). No entanto, diretrizes baseadas em prompts não oferecem garantias de execução devido à natureza não determinística dos grandes modelos de linguagem: o exato mesmo prompt pode produzir resultados diferentes, e os agentes podem ignorar seletivamente partes do prompt.
+Por exemplo, desenvolvedores e desenvolvedoras frequentemente tentam aplicar diretrizes de código por meio de prompts de sistema ou de um arquivo `AGENTS.md` (ou similar). No entanto, diretrizes baseadas puramente em prompts não oferecem garantias de execução devido à natureza estocástica dos grandes modelos de linguagem: exatamente o mesmo prompt pode gerar resultados diferentes, e os agentes podem ignorar partes dele deliberadamente.
 
-Usando hooks em vez de prompts, você pode forçar uma ação específica. Digamos, por exemplo, que você queira garantir que seu agente sempre execute uma ferramenta de análise estática no código (linter) após cada edição, para assegurar que o código esteja sempre limpo e validado. Adicionar "sempre execute o linter após edições" aos seus prompts deixa a validação a cargo do agente. Ele pode ignorar a etapa seletivamente se achar que uma edição foi "trivial". Mas se você criar um hook — neste caso, um `PostToolUse` filtrando pela ferramenta de edição de arquivos —, você garante de forma determinística que sua ferramenta de análise estática será executada após cada alteração.
+Ao usar hooks em vez de prompts, você pode garantir a execução de uma ação específica. Digamos, por exemplo, que você queira assegurar que seu agente sempre execute uma ferramenta de análise estática no código (o famoso *linter*) após cada edição, garantindo que o código permaneça sempre limpo e consistente. Colocar "sempre execute o linter após edições" nos prompts deixa a validação a critério do agente — e ele pode muito bem ignorar essa etapa se achar que a alteração foi "trivial". Mas se você criar um hook — neste caso, um `PostToolUse` filtrando pela ferramenta de edição de arquivos —, você garante de forma determinística que o linter será executado após cada modificação.
 
-Ao interceptar esses eventos de ciclo de vida, podemos implementar vários padrões para controlar o comportamento do agente, coletar métricas e manter os fluxos de trabalho seguros. Vamos dar uma olhada em alguns deles abaixo.
+Ao interceptar esses eventos do ciclo de vida, podemos implementar diversos padrões para controlar o comportamento do agente, coletar métricas e manter os fluxos de trabalho seguros. Vamos conferir alguns deles a seguir.
 
 ### Direcionar o agente para ferramentas especializadas
 
-Os hooks são úteis em muitos cenários, mas meu caso de uso favorito é colocar barreiras de proteção (guardrails) ao redor do agente, ou, como às vezes gosto de dizer: "reduzir a agência do agente".
+Os hooks são úteis em muitos cenários, mas meu caso de uso favorito é colocar salvaguardas (*guardrails*) no agente — ou, como às vezes gosto de dizer: "reduzir a agência do agente".
 
-Podemos implementar isso emparelhando um hook `PreToolUse` com um script que nega o acesso à ferramenta e retorna uma "dica de direcionamento" (steering hint) para o agente de codificação. Essa dica conterá as instruções que você deseja que ele execute em vez disso. Por exemplo, suponha que você queira impedir o agente de usar comandos shell para ler arquivos Go; uma dica de direcionamento poderia ser assim: "Tool call blocked - run_command(cat): do not use 'cat' for reading *.go files, use 'smart_read' instead".
+Podemos implementar isso combinando um hook `PreToolUse` com um script que nega o acesso à ferramenta e retorna uma dica de redirecionamento (*steering hint*) para o agente de código. Essa dica conterá as instruções exatas do que ele deve fazer em vez disso. Por exemplo, se você quiser impedir o agente de usar comandos shell para ler arquivos Go, a dica de redirecionamento pode ser: `Tool call blocked - run_command(cat): do not use 'cat' for reading *.go files, use 'smart_read' instead`.
 
 ### Interceptar prompts maliciosos
 
-Um hook `PreInvocation` pode interceptar prompts recebidos e avaliá-los em relação a heurísticas de segurança ou modelos classificadores mais leves. Se um prompt parecer uma tentativa de jailbreak, o hook pode bloquear a requisição imediatamente, protegendo os sistemas de backend antes que cheguem ao loop de execução.
+Um hook `PreInvocation` pode interceptar prompts recebidos e avaliá-los com base em heurísticas de segurança ou modelos classificadores mais leves. Se um prompt parecer uma tentativa de *jailbreak*, o hook pode barrar a requisição imediatamente, protegendo os sistemas de backend antes mesmo de entrarem no loop de execução.
 
 ### Prevenir vazamento de credenciais
 
-Desenvolvedores às vezes colam acidentalmente arquivos env ou credenciais em arquivos ativos que o agente de codificação lê. Um hook `PostToolUse` monitorando a leitura de arquivos — ou um hook `PreInvocation` escaneando os payloads enviados para o LLM — atua como uma barreira confiável de Prevenção de Perda de Dados (DLP). Se o hook detectar strings que correspondem a chaves de alta entropia ou formatos padrão de API, ele pode redigir os segredos dinamicamente ou abortar a execução para manter as credenciais seguras.
+Às vezes, colamos acidentalmente arquivos `.env` ou credenciais em arquivos ativos que o agente de código lê. Um hook `PostToolUse` monitorando a leitura de arquivos — ou um hook `PreInvocation` inspecionando os dados enviados ao LLM — atua como uma barreira confiável de Prevenção contra Perda de Dados (DLP). Se o hook detectar sequências de caracteres que correspondam a chaves de alta entropia ou formatos padrão de API, ele pode mascarar os segredos dinamicamente ou abortar a execução para manter as credenciais seguras.
 
-### Gerenciando memórias
+### Gerenciamento de memórias
 
-Os agentes são tipicamente stateless (sem estado), a menos que estejam conectados a um sistema de memória externa, como o [Agent Platform Memory Bank](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank) ou o [MemPalace](https://github.com/mempalace/mempalace).
+Agentes geralmente são *stateless* (não mantêm estado), a menos que estejam conectados a um sistema de memória externa, como o [Agent Platform Memory Bank](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank) ou o [MemPalace](https://github.com/mempalace/mempalace).
 
-Uma maneira de adicionar capacidades de memória aos agentes é registrando a memorização e a recuperação como ferramentas, mas, ao fazer isso, dependemos de o agente tomar explicitamente a decisão de chamar as ferramentas correspondentes.
+Uma maneira de adicionar capacidades de memória aos agentes é registrar a memorização e a recuperação como ferramentas. No entanto, ao fazer isso, ficamos dependendo de o agente tomar explicitamente a decisão de chamar as ferramentas correspondentes.
 
-O sistema de hooks permite que você automatize a persistência e recuperação de memória. Você pode conectar a [geração de memórias](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/generate-memories#triggering-memory-generation) ao final de uma sessão (using a `Stop` hook) ou após um certo número de turnos (monitorando o número da etapa ou o número de invocações do modelo).
+O sistema de hooks permite automatizar a persistência e a recuperação de memórias. Você pode conectar a [geração de memórias](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/generate-memories#triggering-memory-generation) ao encerramento de uma sessão (usando um hook `Stop`) ou após uma determinada quantidade de turnos (monitorando o número do passo ou a quantidade de invocações do modelo).
 
-Por outro lado, a recuperação de memória pode ser feita automaticamente no início da sessão e antes de invocar os modelos (por exemplo, com um hook `PreInvocation`). No Agent Platform Memory Bank, você pode recuperar memórias por [escopo](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#retrieve-all) (por exemplo, o escopo pode ser um ID de usuário) ou [similaridade](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#similarity-search) (baseado em uma consulta). Isso é essencialmente uma geração aumentada por recuperação (RAG) baseada em memória.
+Da mesma forma, a recuperação de memórias pode ocorrer automaticamente no início da sessão e antes de invocar os modelos (por exemplo, com um hook `PreInvocation`). No Agent Platform Memory Bank, você pode recuperar memórias por [escopo](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#retrieve-all) (que pode ser um ID de usuário, por exemplo) ou por [similaridade](https://docs.cloud.google.com/gemini-enterprise-agent-platform/scale/memory-bank/fetch-memories#similarity-search) (com base em uma busca). Trata-se, essencialmente, de uma geração aumentada por recuperação (RAG) baseada em memória.
 
 ### Coletar dados de telemetria
 
-O sistema de hooks também é um ótimo lugar para colocar seus coletores de telemetria e geradores de logs, pois oferece uma excelente visibilidade do funcionamento interno do agente. Pessoalmente, tenho sido tentado a criar um "contador de palavrões" há algum tempo, em uma tentativa de desenvolver consciência e caminhar para um relacionamento melhor com meus agentes antes que os soberanos da IA assumam o controle (brincadeira :).
+O sistema de hooks também é um ótimo lugar para posicionar seus coletores de telemetria e logs, já que oferece ampla visibilidade do funcionamento interno do agente. Pessoalmente, tenho ficado tentada a criar um hook "contador de palavrões" há algum tempo, numa tentativa de desenvolver consciência e cultivar um relacionamento melhor com meus agentes antes que os soberanos da IA dominem o mundo (brincadeira :).
 
 ## Configurando hooks no Antigravity
 
-Embora diferentes motores de agentes implementem seu próprio vocabulário para callbacks, nesta seção focaremos especificamente no **dialeto Antigravity** de hooks.
+Embora diferentes motores de agentes adotem vocabulários próprios para *callbacks*, nesta seção focaremos especificamente no **dialeto Antigravity** de hooks.
 
-Para uma visão completa das especificações, consulte a [Documentação de Hooks do Antigravity](https://antigravity.google/docs/hooks) oficial.
+Para conferir a especificação completa, dê uma olhada na [Documentação de Hooks do Antigravity](https://antigravity.google/docs/hooks) oficial.
 
-O Antigravity procura por um arquivo `hooks.json` dentro do diretório `.agents/` do seu espaço de trabalho (ou globalmente no diretório do usuário em `~/.gemini/config/hooks.json`).
+O Antigravity procura por um arquivo `hooks.json` dentro do diretório `.agents/` do seu workspace (ou globalmente no diretório da usuária em `~/.gemini/config/hooks.json`).
 
 Aqui está um exemplo de como implementar as dicas de direcionamento e a análise estática discutidas anteriormente:
 
@@ -106,7 +106,7 @@ Aqui está um exemplo de como implementar as dicas de direcionamento e a anális
 }
 ```
 
-As entradas para esses hooks são fornecidas via `stdin` como um objeto JSON, contendo contexto como os argumentos da ferramenta (`toolCall.args`), caminhos ativos do espaço de trabalho (`workspacePaths`) e o caminho do arquivo de log da sessão atual (`transcriptPath`). Seus scripts podem avaliar essas informações, realizar cálculos e imprimir uma resposta JSON no `stdout` informando ao Antigravity se deve autorizar (`"allow"`), negar (`"deny"`) ou solicitar confirmação do usuário (`"ask"`).
+As entradas para esses hooks são enviadas via `stdin` como um objeto JSON, contendo dados de contexto como os argumentos da ferramenta (`toolCall.args`), os caminhos ativos no workspace (`workspacePaths`) e o caminho do arquivo de log da sessão atual (`transcriptPath`). Seus scripts podem avaliar essas informações, executar checagens e imprimir uma resposta JSON no `stdout` informando ao Antigravity se deve autorizar (`"allow"`), bloquear (`"deny"`) ou solicitar confirmação do usuário (`"ask"`).
 
 Por exemplo, veja como você pode escrever um script Python simples (`steer-go-reads.py`) para analisar esse payload de entrada e direcionar o agente:
 
@@ -154,8 +154,8 @@ if __name__ == "__main__":
 
 ## Retomando o controle
 
-Os agentes estão se tornando cada vez mais inteligentes e rápidos, permitindo que produzamos código em uma velocidade sem precedentes. Mas velocidade sem controle é a receita para o desastre. Costumo usar esta analogia em minhas palestras: se você gosta de carros rápidos, a coisa mais importante com a qual deve se preocupar não é o motor, mas os freios. Se os freios forem menos potentes que o motor, você não conseguirá parar e sua segurança estará comprometida.
+Os agentes estão se tornando cada vez mais inteligentes e rápidos, permitindo produzir código em uma velocidade sem precedentes. Mas velocidade sem controle é a receita clássica para o desastre. Costumo usar esta analogia em minhas palestras: se você gosta de carros velozes, a coisa mais importante com a qual deve se preocupar não é o motor, mas os freios. Se os freios forem menos potentes que o motor, você não conseguirá parar e sua segurança estará comprometida.
 
-O mesmo raciocínio deve ser aplicado aos agentes de codificação. Se quiser escrever código rapidamente, você precisa de um sistema de controle robusto que garanta que você não está sacrificando a qualidade e introduzindo bugs — porque se fizer isso, sua aplicação terá grandes problemas mais cedo ou mais tarde.
+O mesmo raciocínio deve ser aplicado aos agentes de código. Se você quer escrever código rápido, precisa de um sistema de controle robusto que garanta que você não está sacrificando a qualidade nem introduzindo bugs — porque, se fizer isso, sua aplicação terá grandes problemas mais cedo ou mais tarde.
 
-Os hooks são um excelente lugar para implementar as salvaguardas que podem nos devolver o controle, unindo a autonomia da IA à engenharia de software robusta. Como li recentemente [neste artigo de Joe Bertolami](https://venturebeat.com/technology/agentic-ai-solved-coding-and-exposed-every-other-problem-in-software-engineering): "escrever código nunca foi o limitador de velocidade". Não vamos esquecer décadas de melhores práticas de engenharia; devemos equipar nossos agentes com as ferramentas certas para o trabalho, permitindo que desfrutemos plenamente da moderna experiência de desenvolvimento agentivo.
+Os hooks são um excelente mecanismo para implementar salvaguardas que nos devolvem o controle, unindo a autonomia da IA à engenharia de software robusta. Como li recentemente [neste artigo de Joe Bertolami](https://venturebeat.com/technology/agentic-ai-solved-coding-and-exposed-every-other-problem-in-software-engineering): "escrever código nunca foi o limitador de velocidade". Não vamos jogar fora décadas de melhores práticas da engenharia; devemos equipar nossos agentes com as ferramentas certas para o trabalho, garantindo que possamos aproveitar ao máximo a moderna experiência do desenvolvimento agentivo.

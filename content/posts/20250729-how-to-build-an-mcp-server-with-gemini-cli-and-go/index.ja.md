@@ -15,6 +15,10 @@ title: GoDoctorの構築：Gemini CLIとGoでMCPサーバーを作成する
 ---
 {{< translation-notice >}}
 
+{{< alert "circle-info" >}}
+**注記:** この記事は Gemini CLI を対象に書かれたものですが、Gemini CLI は非推奨となり **Google Antigravity 2.0** へと移行しました。新しい Antigravity CLI（`agy`）、SDK、および最新エコシステムの詳細については、[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
+{{< /alert >}}
+
 ### はじめに
 
 多くの皆さんと同様に、私もAI支援開発に深く没頭してきました。その道のりは、しばしば「すごい」という瞬間とイライラする障害のジェットコースターです。これは、そのような旅の物語の一つです。あるものを構築しようとして始まり、イライラする問題で完全に脇道に逸れ、最終的には私のAI支援ワークフローを根本的に改善するツールを手に入れることになった物語です。

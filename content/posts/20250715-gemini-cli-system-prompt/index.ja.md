@@ -12,6 +12,10 @@ title: プロアクティブさは有害か？コーディングスタイルに�
 ---
 {{< translation-notice >}}
 
+{{< alert "circle-info" >}}
+**注記:** この記事は Gemini CLI を対象に書かれたものですが、Gemini CLI は非推奨となり **Google Antigravity 2.0** へと移行しました。新しい Antigravity CLI（`agy`）、SDK、および最新エコシステムの詳細については、[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
+{{< /alert >}}
+
 ## はじめに
 
 多くの皆さんは、今では[Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b432031389&utm_medium=external&utm_source=blog)に精通しているはずですが、そうでない場合は、公式の[リリースブログ](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/)で簡単な概要を確認してください。

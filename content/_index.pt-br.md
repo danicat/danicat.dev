@@ -1,8 +1,8 @@
 ---
 title: "danicat.dev"
-description: "Um blog para os amantes de tecnologia, gatos e café =^.^="
-summary: "Um blog para os amantes de tecnologia, gatos e café =^.^="
+description: "Um blog para quem ama tecnologia, gatos e café =^.^="
+summary: "Um blog para quem ama tecnologia, gatos e café =^.^="
 ---
-Bem-vindo(a)! Sou Developer Relations Engineer no Google, onde foco em Go, Dados e no empolgante mundo dos Agentes de IA. Este blog é o meu espaço para compartilhar o que estou aprendendo, desde boas práticas em engenharia de back-end até experimentos com "vibe coding."
+Boas-vindas! Sou a Daniela, Developer Relations Engineer no Google. Meu foco é na Google Cloud Platform (GCP) e no incrível universo da IA generativa. Neste blog, compartilho minhas experiências desenvolvendo agentes, programando com modelos de IA e fazendo deploy de projetos na nuvem.
 
-**Aviso: as opiniões escritas aqui são minhas e não representam necessariamente as opiniões do meu empregador.**
+**Aviso: As opiniões expressas aqui são minhas e não representam necessariamente as do meu empregador.**

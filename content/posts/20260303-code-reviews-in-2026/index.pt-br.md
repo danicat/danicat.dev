@@ -9,88 +9,88 @@ summary: Um guia prático para code reviews modernos. Aprenda onde investir seu 
 tags:
   - code-review
   - vibe-coding
-title: Como Fazer Code Reviews na Era dos Agentes
+title: Como Fazer Code Reviews na Era Agêntica
 ---
 
-Em 2025 vimos a ascensão do agentic coding (aparentemente o termo "vibe coding" está obsoleto). Entre assistentes de IA e workflows agentic, as features estão voando das prateleiras a um ritmo que nunca vimos antes. Não é incomum que as empresas se gabem de quantos pontos percentuais de sua codebase são agora escritos inteiramente por IA.
+Em 2025, vimos a ascensão do desenvolvimento agêntico (aparentemente o termo "vibe coding" já ficou obsoleto). Entre assistentes de IA e fluxos de trabalho agênticos, funcionalidades estão saindo do forno em um ritmo nunca antes visto. Não é raro ver empresas se gabando da porcentagem de sua base de código escrita inteiramente por IA.
 
-Se isso é uma coisa boa ou ruim ainda vamos ver (eu, por exemplo, acho que é uma coisa boa), mas esse ganho na velocidade de escrita não vem sem consequências: revisar a enorme quantidade de código produzido é exaustivo, e os code reviews estão rapidamente se tornando o gargalo. Alguns times / projetos open source até adotaram a opção nuclear de não aceitar PRs gerados por IA de forma alguma.
+Se isso é bom ou ruim, o tempo dirá (eu, particularmente, acho ótimo), mas esse ganho na velocidade de escrita traz consequências: revisar o volume absurdo de código produzido é exaustivo, e os code reviews estão rapidamente se tornando o grande gargalo. Algumas equipes e projetos open source chegaram a adotar a opção radical de recusar sumariamente pull requests gerados por IA.
 
-Embora banir a IA possa dar um respiro às pessoas, não acho que seja uma boa opção a longo prazo. "A resistência é inútil", como diria minha espécie fictícia favorita. Para sobreviver a este novo nível de produtividade temos que parar de fazer o trabalho que as máquinas podem fazer melhor. Combater IA com IA. Mas não apenas IA, um bom conjunto de ferramentas determinísticas da velha escola também pode fazer maravilhas: se um linter pode detectar um problema, eu não deveria estar olhando para isso. Se um formatter pode consertar automaticamente, eu realmente não me importo com isso.
+Embora banir a IA possa dar um fôlego temporário às pessoas, não acho que seja uma boa solução a longo prazo. "A resistência é inútil", como diria minha espécie de ficção favorita. Para sobreviver a esse novo patamar de produtividade, precisamos parar de fazer o trabalho que as máquinas fazem melhor. Combata IA com IA. Mas não apenas com IA: um bom conjunto de ferramentas determinísticas tradicionais também faz maravilhas. Se um linter é capaz de pegar um problema, eu não deveria perder tempo olhando para isso. Se um formatador corrige automaticamente, não tenho por que me preocupar.
 
-Minha opinião "impopular": eu realmente não me importo se um humano ou um agente escreveu o código. Em open source, as contribuições são zero-trust. Se o código foi escrito por um engenheiro sênior da FAANG ou por um estudante do ensino médio no Sri Lanka, realmente não deveria importar. Então, por que deveríamos nos importar se foi escrito por IA?
+Minha opinião "impopular": não me importo se o código foi escrito por um humano ou por um agente. No mundo open source, contribuições são tratadas com confiança zero (*zero-trust*). Se o código foi escrito por uma pessoa engenheira sênior de Big Tech ou por uma estudante de ensino médio no Sri Lanka, não deveria fazer diferença. Então por que deveríamos nos importar se foi gerado por IA?
 
-Na teoria, PRs gerados por humanos seriam menores, mas depois de uns 20 anos trabalhando nesta indústria eu já tive a minha cota de mega-PRs, então posso dizer com confiança, por estar tão acostumada com isso, que lidar com PRs gigantes e/ou desleixados não é um problema novo.
+Em teoria, PRs gerados por humanos seriam menores, mas depois de quase 20 anos nesta indústria, já vi minha cota de mega-PRs — então posso afirmar com tranquilidade que lidar com PRs gigantescos e/ou desleixados não é um problema novo.
 
-Eu avalio o código pelo seu valor nominal. Ele funciona? É seguro? Ele corrige um problema conhecido? Está alinhado com o nosso roadmap? Ele atende aos nossos padrões?
+Eu avalio o código pelo seu valor real. Ele funciona? É seguro? Resolve um problema conhecido? Está alinhado ao nosso roadmap? Cumpre os nossos padrões?
 
-É por isso que no artigo de hoje eu gostaria de falar um pouco sobre como estou focada em abordar os code reviews, não apenas ao lidar com contribuições externas, mas também ao lidar com o meu próprio código gerado por IA, pois, de fato, codar com uma IA significa revisar o código da IA o tempo todo.
+É por isso que, no artigo de hoje, quero falar um pouco sobre como venho abordando code reviews — não apenas ao lidar com contribuições externas, mas também ao avaliar meu próprio código gerado por IA. Afinal, codificar com IA significa, na prática, fazer code review da IA o tempo todo.
 
 ## Com o que eu realmente me importo
 
-Quando eu reviso código hoje em dia, estou me tornando cada vez mais de alto nível. De certa forma, quanto menos código eu escrevo manualmente, menos eu me importo com os aspectos individuais do código. Eu sempre disse, em cada time em que assumi um papel de liderança em uma capacidade ou outra: código é descartável. Isso nunca foi tão verdadeiro quanto hoje. Repito: código é descartável. O que não é descartável é o conhecimento do sistema que você adquiriu ao desenvolver certo código. Esse conhecimento é o que geralmente se traduz bem de uma implementação para outra ou, por exemplo, o que fica quando migramos da v1 para a v2 da nossa API.
+Quando reviso código hoje em dia, meu olhar é cada vez mais de alto nível. De certa forma, quanto menos código escrevo manualmente, menos me apego aos detalhes microscópicos da implementação. Sempre disse, em todas as equipes em que atuei em papéis de liderança técnica: código é descartável. Isso nunca foi tão verdadeiro quanto hoje. Repito: código é descartável. O que não é descartável é o conhecimento do sistema que você adquire ao desenvolvê-lo. Esse conhecimento é o que realmente se transfere de uma implementação para outra — ou o que permanece, por exemplo, ao migrar da v1 para a v2 da sua API.
 
-Escrever algo pela segunda vez é mais fácil porque você já passou pelas dores do crescimento de descobrir um monte de coisas e reduzir muita ambiguidade. Você aprendeu o que funcionou bem e o que não funcionou. O que foi overengineered e o que foi underengineered. Esta é a parte importante na engenharia de software: reunir conhecimento, iterar, evoluir. E esse é o tipo de conhecimento que sobreviverá à era da IA. Código é apenas um detalhe de implementação.
+Reescrever algo pela segunda vez é mais fácil porque você já passou pelas dores de aprendizado, descobriu armadilhas e eliminou boa parte da ambiguidade. Você aprendeu o que funcionou bem e o que não funcionou. O que ficou com engenharia em excesso (*overengineered*) e o que ficou simplista demais (*underengineered*). Essa é a parte essencial da engenharia de software: acumular conhecimento, iterar e evoluir. E esse é o tipo de conhecimento que vai sobreviver à era da IA. Código é apenas um detalhe de implementação.
 
-Com base nessa filosofia, esta é uma lista não exaustiva das coisas com as quais me importo ao fazer um code review:
+Com base nessa filosofia, apresento uma lista (não exaustiva) do que realmente observo ao fazer code review:
 
-### Arquitetura e design de sistema
-Modelos de IA têm dificuldade com o quadro geral e também têm a tendência de pegar muitos atalhos. Meu processo de revisão procura por esses sinais como valores e configurações hardcoded, simplificação excessiva do espaço do problema (IA muitas vezes trata as requisições de código como protótipos ou demos) e, paradoxalmente, over-engineering. Modelos de IA também têm a característica irritante de assumir que estar pronto para produção é igual a complexidade. Em outras palavras, eles têm dificuldade com equilíbrio e pragmatismo, coisas que nós aprendemos com a experiência e que muitas vezes é difícil traduzir em palavras. Como uma engenheira experiente, fico sempre atenta a esses detalhes.
+### Arquitetura e design de sistemas
+Modelos de IA têm dificuldade com a visão sistêmica ampla e adoram pegar atalhos. Meu processo de revisão busca ativamente sinais como valores e configurações fixados no código (*hardcoded*), simplificação excessiva do escopo do problema (a IA frequentemente trata pedidos de código como meros protótipos ou demos) e, paradoxalmente, complexidade desnecessária (*over-engineering*). Modelos de IA também têm o traço irritante de presumir que código pronto para produção é sinônimo de código complexo. Em outras palavras, eles sofrem para dosar equilíbrio e pragmatismo — virtudes que nós, desenvolvedoras, aprendemos com a experiência e que dificilmente cabem em palavras.
 
-### API Pública e módulos
-A ergonomia do que estamos construindo importa. A API pública precisa "parecer certa" para o desenvolvedor médio que tem que usá-la. Uma interface bem projetada é intuitiva, difícil de usar mal, e esconde os internos bagunçados do resto da codebase. Eu verifico se as interfaces são robustas e têm o escopo correto, visando a menor área de superfície possível. Se a API é desajeitada, não importa o quão elegante seja o código subjacente. O código é fácil de usar e bem documentado? Uma boa dica de que a API pública é boa é se a qualidade do teste é boa. Um design ruim de API é inerentemente difícil de testar.
+### API pública e módulos
+A ergonomia do que construímos é fundamental. A API pública precisa soar natural para qualquer pessoa desenvolvedora que precise consumi-la. Uma interface bem projetada é intuitiva, difícil de usar de forma errada e esconde as entranhas da implementação do restante da base de código. Avalio se as interfaces são robustas e têm o escopo correto, buscando sempre a menor superfície de contato possível. Se a API é desajeitada, não importa o quão elegante seja o código por baixo dos panos. O código é simples de usar e bem documentado? Um ótimo indicativo de uma boa API pública é a qualidade dos testes: uma API mal projetada é inerentemente difícil de testar.
 
 ### Algoritmos e padrões
-LLMs geralmente usam como padrão a forma mais ingênua e de força bruta para resolver um problema. É comum um agente tentar executar uma migração massiva de dados usando loops aninhados e fazendo commits a cada poucas linhas, quando uma estratégia de bulk insert é a abordagem correta. Ou em um nível mais básico: usar uma lista quando um mapa ou dicionário é a estrutura de dados correta. Verificar se as estruturas de dados e os algoritmos realmente se encaixam no espaço do problema previne quedas massivas de performance. O objetivo é código que escala, não apenas código que passa nos testes. No entanto, otimização prematura ainda é um risco. Se uma abordagem mais simples for um pouco mais lenta mas muito mais fácil de ler e estivermos lidando com um conjunto de dados pequeno e limitado, a legibilidade geralmente vence.
+LLMs frequentemente recorrem à solução mais ingênua e de força bruta para resolver um problema. Não é raro ver um agente tentar rodar uma migração massiva de dados usando loops aninhados com commits a cada poucas linhas, quando a estratégia correta seria um *bulk insert*. Ou em um nível mais elementar: usar uma lista quando um mapa ou dicionário seria a estrutura de dados ideal. Garantir que estruturas de dados e algoritmos sejam adequados ao problema evita quedas bruscas de desempenho. O objetivo é código que escala, e não apenas código que passa nos testes. Ainda assim, otimização prematura continua sendo um risco: se uma abordagem mais simples for ligeiramente mais lenta, mas muito mais legível, e estivermos lidando com um volume pequeno e delimitado de dados, a legibilidade costuma vencer.
 
 ### Dependências
-Todo novo pacote traz risco externo, possíveis falhas de segurança e overhead de manutenção. Manter o app pequeno reduz a nossa superfície de ataque. Ferramentas principais como nossos SDKs de GenAI ou os principais frameworks web passam mais rápido, mas todo o resto é escrutinado. Uma pequena cópia (ou reimplementação) é melhor do que uma pequena dependência. Quanto mais fácil fica gerar e manter o código, menos eu me preocupo com reuso, especialmente se isso significa adicionar um novo vetor de ataque à minha codebase.
+Cada novo pacote introduz risco externo, potenciais falhas de segurança e custo de manutenção. Manter a aplicação enxuta reduz nossa superfície de ataque. Ferramentas essenciais, como nossos SDKs de GenAI ou grandes frameworks web, passam com mais facilidade na triagem, mas todo o restante é minuciosamente inspecionado. Uma pequena duplicação (ou reimplementação) é bem melhor do que uma dependência desnecessária. Quanto mais fácil fica gerar e manter código, menos me preocupo em reutilizar bibliotecas externas a qualquer custo, especialmente se isso significar adicionar um novo vetor de ataque à minha base de código.
 
 ### Anti-patterns e problemas de qualidade
-Apenas para citar alguns: ignorar ou silenciar erros, side effects, estado global, estado mutável, vazamentos de recursos, funções ou variáveis não utilizadas, e assim por diante. Expressões idiomáticas da linguagem também importam. Embora eu me importe muito com isso, esses também são alguns dos mais fáceis de automatizar com o uso de análise estática (linters) como [golangci-lint](https://golangci-lint.run/) (Go) e [ruff](https://docs.astral.sh/ruff/) (Python).
+Para citar alguns: erros ignorados ou silenciados, efeitos colaterais ocultos, estado global, mutabilidade descontrolada, vazamento de recursos, funções ou variáveis não utilizadas, e assim por diante. Idiomatismos da linguagem também contam muito. Embora eu dê enorme importância a esses pontos, eles também estão entre os mais fáceis de automatizar com análise estática (linters), como [golangci-lint](https://golangci-lint.run/) (Go) e [ruff](https://docs.astral.sh/ruff/) (Python).
 
 ### Testabilidade
-Código difícil de testar geralmente é mal projetado e resistirá a mudanças no futuro. Separação clara de preocupações, entradas limpas e funções puras são o ideal. Bons testes provam que o código funciona e fornecem uma rede de segurança para nossas futuras modificações. Para componentes de UI e sistemas complexos, eu aceito estratégias práticas de teste ao invés de cobertura rigorosa de unidade, mas a lógica central deve ser coberta.
+Código difícil de testar geralmente foi mal projetado e vai resistir a alterações no futuro. Separação clara de responsabilidades, entradas limpas e funções puras são o ideal. Bons testes comprovam que o código funciona e criam uma rede de segurança para alterações futuras. Para componentes de interface e sistemas complexos, prefiro estratégias práticas de teste a metas rígidas de cobertura unitária, mas a lógica central precisa estar coberta.
 
-Eu parei de tentar adicionar uma meta de cobertura para cada projeto individual porque cada caso é um caso, mas eu preciso saber que o que quer que deva ser testado está sendo testado. Idealmente 100% do happy path e uma boa porcentagem do sad path, mas eu não vou tentar atingir 100% de todo o código ou algo perto disso. Desde que você tenha uma boa estratégia de observabilidade e boas mensagens de erro, você está se preparando para o sucesso, já que novos modos de erro podem ser adicionados à suíte de testes mais tarde.
+Parei de estipular metas fixas de cobertura para todo e qualquer projeto porque cada caso é um caso, mas exijo ter a certeza de que tudo o que precisa ser testado está realmente testado. Idealmente, 100% do caminho feliz e uma boa parcela dos cenários de erro — sem a obsessão ingênua de alcançar 100% de cobertura total da base. Desde que você tenha uma estratégia sólida de observabilidade e boas mensagens de erro, estará pavimentando o caminho para o sucesso, já que novos cenários de falha podem ser incorporados à suíte de testes com facilidade mais tarde.
 
 ### Benchmarking
-Para caminhos críticos, precisamos de números reais ao invés de adivinhações sobre performance. Benchmarks claros para quaisquer mudanças que afetem componentes de alto tráfego são necessários para impedir que código lento chegue à produção.
+Em caminhos críticos, precisamos de dados concretos em vez de palpites sobre desempenho. Benchmarks claros para quaisquer alterações que afetem componentes de alto tráfego são obrigatórios para impedir que código lento chegue à produção.
 
 ### Logging enxuto
-Logs devem ser acionáveis. Logs desnecessários aumentam nossas faturas na nuvem e podem vazar informações privadas. Logging verboso é bom durante o desenvolvimento, mas deve ser limpo antes do merge.
+Logs precisam ser acionáveis. Logs desnecessários inflam a conta de nuvem e podem expor informações confidenciais. Logging detalhado é ótimo durante o desenvolvimento, mas deve ser limpo antes do merge.
 
-## Com o que eu não me importo (na maior parte)
+## Com o que eu (quase) não me importo
 
-Eu deixo que as ferramentas automatizadas lidem com os detalhes para que eu possa me concentrar nos problemas difíceis. Se uma máquina pode fazer isso, um humano não deveria estar fazendo.
+Deixo as ferramentas automatizadas cuidarem dos pormenores para poder me concentrar nos problemas realmente difíceis. Se uma máquina pode fazer, um ser humano não deveria estar fazendo.
 
 ### Cada linha individual de código
-Revisar cada linha gerada por um LLM é trabalho de um compilador ou analisador estático. Em vez disso, eu me concentro na lógica e nos pontos de conexão.
+Revisar linha por linha o que um LLM gerou é trabalho para compiladores e analisadores estáticos. Meu foco está na lógica e nos pontos de integração.
 
 ### Formatação
-Desde que comecei a usar Go, nunca entrei em uma discussão sobre estilos de formatação, mas eu sei que eles ainda existem em certos espaços. A melhor coisa que você pode fazer é definir um padrão e deixar o linter e o formatter lidarem com isso. Uma vez que o padrão é conhecido, o agente de código também pode ser mais compatível com ele. Se o pipeline de CI passar, está tudo bem.
+Desde que comecei a programar em Go, nunca mais entrei em discussões sobre estilo de formatação, embora saiba que elas ainda existam em certos círculos. A melhor coisa a fazer é definir um padrão e deixar o linter e o formatador resolverem. Uma vez estabelecido o padrão, o agente de codificação também consegue aderir melhor a ele. Se o pipeline de CI passou, está ótimo.
 
-### Pequenos detalhes de sintaxe e código
-Existem muitas maneiras de resolver um problema, e forçar escolhas específicas de sintaxe limita a liberdade do desenvolvedor. Eu não me importo se é um `for` loop ou uma list comprehension, contanto que a lógica seja sólida.
+### Detalhes menores de sintaxe e estilo
+Existem inúmeras maneiras de resolver um mesmo problema, e forçar preferências estritas de sintaxe só limita a liberdade de quem desenvolve. Não me importa se foi usado um loop `for` ou uma *list comprehension*, desde que a lógica seja impecável.
 
 ### Debugging
-Eu quase nunca faço sessões de debug (no sentido estrito de realmente usar um debugger). Fazer debugging para mim é o último recurso, e é sinônimo de adicionar um monte de statements print "ESTOU AQUI", que na verdade deveriam ter sido linhas de log.
+Quase nunca faço sessões formais de depuração com debugger interativo. Para mim, usar debugger é o último recurso — e muitas vezes acaba sendo sinônimo de espalhar dezenas de prints "ESTOU AQUI", que na verdade deveriam ser linhas de log estruturadas.
 
-Se algo não está funcionando, eu crio um novo teste para simular o problema. Se, após reproduzir o problema, eu não conseguir descobrir o que está acontecendo, isso significa que minha observabilidade e logs são insuficientes, então eu me concentro em melhorá-los.
+Se algo não funciona, crio um novo teste reproduzindo o problema. Se, após reproduzir, ainda não consigo entender a causa raiz, significa que minha observabilidade e meus logs estão insuficientes — e é exatamente em melhorá-los que foco meu esforço.
 
-### Nomes não exportados
-Quando um nome é local a uma função ou tem escopo limitado, eu me importo muito menos com isso do que se fosse usado em muitas funções ou arquivos. Eu vou passar os olhos no código e, se eu tiver um vislumbre de algo absurdo, talvez eu pare para uma limpeza, mas caso contrário, eu estou tranquila com o que o modelo decidiu usar.
+### Nomes de escopo interno (não exportados)
+Quando um identificador é local a uma função ou tem escopo restrito, me preocupo muito menos do que com nomes expostos em múltiplos arquivos e funções. Passo o olho rapidamente e, se notar algo absurdo, posso até sugerir um ajuste, mas fora isso não tenho problemas com o que o modelo escolheu.
 
-### Pequenas dependências
-Aquelas que não são suas principais dependências de framework ou client library. Elas são menos preocupantes se atenderem à nossa baseline de segurança. Verificar se há exploits de segurança e licenças problemáticas ainda é obrigatório, no entanto. Se eu estiver importando algo apenas por uma função "helper", eu vou 100% das vezes reimplementar essa função no meu código e me livrar da dependência.
+### Dependências secundárias
+Refiro-me àquelas que não são seus frameworks principais ou SDKs de clientes. Elas geram menos preocupação desde que atendam aos requisitos mínimos de segurança — auditoria contra vulnerabilidades e licenças problemáticas continua sendo obrigatória. Se estou importando um pacote apenas por causa de uma função utilitária simples, em 100% dos casos prefiro reimplementar essa função no meu código e eliminar a dependência externa.
 
 ## Conclusões
 
-Este não é um protocolo que serve para tudo. Também há muito o que se dizer sobre como você está instrumentando a sua codebase. Code reviews sozinhos não capturarão todos os problemas em potencial, e é por isso que eu defendo fortemente a automação, agora com agentic coding mais do que nunca.
+Este não é um roteiro engessado para todas as situações. Há também muito a ser considerado sobre a instrumentação da sua base de código. Code reviews sozinhos não capturam todos os problemas potenciais, e é por isso que defendo com tanto entusiasmo a automação — ainda mais na era do desenvolvimento agêntico.
 
-Agentes de codificação modernos têm muitos padrões de extensão que permitem restringir o modelo e obter resultados mais determinísticos: [Agent Skills]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), hooks, [MCP tools]({{< ref "/posts/20250817-hello-mcp-world/" >}}), políticas, regras... Use essas ferramentas para colocar limites bem definidos no escopo de seus agentes e a sua vida se tornará muito mais fácil.
+Agentes modernos oferecem diversos mecanismos de extensão que permitem impor restrições e obter resultados mais determinísticos: [Agent Skills]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), hooks, [MCP tools]({{< ref "/posts/20250817-hello-mcp-world/" >}}), políticas e regras de contexto. Use essas ferramentas para delimitar com precisão o escopo dos seus agentes e a sua rotina será infinitamente mais tranquila.
 
-Um carro só pode correr tão rápido quanto seus freios suportam. Invista em aprender os guardrails para o seu agente de codificação favorito e use o seu precioso tempo para revisar o que não pode ser automatizado.
+Um carro só pode correr na velocidade em que seus freios conseguem pará-lo. Invista em aprender as barreiras de proteção (*guardrails*) do seu agente de codificação favorito e use seu tempo valioso para revisar aquilo que não pode ser automatizado.
 
 Happy coding!
 

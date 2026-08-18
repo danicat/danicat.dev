@@ -17,6 +17,10 @@ title: 'Construindo o GoDoctor: Um Servidor MCP com Gemini CLI e Go'
 ---
 {{< translation-notice >}}
 
+{{< alert "circle-info" >}}
+**Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema Antigravity atualizado, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
+{{< /alert >}}
+
 ### Introdução
 
 Como muitos de vocês, tenho mergulhado fundo no desenvolvimento assistido por IA. A jornada é muitas vezes uma montanha-russa de momentos "uau" e obstáculos frustrantes. Esta é a história de uma dessas jornadas — uma história que começou comigo tentando construir uma coisa, sendo completamente desviada por um problema frustrante, e terminando com uma ferramenta que melhorou fundamentalmente meu fluxo de trabalho assistido por IA.
