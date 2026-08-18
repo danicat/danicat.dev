@@ -3,6 +3,9 @@ categories:
 - Applied GenAI
 date: 2026-08-08
 heroStyle: big
+series:
+- Gemini for Go Developers
+series_order: 1
 summary: The first chapter of the Gemini for Go Developers series, focusing on the
   different models of the Gemini model family and the API surfaces to consume them.
 tags:

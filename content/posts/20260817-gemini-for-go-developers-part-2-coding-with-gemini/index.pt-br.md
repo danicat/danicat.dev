@@ -3,6 +3,9 @@ categories:
 - Agentic Coding
 date: 2026-08-17
 heroStyle: big
+series:
+- Gemini for Go Developers
+series_order: 2
 summary: Na Parte 2 de Gemini para Desenvolvedores Go, exploramos a afinidade agentic do Go,
   superfícies do Antigravity e fluxos nativos de IA em Go.
 tags:

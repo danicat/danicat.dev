@@ -3,6 +3,9 @@ categories:
 - Agentic Coding
 date: 2026-08-17
 heroStyle: big
+series:
+- Gemini for Go Developers
+series_order: 2
 summary: 「Go開発者のためのGemini」第2回では、Goのエージェンティック親和性とAntigravityによるAI開発環境を解説します。
 tags:
   - antigravity

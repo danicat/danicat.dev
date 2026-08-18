@@ -3,6 +3,9 @@ categories:
 - Agentic Coding
 date: 2026-08-08
 heroStyle: big
+series:
+- Gemini for Go Developers
+series_order: 1
 summary: O primeiro capítulo da série Gemini para Desenvolvedores Go, focando nos
   diferentes modelos da família Gemini e nas superfícies de API para consumi-los.
 tags:

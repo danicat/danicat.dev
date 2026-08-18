@@ -3,6 +3,9 @@ categories:
 - Agentic Coding
 date: 2026-08-17
 heroStyle: big
+series:
+- Gemini for Go Developers
+series_order: 2
 summary: In Part 2 of Gemini for Go Developers, we explore Go's agentic affinity,
   Antigravity surfaces, and how to configure a practical AI-native workflow in Go.
 tags:
