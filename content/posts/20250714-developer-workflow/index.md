@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-11
@@ -9,7 +8,16 @@ tags:
   - gemini-cli
   - jules
   - vibe-coding
-title: A Modern Developer Workflow for the AI Enabled World
+title: "A Modern Developer Workflow for the AI-Enabled World"
+slug: "developer-workflow-ai-world"
+aliases:
+  - "/posts/20250714-developer-workflow/"
+description: "A 2-dimensional prioritisation framework for modern AI developer workflows. Balance technical certainty and business value across Gemini CLI and Jules agents."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Jules AI Agent"
+  - "Git"
 ---
 ## Introduction
 

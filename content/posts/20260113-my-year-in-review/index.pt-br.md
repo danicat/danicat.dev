@@ -1,15 +1,19 @@
----
-categories:
+---categories:
 - Perspectives
 date: 2026-01-13 00:00:00+00:00
 draft: false
 summary: 'Refletindo sobre um 2025 transformador: desde a minha entrada no Google e o domínio do vibe coding até a criação das minhas próprias ferramentas de IA e um novo ritmo na vida e na engenharia.'
 tags:
   - career
-  - google-cloud
+  - community
   - reflection
   - vibe-coding
-title: 'Meu Ano em Revista: 2025'
+title: "Meu 2025 em Revista: Entrada no Google e Vibe Coding"
+slug: "my-2025-year-in-review"
+aliases:
+  - "/pt-br/posts/20260113-my-year-in-review/"
+description: "Retrospectiva de 2025: entrada no Google DevRel, domínio do vibe coding com disciplina, lançamento dos servidores MCP GoDoctor e Speedgrapher e planos para 2026."
+proficiencyLevel: "Beginner"
 ---
 
 À medida que 2025 desaparece pelo retrovisor, me vejo sentada com uma xícara de café (naturalmente), tentando processar tudo o que acabou de acontecer. Se eu tivesse que escolher uma única palavra para este ano, seria **aceleração**.

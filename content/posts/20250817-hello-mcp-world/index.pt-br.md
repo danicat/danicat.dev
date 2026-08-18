@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: 2025-08-17 15:00:00+00:00
 summary: Baseado na minha keynote na GopherCon UK 2025, este artigo é uma introdução
@@ -11,10 +10,17 @@ tags:
   - golang
   - keynote
   - mcp
-title: Olá, Mundo MCP!
+title: "Olá, Mundo MCP: Arquitetura Model Context Protocol em Go"
+slug: "hello-mcp-world"
+aliases:
+  - "/pt-br/posts/20250817-hello-mcp-world/"
+description: "Introdução à arquitetura do Model Context Protocol (MCP) em Go baseada na keynote do GopherCon UK 2025. Aborda Hosts, Clients, Servers, Tools, Prompts e Resources."
+proficiencyLevel: "Beginner"
+dependencies:
+  - "Go 1.24+"
+  - "MCP Go SDK"
 ---
 
-{{< translation-notice >}}
 
 ## Introdução
 

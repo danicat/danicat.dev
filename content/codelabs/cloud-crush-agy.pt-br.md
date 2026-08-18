@@ -1,5 +1,4 @@
----
-title: "Crie um jogo arcade Match-3 com o Gemini e o Antigravity"
+---title: "Crie um jogo arcade Match-3 com o Gemini e o Antigravity"
 date: 2026-05-07
 externalUrl: "https://codelabs.developers.google.com/cloud-crush-agy?hl=pt-br#0"
 featureimage: "/images/codelabs/placeholder.png"
@@ -13,4 +12,8 @@ tags:
 categories:
   - Agentic Coding
 showSummary: true
+description: "Construa o Cloud Crush, um jogo Match-3 em Go e Ebitengine usando o Gemini 3 e a CLI Antigravity com testes automatizados no navegador."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - Go 1.22+\n  - Ebitengine v2\n  - Antigravity CLI
 ---

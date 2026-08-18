@@ -1,14 +1,17 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: '2025-05-28T16:30:00+01:00'
 summary: Uma reflexão sobre o futuro da carreira de engenharia de software na era da IA.
 tags:
-  - perspectives
+  - career
   - vibe-coding
-title: Qualquer pessoa pode programar no "vibe code"?
+title: "Qualquer Pessoa Pode Fazer Vibe Coding? O Futuro da Engenharia"
+slug: "can-anyone-vibe-code"
+aliases:
+  - "/pt-br/posts/20250528-vibe-coding/"
+description: "Qualquer um pode programar no vibe code? Uma reflexão sobre como a IA reduz barreiras enquanto torna a disciplina de engenharia e orquestração ainda mais valiosas."
+proficiencyLevel: "Beginner"
 ---
-{{< translation-notice >}}
 
 ## Introdução
 

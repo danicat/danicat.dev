@@ -5,6 +5,7 @@
     "@type": "WebSite",
     "@id": {{ site.Home.Permalink | safeURL }},
     "name": "{{ .Site.Title | safeJS }}",
+    "alternateName": ["danicat.dev", "Daniela Petruzalek"],
     {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
     {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
     "url": {{ site.Home.Permalink | safeURL }},
@@ -16,7 +17,7 @@
     }
   }
   </script>
-{{ else }}
+{{ else if .IsPage }}
   {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
   {{- $images := .Resources.ByType "image" -}}
   {{- $featured := $images.GetMatch "*feature*" -}}
@@ -25,12 +26,16 @@
   {{- with $featured -}}
     {{- $imageUrl = .Permalink -}}
   {{- else -}}
-    {{- with .Site.Params.defaultSocialImage -}}
+    {{- with .Params.featureimage -}}
       {{- $imageUrl = . | absURL -}}
+    {{- else -}}
+      {{- with .Site.Params.defaultSocialImage -}}
+        {{- $imageUrl = . | absURL -}}
+      {{- end -}}
     {{- end -}}
   {{- end -}}
   {{- $schemaType := "TechArticle" -}}
-  {{- if not (eq .Section "posts") -}}
+  {{- if not (or (eq .Section "posts") (eq .Section "codelabs")) -}}
     {{- $schemaType = "Article" -}}
   {{- end -}}
   <script type="application/ld+json">
@@ -39,7 +44,7 @@
     "@type": "{{ $schemaType }}",
     "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
     "headline": "{{ .Title | safeJS }}",
-    {{ with or .Description .Summary }}"description": "{{ . | plainify | safeJS }}",{{ end }}
+    {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
     {{ with $imageUrl }}"image": "{{ . }}",{{ end }}
     {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
     "url" : {{ .Permalink }},
@@ -64,37 +69,57 @@
     {{ with .Params.dependencies }}"dependencies": "{{ if reflect.IsSlice . }}{{ delimit . ", " | safeJS }}{{ else }}{{ . | safeJS }}{{ end }}",{{ end }}
     {{ with .Params.proficiencyLevel }}"proficiencyLevel": "{{ . | safeJS }}",{{ end }}
     "wordCount": {{ .WordCount }}
-  }{{- $position := 0 -}}
-  {{- $hasAncestors := false -}}
-  {{- range .Ancestors -}}
-    {{- if not .IsHome -}}
-      {{- $hasAncestors = true -}}
-    {{- end -}}
-  {{- end -}}
-  {{- if or $hasAncestors true }},
+  },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      {{- range .Ancestors -}}
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": {{ site.Home.Permalink }}
+      }
+      {{- $position := 1 -}}
+      {{- range .Ancestors.Reverse -}}
         {{- if not .IsHome -}}
-          {{- $position = add $position 1 -}}
+          {{- $position = add $position 1 -}},
           {
             "@type": "ListItem",
             "position": {{ $position }},
             "name": "{{ .Title }}",
             "item": {{ .Permalink }}
-          },
+          }
         {{- end -}}
-      {{- end -}}
-      {{- $position = add $position 1 -}}
+      {{- end -}},
       {
         "@type": "ListItem",
-        "position": {{ $position }},
+        "position": {{ add $position 1 }},
         "name": "{{ .Title }}",
         "item": {{ .Permalink }}
       }
     ]
-  }{{ end }}]
+  }]
+  </script>
+{{ else }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": {{ site.Home.Permalink }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ .Title }}",
+        "item": {{ .Permalink }}
+      }
+    ]
+  }
   </script>
 {{ end }}

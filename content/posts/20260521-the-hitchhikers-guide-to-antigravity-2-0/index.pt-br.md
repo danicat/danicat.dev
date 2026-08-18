@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-05-21 11:00:00+00:00
 heroStyle: big
@@ -8,8 +7,20 @@ summary: Um guia para o ecossistema Google Antigravity 2.0 anunciado no Google I
   e o SDK programático em Python.
 tags:
   - antigravity
+  - cli
   - google-cloud
-title: O Guia do Mochileiro para o Antigravity 2.0
+  - python
+  - sdk
+title: "O Guia do Mochileiro para o Antigravity 2.0"
+slug: "the-hitchhikers-guide-to-antigravity-2-0"
+aliases:
+  - "/pt-br/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0/"
+description: "Guia completo do ecossistema Google Antigravity 2.0 anunciado no Google I/O 2026. Analisa o app desktop Agent Manager, a CLI em Go e o SDK em Python."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Google Antigravity 2.0"
+  - "google-antigravity Python SDK"
+  - "Go 1.22+"
 ---
 
 Com o encerramento do [Google I/O 2026](https://blog.google/innovation-and-ai/technology/developers-tools/google-io-2026-developer-highlights/), chegou a hora de assimilar todos os novos lançamentos e entender como eles afetam nossos fluxos de trabalho agora e em um futuro próximo. Embora muitas novidades interessantes tenham sido anunciadas, hoje quero focar no que mais impacta as pessoas desenvolvedoras: o lançamento do [Antigravity 2.0](https://antigravity.google/blog/introducing-google-antigravity-2-0) e a expansão do ecossistema Antigravity (`agy`) (veja os [destaques do Antigravity no Google I/O 2026](https://antigravity.google/blog/google-io-2026)), que inclui a [Antigravity CLI](https://antigravity.google/blog/introducing-google-antigravity-cli) e o [Antigravity SDK](https://antigravity.google/blog/introducing-google-antigravity-sdk).

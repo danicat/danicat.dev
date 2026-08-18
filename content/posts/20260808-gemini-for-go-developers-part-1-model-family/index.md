@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Applied GenAI
 date: 2026-08-08
 heroStyle: big
@@ -11,7 +10,15 @@ summary: The first chapter of the Gemini for Go Developers series, focusing on t
 tags:
   - gemini
   - golang
-title: 'Gemini for Go Developers - Part 1: The Gemini Model Family'
+title: "Gemini for Go Developers - Part 1: The Gemini Model Family"
+slug: "gemini-for-go-developers-part-1-model-family"
+aliases:
+  - "/posts/20260808-gemini-for-go-developers-part-1-model-family/"
+description: "Part 1 of Gemini for Go Developers: compare Gemini 3.x, Flash, Pro, and Nano Banana models, explore APIs, and write your first Go code with GenAI SDK."
+proficiencyLevel: "Beginner"
+dependencies:
+  - "Go 1.24+"
+  - "google.golang.org/genai"
 ---
 
 Welcome to **Gemini for Go Developers**! This series is your complete guide to building AI-powered software in Go. Across seven hands-on chapters, we will cover everything from agentic coding, to building autonomous agents with **Genkit** and **ADK**, developing games, and using the full **G3 Stack** (Go, Gemini, GCP) to deploy applications to the cloud.
@@ -271,4 +278,4 @@ While this is just a simple example to show how to work with the SDK, throughout
 
 ## What's next?
 
-In **Part 2** of the **Gemini for Go Developers** series, we'll dive deep into coding agents and how to prepare your environment for working in Go codebases. Stay tuned!
+In [**Part 2: Coding with Gemini**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}) of the **Gemini for Go Developers** series, we'll dive deep into coding agents and how to prepare your environment for working in Go codebases. Stay tuned!

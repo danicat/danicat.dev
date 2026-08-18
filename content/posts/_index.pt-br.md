@@ -1,5 +1,5 @@
 ---
 title: "Posts"
-description: "Artigos aprofundados sobre engenharia de software, agentes de IA e boas práticas técnicas."
-summary: "Artigos aprofundados sobre engenharia de software, agentes de IA e boas práticas técnicas."
+description: "Artigos técnicos e guias aprofundados por Daniela Petruzalek sobre arquitetura de agentes de IA, Model Context Protocol (MCP), sistemas em Go e boas práticas."
+summary: "Artigos técnicos sobre Agentic Coding, desenvolvimento de agentes, GenAI e engenharia de software."
 ---

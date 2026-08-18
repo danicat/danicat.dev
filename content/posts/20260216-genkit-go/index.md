@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Applied GenAI
 date: 2026-02-16
 heroStyle: big
@@ -11,7 +10,16 @@ tags:
   - golang
   - nano-banana
   - tutorial
-title: Bringing Old Photos to Life with Genkit and Gemini 3
+title: "Bringing Old Photos to Life with Genkit and Gemini 3"
+slug: "genkit-go-photo-restoration"
+aliases:
+  - "/posts/20260216-genkit-go/"
+description: "Tutorial on building a 4K photo restoration tool in Go using Genkit and Gemini 3 Pro Image (Nano Banana Pro). Covers Handlebars dotprompt schemas and flows."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.24+"
+  - "Genkit Go >= 0.1.0"
+  - "Google Cloud Vertex AI"
 ---
 
 As part of my job I get to know all sorts of people and one very common topic of conversations is about my heritage. Not only I have an obviously sounding Eastern European surname but I also look the part, so people often assume I'm either Polish or Czech. Lots of people are surprised when I say that in reality I'm originally from Brazil.

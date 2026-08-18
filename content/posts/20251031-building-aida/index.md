@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-10-31T11:43:35Z'
 series:
@@ -9,11 +8,22 @@ summary: Elevate your Google ADK agent with a custom, retro-style interface. Thi
 tags:
   - adk
   - fastapi
-  - frontend
   - gemini
+  - javascript
   - python
   - tutorial
-title: 'Beyond the Dev-UI: How to Build an Interface for an ADK Agent'
+title: "Beyond Dev-UI: Building a Custom Interface for ADK Agents"
+slug: "building-aida"
+aliases:
+  - "/posts/20251031-building-aida/"
+description: "Learn how to replace the Google ADK Dev-UI with a custom FastAPI backend, vanilla JS client, and real-time animated streaming avatar using Gemini CLI."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.11+"
+  - "Google ADK"
+  - "FastAPI"
+  - "Uvicorn"
+  - "Gemini CLI"
 ---
 
 For the past six months I have been exploring GenAI, vibe coding, agents and everything in between as part of my DevRel role at Google. Whenever I want to learn a new technology I find that the best way is to build something with it. One of my passion projects during this time has been the diagnostic agent: a software that could help people diagnose their computer problems using natural language.

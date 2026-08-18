@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-05-31T01:00:00+01:00'
 series:
@@ -11,7 +10,16 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: 'Como Transformei Meu Computador na "USS Enterprise" Usando Agentes de IA'
+title: "Transformando Meu Computador na USS Enterprise com Agentes de IA"
+slug: "diagnostic-agent-uss-enterprise"
+aliases:
+  - "/pt-br/posts/20250531-diagnostic-agent/"
+description: "Construa um assistente de diagnóstico inspirado em Star Trek usando Python, Gemini, Vertex AI Agent Engine e function calling do osquery para telemetria em linguagem natural."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-cloud-aiplatform"
+  - "osquery"
 ---
 _Espaço: a fronteira final. Estas são as viagens da nave estelar Enterprise. Em sua missão de cinco anos: para explorar novos mundos; para pesquisar novas vidas e novas civilizações; para audaciosamente ir onde nenhum homem jamais esteve._
 

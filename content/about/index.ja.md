@@ -1,5 +1,4 @@
----
-title: "私について"
+---title: "私について"
 date: 2025-06-11T00:00:00+01:00
 draft: false
 
@@ -21,17 +20,14 @@ showAuthor: true
 showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
+summary: "Google シニアDevRelエンジニア、元GDE、TEDxスピーカー。Go言語とAIエージェント開発を推進。"
+description: "ダニエラ・ペトルザレクについて：ロンドン在住のGoogle シニアDevRelエンジニア。Go言語、データ基盤、AIエージェント、規律あるバイブコーディングが専門。"
 ---
-{{< translation-notice >}}
 
-ダニエラ・ペトルザレクは、ソフトウェアエンジニアリング、プリセールス、デベロッパーリレーションズのバックグラウンドを持つ経験豊富なITプロフェッショナルで、現在はGoogleのシニアデベロッパーリレーションズエンジニアです。彼女の専門はデータエンジニアリングとバックエンド開発で、以前はGoとGoogle Cloud PlatformのGoogle Developer Expertでした。また、Google Cloud認定データエンジニア、Oracle認定プロフェッショナル、TEDxスピーカーでもあります。余暇には、オープンソースに貢献したり、ビデオゲームをしたり、街で猫を撫でたりしています。
+ダニエラ・ペトルザレク（Daniela Petruzalek）は、ロンドンを拠点とする Google のシニア Developer Relations Engineer です。ソフトウェア開発、データエンジニアリング、そして急速に進化する AI エージェントのエコシステムに強い情熱を注いでいます。
 
-## イベントでの講演
+20年以上のソフトウェアエンジニアリングとプリセールスの経験を持ち、ミッションクリティカルな大規模分散システムやデータ基盤のアーキテクチャ設計に携わってきました。Google 入社前は、Go 言語および Google Cloud Platform（GCP）の Google Developer Expert（GDE）を務め、オラクル認定プロフェッショナル（OCP）や TEDx スピーカーとしても活動してきました。
 
-イベントでの講演をご希望の場合は、[daniela@danicat.dev](mailto:daniela@danicat.dev)まで、対象者、場所、日付などの詳細を添えてメッセージをお送りください。
+現在は生成AI（コード生成、マルチモーダル、テキスト生成）および自律型 AI エージェントの設計・構築に注力しています。特に「規律あるバイブコーディング（Vibe coding with discipline）」を提唱し、AI のスピードと古典的なソフトウェアエンジニアリングの堅牢性を両立させる開発手法を探求しています。
 
-過去のコンテンツは[GitHub](https://github.com/danicat/public-speaking)でご覧いただけます。
-
-## ソーシャルメディア
-
-現在は[LinkedIn](https://www.linkedin.com/in/petruzalek/)で最も活発に活動していますが、[X](https://twitter.com/danicat83)や[BlueSky](https://bsky.app/profile/danicat83.bsky.social)でもお気軽にフォローしてください。
+仕事以外では、オープンソースコミュニティへの貢献、レトロゲームやビデオゲーム、そして愛猫たちとの時間を楽しんでいます。登壇や講演資料については [イベント一覧]({{< ref "/events" >}}) をご覧ください。

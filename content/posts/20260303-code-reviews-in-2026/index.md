@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-03-06 00:00:00+00:00
 heroStyle: big
@@ -8,7 +7,15 @@ summary: A practical guide to modern code reviews. Learn where to invest your ti
 tags:
   - code-review
   - vibe-coding
-title: How to Do Code Reviews in the Agentic Era
+title: "How to Do Code Reviews in the Agentic Era"
+slug: "code-reviews-in-2026"
+aliases:
+  - "/posts/20260303-code-reviews-in-2026/"
+description: "Practical guide to reviewing AI-generated code and pull requests. Explains what architectural areas to scrutinize and what mechanical tasks to delegate to linters."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "golangci-lint"
+  - "Ruff"
 ---
 
 In 2025 we've seen the rise of agentic coding (apparently the term "vibe coding" is obsolete). Between AI assistants and agentic workflows, features are flying off the shelf at a pace we've never seen before. It's not uncommon for companies to brag about how many percentage points of their codebase are now written entirely by AI.

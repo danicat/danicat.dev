@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-06-15 00:00:00+00:00
 heroStyle: big
@@ -7,8 +6,21 @@ summary: Explore a evolução do desenvolvimento agentivo. Uma atualização sob
   para sistemas de planejamento, skills estratégicas e orquestração de subagentes para
   melhores resultados.
 tags:
+  - agent-skills
   - antigravity
-title: O Estado do Desenvolvimento Agentivo
+  - hooks
+  - mcp
+  - subagents
+title: "O Estado do Desenvolvimento Agentivo em 2026: Skills e Hooks"
+slug: "state-of-agentic-coding"
+aliases:
+  - "/pt-br/posts/20260615-state-of-agentic-coding/"
+description: "Retrospectiva de 2026 sobre desenvolvimento agentivo. Compara sistemas de planejamento, Agent Skills vs MCP, orquestração de subagentes e hooks determinísticos."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Google Antigravity 2.0"
+  - "Model Context Protocol"
+  - "Agent Skills"
 ---
 
 Já se passaram mais de seis meses desde que publiquei o artigo [Taming Vibe Coding]({{< ref "/posts/20251206-taming-vibe-coding" >}}), que consolidou as principais práticas que eu vinha adotando para aumentar minha produtividade com agentes de programação.

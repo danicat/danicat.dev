@@ -1,12 +1,16 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: '2025-05-28T16:30:00+01:00'
 summary: A reflection on the future of the software engineering career.
 tags:
-  - perspectives
+  - career
   - vibe-coding
-title: Can anyone vibe code?
+title: "Can Anyone Vibe Code? The Future of Software Engineering"
+slug: "can-anyone-vibe-code"
+aliases:
+  - "/posts/20250528-vibe-coding/"
+description: "Can anyone vibe code? An essay on why AI lowers the barrier to entry while making core software engineering discipline and orchestration more valuable."
+proficiencyLevel: "Beginner"
 ---
 ## Introduction
 

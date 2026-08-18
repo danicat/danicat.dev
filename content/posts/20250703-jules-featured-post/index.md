@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-03
@@ -9,7 +8,16 @@ tags:
   - jules
   - tutorial
   - vibe-coding
-title: How I used Jules to add a featured post to this blog
+title: "How I Used Jules to Add a Featured Post to This Blog"
+slug: "jules-featured-post"
+aliases:
+  - "/posts/20250703-jules-featured-post/"
+description: "Case study on using Jules AI coding agent to implement a featured post section in Hugo and Tailwind CSS. Covers prompt iteration, styling, and learnings."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Hugo"
+  - "Tailwind CSS"
+  - "Jules AI Agent"
 ---
 
 > *Author's note:* about 90% of this blog post is written by AI, but I proofread and edited it to ensure the post read nicely. It was funny how Jules had the tendency to brag about itself. I had to guide it with many prompts to get to this final result, but the last edit was easier to do manually. You can see the full edit history on the [PR commit history](https://github.com/danicat/danicat.dev/pull/6). A notable mention is that it completely refused to translate this post to Portuguese (Brazil) stating that it doesn't have translation capabilities, but the entirety of this blog was translated using Jules in a previous interaction. I guess it was not in the mood. :)
@@ -36,7 +44,7 @@ Jules correctly identified the Blowfish theme's partials and set up the override
 
 *   **What worked:** Understanding the core Hugo structure, fetching posts, basic template modifications. Jules's ability to navigate the theme and project files was a significant time-saver here.
 
-![](images/image001.png "There was a lot of awaiting in between tasks")
+![Jules AI task execution and progress waiting screen in terminal](images/image001.png "There was a lot of awaiting in between tasks")
 
 ### Iteration 2: Styling with Tailwind - The Trial-and-Error Dance
 We then focused on the appearance: title, width, and image dimensions. This involved a series of prompts to fine-tune the visuals. For example:

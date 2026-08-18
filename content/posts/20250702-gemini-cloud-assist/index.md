@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
 summary: How to design infrastructure using natural language on Google Cloud using
@@ -8,7 +7,15 @@ tags:
   - gemini
   - google-cloud
   - tutorial
-title: From Prompt to Infrastructure with Gemini Cloud Assist
+title: "From Prompt to Infrastructure with Gemini Cloud Assist"
+slug: "gemini-cloud-assist"
+aliases:
+  - "/posts/20250702-gemini-cloud-assist/"
+description: "Design Google Cloud infrastructure using natural language with Gemini Cloud Assist and Application Design Center. Generate and export Terraform modules."
+proficiencyLevel: "Beginner"
+dependencies:
+  - "Google Cloud Platform"
+  - "Terraform"
 ---
 ## Introduction
 
@@ -31,16 +38,16 @@ Let’s see how we can use both of these technologies to quickly design the infr
 
 You can always open the Application Design Center manually from the Google Cloud console, but what is the fun in that? The best way to trigger ADC for a new design is to simply open the Gemini panel in any page. Here, for example, I’m using the Welcome page of my project:
 
-![alt_text](images/image001.png "Welcome screen at the Google Cloud console")
+![Welcome screen at the Google Cloud console](images/image001.png "Welcome screen at the Google Cloud console")
 
 
 If you click on the “star” button on the right side of the search bar you are going to open the Gemini Cloud Assist pane:
 
-![alt_text](images/image002.png "Zoomed in view of the Gemini button")
+![Zoomed in view of the Gemini button](images/image002.png "Zoomed in view of the Gemini button")
 
 Should open:
 
-![alt_text](images/image003.png "Google Cloud Assist welcome screen")
+![Google Cloud Assist welcome screen](images/image003.png "Google Cloud Assist welcome screen")
 
 
 This is the panel where you can interact with Gemini. Type something like “create an application that does x” and include as many details as you would like about the architecture. For example, let’s try creating an application that generates cat pictures. Here is the prompt:
@@ -49,17 +56,17 @@ This is the panel where you can interact with Gemini. Type something like “cre
 
 After entering the prompt, Gemini will think for a while and after a few seconds produce an output like this:
 
-![alt_text](images/image004.png "Gemini response with architecture diagram")
+![Gemini response with architecture diagram](images/image004.png "Gemini response with architecture diagram")
 
 The built-in visualisation gives us an idea, but we can better interact with the design if we click on the “Edit app design” button. This will open the design in an expanded view so we can further refine it. (Please note that the remainder of this article assumes the “Edit app design” button opens the Preview window. If in your case it doesn`t, check the notes at the bottom of the article)
 
 This is how it looks on the “Preview” window:
 
-![alt_text](images/image005.png "Gemini Cloud Assist Preview window")
+![Gemini Cloud Assist Preview window](images/image005.png "Gemini Cloud Assist Preview window")
 
 If you are not happy with the naming conventions or with the details of the generated components you can always change them by clicking on the component and opening the configuration panel. Here I opened the configuration panel from my frontend-service:
 
-![alt_text](images/image006.png "View of the component details panel")
+![View of the component details panel](images/image006.png "View of the component details panel")
 
 Note that this screen also shows which container is instantiated by Cloud Run, which defaults to a “hello” container. This is because Gemini Cloud Assist doesn’t have information about which container you want to run, but if you provide this information it will be able to replace the value. 
 
@@ -71,17 +78,17 @@ In the Preview window you can edit components, but not add components manually. 
 
 This is Gemini’s response:
 
-![alt_text](images/image007.png "Gemini response to follow up prompt")
+![Gemini response to follow up prompt](images/image007.png "Gemini response to follow up prompt")
 
 And the Preview window will be updated with the new design, highlighting additions (green), modifications (blue) and deletions (red):
 
-![alt_text](images/image008.png "Proposed diagram changes")
+![Proposed diagram changes](images/image008.png "Proposed diagram changes")
 
 At the bottom of the screen you are given the option to accept or reject the suggestion. But before that, it is a good opportunity to inspect the terraform code that is generated under the hood. To see the code and compare the changes, click on “View diff”:
 
 This will open the Code Diff window with both versions shown side by side:
 
-![alt_text](images/image009.png "Review diff window showing comparison between terraform code before and after")
+![Review diff window showing comparison between terraform code before and after](images/image009.png "Review diff window showing comparison between terraform code before and after")
 
 As you can see, each box in the diagram is mapped to a different terraform module. If you scroll down to the bottom you can see the modules it recently added highlighted in green.
 
@@ -91,11 +98,11 @@ Prompt: “why did you add a database secret if the Cloud SQL database is using 
 
 Oh well, I guess it was not really necessary:
 
-![alt_text](images/image010.png "Gemini response to IAM question")
+![Gemini response to IAM question](images/image010.png "Gemini response to IAM question")
 
 On the Preview window:
 
-![alt_text](images/image011.png "Gemini's proposal to remove the database secret")
+![Gemini's proposal to remove the database secret](images/image011.png "Gemini's proposal to remove the database secret")
 
 This is an important call out that as much as AI has become more and more advanced, we are still not exempt from evaluating and making decisions. At the end of the day, the AI will still be there, but our jobs are on the line, so don’t forget to validate everything. 🙂
 
@@ -103,19 +110,19 @@ On the topic of validations, another thing that caught my attention is that Gemi
 
 > Make it cost effective
 
-![alt_text](images/image012.png "Gemini's response suggesting a regional load balancer and replacing Postgres with MySQL")
+![Gemini's response suggesting a regional load balancer and replacing Postgres with MySQL](images/image012.png "Gemini's response suggesting a regional load balancer and replacing Postgres with MySQL")
 
 Hmmm… this one got me thinking. I can see the point on regional vs global load balancer, but I’m not sold on why it thinks MySQL is more cost-effective than PostgreSQL. I was more concerned about the machine type than the actual database technology.
 
 Gemini’s answer doesn’t tell us the whole story either. Inspecting the diff closely it shows us that it actually modified the machine type (shown as the attribute `tier`) and just forgot to tell us:
 
-![alt_text](images/image013.png "Terraform diff showing that Gemini also changed the machine type (tier)")
+![Terraform diff showing that Gemini also changed the machine type (tier)](images/image013.png "Terraform diff showing that Gemini also changed the machine type (tier)")
 
 I’m not entirely satisfied with this, so I’m going to ask why:
 
 > Why do you consider MySQL more cost effective than PostgreSQL?
 
-![alt_text](images/image014.png "Asking Gemini why it things MySQL is more cost-effective than Postgres")
+![Asking Gemini why it things MySQL is more cost-effective than Postgres](images/image014.png "Asking Gemini why it things MySQL is more cost-effective than Postgres")
 
 The response suggests that MySQL is more cost effective than Postgres due to:
 1. Licensing differences
@@ -128,7 +135,7 @@ Unfortunately I cannot agree with this answer. For item 1 both have open source 
 
 Final inspection: I'm happy with Cloud SQL running Postgres on a smaller database tier, but I also found there is another notable edit that enables Cloud Run scale to zero feature:
 
-![alt_text](images/image015.png "Terraform diff showing that Cloud Run was configured with scale to zero (min_instance_count = 0)")
+![Terraform diff showing that Cloud Run was configured with scale to zero (min_instance_count = 0)](images/image015.png "Terraform diff showing that Cloud Run was configured with scale to zero (min_instance_count = 0)")
 
 This one makes a lot of sense, but it was also not mentioned in the dialogue. This is another reminder to “trust but verify” whatever your AI tooling is telling you. We don’t want any surprises running in production.
 

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Perspectives
 date: 2025-08-11
 summary: Uma exploração de por que o tempo parece acelerar à medida que envelhecemos,
@@ -7,10 +6,18 @@ summary: Uma exploração de por que o tempo parece acelerar à medida que envel
   a nossa percepção da vida.
 tags:
   - reflection
-title: Um Modelo para a Percepção do Tempo
+title: "Um Modelo para a Percepção do Tempo: Por Que os Anos Aceleram"
+slug: "a-model-for-perceived-time"
+aliases:
+  - "/pt-br/posts/20250811-a-model-for-perceived-time/"
+description: "Modelagem matemática da aceleração da percepção do tempo usando cálculo 1/idade e Python. Explica por que o ponto médio percebido da vida ocorre aos 9 anos."
+proficiencyLevel: "Beginner"
+dependencies:
+  - "Python 3"
+  - "NumPy"
+  - "Matplotlib"
 ---
 
-{{< translation-notice >}}
 
 ## Introdução
 

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-06-05T00:00:00+01:00'
 series:
@@ -12,7 +11,16 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: Digging Deeper into the Vertex AI SDK for Python
+title: "Digging Deeper into the Vertex AI SDK for Python"
+slug: "vertex-ai-sdk-python"
+aliases:
+  - "/posts/20250605-vertex-ai-sdk-python/"
+description: "Deep dive into client-API communication in the Vertex AI SDK for Python. Learn to structure system instructions, function declarations, and chat sessions."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-genai"
+  - "Google Cloud Vertex AI"
 ---
 ## Introduction
 
@@ -237,7 +245,7 @@ get_random_number_decl = {
 }
 ```
 
-You can see other examples of function declarations [here](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#schema-examples?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog).
+You can see other examples of function declarations in the [Vertex AI function calling documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#schema-examples?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog).
 
 Next we need to tell the model it has access to this function. We do this through the model configuration, adding the function as a tool.
 

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-07-22 00:00:00+00:00
 heroStyle: big
@@ -10,7 +9,15 @@ tags:
   - agile
   - antigravity
   - subagents
-title: The Rise of the Subagents
+title: "The Rise of the Subagents: Orchestrating Swarm Coding in Antigravity"
+slug: "the-rise-of-the-subagents"
+aliases:
+  - "/posts/20260722-the-rise-of-the-subagents/"
+description: "Explore the evolution of subagents in Antigravity and learn how to orchestrate autonomous coding swarms in Go using the Swarm Coding skill."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Google Antigravity 2.0 / agy CLI"
+  - "Go 1.24+"
 ---
 I must confess that when I first read about **subagents**, I was a bit sceptic. I could understand the benefits of running tasks in separate context windows, but it never really occurred to me to spawn dozens or maybe even hundreds of agents in parallel. Or maybe it's better said that I didn't see the benefit in doing so.
 
@@ -63,7 +70,7 @@ The same TL logic applies to creating your swarm of subagents: you want to make 
 
 As a side note, not many people describe this part of the job as the one they enjoy the most (myself included), which should explain my resistance to developing a new prompting style that would essentially become tech leadership on steroids.
 
-So, instead of acting as a TL for my agents, I decided to flip the script and teach my agent to become the TL and assemble their own team to execute my vision. This was how the [first version](https://github.com/danicat/skills/blob/a9f57b10127d8bd23ed4867d64d168063a3726f4/swarm_coding/SKILL.md) of swarm coding came to be. An excerpt of the main parts can be seen here:
+So, instead of acting as a TL for my agents, I decided to flip the script and teach my agent to become the TL and assemble their own team to execute my vision. This was how the [first version of the swarm coding skill](https://github.com/danicat/skills/blob/a9f57b10127d8bd23ed4867d64d168063a3726f4/swarm_coding/SKILL.md) came to be. An excerpt of the main parts can be seen here:
 
 > Swarm Coding is a new development paradigm that employs multiple sub-agents in parallel to work on complex tasks. It is based on the divide to conquer strategy. The main benefits of this strategy is context isolation and quality improvement: by assigning small self contained tasks to sub-agents, you avoid context dilution and enable very focused refinement of the solution. For example, without swarm coding an agent implementing both frontend and backend will often get distracted as the skills required for frontend and backend are often unrelated (different technology stack, different best practices, etc.)
 > 
@@ -99,7 +106,7 @@ What happened in practice was that the task the coordinator gave would take prec
 
 ## Taking the swarm for a spin
 
-You can find the current version of the **swarm coding** skill on my GitHub [here](https://github.com/danicat/skills). You can install it in your favourite coding agent with the command below:
+You can find the current version of the **swarm coding** skill in [Danicat's skills repository on GitHub](https://github.com/danicat/skills). You can install it in your favourite coding agent with the command below:
 
 ```bash
 $ npx skills add github.com/danicat/skills --skill swarm-coding
@@ -141,5 +148,5 @@ Understanding these interface differences is key to setting up your swarm enviro
 
 I think the best way to experience the power of subagents is to try it yourself. Whether you want to try reproducing my example prompt or come up with your own, I believe that you are going to be impressed with the results. Let me know about any fun things you build with the swarm. Meanwhile, I will be here polishing [Swarm Defense](https://github.com/danicat/swarm-defense) a bit more. :)
 
-- Check out swarm coding and all my other skills at: https://github.com/danicat/skills
-- Download and read more about Antigravity at https://antigravity.google
+- Check out swarm coding and all my other skills in the [danicat/skills repository on GitHub](https://github.com/danicat/skills)
+- Download and read more about Antigravity on the [official Antigravity website](https://antigravity.google)

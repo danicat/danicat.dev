@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Perspectives
 date: 2025-10-29 09:00:00+00:00
 summary: Celebrando meus primeiros seis meses no Google! Uma retrospectiva de um turbilhão
@@ -7,9 +6,15 @@ summary: Celebrando meus primeiros seis meses no Google! Uma retrospectiva de um
   vitória pessoal de saúde ao longo do caminho.
 tags:
   - career
-  - google-cloud
+  - community
+  - devrel
   - reflection
-title: Celebrando Seis Meses de Google!
+title: "Reflexões de Seis Meses no Google: DevRel, IA e Conquistas"
+slug: "six-months-at-google"
+aliases:
+  - "/pt-br/posts/20251029-six-months-at-google/"
+description: "Retrospectiva dos meus primeiros seis meses como Engenheira de DevRel no Google. Abrange 15 eventos globais, reskilling no ecossistema de IA (MCP, Agentes) e conquistas."
+proficiencyLevel: "Beginner"
 ---
 
 Hoje chego a um marco muito especial: completei oficialmente meus primeiros seis meses no Google!
@@ -30,7 +35,7 @@ Conectar com pessoas desenvolvedoras presencialmente, ouvir o que estão constru
 
 ![Time de DevRel no I/O Connect Berlim](image03.jpg "Time de DevRel no I/O Connect Berlim")
 
-Na parte de conteúdo, escrevi **15 artigos** para este blog e publiquei [um codelab](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=en#0). Também fiz pequenas contribuições para projetos open source e documentação.
+Na parte de conteúdo, escrevi **15 artigos** para este blog e publiquei o [Codelab de Gemini CLI e MCP em Go](https://codelabs.developers.google.com/cloud-gemini-cli-mcp-go?hl=pt-br#0). Também fiz pequenas contribuições para projetos open source e documentação.
 
 ### Me refatorando
 

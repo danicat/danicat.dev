@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-11-03T09:00:00Z'
 series:
@@ -14,7 +13,19 @@ tags:
   - rag
   - sqlite
   - tutorial
-title: How to Build an Offline Agent with ADK, Ollama and SQLite
+title: "How to Build an Offline Agent with ADK, Ollama and SQLite"
+slug: "building-aida-part-2"
+aliases:
+  - "/posts/20251103-building-aida-part-2/"
+description: "Step-by-step guide to building a 100% offline AI agent using Google ADK, local Qwen 2.5 via Ollama and LiteLLM, and local SQLite vector RAG with sqlite-rag."
+proficiencyLevel: "Advanced"
+dependencies:
+  - "Python 3.11+"
+  - "Google ADK"
+  - "Ollama"
+  - "Qwen 2.5"
+  - "SQLite"
+  - "sqlite-rag"
 ---
 
 In [Part 5 of this series]({{< ref "/posts/20251031-building-aida" >}}), we focused on building a custom client interface for our agent. It was a great step in making the agent more usable, but it was still lacking a key feature: what happens when the network is down?

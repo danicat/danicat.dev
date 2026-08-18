@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-14
@@ -9,10 +8,16 @@ tags:
   - gemini-cli
   - tutorial
   - vibe-coding
-title: Proatividade pode ser prejudicial? Um guia para customizar o Gemini CLI para
-  o seu estilo de codificação
+title: "Customizando o Gemini CLI: GEMINI.md e Prompts de Sistema"
+slug: "gemini-cli-system-prompt"
+aliases:
+  - "/pt-br/posts/20250715-gemini-cli-system-prompt/"
+description: "Guia prático para controlar a proatividade da Gemini CLI usando arquivos de contexto GEMINI.md e variáveis de ambiente para ajustar ao seu estilo de código."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Terminal"
 ---
-{{< translation-notice >}}
 
 {{< alert "circle-info" >}}
 **Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema Antigravity atualizado, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
@@ -22,7 +27,7 @@ title: Proatividade pode ser prejudicial? Um guia para customizar o Gemini CLI p
 
 Muitos de vocês já devem estar familiarizados com o [Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b432031389&utm_medium=external&utm_source=blog), mas caso não estejam, confiram o [blog de lançamento](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) oficial para uma visão geral rápida.
 
-Eu escrevi sobre como o incluí no meu fluxo de trabalho no meu post anterior ["Um Fluxo de Trabalho de Desenvolvimento Moderno para o Mundo Habilitado por IA"](../20250714-developer-workflow/), mas desta vez quero explorar algo um pouco diferente. Se você usou o CLI por um tempo, deve ter notado que ele é muito "proativo", pois muitas vezes infere os próximos passos com base até mesmo nos prompts mais ambíguos e imediatamente parte para a ação com base nessas inferências.
+Eu escrevi sobre como o incluí no meu fluxo de trabalho no meu post anterior ["Um Fluxo de Trabalho de Desenvolvimento Moderno para o Mundo Habilitado por IA"]({{< ref "/posts/20250714-developer-workflow" >}}), mas desta vez quero explorar algo um pouco diferente. Se você usou o CLI por um tempo, deve ter notado que ele é muito "proativo", pois muitas vezes infere os próximos passos com base até mesmo nos prompts mais ambíguos e imediatamente parte para a ação com base nessas inferências.
 
 A intenção é dar à conversa um fluxo mais humano. Por exemplo, se você o instrui a escrever alguns testes, mas esquece de atualizar o README com as instruções para executar esses testes, pode-se dar um prompt de acompanhamento como uma pergunta do tipo "Você não deveria atualizar o README para adicionar as instruções para executar os testes?" e o CLI assumirá que a pergunta é retórica e prosseguirá com o comando para atualizar o arquivo README.
 

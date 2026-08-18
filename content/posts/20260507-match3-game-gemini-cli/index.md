@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-05-07 09:00:00+00:00
 heroStyle: big
@@ -11,7 +10,17 @@ tags:
   - golang
   - subagents
   - vibe-coding
-title: Build a Match 3 Arcade Game Using Gemini CLI
+title: "Build a Match 3 Arcade Game Using Gemini CLI"
+slug: "match3-game-gemini-cli"
+aliases:
+  - "/posts/20260507-match3-game-gemini-cli/"
+description: "Step-by-step tutorial on building a 2D Match-3 game in Go and Ebitengine using Gemini CLI. Covers plan mode, subagents for visual testing, and Cloud Run."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.22+"
+  - "Ebitengine v2"
+  - "Gemini CLI / Antigravity CLI"
+  - "Google Cloud Run"
 ---
 
 {{< alert "circle-info" >}}

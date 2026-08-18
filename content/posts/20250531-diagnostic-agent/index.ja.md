@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-05-31T01:00:00+01:00'
 series:
@@ -11,73 +10,82 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: 'AIエージェントを使って自分のPCを「エンタープライズ号」にした話'
+title: "AI エージェントを使って自分の PC を「エンタープライズ号」にした話"
+slug: "diagnostic-agent-uss-enterprise"
+aliases:
+  - "/ja/posts/20250531-diagnostic-agent/"
+description: "Gemini と Vertex AI Agent Engine、osquery の Function Calling を使って、自然言語でPCの健全性を診断するスタートレック風アシスタントを構築。"
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-cloud-aiplatform"
+  - "osquery"
 ---
 _宇宙、それは人類に残された最後の開拓地である。そこには人類の想像を絶する新しい文明、新しい生命が待ち受けているに違いない。これは人類初の試みとして5年間の調査飛行に飛び立った宇宙探査船USSエンタープライズ号の驚異に満ちた物語である。_
 
 ## はじめに
 
-子供の頃、父の影響で私は毎日のようにこのオープニングナレーションを聞いて育ちました。父のスタートレックへの情熱が、私がソフトウェアエンジニアの道を選ぶきっかけに大きく影響したことは間違いありません。（スタートレックをご存知ない方のために補足すると、このフレーズはスタートレック初代シリーズの全エピソードの冒頭で流れていたものです）。
+子供の頃、父の影響で私は毎日のようにこのオープニングナレーションを聞いて育ちました。父のスタートレックへの情熱が、私がソフトウェアエンジニアの道を選ぶ上で大きなきっかけになったのだと思います。（スタートレックをご存じない方のために補足すると、このナレーションは初代スタートレックシリーズの全エピソードの冒頭で流れていたものです）
 
-スタートレックは常に時代を先取りしていました。当時は物議を醸した[米テレビ史上初の異人種間のキスシーン](https://en.wikipedia.org/wiki/Kirk_and_Uhura%27s_kiss)を描き、スマートフォンやビデオ会議など、今日では当たり前となった数多くの「未来的」テクノロジーを先取りしていました。
+スタートレックは常に時代を先取りしていました。そのような描写が大きな議論を呼んだ時代に、[米国のテレビ史上初となる異人種間のキスシーン](https://en.wikipedia.org/wiki/Kirk_and_Uhura%27s_kiss)を放映し、スマートフォンやビデオ会議など、今日では当たり前となった数多くの「未来的」テクノロジーも描いていました。
 
-特に印象的なのは、劇中のエンジニアたちがコンピューターとやり取りする方法です。キーボードを叩くシーンも時折見られますが、多くのコマンドは自然言語による音声で指示されます。「レベル1診断を実行せよ」といった象徴的な命令は、熱心なファンの間で[定番のジョーク](https://www.youtube.com/watch?v=cYzByQjzTb0)になるほど何度も登場しました。
+特に印象的なのは、劇中のエンジニアたちがコンピューターとやり取りする方法です。キーボードを叩いたりボタンを押したりする場面も時折見られますが、多くのコマンドは自然言語の音声で指示されます。「レベル1診断手順（level 1 diagnostic procedure）を実行せよ」といった象徴的な命令は、あまりに頻繁に登場するため、熱心なファンの間では[定番のネタ（ジョーク）](https://www.youtube.com/watch?v=cYzByQjzTb0)になっているほどです。
 
-それから30年以上が経ち、私たちはインターネット以上の変革をもたらすと言われる「AIの時代」を迎えています。AIが仕事に与える影響を不安視する声も多くありますが（[先週の記事でもこれについて書きました]({{< ref "/posts/20250528-vibe-coding" >}})）、スタートレックを見て育った私には、今後数年でエンジニアの役割がどのように変化していくのかが明確に見えてきます。コードを1行ずつ書き、コンパイラを通じて手動で指示を与える代わりに、私たちは間もなくコンピューターと直接対話し、ブレインストーミングを行いながら開発を進めるようになるでしょう。
+それから30年以上が経ち、私たちはインターネット以上の変革をもたらすと言われる「AI の時代」を迎えています。AI が仕事に与える影響を不安視する声も多くありますが（[先週の記事「誰でもvibe codeできるのか？」]({{< ref "/posts/20250528-vibe-coding" >}}) でも触れました）、スタートレックを見て育った私には、今後数年でエンジニアの役割がどのように変化していくのかが自然とイメージできます。コードを1行ずつ書き、コンパイラを通じて手動で指示を与える代わりに、私たちは間もなくコンピューターと直接対話し、ブレインストーミングを行いながら開発を進めるようになるでしょう。
 
-今回はその世界観を体験するために、現在のテクノロジーを使って、自然言語で自分のマシンと対話できるシンプルな診断エージェントを作成してみます。
+これを具体的にイメージできるように、今回は現在利用可能なテクノロジーを使って、自然言語で自分のマシンと対話できる小さな診断エージェントを作成してみます。
 
 ## このデモに必要なもの
 
-開発言語には、実験がしやすい Jupyter Notebook 上の Python を使用します。主なツールとライブラリは以下の通りです：
+開発言語には、実験がしやすい Jupyter Notebook 上の Python を使用します。主に使用するツールとライブラリは以下の通りです：
 
 *   [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog)
-*   [Osquery](https://www.osquery.io/) および [Python バインディング](https://github.com/osquery/osquery-python)
-*   [Jupyter Notebook](https://jupyter.org/) [任意]（今回は [VSCode の Jupyter 拡張機能](https://code.visualstudio.com/docs/datascience/jupyter-notebooks)を使用しています）
+*   [Osquery](https://www.osquery.io/)（および [Python バインディング](https://github.com/osquery/osquery-python)）
+*   [Jupyter Notebook](https://jupyter.org/) [任意]（私は [VS Code の Jupyter 拡張機能](https://code.visualstudio.com/docs/datascience/jupyter-notebooks) を使用しています）
 
-以下の例では Gemini 2.0 Flash を使用しますが、他の [Gemini モデルバリアント](https://ai.google.dev/gemini-api/docs/models)でも構いません。クラウド上のサーバーではなくローカルマシンの診断を行うため、今回は Google Cloud へのデプロイは行いません。
+以下のサンプルでは Gemini 2.0 Flash を使用しますが、お好みの [Gemini モデルバリアント](https://ai.google.dev/gemini-api/docs/models) を使用できます。クラウド上のサーバーではなくローカルマシンの診断を行うため、今回はエージェントを Google Cloud にデプロイすることはしません。
 
 ## エージェントの概要
 
-エージェントの仕組みをすでにご存知の方は、このセクションを読み飛ばしていただいて構いません。
+エージェント技術の仕組みをすでにご存じの方は、このセクションをスキップして構いません。
 
-AI エージェントとは、周囲の環境を認識し、特定の目標を達成するために自律的なアクションを実行できる AI システムです。入力に基づいてテキストを生成することに特化した従来の LLM とは異なり、エージェントは環境と対話し、意思決定を行い、タスクを実行して目的を達成します。これは、エージェントに情報を提供し、アクションを実行できるようにする「ツール (tools)」によって実現されます。
+AI エージェントとは、周囲の環境を認識し、特定の目標を達成するために自律的なアクションを実行できる AI システムです。入力に基づいてコンテンツを生成することに特化した従来の大規模言語モデル（LLM）と比較すると、AI エージェントは環境と対話し、意思決定を行い、目的を達成するためのタスクを実行できます。これは、エージェントに情報を提供し、アクションを実行可能にする「ツール（tools）」を使用することで実現されます。
 
-今回は [Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog) 経由で LangChain を使用してエージェントを構築します。まず、必要なパッケージをシステムにインストールします：
+エージェント技術を体験するために、今回は [Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog) 経由で LangChain を使用します。まず、必要なパッケージをシステムにインストールします：
 
 ```shell
 pip install --upgrade --quiet google-cloud-aiplatform[agent_engines,langchain]
 ```
 
-次に、gcloud CLI の Application Default Credentials (ADC) を設定します：
+また、gcloud の Application Default Credentials（ADC）を設定する必要があります：
 
 ```shell
 gcloud auth application-default login
 ```
 
-*※注意：実行環境によっては、別の認証方法が必要になる場合があります。*
+注：このデモを実行する環境によっては、別の認証方法が必要になる場合があります。
 
-これで Python スクリプトの作成準備が整いました。まず、Google Cloud の Project ID とリージョンを指定して SDK を初期化します：
+これで Python スクリプトの作成準備が整いました。まず、Google Cloud のプロジェクト ID とロケーションに基づいて SDK を初期化します：
 
 ```python
 import vertexai
 
 vertexai.init(
-    project="my-project-id",                  # あなたの Project ID
-    location="us-central1",                   # Google Cloud リージョン
+    project="my-project-id",                  # あなたのプロジェクト ID
+    location="us-central1",                   # クラウドのロケーション
     staging_bucket="gs://my-staging-bucket",  # ステージング用バケット
 )
 ```
 
-初期設定が完了したら、Agent Engine で LangChain エージェントを作成するのは非常に簡単です：
+初期設定が完了したら、Agent Engine で LangChain を使用したエージェントの作成は非常にシンプルです：
 
 ```python
 from vertexai import agent_engines
 
-model = "gemini-2.0-flash" # お好みのモデルを試してみてください！
+model = "gemini-2.0-flash" # ぜひ他のモデルも試してみてください！
 
 model_kwargs = {
-    # temperature (float): トークン選択のランダム性を制御します
+    # temperature (float): サンプリング温度。トークン選択のランダム性を制御します。
     "temperature": 0.20,
 }
 
@@ -91,39 +99,39 @@ agent = agent_engines.LangchainAgent(
 
 ```python
 response = agent.query(
-    input="今何時ですか？"
+    input="which time is now?"
 )
 print(response)
 ```
 
-実行すると、以下のような応答が返ってきます：
+すると、次のような応答が返ってきます：
 
 ```
-{'input': '今何時ですか？', 'output': '私はAIであるため、人間と同じような「現在」の時刻や場所の感覚を持っていません。私の知識はリアルタイムでは更新されません。\n\n現在の時刻を確認するには、以下の方法をお試しください：\n\n*   **デバイスを確認する:** PC、スマートフォン、タブレットに現在時刻が表示されています。\n*   **検索する:** Google などの検索エンジンで「現在時刻」と検索してください。'}
+{'input': 'which time is now?', 'output': 'As an AI, I don\'t have a "current" time or location in the same way a human does. My knowledge isn\'t updated in real-time.\n\nTo find out the current time, you can:\n\n*   **Check your device:** Your computer, phone, or tablet will display the current time.\n*   **Do a quick search:** Type "what time is it" into a search engine like Google.'}
 ```
 
-設定やプロンプト、モデルの挙動によっては、時刻がわからないと回答するか、あるいは「幻覚（ハルシネーション）」を起こして架空のタイムスタンプを返してくることがあります。AI 自体は時計を持っていないため、時計というツールを与えない限り、この質問に正確に答えることはできません。
+設定やプロンプト、そしてモデルの挙動の揺らぎによっては、時刻を答えられないと返すか、あるいは「ハルシネーション（幻覚）」を起こして架空のタイムスタンプをでっち上げるかのどちらかになります。実際のところ、AI は時計を持っていないため、時計というツールを与えない限りこの質問には答えられません。
 
 ## Function Calling（関数呼び出し）
 
-エージェントの機能を拡張する最も便利な方法の 1 つが、Python 関数をツールとして渡すことです。手順はシンプルですが、関数の docstring（ドキュメント）を詳細に記述するほど、エージェントが適切に関数を呼び出しやすくなります。現在時刻を取得する関数を定義してみましょう：
+エージェントの機能を拡張する最も便利な方法の 1 つは、呼び出し可能な Python 関数を渡すことです。手順自体は非常にシンプルですが、関数の docstring（ドキュメント）を詳細に記述するほど、エージェントが適切に関数を呼び出しやすくなる点は重要です。まずは現在時刻を確認する関数を定義してみましょう：
 
 ```python
 import datetime
 
 def get_current_time():
-    """現在時刻を datetime オブジェクトとして返します。
+    """Returns the current time as a datetime object.
 
     Args:
         None
     
     Returns:
-        datetime: datetime 型の現在時刻
+        datetime: current time as a datetime type
     """
     return datetime.datetime.now()
 ```
 
-システム時刻を返す関数ができたので、この関数をツールとしてエージェントに渡して再作成します：
+システム時刻を返す関数が用意できたので、この関数の存在を認識させた上でエージェントを再作成します：
 
 ```python
 agent = agent_engines.LangchainAgent(
@@ -133,43 +141,43 @@ agent = agent_engines.LangchainAgent(
 )
 ```
 
-もう一度同じ質問をしてみます：
+そして、もう一度同じ質問を投げます：
 
 ```python
 response = agent.query(
-    input="今何時ですか？"
+    input="which time is now?"
 )
 print(response)
 ```
 
-出力は以下のようになります：
+出力は次のようになります：
 
 ```
-{'input': '今何時ですか？', 'output': '現在の時刻は 2025年5月30日 18:36:42 UTC です。'}
+{'input': 'which time is now?', 'output': 'The current time is 18:36:42 UTC on May 30, 2025.'}
 ```
 
-エージェントがツールを使用して、実際のシステムデータを基に正確な回答を返せるようになりました。
+これでエージェントはツールを活用し、実際のデータに基づいて質問に答えられるようになりました。なかなか面白いと思いませんか？
 
 ## システム情報の収集
 
-今回の診断エージェントには、[Osquery](https://www.osquery.io/) を使用して稼働中のマシン情報を取得する機能を持たせます。Osquery は Facebook（現 Meta）が開発したオープンソースツールで、オペレーティングシステムの内部情報を SQL クエリで取得できる「仮想テーブル」を提供します。
+今回の診断エージェントには、[Osquery](https://www.osquery.io/) というツールを使って、実行中のマシンに関する情報を取得する機能を持たせます。Osquery は Facebook（現 Meta）が開発したオープンソースツールで、OS の内部情報を公開する「仮想テーブル」に対して SQL クエリを実行できるようにするものです。
 
-これにより、システム情報の取得口が 1 つに統一されるだけでなく、LLM が得意とする SQL クエリの生成能力を最大限に活かすことができます。
+これは非常に便利です。システムに関する問い合わせの窓口が 1 つにまとまるだけでなく、LLM は SQL クエリの作成が非常に得意だからです。
 
-Osquery のインストール手順については、[公式ドキュメント](https://osquery.readthedocs.io/en/stable/) を参照してください（OS によって手順が異なります）。
+Osquery のインストール手順は [公式ドキュメント](https://osquery.readthedocs.io/en/stable/) を参照してください。マシンの OS によって手順が異なるため、ここでは割愛します。
 
-Osquery がインストールできたら、Python バインディングをインストールします：
+Osquery をインストールしたら、Osquery の Python バインディングをインストールします。Python らしく、`pip install` 1 つで完了します：
 
 ```shell
 pip install --upgrade --quiet osquery
 ```
 
-バインディングがインストールされると、`osquery` パッケージをインポートしてクエリを実行できるようになります：
+バインディングをインストールしたら、`osquery` パッケージをインポートして Osquery の呼び出しを行えます：
 
 ```python
 import osquery
 
-# 一時的な拡張ソケットを使用して osquery プロセスを起動
+# エフェメラルな拡張ソケットを使用して osquery プロセスを起動
 instance = osquery.SpawnInstance()
 instance.open()  # 例外が発生する可能性があります
 
@@ -177,90 +185,90 @@ instance.open()  # 例外が発生する可能性があります
 instance.client.query("select timestamp from time")
 ```
 
-`query` メソッドは、クエリ結果を含む `ExtensionResponse` オブジェクトを返します：
+`query` メソッドは、クエリ結果を含む `ExtensionResponse` オブジェクトを返します。例えば以下のようになります：
 
 ```python
 ExtensionResponse(status=ExtensionStatus(code=0, message='OK', uuid=0), response=[{'timestamp': 'Fri May 30 17:54:06 2025 UTC'}])
 ```
 
-Osquery を使ったことがない方は、[公式スキーマ](https://www.osquery.io/schema/5.17.0/) を確認して、お使いの OS でどのような情報が取得できるかをぜひ確認してみてください。
+これまで Osquery を使ったことがない方は、[スキーマ](https://www.osquery.io/schema/5.17.0/) を確認して、お使いの OS でどのような情報が取得できるかを見てみることをおすすめします。
 
-### 出力のフォーマットについて
+### 出力フォーマットに関する補足
 
-これまでの例では出力がプレーンテキストでしたが、Jupyter Notebook で実行している場合は、以下のモジュールをインポートして Markdown 形式で見やすく表示できます：
+これまでのサンプルの出力はフォーマットされていませんでしたが、Jupyter 上でコードを実行している場合は、以下のモジュールをインポートすることで出力を綺麗に整える便利なメソッドが使えます：
 
 ```python
 from IPython.display import Markdown, display
 ```
 
-エージェントの応答を Markdown でレンダリングします：
+そして、レスポンスの出力を Markdown として表示します：
 
 ```python
 response = agent.query(
-    input="今日の宇宙暦（スターデート）を教えてください"
+    input="what is today's stardate?"
 )
 display(Markdown(response["output"]))
 ```
 
-出力例：
+出力：
 
 ```
-船長日誌、追伸。現在の宇宙暦は 48972.5 です。
+Captain's Log, Supplemental. The current stardate is 48972.5.
 ```
 
-## 点と点を結ぶ：診断エージェントの完成
+## 点と点をつなぐ（診断エージェントの実装）
 
-システム情報を取得する方法がわかったので、エージェントの仕組みと組み合わせて、マシンの状態に関する質問に答える診断エージェントを作ります。
+OS の情報を照会する方法がわかったので、エージェントの知識と組み合わせて、システムに関する質問に答えてくれる診断エージェントを作成しましょう。
 
-まず、Osquery でクエリを実行する関数を定義します。これをツールとしてエージェントに登録します：
+最初のステップは、クエリを実行する関数を定義することです。この関数は、後で情報収集用のツールとしてエージェントに渡します：
 
 ```python
 def call_osquery(query: str):
-    """osquery を使用してオペレーティングシステムに問い合わせを行います。
+    """Query the operating system using osquery
       
-      この関数は、現在のマシン、OS、および実行中のプロセスに関する情報を取得するために osquery プロセスへクエリを送信します。
-      また、sqlite_master、sqlite_temp_master などのシステムテーブルや仮想テーブルを使用して、osquery インスタンスに関する情報を調べることもできます。
+      This function is used to send a query to the osquery process to return information about the current machine, operating system and running processes.
+      You can also use this function to query the underlying SQLite database to discover more information about the osquery instance by using system tables like sqlite_master, sqlite_temp_master and virtual tables.
 
       Args:
-        query: str  osquery テーブルに対する SQL クエリ（例: "select timestamp from time"）
+        query: str  A SQL query to one of osquery tables (e.g. "select timestamp from time")
 
       Returns:
-        ExtensionResponse: リクエストのステータスと、成功した場合はクエリ結果を含むレスポンス
+        ExtensionResponse: an osquery response with the status of the request and a response to the query if successful.
     """
     return instance.client.query(query)
 ```
 
-関数自体はシンプルですが、エージェントがツールの使い方と制約を正しく理解できるよう、docstring を詳細に記述することが極めて重要です。
+関数自体は極めてシンプルですが、ここで重要なのは、エージェントがこの関数の動作を理解できるように非常に詳細な docstring を記述することです。
 
-テスト中によく発生した問題として、エージェントがシステム上に存在しないテーブルを参照しようとするケースがありました（例えば macOS には `memory_info` テーブルが存在しません）。
+テスト中によく発生した厄介な問題として、エージェントがシステム上にどのテーブルが存在するかを正確に把握していないという点がありました。例えば、私は macOS マシンで実行しているのですが、`memory_info` というテーブルは macOS には存在しません。
 
-そこで、システムに存在する仮想テーブルの一覧を動的に取得してエージェントに渡すようにします。理想的にはカラム名や型定義を含むスキーマ全体を渡すのがベストですが、テーブル一覧だけでも大幅に精度が向上します。
+エージェントにより多くのコンテキストを提供するために、このシステムで利用可能なテーブル名を動的に渡すようにします。理想的な状況であれば、カラム名や説明を含むスキーマ全体を渡すところですが、Osquery ではそれを実現するのは容易ではありません。
 
-Osquery の内部データベースエンジンは SQLite であるため、`sqlite_temp_master` から仮想テーブルの一覧を取得できます：
+Osquery の基盤となるデータベース技術は SQLite なので、`sqlite_temp_master` テーブルから仮想テーブルの一覧を取得できます：
 
 ```python
-# 現在のシステムで利用可能なテーブル一覧を取得
+# Python の小技を使って、このシステムに存在するテーブル一覧を特定する
 response = instance.client.query("select name from sqlite_temp_master").response
 tables = [ t["name"] for t in response ]
 ```
 
-テーブル一覧が取得できたら、システム指示（system instruction）と `call_osquery` ツールを組み込んでエージェントを作成します：
+テーブル名がすべて取得できたので、この情報と `call_osquery` ツールを使用してエージェントを作成します：
 
 ```python
 osagent = agent_engines.LangchainAgent(
     model = model,
     system_instruction=f"""
-    あなたは実行中のマシンに関する質問に答えるエージェントです。
-    利用可能な 1 つ以上のテーブルに対して SQL クエリを実行し、ユーザーの質問に答えてください。
-    常に人間が読みやすい形式で値を返してください（例: バイトではなくメガバイト、ミリ秒ではなく整形された時間形式）。
-    ユーザーのリクエストは柔軟に解釈してください。例えば、アプリケーションに関する情報を求められた場合は、プロセスやサービスに関する情報を返しても構いません。リソース使用量を求められた場合は、メモリと CPU の両方の情報を返してください。
-    ユーザーに確認や聞き返しを行わないでください。
-    利用可能なテーブルは以下の通りです：
-    ----- テーブル一覧 -----
+    You are an agent that answers questions about the machine you are running in.
+    You should run SQL queries using one or more of the tables to answer the user questions.
+    Always return human readable values (e.g. megabytes instead of bytes, and formatted time instead of miliseconds)
+    Be very flexible in your interpretation of the requests. For example, if the user ask for application information, it is acceptable to return information about processes and services. If the user requests resource usage, return BOTH memory and cpu information.
+    Do not ask the user for clarification.
+    You have the following tables available to you: 
+    ----- TABLES -----
     {tables}
-    ----- テーブル一覧終了 -----
+    ----- END TABLES -----
 
-    質問:
+    Question:
     """,
     tools=[
         call_osquery,
@@ -268,90 +276,93 @@ osagent = agent_engines.LangchainAgent(
 )
 ```
 
-これで診断エージェントが完成しました！実際に動かしてみましょう：
+信じられないかもしれませんが、これで私たちのエージェントはあらゆる質問に答える準備が整いました！実際に試してみましょう：
 
 ```python
-response = osagent.query(input="現在の時刻は？")
+response = osagent.query(input="what is the current time?")
 display(Markdown(response["output"]))
 ```
 
 出力：
 
 ```
-現在の時刻は Fri May 30 18:08:15 2025 UTC です。
+The current time is Fri May 30 18:08:15 2025 UTC.
 ```
 
 もう少し複雑な質問をしてみます：
 
 ```python
-response = osagent.query(input="最もリソースを消費しているプロセスは何ですか？")
+response = osagent.query(input="what is the top consuming process?")
 display(Markdown(response["output"]))
 ```
 
 出力：
 
 ```
-最も CPU を消費しているプロセス：
-プロセス名: mediaanalysisd, PID: 1127, 合計 CPU 時間: 2876716
+The top CPU-consuming process is:
+Process Name: mediaanalysisd, PID: 1127, Total CPU Time: 2876716
 
-最もメモリを消費しているプロセス：
-プロセス名: Code Helper (Plugin), PID: 2987, メモリ使用量: 1537 MB
+The top memory-consuming process is:
+Process Name: Code Helper (Plugin), PID: 2987, Memory Usage: 1537 MB
 ```
 
-スタートレック風の指示も試してみましょう：
+さらに創造的な質問を投げかけてみたらどうなるでしょうか？
 
 ```python
-response = osagent.query(input="コンピューター、レベル1診断手順を実行して")
+response = osagent.query(input="computer, run a level 1 diagnostic procedure")
 display(Markdown(response["output"]))
 ```
 
 出力：
 
 ```
-レベル1診断レポートをお知らせします：
+Here is the level 1 diagnostic information:
 
-**オペレーティングシステム:**
-*   **名称:** macOS
-*   **バージョン:** 15.5
-*   **ビルド:** 24F74
-*   **プラットフォーム:** darwin
-*   **アーキテクチャ:** arm64
+**Operating System:**
+*   **Name:** macOS
+*   **Version:** 15.5
+*   **Build:** 24F74
+*   **Platform:** darwin
+*   **Architecture:** arm64
 
-...（省略）...
+... ommitted for brevity ...
 
-**稼働時間 (Uptime):**
-*   **合計秒数:** 261164
-*   **日数:** 3日
-*   **時間:** 0時間
-*   **分:** 32分
-*   **秒:** 44秒
+**Uptime:**
+*   **Total Seconds:** 261164
+*   **Days:** 3
+*   **Hours:** 0
+*   **Minutes:** 32
+*   **Seconds:** 44
+
 ```
 
-レベル1診断の定義を明示的にコード化していないにもかかわらず、エージェントが自律的に包括的な診断レポートを作成してくれました！
+素晴らしいですね！「レベル1診断手順（Level 1 diagnostic procedure）」が何であるかは一切定義していなかったにもかかわらず、驚くほど本格的な診断レポートを返してくれました。
 
-セキュリティチェックの質問も試しました：
+さらに突っ込んだ質問も試してみましたが、その回答も期待を裏切らないものでした（ほとんどの場合は）：
 
 ```python
-response = osagent.query(input="コンピューター、マルウェアが実行されている兆候はありますか？")
+response = osagent.query(input="computer, do you see any signs of malware running?")
 display(Markdown(response["output"]))
 ```
 
 出力：
 
 ```
-ディスク上のファイルに関連付けられていないプロセス（マルウェアの兆候としてよく見られるもの）を確認しましたが、検出されませんでした。また、メモリと CPU 使用率の高いプロセスを調査したところ、主なリソース消費源は Visual Studio Code と Google Chrome、およびその関連ヘルパープロセスであり、正常な動作の範囲内です。
+I have checked for processes that are not associated with a file on disk, which can be a sign of malware, and found none. I have also examined the top processes by memory and CPU usage. The processes consuming the most resources are primarily Visual Studio Code and Google Chrome and their related helper processes. This is typical behavior for these applications.
 
-実行したチェックに基づき、現時点でシステム上に明らかなマルウェアの兆候は見つかりませんでした。
+Based on the checks performed, there are no obvious signs of malware running on the system at this time.
 ```
 
-## おわりに
+_（マイクを落としてステージを去るポーズ）_ =^.^=
 
-わずか数行のコードで、OS の内部状態を自然言語で対話・調査できるインターフェースをゼロから構築できました。少し拡張すれば、より詳細な診断を実行したり、問題を自律的に修復する機能を持たせることも可能です。チャーティ機関長（スコッティ）もきっと喜んでくれるはずです！
+## まとめ
 
-![マウスをマイクにしてコンピューターに話しかけようとするスコッティ機関長](hello-computer-hello.gif)
+使い古された表現かもしれませんが、AI はまさにゲームチェンジャーです。ごくわずかなコード行数で、OS の内部動作と対話できる本格的な自然言語インターフェースをゼロから構築できました。もう少し手を加えれば、より深い診断を行ったり、場合によっては自律的に問題を修復したりするようにエージェントを拡張することもできるでしょう。スコッティ機関長もきっと誇らしく思ってくれるはずです！
 
-この記事で使用したすべてのサンプルコードは、私の [GitHub](https://github.com/danicat/devrel/blob/main/blogs/20250531-diagnostic-agent/diagnostic_agent.ipynb) で確認できます。
+![マウスをマイク代わりにしてコンピューターに話しかけようとするスコッティ機関長](hello-computer-hello.gif)
 
-シリーズ第2弾の [Vertex AI SDK for Python を深く掘り下げる]({{< ref "/posts/20250605-vertex-ai-sdk-python" >}}) では、クライアントと Gemini の通信プロトコルを解明し、低レイヤーでの手動 Function Calling を実装します。
+この記事で紹介したすべてのサンプルのソースコードは、私の [GitHub](https://github.com/danicat/devrel/blob/main/blogs/20250531-diagnostic-agent/diagnostic_agent.ipynb) で公開しています。
 
-皆さんはどのようなプロンプトや診断を試してみたいですか？ぜひコメント欄で教えてください！
+シリーズの次回記事「[Vertex AI SDK for Python を深く掘り下げる]({{< ref "/posts/20250605-vertex-ai-sdk-python" >}})」では、クライアントと Gemini の通信プロトコルの裏側を探り、低レイヤーでの手動 Function Calling を実装します。
+
+皆さんはどう感じましたか？ぜひ下のコメント欄で感想を共有してください！

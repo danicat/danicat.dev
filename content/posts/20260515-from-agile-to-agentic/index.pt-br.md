@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-05-15 12:00:00+00:00
 heroStyle: big
@@ -11,7 +10,15 @@ tags:
   - gemini-cli
   - mcp
   - software-engineering
-title: 'Do Ágil ao Agêntico: Guia para o Desenvolvimento Corporativo Moderno'
+title: "Do Ágil ao Agêntico: Guia de Desenvolvimento Corporativo"
+slug: "from-agile-to-agentic"
+aliases:
+  - "/pt-br/posts/20260515-from-agile-to-agentic/"
+description: "Como traduzir práticas Ágeis em fluxos de desenvolvimento agênticos. Aborda escrita de histórias como prompts, arquitetura com MCP e agentes não programadores."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI / Antigravity CLI"
+  - "Model Context Protocol"
 ---
 
 Se você passou algum tempo significativo na indústria de software na última década, muito provavelmente já vivenciou uma transformação Ágil. Já participou de reuniões intermináveis de planejamento de sprint, compartilhou atualizações em daily standups e talvez até tenha se perguntado se tudo aquilo fazia algum sentido.

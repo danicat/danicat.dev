@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-01-21 00:00:00+00:00
 draft: false
@@ -12,8 +11,18 @@ tags:
   - gemini-cli
   - golang
   - mcp
+  - testing
   - vibe-coding
-title: Melhorando Agentes de Programação com Ajuda da Ciência
+title: "Melhorando Agentes de Programação com Ajuda da Ciência"
+slug: "improving-agentic-coding-with-science"
+aliases:
+  - "/pt-br/posts/20260120-improving-agentic-coding-with-science/"
+description: "Aprenda a avaliar agentes de programação com rigor estatístico e testes A/B usando o framework Tenkai em Go, teste t de Welch, teste exato de Fisher e correlação."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.24+"
+  - "Gemini CLI"
+  - "Tenkai Framework"
 ---
 
 A transição do [determinismo para o não-determinismo](https://newsletter.pragmaticengineer.com/p/martin-fowler) no desenvolvimento de software é um dos maiores desafios que enfrentamos como indústria hoje.
@@ -103,7 +112,7 @@ Mas a orquestração requer medição. Não podemos melhorar o que não podemos 
 
 Se não medirmos o impacto de nossas mudanças com rigor, não estamos fazendo engenharia; estamos apenas jogando com a sorte. Ao avançar para uma abordagem baseada em evidências para agentes de programação, podemos finalmente construir sistemas que não sejam apenas "legais" quando funcionam, mas confiáveis o suficiente para sustentar um negócio.
 
-Se você tiver interesse em conferir o código ou realizar seus próprios experimentos, pode encontrar o projeto [aqui](https://github.com/danicat/tenkai).
+Se você tiver interesse em conferir o código ou realizar seus próprios experimentos, pode encontrar o projeto no [repositório do Tenkai no GitHub](https://github.com/danicat/tenkai).
 
 Bons experimentos! o/
 

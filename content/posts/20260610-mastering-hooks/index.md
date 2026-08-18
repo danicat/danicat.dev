@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-06-10 00:00:00+00:00
 heroStyle: big
@@ -7,7 +6,18 @@ summary: Learn to use agent hooks to incorporate engineering best practices into
   agentic coding loops.
 tags:
   - antigravity
-title: Mastering Hooks in Coding Agents
+  - automation
+  - hooks
+  - security
+title: "Mastering Hooks in Coding Agents: A Practical Guide"
+slug: "mastering-hooks-in-coding-agents"
+aliases:
+  - "/posts/20260610-mastering-hooks/"
+description: "Deep dive into hooks for coding agents like Google Antigravity. Learn to intercept PreToolUse and PostToolUse events to enforce linting and DLP guardrails."
+proficiencyLevel: "Advanced"
+dependencies:
+  - "Google Antigravity 2.0 / agy CLI"
+  - "Python 3.10+"
 ---
 
 Coding agent capabilities are moving fast. My first contact with them was roughly one year ago, just a little after I joined Google. Back then the big deal was the Model Context Protocol (MCP), a flexible technology replacing ad hoc implementations of tools with portable ones (among other things).

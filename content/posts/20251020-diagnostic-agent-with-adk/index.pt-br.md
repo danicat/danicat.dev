@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-10-21T15:44:03+01:00'
 series:
@@ -13,7 +12,17 @@ tags:
   - rag
   - tutorial
   - vertex-ai
-title: 'Como Criar um Agente de Diagnóstico com o Agent Development Kit'
+title: "Como Criar um Agente de Diagnóstico com o Agent Development Kit"
+slug: "diagnostic-agent-with-adk"
+aliases:
+  - "/pt-br/posts/20251020-diagnostic-agent-with-adk/"
+description: "Crie um agente autônomo de diagnóstico em Python usando o Google ADK, osquery e Vertex AI RAG para descoberta de schema e verificações de saúde do sistema."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-adk"
+  - "osquery"
+  - "Vertex AI"
 ---
 ## Introdução
 

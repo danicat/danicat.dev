@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-08-05
@@ -12,10 +11,17 @@ tags:
   - golang
   - mcp
   - vibe-coding
-title: 'Apresentando o Speedgrapher: Um Servidor MCP para Vibe Writing'
+title: "Apresentando o Speedgrapher: Um Servidor MCP para Vibe Writing"
+slug: "introducing-speedgrapher"
+aliases:
+  - "/pt-br/posts/20250805-introducing-speedgrapher/"
+description: "Veja como o Speedgrapher usa prompts e ferramentas do Model Context Protocol para automatizar escrita técnica, pontuação Gunning Fog e revisão editorial."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.24+"
+  - "Gemini CLI / Antigravity CLI"
 ---
 
-{{< translation-notice >}}
 
 ## Introdução
 

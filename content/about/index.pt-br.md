@@ -1,5 +1,4 @@
----
-title: "Sobre"
+---title: "Sobre"
 date: 2025-06-11T00:00:00+01:00
 draft: false
 
@@ -21,8 +20,9 @@ showAuthor: true
 showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
+summary: "Senior DevRel Engineer no Google, ex-GDE, palestrante TEDx e especialista em Go e agentes de IA."
+description: "Sobre Daniela Petruzalek: Senior Developer Relations Engineer no Google em Londres, especialista em Go, Engenharia de Dados, Agentes de IA e vibe coding com disciplina."
 ---
-{{< translation-notice >}}
 Daniela Petruzalek é Senior Developer Relations Engineer no Google, baseada em Londres. É especialista em Go, Engenharia de Dados e no ecossistema emergente de Agentes de IA.
 
 Com uma trajetória de mais de duas décadas em engenharia de software e pré-vendas, Daniela é apaixonada por construir sistemas eficientes e escaláveis, além de ajudar outras pessoas desenvolvedoras a fazerem o mesmo. Antes de ingressar no Google, foi Google Developer Expert (GDE) em Go e Google Cloud Platform. Ela também é Oracle Certified Professional e palestrante TEDx.

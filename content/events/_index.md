@@ -1,5 +1,5 @@
 ---
 title: "Events"
-description: "A directory of my future and past talks, including recordings, decks and supporting materials."
-summary: "A directory of my future and past talks, including recordings, decks and supporting materials."
+description: "Directory of technical keynotes, conference talks, and workshops by Daniela Petruzalek. Includes video recordings, slide decks, and code for Go and AI events."
+summary: "Conference keynotes, technical talks, slide decks, and video recordings on Go and AI Agents."
 ---

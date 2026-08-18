@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-06-11T00:00:00+01:00'
 series:
@@ -11,7 +10,17 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: 'Promptando com Ousadia: Um Guia Prático de Instruções de Sistema e Ferramentas para Agentes'
+title: "Instruções de Sistema e Ferramentas para Agentes em Python"
+slug: "system-instructions-agent-tools"
+aliases:
+  - "/pt-br/posts/20250611-system-prompt/"
+description: "Aprenda a combinar instruções de sistema, histórico de chat e ferramentas osquery em Python com a Vertex AI para construir um assistente de diagnóstico autônomo."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-cloud-aiplatform"
+  - "osquery"
+  - "LangChain"
 ---
 ## Introdução
 

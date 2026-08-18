@@ -56,7 +56,7 @@
             <div class="mt-3 md:mt-0 flex flex-col flex-grow min-w-0">
                 <div class="mb-2">
                     <h3 class="text-xl font-bold text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
-                        <a href="{{ .Params.externalUrl | default .RelPermalink }}" target="_blank" rel="external">
+                        <a href="{{ .Params.externalUrl | default .RelPermalink }}" target="_blank" rel="external noopener">
                             {{ .Title | emojify }}
                             {{ if .Params.externalUrl }}
                                 <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">

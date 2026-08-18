@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-14
@@ -9,8 +8,15 @@ tags:
   - gemini-cli
   - tutorial
   - vibe-coding
-title: Proactiveness considered harmful? A guide to customise the Gemini CLI to suit
-  your coding style
+title: "Customising Gemini CLI: GEMINI.md and System Prompts"
+slug: "gemini-cli-system-prompt"
+aliases:
+  - "/posts/20250715-gemini-cli-system-prompt/"
+description: "Step-by-step guide to controlling Gemini CLI proactivity using GEMINI.md context files and GEMINI_SYSTEM_MD environment variable overrides."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Terminal"
 ---
 
 {{< alert "circle-info" >}}
@@ -21,7 +27,7 @@ title: Proactiveness considered harmful? A guide to customise the Gemini CLI to 
 
 Many of you should be familiar with the [Gemini CLI](https://cloud.google.com/gemini/docs/codeassist/gemini-cli?utm_campaign=CDR_0x72884f69_default_b432031389&utm_medium=external&utm_source=blog) by now, but in case you are not, check the official [release blog](https://blog.google/technology/developers/introducing-gemini-cli-open-source-ai-agent/) for a quick overview.
 
-I've written about how I've included it in my workflow in my previous post ["A Modern Developer Workflow for the AI Enabled World"](../20250714-developer-workflow/), but this time I want to explore something slightly different. If you have used the CLI for a while you might have noticed that it is very "proactive" as it will often infer the next steps based on even the most ambiguous prompts and immediately jump to perform actions based on these inferences.
+I've written about how I've included it in my workflow in my previous post ["A Modern Developer Workflow for the AI Enabled World"]({{< ref "/posts/20250714-developer-workflow" >}}), but this time I want to explore something slightly different. If you have used the CLI for a while you might have noticed that it is very "proactive" as it will often infer the next steps based on even the most ambiguous prompts and immediately jump to perform actions based on these inferences.
 
 The intent is to give the conversation a more human-like flow. For example, if you instruct it to write some tests, but it forgot to update the README with the instructions to run those tests, one might want to give it a follow up prompt as a question like "Shouldn't you update the README to add the instructions to run the tests?" and the CLI will assume the question is rhetorical and proceed with the command to update the README file.
 

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-08-17
 heroStyle: big
@@ -13,7 +12,16 @@ tags:
   - gemini
   - golang
   - mcp
-title: 'Gemini for Go Developers - Part 2: Coding with Gemini'
+title: "Gemini for Go Developers - Part 2: Coding with Gemini"
+slug: "gemini-for-go-developers-part-2-coding-with-gemini"
+aliases:
+  - "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"
+description: "Part 2 of Gemini for Go: maximize Go's agentic affinity, explore Antigravity surfaces, configure MCP servers, and build an AI-native Go toolkit."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.24+"
+  - "Antigravity CLI"
+  - "godoctor"
 ---
 
 Welcome back to **Gemini for Go Developers**! In [Part 1: The Gemini Model Family]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), we explored the different Gemini models for specific use cases, looked at API surfaces to consume models, and wrote our first Go code with the official [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai).
@@ -171,8 +179,6 @@ The current version of `godoctor` provides the following:
 
 #### Platform knowledge and self-improvement
 
-<!-- Human review stopped here: DO NOT REMOVE THIS MARKER -->
-<!-- AI review starts here -->
 
 While `godoctor` and `gopls` handle local code semantics, coding agents also need live platform knowledge and workflow playbooks to understand the services they are integrating with. Here are the essential cloud and API resources when working with Go, GCP, and Gemini:
 

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-02-27 12:00:00+00:00
 heroStyle: big
@@ -12,14 +11,23 @@ tags:
   - agent-skills
   - gemini-cli
   - vibe-coding
-title: Building Agent Skills with skill-creator
+title: "Building Agent Skills with skill-creator"
+slug: "gemini-cli-skills-part-2"
+aliases:
+  - "/posts/20260227-gemini-cli-skills-part-2/"
+description: "Explore practical Agent Skills design with Gemini CLI's skill-creator. Detailed examples include latest-version, pyhd with Ruff, find-examples, and de-sloppify."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI >= 0.1.0"
+  - "Node.js >= 18"
+  - "Python 3.10+"
 ---
 
 {{< alert "circle-info" >}}
 **Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the updated platform and features.
 {{< /alert >}}
 
-In the [previous article]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), we explored how Agent Skills add new features to the Gemini CLI. We looked at the `experiment-analyst` skill as a practical example of keeping the agent's context clean while giving it specific instructions for a task.
+In [Part 1: Mastering Custom Agent Skills in Gemini CLI]({{< ref "/posts/20260128-agent-skills-gemini-cli" >}}), we explored how Agent Skills add new features to the Gemini CLI. We looked at the `experiment-analyst` skill as a practical example of keeping the agent's context clean while giving it specific instructions for a task.
 
 Today, we are going to dive into the core principles of skill design and look at a few practical examples of skills I use daily.
 

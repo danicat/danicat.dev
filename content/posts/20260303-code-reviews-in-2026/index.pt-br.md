@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-03-06 00:00:00+00:00
 heroStyle: big
@@ -9,7 +8,15 @@ summary: Um guia prático para code reviews modernos. Aprenda onde investir seu 
 tags:
   - code-review
   - vibe-coding
-title: Como Fazer Code Reviews na Era Agêntica
+title: "Como Fazer Code Reviews na Era Agêntica"
+slug: "code-reviews-in-2026"
+aliases:
+  - "/pt-br/posts/20260303-code-reviews-in-2026/"
+description: "Guia prático para code reviews na era da IA. Saiba quais áreas de arquitetura e API inspecionar manualmente e o que delegar para linters e formatadores."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "golangci-lint"
+  - "Ruff"
 ---
 
 Em 2025, vimos a ascensão do desenvolvimento agêntico (aparentemente o termo "vibe coding" já ficou obsoleto). Entre assistentes de IA e fluxos de trabalho agênticos, funcionalidades estão saindo do forno em um ritmo nunca antes visto. Não é raro ver empresas se gabando da porcentagem de sua base de código escrita inteiramente por IA.

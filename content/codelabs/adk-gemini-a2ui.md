@@ -1,5 +1,4 @@
----
-title: "Build Rich Agentic Interfaces with ADK and A2UI"
+---title: "Build Rich Agentic Interfaces with ADK and A2UI"
 date: 2026-06-17
 externalUrl: "https://codelabs.developers.google.com/adk-gemini-a2ui#0"
 featureimage: "/images/codelabs/placeholder.png"
@@ -12,4 +11,8 @@ tags:
 categories:
   - Agent Development
 showSummary: true
+description: "Step-by-step codelab on building rich agentic user interfaces with Google ADK and A2UI. Learn dynamic web component rendering and event streaming."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - Python 3.10+\n  - Google ADK\n  - A2UI
 ---

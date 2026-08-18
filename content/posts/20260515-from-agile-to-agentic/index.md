@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-05-15 12:00:00+00:00
 heroStyle: big
@@ -10,7 +9,15 @@ tags:
   - gemini-cli
   - mcp
   - software-engineering
-title: 'From Agile to Agentic: A Guide to Modern Enterprise Development'
+title: "From Agile to Agentic: Scaling Enterprise AI Workflows"
+slug: "from-agile-to-agentic"
+aliases:
+  - "/posts/20260515-from-agile-to-agentic/"
+description: "How to translate Agile practices into agentic workflows. Covers prompt-based story writing, conversational architecture with MCP, and non-coding agents."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI / Antigravity CLI"
+  - "Model Context Protocol"
 ---
 
 If you have spent any significant amount of time in the software industry over the last decade, you have probably lived through an Agile transformation. You have sat through endless sprint plannings, shared your updates in daily standups, and maybe even questioned if the whole thing made any sense.

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-06-11T00:00:00+01:00'
 series:
@@ -12,7 +11,17 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: 'Boldly Prompting: A Practical Guide to System Instructions and Agent Tools'
+title: "System Instructions & Agent Tools: Practical Python Guide"
+slug: "system-instructions-agent-tools"
+aliases:
+  - "/posts/20250611-system-prompt/"
+description: "Learn to combine system instructions, multi-turn chat history, and osquery tools in Python with Vertex AI to build an autonomous diagnostic agent."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-cloud-aiplatform"
+  - "osquery"
+  - "LangChain"
 ---
 ## Introduction
 
@@ -397,7 +406,7 @@ Also notice how the agent initially failed when requesting a user column, but th
 
 Our final task today is to ensure the agent remembers what we are talking about so that we can ask clarifying questions and further probe the system following a coherent line of investigation. 
 
-In the [previous article](https://danicat.dev/posts/20250605-vertex-ai-sdk-python/) we explored how LLMs are stateless and that we need to keep “reminding” them of the current state of the conversation using “turns”. Luckily with LangChain we don’t need to do this manually and we can rely on a feature called [chat history](https://python.langchain.com/api_reference/core/chat_history.html).
+In the [previous article]({{< ref "/posts/20250605-vertex-ai-sdk-python" >}}) we explored how LLMs are stateless and that we need to keep “reminding” them of the current state of the conversation using “turns”. Luckily with LangChain we don’t need to do this manually and we can rely on a feature called [chat history](https://python.langchain.com/api_reference/core/chat_history.html).
 
 The beauty of chat history is that anything that implements [BaseChatMessageHistory](https://python.langchain.com/api_reference/core/chat_history/langchain_core.chat_history.BaseChatMessageHistory.html#langchain_core.chat_history.BaseChatMessageHistory) can be used here, which allows us to use all sorts of data stores, including creating our own. For example, in the official documentation for Vertex AI you can find examples for using [Firebase, Bigtable and Spanner](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain#chat-history?utm_campaign=CDR_0x72884f69_awareness_b424142426&utm_medium=external&utm_source=blog).
 

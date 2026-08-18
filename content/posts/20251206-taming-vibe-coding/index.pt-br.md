@@ -1,17 +1,25 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2025-12-06 02:00:00+00:00
 draft: false
 summary: Ganhe a velocidade da IA sem a bagunça. Aplique fundamentos de engenharia
   para manter seu código estruturado, seguro e feito para durar.
 tags:
-  - ai
-  - gemini-cli
-  - jules
-  - mcp
+  - agile
+  - architecture
+  - software-engineering
+  - tdd
   - vibe-coding
-title: 'Domando o Vibe Coding: O Guia da Engenheira'
+title: "Domando o Vibe Coding: O Guia da Engenheira"
+slug: "taming-vibe-coding"
+aliases:
+  - "/pt-br/posts/20251206-taming-vibe-coding/"
+description: "Aplique o rigor da engenharia de software ao vibe coding. Aprenda templates de prompt estruturados, engenharia de contexto, matriz 2x2 e TDD adaptado."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Antigravity CLI"
+  - "Go / Python"
 ---
 
 Chegou aquela época do ano de refletir sobre o que fizemos e o que gostaríamos de ter feito. Este ano foi intenso para mim: entrei no Google em abril e encarei uma corrida sem trégua para me refatorar e me adaptar ao mundo da IA. Com o ano chegando ao fim, posso dizer com total segurança que o esforço valeu a pena: tornei-me uma engenheira melhor.

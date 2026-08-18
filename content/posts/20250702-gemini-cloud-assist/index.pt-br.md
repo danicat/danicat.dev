@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
 summary: Como desenhar infraestrutura no Google Cloud usando linguagem natural com o Gemini Cloud Assist
@@ -7,9 +6,16 @@ tags:
   - gemini
   - google-cloud
   - tutorial
-title: Do Prompt à Infraestrutura com o Gemini Cloud Assist
+title: "Do Prompt à Infraestrutura com o Gemini Cloud Assist"
+slug: "gemini-cloud-assist"
+aliases:
+  - "/pt-br/posts/20250702-gemini-cloud-assist/"
+description: "Projete infraestrutura no Google Cloud usando linguagem natural com o Gemini Cloud Assist e o Application Design Center. Gere e exporte módulos Terraform prontos."
+proficiencyLevel: "Beginner"
+dependencies:
+  - "Google Cloud Platform"
+  - "Terraform"
 ---
-{{< translation-notice >}}
 ## Introdução
 
 Hoje vamos fazer um pequeno desvio do nosso conteúdo habitual sobre agentes de IA para falar sobre um produto que explorei recentemente durante a minha participação no I/O Connect Berlin 2025, na semana passada.
@@ -31,16 +37,16 @@ Vamos ver como combinar essas duas tecnologias para desenhar rapidamente a infra
 
 Você sempre pode abrir o Application Design Center manualmente pelo console do Google Cloud, mas onde estaria a graça nisso? O jeito mais prático de acionar o ADC para um novo desenho é abrir o painel do Gemini a partir de qualquer página. Aqui, por exemplo, estou na tela inicial (Welcome) do meu projeto:
 
-![alt_text](images/image001.png "Tela inicial no console do Google Cloud")
+![Tela inicial no console do Google Cloud](images/image001.png "Tela inicial no console do Google Cloud")
 
 
 Ao clicar no botão de “estrela” no canto direito da barra de pesquisa, você abre o painel do Gemini Cloud Assist:
 
-![alt_text](images/image002.png "Visão ampliada do botão do Gemini")
+![Visão ampliada do botão do Gemini](images/image002.png "Visão ampliada do botão do Gemini")
 
 A interface exibida será esta:
 
-![alt_text](images/image003.png "Tela inicial do Google Cloud Assist")
+![Tela inicial do Google Cloud Assist](images/image003.png "Tela inicial do Google Cloud Assist")
 
 
 Nesse painel você pode interagir diretamente com o Gemini. Digite algo como “crie uma aplicação que faz X” e inclua quantos detalhes arquiteturais desejar. Por exemplo, vamos criar uma aplicação que gera imagens de gatos. Aqui está o prompt:
@@ -49,17 +55,17 @@ Nesse painel você pode interagir diretamente com o Gemini. Digite algo como “
 
 Após enviar o prompt, o Gemini processará a requisição por alguns instantes e apresentará um resultado como este:
 
-![alt_text](images/image004.png "Resposta do Gemini com diagrama de arquitetura")
+![Resposta do Gemini com diagrama de arquitetura](images/image004.png "Resposta do Gemini com diagrama de arquitetura")
 
 A visualização integrada dá uma boa ideia inicial, mas podemos interagir muito melhor com o desenho clicando no botão “Edit app design”. Isso abrirá a arquitetura em modo expandido para refinamento. (Nota: o restante do artigo assume que o botão “Edit app design” abre a janela de Preview. Caso isso não aconteça no seu ambiente, consulte as notas ao final do texto).
 
 É assim que o desenho aparece na janela de “Preview”:
 
-![alt_text](images/image005.png "Janela de Preview do Gemini Cloud Assist")
+![Janela de Preview do Gemini Cloud Assist](images/image005.png "Janela de Preview do Gemini Cloud Assist")
 
 Caso queira ajustar as convenções de nomenclatura ou os detalhes dos componentes gerados, basta clicar sobre qualquer componente para abrir o painel de configuração. Aqui abri os detalhes do meu `frontend-service`:
 
-![alt_text](images/image006.png "Visão do painel de detalhes do componente")
+![Visão do painel de detalhes do componente](images/image006.png "Visão do painel de detalhes do componente")
 
 Repare que a tela exibe a imagem de contêiner instanciada pelo Cloud Run, que por padrão vem como um contêiner “hello”. Isso acontece porque o Gemini Cloud Assist não sabe qual imagem você pretende rodar, mas você pode informar esse valor para que ele faça a substituição.
 
@@ -71,17 +77,17 @@ Na janela de Preview é possível editar componentes existentes, mas não adicio
 
 E esta foi a resposta do Gemini:
 
-![alt_text](images/image007.png "Resposta do Gemini ao prompt complementar")
+![Resposta do Gemini ao prompt complementar](images/image007.png "Resposta do Gemini ao prompt complementar")
 
 A janela de Preview é atualizada com o novo design, destacando adições (em verde), modificações (em azul) e remoções (em vermelho):
 
-![alt_text](images/image008.png "Alterações propostas no diagrama")
+![Alterações propostas no diagrama](images/image008.png "Alterações propostas no diagrama")
 
 Na parte inferior da tela, você pode aceitar ou rejeitar a sugestão. Antes disso, porém, vale a pena inspecionar o código Terraform gerado nos bastidores. Para visualizar as diferenças, clique em “View diff”:
 
 Isso abrirá a janela de Code Diff com ambas as versões lado a lado:
 
-![alt_text](images/image009.png "Janela de diff comparando o código Terraform antes e depois")
+![Janela de diff comparando o código Terraform antes e depois](images/image009.png "Janela de diff comparando o código Terraform antes e depois")
 
 Como você pode notar, cada caixa no diagrama é mapeada para um módulo Terraform específico. Rolando até o fim da página, os módulos adicionados recentemente aparecem destacados em verde.
 
@@ -91,11 +97,11 @@ Prompt: “por que você adicionou um segredo de banco de dados se o banco Cloud
 
 Pois é, no fim das contas não era necessário:
 
-![alt_text](images/image010.png "Resposta do Gemini à pergunta sobre autenticação IAM")
+![Resposta do Gemini à pergunta sobre autenticação IAM](images/image010.png "Resposta do Gemini à pergunta sobre autenticação IAM")
 
 Na janela de Preview:
 
-![alt_text](images/image011.png "Proposta do Gemini para remover o segredo do banco de dados")
+![Proposta do Gemini para remover o segredo do banco de dados](images/image011.png "Proposta do Gemini para remover o segredo do banco de dados")
 
 Esse é um lembrete importante: por mais avançada que a IA seja, ela não nos isenta de avaliar criticamente as decisões técnicas. No final do dia, a responsabilidade pelo que sobe em produção continua sendo nossa, então nunca deixe de validar tudo. 🙂
 
@@ -103,19 +109,19 @@ Falando em validações, outro detalhe que me chamou a atenção foi o tipo de i
 
 > Torne a arquitetura mais econômica (cost effective)
 
-![alt_text](images/image012.png "Resposta do Gemini sugerindo um balanceador regional e trocando Postgres por MySQL")
+![Resposta do Gemini sugerindo um balanceador regional e trocando Postgres por MySQL](images/image012.png "Resposta do Gemini sugerindo um balanceador regional e trocando Postgres por MySQL")
 
 Hummm… essa resposta me fez pensar. Concordo com a troca do balanceador global por um regional, mas não engoli a justificativa de que MySQL seria mais econômico que PostgreSQL. A minha preocupação real era o tamanho da máquina, não a engine do banco.
 
 Além disso, a explicação do Gemini omitiu parte da história. Ao inspecionar o diff com atenção, vi que ele de fato reduziu o tipo de máquina (pelo atributo `tier`), só esqueceu de mencionar na mensagem:
 
-![alt_text](images/image013.png "Diff do Terraform mostrando que o Gemini também alterou o tipo de máquina (tier)")
+![Diff do Terraform mostrando que o Gemini também alterou o tipo de máquina (tier)](images/image013.png "Diff do Terraform mostrando que o Gemini também alterou o tipo de máquina (tier)")
 
 Não fiquei totalmente satisfeita com a justificativa da troca do banco, então perguntei:
 
 > Por que você considera o MySQL mais econômico que o PostgreSQL?
 
-![alt_text](images/image014.png "Perguntando ao Gemini por que ele considera o MySQL mais econômico que o Postgres")
+![Perguntando ao Gemini por que ele considera o MySQL mais econômico que o Postgres](images/image014.png "Perguntando ao Gemini por que ele considera o MySQL mais econômico que o Postgres")
 
 A resposta alegou que o MySQL seria mais barato devido a:
 1. Diferenças de licenciamento
@@ -128,7 +134,7 @@ Infelizmente discordo desses argumentos. Quanto ao item 1, ambos são open sourc
 
 Inspeção final: fiquei satisfeita com o Cloud SQL rodando Postgres em um tier mais modesto, e ainda identifiquei outra alteração bem-vinda no diff — a ativação do recurso de scale-to-zero no Cloud Run:
 
-![alt_text](images/image015.png "Diff do Terraform mostrando que o Cloud Run foi configurado com scale-to-zero (min_instance_count = 0)")
+![Diff do Terraform mostrando que o Cloud Run foi configurado com scale-to-zero (min_instance_count = 0)](images/image015.png "Diff do Terraform mostrando que o Cloud Run foi configurado com scale-to-zero (min_instance_count = 0)")
 
 Essa configuração faz todo sentido para economizar recursos, embora também não tenha sido mencionada explicitamente no diálogo. Fica o reforço da máxima: “confie, mas verifique” qualquer sugestão dada por ferramentas de IA. Não queremos surpresas em produção!
 

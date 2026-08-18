@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-06-05T00:00:00+01:00'
 series:
@@ -11,7 +10,16 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: 'Explorando a Fundo o SDK da Vertex AI para Python'
+title: "Explorando a Fundo o SDK da Vertex AI para Python"
+slug: "vertex-ai-sdk-python"
+aliases:
+  - "/pt-br/posts/20250605-vertex-ai-sdk-python/"
+description: "Guia aprofundado sobre a comunicação entre cliente e API no SDK da Vertex AI para Python. Aprenda a estruturar instruções de sistema, function calling e histórico."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-genai"
+  - "Google Cloud Vertex AI"
 ---
 ## Introdução
 
@@ -229,7 +237,7 @@ get_random_number_decl = {
 }
 ```
 
-Você pode conferir outros esquemas de declaração na [documentação oficial de Function Calling](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#schema-examples?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog).
+Você pode conferir outros esquemas de declaração na [documentação de function calling da Vertex AI](https://cloud.google.com/vertex-ai/generative-ai/docs/multimodal/function-calling#schema-examples?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog).
 
 Agora registramos a ferramenta na configuração do modelo:
 

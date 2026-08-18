@@ -29,7 +29,7 @@
 
 <a href="{{ $href }}"
    class="block w-1/2 mx-auto my-8 transition-all duration-300 ease-in-out hover:shadow-xl dark:hover:shadow-neutral-900"
-   {{ if $is_external }}target="_blank" rel="external"{{ end }}>
+   {{ if $is_external }}target="_blank" rel="external noopener"{{ end }}>
   <div class="flex flex-col bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg overflow-hidden">
 
     {{ if $featured_image_resource }}

@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Perspectives
 date: 2026-07-27 19:40:00+00:00
 feature: feature.jpg
@@ -10,7 +9,12 @@ summary: Toda grande transformação tecnológica enfrenta resistência moraliza
 tags:
   - ai
   - art
-title: 'IA Generativa e Arte: É Realmente Apenas Slop?'
+title: "IA Generativa e Arte: É Realmente Apenas Slop?"
+slug: "genai-and-art-is-it-really-just-slop"
+aliases:
+  - "/pt-br/posts/20260727-genai-and-art-is-it-really-just-slop/"
+description: "Um ensaio sobre a arte gerada por IA: é realmente apenas slop? Uma análise sobre gatekeeping, paralelos históricos, linguagem de domínio e intenção."
+proficiencyLevel: "Beginner"
 ---
 
 "Slop" é o insulto definitivo deste ciclo tecnológico. É uma palavra útil: traduz com precisão o cansaço de abrir uma timeline infestada de conteúdo preguiçoso, gerado por quem digita três palavras numa caixa de prompt e publica o resultado sem qualquer critério ou revisão. Mas será justo usar esse termo para desqualificar de antemão toda uma nova categoria de expressão artística?

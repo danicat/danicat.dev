@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-11
@@ -8,9 +7,17 @@ tags:
   - gemini-cli
   - jules
   - vibe-coding
-title: Um Fluxo de Trabalho Moderno para o Mundo Habilitado por IA
+title: "Um Fluxo de Trabalho Moderno para o Mundo Habilitado por IA"
+slug: "developer-workflow-ai-world"
+aliases:
+  - "/pt-br/posts/20250714-developer-workflow/"
+description: "Um framework bidimensional de priorização para fluxos de desenvolvimento com IA. Equilibre certeza técnica e valor de negócio com a Gemini CLI e o Jules."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Jules AI Agent"
+  - "Git"
 ---
-{{< translation-notice >}}
 ## Introdução
 
 Acabei de voltar do WeAreDevelopers World Congress 2025 em Berlim e voltei inspirada pelas inúmeras pessoas desenvolvedoras que conheci de toda a Europa e do mundo. Como esperado, o grande tema deste ano foi IA — e ela está em todo lugar! Temos IA na nuvem, no computador, nos óculos de sol, na torradeira, na pia da cozinha e até no rolo de papel higiênico. Ninguém consegue escapar da IA… nem mesmo os frameworks JavaScript conseguem surgir mais rápido que ela! Estamos CONDENADOS!!! >.<

@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-07-03
@@ -8,9 +7,17 @@ tags:
   - jules
   - tutorial
   - vibe-coding
-title: Como usei o Jules para adicionar um post em destaque a este blog
+title: "Como Usei o Jules para Criar um Post em Destaque no Blog"
+slug: "jules-featured-post"
+aliases:
+  - "/pt-br/posts/20250703-jules-featured-post/"
+description: "Estudo de caso sobre o uso do agente Jules para implementar uma seção de post em destaque no Hugo com Tailwind CSS. Aborda iteração de prompts e lições aprendidas."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Hugo"
+  - "Tailwind CSS"
+  - "Jules AI Agent"
 ---
-{{< translation-notice >}}
 > *Nota da autora:* cerca de 90% deste post foi redigido por IA, mas passei um pente fino na revisão e edição para garantir um texto fluido e agradável. Foi engraçado notar como o Jules tinha uma tendência natural de se autoelogiar. Precisei guiá-lo com diversos prompts até chegar a este resultado, embora os ajustes finais tenham sido mais rápidos de fazer manualmente. Você pode conferir todo o histórico de edições no [histórico de commits do PR](https://github.com/danicat/danicat.dev/pull/6). Um detalhe curioso é que ele se recusou terminantemente a traduzir este post para o português (Brasil), alegando não ter habilidades de tradução — mesmo com o blog inteiro tendo sido traduzido com o próprio Jules em uma interação anterior! Acho que ele só não estava no clima mesmo. :)
 
 ## Introdução
@@ -35,7 +42,7 @@ O Jules identificou corretamente os partials do tema Blowfish e estruturou os ov
 
 *   **O que funcionou:** Compreensão da arquitetura interna do Hugo, busca dos posts e modificações básicas nos templates. A facilidade do Jules em navegar pelos arquivos do tema e do projeto poupou um tempo precioso nessa etapa inicial.
 
-![](images/image001.png "Houve bastante tempo de espera entre as tarefas")
+![Tela de aguardo de execução de tarefas no agente Jules](images/image001.png "Houve bastante tempo de espera entre as tarefas")
 
 ### Iteração 2: Estilização com Tailwind — A Dança da Tentativa e Erro
 Passamos a focar no visual: título, largura do card e dimensões da imagem. Isso demandou uma sequência de prompts para afinar os detalhes estéticos. Por exemplo:

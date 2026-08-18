@@ -1,5 +1,4 @@
----
-author: Daniela Petruzalek
+---author: Daniela Petruzalek
 categories:
 - Agent Development
 date: 2025-07-29
@@ -12,14 +11,23 @@ tags:
   - golang
   - mcp
   - tutorial
-title: 'Building GoDoctor: An MCP Server with Gemini CLI and Go'
+title: "Building GoDoctor: An MCP Server with Gemini CLI and Go"
+slug: "how-to-build-an-mcp-server-with-gemini-cli-and-go"
+aliases:
+  - "/posts/20250729-how-to-build-an-mcp-server-with-gemini-cli-and-go/"
+description: "Step-by-step tutorial on building GoDoctor, an MCP server in Go with Gemini CLI. Covers stdio and HTTP transports, 3-step handshakes, and Cloud Run deployment."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Go 1.24+"
+  - "Gemini CLI / Antigravity CLI"
+  - "MCP Go SDK"
 ---
 
 {{< alert "circle-info" >}}
 **Note:** This article was written for Gemini CLI, which has since been deprecated and superseded by **Google Antigravity 2.0**. To learn more about the new Antigravity CLI (`agy`), the SDK, and the broader Antigravity ecosystem, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
 {{< /alert >}}
 
-### Introduction
+## Introduction
 
 Like many of you, I've been diving deep into AI-assisted development. The journey is often a rollercoaster of "wow" moments and frustrating roadblocks. This is the story of one such journey—a story that started with me trying to build one thing, getting completely sidetracked by a frustrating problem, and ending up with a tool that has fundamentally improved my AI-assisted workflow.
 
@@ -29,7 +37,7 @@ This experience led me to a key realisation: instead of fighting the tool, I cou
 
 In this post, I'll walk you through the story of building GoDoctor. This is less a traditional tutorial and more a "prompt-driven" journey. We'll focus on how to translate project requirements into effective prompts and guide an AI through the implementation details, learning from the inevitable mistakes along the way.
 
-### Setting the stage: The `GEMINI.md`
+## Setting the stage: The `GEMINI.md`
 
 Before writing a single line of code, the first step was to set the ground rules. While `GEMINI.md` is a file specific to the Gemini CLI, the practice of creating a context file is common for many AI coding agents (for example, Jules uses `AGENTS.md` and Claude uses `CLAUDE.md`). In fact, there's an emerging effort to standardise this with a file called [`AGENT.md`](https://ampcode.com/AGENT.md). This file is crucial because it provides the AI with a foundational understanding of your project's standards and your expectations for its behaviour.
 
@@ -41,25 +49,25 @@ Here is the initial `GEMINI.md` that served as our constitution for the AI in th
 # Go Development Guidelines
 All code contributed to this project must adhere to the following principles.
 
-### 1. Formatting
+## 1. Formatting
 All Go code **must** be formatted with `gofmt` before being submitted.
 
-### 2. Naming Conventions
+## 2. Naming Conventions
 - **Packages:** Use short, concise, all-lowercase names.
 - **Variables, Functions, and Methods:** Use `camelCase` for unexported identifiers and `PascalCase` for exported identifiers.
 - **Interfaces:** Name interfaces for what they do (e.g., `io.Reader`), not with a prefix like `I`.
 
-### 3. Error Handling
+## 3. Error Handling
 - Errors are values. Do not discard them.
 - Handle errors explicitly using the `if err != nil` pattern.
 - Provide context to errors using `fmt.Errorf("context: %w", err)`.
 
-### 4. Simplicity and Clarity
+## 4. Simplicity and Clarity
 - "Clear is better than clever." Write code that is easy to understand.
 - Avoid unnecessary complexity and abstractions.
 - Prefer returning concrete types, not interfaces.
 
-### 5. Documentation
+## 5. Documentation
 - All exported identifiers (`PascalCase`) **must** have a doc comment.
 - Comments should explain the *why*, not the *what*.
 
@@ -69,7 +77,7 @@ All Go code **must** be formatted with `gofmt` before being submitted.
 
 This file establishes a baseline for quality and style from the very beginning.
 
-### Understanding the Model Context Protocol (MCP)
+## Understanding the Model Context Protocol (MCP)
 
 At the heart of this project is the Model Context Protocol (MCP). Some people describe it as a "USB standard for LLM tools," but I like to think of it another way: **what HTTP and REST did for standardising web APIs, MCP is doing for LLM tools.** Just as REST provided a predictable architecture that unlocked a massive ecosystem of web services, MCP is providing a much-needed common language for the world of AI agents. It's a JSON-RPC-based protocol that creates a common ground, allowing any agent that "speaks" MCP to discover and use any compliant tool without needing a custom, one-off integration.
 
@@ -152,7 +160,7 @@ Piping this script to the `godoctor` binary produces the `initialize` result fir
 
 For anyone new to MCP, I highly recommend reading the official documentation. The two documents that were most crucial for me were the pages on the [client/server lifecycle](https://modelcontextprotocol.io/specification/2025-06-18/basic/lifecycle) and the [transport layer](https://modelcontextprotocol.io/specification/2025-06-18/basic/transports). (Or if you are feeling lazy, give those URLs to the CLI and make it read for you =^_^=)
 
-### The first breakthrough: An agent that reads the docs
+## The first breakthrough: An agent that reads the docs
 
 My first goal was to solve the API hallucination problem. Like many first attempts at prompting, my initial request was basic and a bit vague:
 
@@ -187,7 +195,7 @@ Once the server was running and speaking the protocol correctly, the next piece 
 
 With this in place, every time I started the Gemini CLI in this directory, it would automatically launch my `godoctor` server in the background and make its tools available to the agent.
 
-### Creating a feedback loop with an AI code reviewer
+## Creating a feedback loop with an AI code reviewer
 
 With a working `godoc` tool, the next logical step was to teach the agent not just to read about code, but to reason about its quality. This led to the `code_review` tool. The experience this time was much smoother, a direct result of the work we had already done.
 
@@ -207,7 +215,7 @@ My workflow now had a powerful new step. After the agent generated a new piece o
 
 The agent would then analyze its own output and refactor it based on the AI-generated feedback. This is the real power of building tools for AI: you're not just automating tasks, you're creating systems for self-improvement.
 
-### The final chapter: Deploying to the cloud
+## The final chapter: Deploying to the cloud
 
 {{< warning >}}
 If you deploy your own MCP server to Cloud Run, ensure that you have configured proper authentication. **Do not deploy a publicly accessible server**, especially if it uses a Gemini API key. A public endpoint could be exploited by malicious actors, potentially leading to a very large and unexpected cloud bill.
@@ -245,7 +253,7 @@ And just like that, my CLI was using a tool that was deployed and running on the
 
 That said, for my day-to-day work, I'm currently using the `stdio` version — for a team of one, deploying to Cloud Run is overkill.
 
-### My key takeaways from vibe coding GoDoctor
+## My key takeaways from vibe coding GoDoctor
 
 This journey was less about writing code and more about learning how to effectively collaborate with an AI. My biggest lesson was to shift my mindset from being a "coder" to being a "teacher" or "pilot." Here are some of the most important lessons I learned:
 
@@ -256,7 +264,7 @@ This journey was less about writing code and more about learning how to effectiv
 
 By giving the agent the right context and the right tools, it became a much more capable partner. The journey transformed from me trying to get code written, to me building a system that could learn and improve itself.
 
-### What's next?
+## What's next?
 
 The journey with GoDoctor is far from over. It's still an experimental project, and I'm learning more with every new tool and every new interaction. My goal is to continue evolving it into a genuinely useful coding assistant for Go developers everywhere.
 
@@ -264,7 +272,7 @@ If you want to experience this journey yourself and build your own MCP server fr
 
 For those interested in how these concepts are being applied in the official Go toolchain, I highly recommend reading about the `gopls` MCP server, which shares many of the same objectives. You can find more information on the [official Go documentation website](https://tip.golang.org/gopls/features/mcp).
 
-### Resources and links
+## Resources and links
 
 Here are some of the key resources I mentioned throughout this post. I hope they are as helpful to you as they were to me.
 

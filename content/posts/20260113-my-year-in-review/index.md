@@ -1,5 +1,4 @@
----
-categories:
+---categories:
 - Perspectives
 date: 2026-01-13 00:00:00+00:00
 draft: false
@@ -7,10 +6,15 @@ summary: 'Reflecting on a transformative 2025: from joining Google and mastering
   coding to building my own AI tools and finding a new rhythm in life and engineering.'
 tags:
   - career
-  - google-cloud
+  - community
   - reflection
   - vibe-coding
-title: 'My Year in Review: 2025'
+title: "My 2025 Year in Review: Joining Google and Taming Vibe Coding"
+slug: "my-2025-year-in-review"
+aliases:
+  - "/posts/20260113-my-year-in-review/"
+description: "Retrospective on 2025: joining Google DevRel, embracing disciplined vibe coding, releasing GoDoctor and Speedgrapher MCP servers, and key lessons for 2026."
+proficiencyLevel: "Beginner"
 ---
 
 As 2025 fades into the rearview mirror, I find myself sitting with a cup of coffee (naturally), trying to process what just happened. If I had to pick a single word for this year, it would be **acceleration**.

@@ -1,12 +1,11 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-01-29 12:00:00+00:00
 heroStyle: big
 series:
 - Agent Skills
 series_order: 1
-slug: agent-skills-gemini-cli
+slug: "agent-skills-gemini-cli"
 summary: Unlock on-demand expertise for your AI agent. Learn how to use Agent Skills
   in Gemini CLI to build modular, scalable, and autonomous workflows.
 tags:
@@ -14,7 +13,14 @@ tags:
   - gemini-cli
   - mcp
   - vibe-coding
-title: Mastering Agent Skills in Gemini CLI
+title: "Mastering Custom Agent Skills in Gemini CLI"
+aliases:
+  - "/posts/20260128-agent-skills-gemini-cli/"
+description: "Learn how to build and configure Agent Skills in Gemini CLI. Covers progressive disclosure, on-demand prompt loading, and deterministic Python analysis scripts."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI >= 0.1.0"
+  - "Python 3.10+"
 ---
 
 {{< alert "circle-info" >}}

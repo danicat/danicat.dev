@@ -1,17 +1,25 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2025-12-06 02:00:00+00:00
 draft: false
 summary: Get the speed of AI without the mess. Apply engineering basics to keep your
   code structured, safe, and built to last.
 tags:
-  - ai
-  - gemini-cli
-  - jules
-  - mcp
+  - agile
+  - architecture
+  - software-engineering
+  - tdd
   - vibe-coding
-title: 'Taming Vibe Coding: The Engineer''s Guide'
+title: "Taming Vibe Coding: The Engineer's Practical Guide"
+slug: "taming-vibe-coding"
+aliases:
+  - "/posts/20251206-taming-vibe-coding/"
+description: "Apply software engineering rigor to vibe coding. Learn structured prompt templates, context engineering, 2x2 tool selection, and adapted TDD workflows."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Gemini CLI"
+  - "Antigravity CLI"
+  - "Go / Python"
 ---
 
 It is that time of the year to reflect on what you did and what you wish you had done. This year was intense for me: I joined Google in April and began a non-stop race to refactor myself for the AI world. As the year ends, I can confidently say the effort paid off — I've become a better engineer.

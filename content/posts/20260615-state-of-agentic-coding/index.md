@@ -1,13 +1,25 @@
----
-categories:
+---categories:
 - Agentic Coding
 date: 2026-06-15 00:00:00+00:00
 heroStyle: big
 summary: Explore the evolution of agentic coding. Update on the shift to planning
   systems, strategic agent skills, and orchestrating subagents for better outcomes.
 tags:
+  - agent-skills
   - antigravity
-title: State of Agentic Coding
+  - hooks
+  - mcp
+  - subagents
+title: "State of Agentic Coding in 2026: Skills, Hooks, Subagents"
+slug: "state-of-agentic-coding"
+aliases:
+  - "/posts/20260615-state-of-agentic-coding/"
+description: "Retrospective on agentic coding in 2026. Compares planning systems, Agent Skills vs MCP, subagent orchestration, and deterministic hooks in production."
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Google Antigravity 2.0"
+  - "Model Context Protocol"
+  - "Agent Skills"
 ---
 
 It has been more than six months since I published the article [Taming Vibe Coding]({{< ref "/posts/20251206-taming-vibe-coding" >}}) which consolidated all the main practices I had been using to increase my productivity with coding agents.

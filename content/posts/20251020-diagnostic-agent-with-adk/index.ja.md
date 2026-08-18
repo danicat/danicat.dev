@@ -1,11 +1,10 @@
----
-categories:
+---categories:
 - Agent Development
 date: '2025-10-21T15:44:03+01:00'
 series:
 - Building the Diagnostic Agent
 series_order: 4
-summary: Google の Agent Development Kit (ADK) を使用して診断エージェントを構築し、Vertex AI RAG を活用して回答精度を劇的に向上させる方法を解説します。
+summary: Google の Agent Development Kit (ADK) を使用して診断エージェントを構築し、Vertex AI RAG を活用して回答精度を向上させる開発手順を解説します。
 tags:
   - adk
   - gemini
@@ -13,59 +12,78 @@ tags:
   - rag
   - tutorial
   - vertex-ai
-title: Agent Development Kit (ADK) で診断エージェントを作成する
+title: "Agent Development Kit (ADK) で診断エージェントを作成する"
+slug: "diagnostic-agent-with-adk"
+aliases:
+  - "/ja/posts/20251020-diagnostic-agent-with-adk/"
+description: "Google ADK、osquery、Vertex AI RAG を使って、スキーマ自動探索とマルチレベル健全性診断を行う自律型システム診断エージェントを構築するガイド。"
+proficiencyLevel: "Intermediate"
+dependencies:
+  - "Python 3.10+"
+  - "google-adk"
+  - "osquery"
+  - "Vertex AI"
 ---
 ## はじめに
 
-ヨーロッパ各地（および南米への出張）でのカンファレンスやミートアップ登壇が重なり、前回の記事から少し間が空いてしまいました。開発者リレーションズ（DevRel）の活動において、9月下旬から12月初旬は最も活発なシーズンです。
+ヨーロッパ各地（途中で南米への寄り道もありました）でのカンファレンスやミートアップで飛び回っていたため、前回の記事からずいぶんと間が空いてしまいました。特に9月下旬から12月初旬にかけてはカンファレンスが集中するため、私たちデベロッパーリレーションズ（DevRel）にとって非常に忙しい時期にあたります。
 
-各地で多くの開発者と出会い対話することがブログ記事のインスピレーションになり、それがまた新しい講演へと繋がっていきます。
+それでも、旅先で素晴らしい人々と出会うことがこのブログへの大きな刺激となり、ブログ記事がまた新しいトーク（登壇）のネタになっていくため、どちらか一方だけでは成り立ちません。
 
-今回は、[シリーズ第3弾の「緊急診断エージェント」]({{< ref "/posts/20250611-system-prompt" >}}) をさらに進化させます。低レイヤーの [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) で書いていたコードを、Google の [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) フレームワークを使ってリファクタリングします。ADK を導入することで、これまで手作業で書いていたセッション管理やツール連携などのボイラープレートコードが大幅に削減されます。
+今回は、本シリーズの[第3弾「システム指示とエージェントツールの実践ガイド」]({{< ref "/posts/20250611-system-prompt" >}}) で作成した「緊急診断エージェント」をさらに発展させていきます。低レベルな [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) の代わりに、[Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) フレームワークを使うようにエージェントをリファクタリングします。これにより、以前手作業で書いていた大量のボイラープレートコードが最初から標準で提供されるなど、多くの恩恵が得られることがわかるはずです。
 
-もちろん、過去の記事で学んだプロトコルやメッセージ構造の知識が無駄になるわけではありません。問題が発生した際のデバッグやトラブルシューティングには、低レイヤーの理解が不可欠です。ADK は、エージェント開発を格段に快適にする強力な高レベル抽象化レイヤーとして機能します。
+だからといって、これまでの記事で得た知識が無駄になるわけではありません。特に問題が発生してトラブルシューティングが必要になった際、内部で何が起きているのかを把握しておくことは非常に有益です。ADK は、エージェント開発を大幅に快適にしてくれる、より上位の抽象化レイヤーだと考えてください。
 
-## プロジェクトの振り返り
+## これまでの振り返り
 
-本シリーズでは、スタートレックの宇宙船でクルーがコンピューターと音声で対話しながら診断を行う世界観を、最新の生成 AI 技術で再現することを目指しています。
+久しぶりですので、まずは緊急診断エージェントがどのようなものだったかを簡単に振り返っておきましょう。このエージェントは、『スタートレック』シリーズに登場する「コンピューター」から着想を得て開発しました。主人公たちがキーボードを叩く代わりにコンピューターに話しかけて診断コマンドなどを実行する、あの体験を最新の生成 AI 技術で再現することが私の目標でした。
 
-自然言語での診断を実現するために、次の2つを組み合わせています：
-- リクエストを解釈する大規模言語モデル（Gemini）
-- OS の状態を SQL クエリ形式で取得できるオープンソースツール [Osquery](https://osquery.io/)
+コンピューターと対話して診断を行うという目標を達成するために、私たちは2つの要素を活用しています。リクエストを解釈する生成 AI モデルと、OS の情報をモデルに公開するための [osquery](https://osquery.io/) というツールです。osquery を利用することで、モデルは自身の学習データとシステムの外部情報を組み合わせることが可能になります。
 
-エージェントは以下のコンポーネントで構成されています：
-- 言語モデル（Gemini）
-- 振る舞いを定義するシステムプロンプト
-- マシン上の Osquery バイナリ
-- Osquery をプログラムから実行する Python ライブラリ
-- Gemini にツールとして渡すラッパー関数
+基本的に、エージェントは以下のコンポーネントで構成されています：
+- 大規模言語モデル（Gemini）
+- Gemini の振る舞いを定義するシステムプロンプト
+- osquery のバイナリ
+- osquery をプログラムから呼び出すための Python ライブラリ
+- Gemini に osquery 呼び出しツールとして渡す Python ラッパー関数
 
-前回の実装ではテーブル名の一覧を渡したものの、各診断レベルの具体的な手順やカラム詳細スキーマまでは指定していませんでした。今回は ADK と [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) を活用してこの課題を解決します。
+osquery はマルチプラットフォーム対応であり、ホストシステムによってスキーマが異なる場合があるため、前回の実装ではシステムプロンプト内で osquery のテーブルスキーマを Gemini に渡すというちょっとした最適化も加えました。
 
-## ADK によるエージェントのリファクタリング
+ただし、前回の実装で対応できていなかった点もいくつかあります。実行したい個々の診断手順に関する具体的な指示をモデルに一切与えていなかったことや、テーブル名以外のスキーマ詳細を完全に指定できていなかったことなどです。本記事では、ADK のパワーと [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)、そしていくつかのテクニックを組み合わせてこれらの制約を解消していきます。ではまず、リファクタリングから始めましょう！
 
-ADK への移行は非常にシンプルです。SDK をインストールし、ルートエージェント（`root_agent`）の定義を記述して、付属の CLI（`adk`）で実行するだけです。
+## ADK へのエージェントのリファクタリング
 
-まずは仮想環境を用意して ADK をインストールします：
+ADK へのリファクタリングは、想像以上にシンプルです。これまで ADK エージェントを書いたことがなくても心配いりません。SDK をインストールし、ルートエージェントの仕様を定義して、付属の CLI（わかりやすく `adk` という名前になっています）で実行するだけです。
 
-```shell
-mkdir adk-tutorial && cd adk-tutorial
-python3 -m venv .venv
-source .venv/bin/activate
-pip install google-adk
+まずはシンプルな `hello world` エージェントから始めて、段階的に拡張していきましょう。最初にお好みのパッケージマネージャーを使ってマシンに ADK をインストールします。
+
+macOS または Linux をお使いの場合は、以下のコマンドを実行します：
+
+```sh
+$ mkdir adk-tutorial && cd adk-tutorial
+$ python3 -m venv .venv
+$ source .venv/bin/activate
+(.venv) $ pip install google-adk
 ```
 
-*(パッケージマネージャー `uv` をお使いの場合は、`uv init && uv add google-adk` を実行し、`uv run adk` でコマンドを実行できます)*。
+**Note:** 私は昔ながらのスタイルで `pip` と `virtualenv` を使っていますが、新しいパッケージマネージャーである [`uv`](https://github.com/astral-sh/uv) を好む方もいるでしょう：
+```sh
+$ mkdir adk-tutorial && cd adk-tutorial
+$ uv init
+$ uv add google-adk
+```
+これら2つの方法の唯一の違いは、pip の場合は ADK CLI が `adk` コマンドとしてそのまま使えるのに対し、`uv` の場合はデフォルトで `uv run adk` として呼び出す必要がある点です。
 
-インストール後、エージェントの雛形を作成します：
+インストールが完了したら、`adk create [agent-name]`（または `uv adk create [agent-name]`）でテンプレートエージェントを作成できます：
 
-```shell
-adk create hello-agent
+```sh
+(.venv) $ adk create hello-agent
 ```
 
-ウィザードに従ってモデルとバックエンドを選択します：
+作成ウィザードで、モデルのバージョンとバックエンド（Gemini または [Vertex AI](https://cloud.google.com/vertex-ai?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)）の選択を求められます。ここではプロジェクト ID とロケーションで認証できるように、`gemini-2.5-flash` と `Vertex AI` を選択します。
 
-```shell
+```sh
+(.venv) $ adk create hello-agent
 Choose a model for the root agent:
 1. gemini-2.5-flash
 2. Other models (fill later)
@@ -75,15 +93,24 @@ Choose model (1, 2): 1
 Choose a backend (1, 2): 2
 ```
 
-Vertex AI の場合は、リージョンを `global` または `us-central1` などに指定します。
+Vertex AI の場合、モデルが実行されるロケーションを気にせず使いたいときは `global` に設定できます。特定のリージョンを指定したい場合は、`us-central1` などの利用可能なゾーンを選択してください。
 
-完了すると、以下のファイルが生成されます：
-- `.env`: 環境変数とプロジェクト設定
-- `agent.py`: エージェントのエントリーポイント
+ウィザードが完了すると、ファイルがディスクに書き出されます：
+```sh
+(...)
+Enter Google Cloud region [us-west1]: global
 
-生成された `agent.py` のコードは非常にシンプルです：
+Agent created in ~/adk-tutorial/hello-agent:
+- .env
+- __init__.py
+- agent.py
+```
 
-```python
+重要なファイルは、環境設定を含み ADK 実行時に自動で読み込まれる `.env` と、エージェントのテンプレートコードが含まれる `agent.py` です。
+
+生成された `agent.py` の内容は非常にシンプルです。全体像は以下の通りです：
+
+```py
 from google.adk.agents.llm_agent import Agent
 
 root_agent = Agent(
@@ -94,69 +121,83 @@ root_agent = Agent(
 )
 ```
 
-ターミナルで `adk web` を実行するだけで、ローカル（`http://localhost:8000`）に Dev-UI 開発画面が立ち上がり、すぐに動作テストを行えます。
+これは ADK の Dev-UI 画面を使ってそのままテストできる完全なエージェントです。コマンドラインで `adk web` を実行するだけで、マシン上の `http://localhost:8000` で Web インターフェースが立ち上がります。これだけで動作確認の準備は完了です！
 
-## Osquery 診断機能の組み込み
+## ADK による診断機能の実装
 
-続いて、診断機能を追加します。まず Osquery の Python バインディングをインストールします：
+以前に Vertex AI SDK を使ったことがある方なら、コードがいかに簡潔になったかにすでに気づかれたはずです。完全に動作するエージェントを用意するために必要なのは、1つのエントリーポイントエージェント `root_agent` と少々の設定を定義することだけです。
 
-```shell
-pip install osquery
+では、この「hello world」エージェントに診断機能を追加して、次の段階に進めましょう。まずはお使いの OS 向けの[公式ドキュメント](https://osquery.readthedocs.io/en/stable/)の手順に従って、osquery バイナリをインストールします。
+
+次に、Python バインディングをインストールします：
+
+```sh
+(.venv) $ pip install osquery
 ```
 
-ADK では、1つのプロジェクトフォルダ内に複数のエージェントを同居させることができます：
+ADK では、同じフォルダ構造の中に複数のエージェントを配置できる点に注目してください。先ほど `adk-tutorial` フォルダ内に `hello-agent` というエージェントを作成しました。ここで再度 `adk create` を実行すると、同じ構造内に2つ目のエージェントを作成できます：
 
-```shell
-adk create diag-agent
+```sh
+(.venv) $ adk create diag-agent
 ```
 
-ADK の Web 画面右上のコンボボックスから、作成したエージェントを簡単に切り替えることができます：
+ADK の Web インターフェースはすべてのサブフォルダを個別のエージェントとして認識するため、複数存在する場合は画面右上のコンボボックスから切り替えることができます：
 
-![ADK のエージェント切り替え画面](image.png)
+![エージェント選択のコンボボックス](image.png)
 
-`agent.py` に Osquery 実行ツールと指示を追加します：
+それでは、`osquery` を呼び出すために必要なコードと適切なエージェント指示を含めて `agent.py` を更新しましょう：
 
-```python
-import json
-import osquery
-import platform
+```py
 from google.adk.agents.llm_agent import Agent
 from google.adk.tools import FunctionTool
+import platform
+import osquery
+import json
 
 def run_osquery(query: str) -> str:
-    """osquery を使用してクエリを実行します。
+  """Runs a query using osquery.
 
-    Args:
-        query: 実行する SQL クエリ文字列
+  Args:
+    query: The osquery query to run.
 
-    Returns:
-        クエリ結果の JSON 文字列
-    """
-    instance = osquery.SpawnInstance()
-    instance.open()
-    result = instance.client.query(query)
-    return json.dumps(result.response)
+  Returns:
+    The query result as a JSON string.
+  """
+  instance = osquery.SpawnInstance()
+  instance.open()
+  result = instance.client.query(query)
+  return json.dumps(result.response)
+
 
 root_agent = Agent(
     model='gemini-2.5-flash',
     name='emergency_diagnostic_agent',
-    description='コンピューターのトラブルシューティングを行う診断アシスタント。',
-    instruction=f"""あなたは緊急診断エージェントです。
-目的は、ユーザーのマシン診断をサポートすることです。
-osquery 経由で OS の内部情報にアクセスできます。
-現在の OS は {platform.system()} です。
-ユーザーから具体的な指示がない場合は、「診断が必要な緊急事態の内容を教えてください」と尋ねてください。""",
+    description='A helpful assistant for diagnosing computer problems.',
+    instruction=f"""This is an Emergency Diagnostic Agent.
+Your purpose is to support the user in diagnosing computer problems.
+You have access to the operating system's information via osquery.
+The current operating system is {platform.system()}.
+If the user doesn't give you an immediate command, ask the user 'What's the nature of your diagnostic emergency?'""",
     tools=[FunctionTool(run_osquery)],
 )
 ```
 
-`adk web` を起動して質問してみましょう：
+`adk web` を実行して、いくつかクエリを入力してテストしてみましょう：
 
-!["ADK Web 画面で OS バージョンと稼働時間を問い合わせる様子"](image-1.png)
+!["このマシンの OS、バージョン、稼働時間を表示して" というクエリを実行した ADK UI](image-1.png)
 
-## システムプロンプトにおける診断レベルの定義
+## システムプロンプトの再考
 
-「レベル1診断」「レベル2診断」といった構造化された指示に一貫して応答できるよう、システムプロンプト内に診断レベルの定義を明記します：
+システムプロンプト（システム指示とも呼ばれます）は、すべてのエージェントの中核となる要素です。システムプロンプトはエージェントに使命と個性を与える最下層のプロンプトであり、エージェントが一貫した応答を返せるように優れたシステムプロンプトを構築することが極めて重要になります。
+
+ADK において、システムプロンプトは以下の3つの要素で構成されます：
+- エージェントの内部名（`name`）
+- エージェントの説明（`description`）
+- エージェントへの指示（`instruction`）
+
+これらは、`root_agent` をインスタンス化する際に渡す引数に対応しています。
+
+スタートレックのファンとしては、「レベル1診断手順（level 1 diagnostic procedure）」などの要求に対してエージェントが一貫して応答できるようにしたいところです。そこで、いくつかの診断レベルを定義してみましょう。改訂したより詳細なシステムプロンプトは以下の通りです：
 
 ```md
 This is an Emergency Diagnostic Agent. Your purpose is to support the user in diagnosing computer problems. You have access to the operating system's 
@@ -192,38 +233,59 @@ This is an Emergency Diagnostic Agent. Your purpose is to support the user in di
 If the user doesn't give you an immediate command, ask the user 'What is the nature of your diagnostic emergency?'
 ```
 
-レベル1診断を指示すると、エージェントは自動的に複数の Osquery クエリを連続して発行し、包括的なレポートをまとめてくれます：
+ここで再度エージェントを試してみると、「レベル1診断（level 1 diagnostic）」の意味を理解し、レポートを生成するために直ちに多数のツール呼び出しを実行する様子が確認できます：
 
-![レベル1診断を実行する ADK UI 画面](image-2.png)
+![レベル1診断手順を実行するエージェントを表示した ADK UI](image-2.png)
 
-## Vertex AI RAG による応答精度の向上
+## Vertex AI RAG による回答品質の向上
 
-テストを重ねる中で、macOS 上で実行した際に存在しない（または空の）テーブル（例: `memory_info`）へクエリを発行してしまうケースが見られました：
+上記のシステムプロンプトは手順を明確化しエージェントの存在意義を定義する上でうまく機能しますが、実際の実行段階になると、必ずしも期待通りの結果が得られないことに気づくかもしれません。
 
-![空のクエリ結果が返る様子](image-5.png "macOS では memory_info が空になるが、モデルはそれを事前に把握できない")
+例えばテスト中、エージェントが私の OS（macOS）上で空になっているテーブルに対してクエリを発行してしまう場面によく遭遇しました。これは、このデータとどのようにやり取りすべきかについて、モデルがより多くのコンテキスト知識を必要としている明確なサインです。
 
-そこで、[Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) を使用して、Osquery の全テーブルスキーマをベクトル検索できるようにします。
+![空の結果が返るクエリを表示した ADK ウィンドウ](image-5.png "よくある問題：macOS では memory_info が空になりますが、モデルはそれを把握していません")
 
-ユーザーが「メモリ」や「ネットワーク」について尋ねた際、エージェントはまず RAG を使って関連する Osquery テーブルスキーマをベクトル空間から検索・取得し、正しいテーブルとカラムを把握した上でクエリを発行します。
+基盤モデルの能力を超えてエージェントの知識を補強する方法には、コンテキストエンジニアリング、ツール呼び出し、MCP リソース、検索拡張生成（RAG）、モデルの特化など、いくつかの選択肢があります。
 
-### Vertex AI RAG コーパスのセットアップ
+今回の診断エージェントに関しては、osquery が長年にわたって公開されている広く知られたオープンソースプロジェクトであるため、オープンソースコードと Web 上の記事の双方を通じて LLM の学習データに含まれており、osquery の一般的な仕組みについての知識はすでに持っていると私は推測していました。
 
-1. [Osquery 公式リポジトリの specs フォルダ](https://github.com/osquery/osquery/tree/master/specs) からテーブル定義ファイルを取得します。
-2. 拡張子が `.table` のため、Vertex AI RAG で処理できるように `.txt` に一括変換します：
-   ```shell
-   for f in *.table; do mv -- "$f" "${f%.table}.txt"; done
-   ```
-3. Cloud Storage バケットにアップロードし、Vertex AI コンソールからコーパスを作成します（Vertex AI -> RAG Engine -> Create corpus）。
+しかしモデルには、より具体的なシナリオでどのように振る舞うべきかという細かなニュアンスが欠けているようでした。システムプロンプトに動的にプラットフォーム名を追加することも多少は役立ちましたが、それだけでは不十分でした。そこで、RAG の仕組みを利用してエージェントに osquery の完全なスキーマ情報を把握させるアプローチを考えました。
 
-![Vertex AI RAG のコーパス作成画面](image-3.png)
+RAG の背後にあるコンセプトは、モデルに対して情報を「必要に応じて（need-to-know basis）」供給することです。リアルタイムに取得したい情報をベクトルデータベースに保存しておき、ユーザー（またはエージェント）がクエリを発行した際に、ベクトル検索を使ってリクエストに最も類似したデータセグメントを見つけ出して取得し、モデルが処理する前にコンテキストを充実させます。
 
-インポートが完了すると、スキーマがベクトルインデックス化されます：
+この診断エージェントでは、osquery の完全なスキーマをオンデマンドで取得できるようにします。例えば「memory」に関する情報をリクエストした場合、RAG 検索はベクトル空間内で「memory」に近いテーブルを探索し、リクエストを処理する前に関連テーブルとその完全なスキーマを取得します。これにより、モデルがより適切な osquery 呼び出しを選択できるようになります。
 
-![インポート完了後の Osquery スキーマコーパス](image-4.png)
+これを機能させるには、ベクトルデータベースに関連データを投入した上で、新しいツールを提供してそれを取得する方法をエージェントに「教える」必要があります。このツールを `discover_schema` と呼ぶことにしましょう。
+
+### Vertex AI RAG のセットアップ
+
+まず最初に行うべきことは、Vertex AI RAG で新しいコーパス（corpus：データのコレクションを表す用語）を作成することです。
+
+コーパスの情報源となるのは、[osquery の GitHub ページ](https://github.com/osquery/osquery) の [specs フォルダ](https://github.com/osquery/osquery/tree/master/specs) から取得できる osquery スキーマです。
+
+コーパスを作成する非常に便利な方法は、[Google Cloud Storage](https://cloud.google.com/storage?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog) や Google ドライブからフォルダをアップロードすることですが、Slack や SharePoint などの他のデータソースも利用可能です。Google Cloud Console のコーパス作成ウィザード（Vertex AI -> RAG Engine -> コーパスの作成）を使うか、Vertex AI SDK を使ってプログラムから作成することができます。
+
+![Vertex AI RAG のコーパス作成ウィザード](image-3.png)
+
+今回のケースでは、osquery の GitHub リポジトリをローカルマシンにクローンし、`specs` フォルダのコピーを Google Cloud Storage バケットにアップロードした上で、クラウドコンソールを使ってそのバケットからコーパスを作成しました。1点注意が必要なのは、`specs` 内のテーブル定義ファイルの拡張子が `.table` になっているため、Vertex AI RAG が認識して処理できるようにすべてのファイルを `.txt` にリネームする必要がある点です。
+
+シンプルなシェルコマンドを使って、この一括リネーム操作を実行できます：
+```sh
+# .table ファイルがあるディレクトリで実行
+for f in *.table; do mv -- "$f" "${f%.table}.txt"; done
+```
+
+インポートが完了すると、以下のような画面が表示されます：
+
+![Vertex AI RAG の osquery スキーマコーパス](image-4.png)
+
+これで、エージェントがこのコーパスにアクセスできるようにするためのツール定義を作成する準備が整いました。
 
 ### スキーマ探索ツール（discover_schema）の実装
 
-コンソールの詳細タブからコーパスの URI（`projects/[PROJECT-ID]/locations/[LOCATION]/ragCorpora/[CORPORA_ID]`）を取得し、`.env` に設定します：
+ツールを動作させるには、作成したコーパスのリソース名が必要です。コンソールのコーパスの「詳細」タブに表示されており、形式は `projects/[PROJECT-ID]/locations/[LOCATION]/ragCorpora/[CORPORA_ID]` のようになっています。
+
+このパスを持つ環境変数を `.env` ファイルに作成します。名前は `RAG_CORPORA_URI` にしましょう。`.env` ファイルは以下のようになります：
 
 ```txt
 GOOGLE_GENAI_USE_VERTEXAI=1
@@ -232,74 +294,76 @@ GOOGLE_CLOUD_LOCATION=[LOCATION]
 RAG_CORPORA_URI=projects/[PROJECT-ID]/locations/[LOCATION]/ragCorpora/[CORPORA_ID]
 ```
 
-`agent.py` にスキーマ探索関数を追加します：
+続いて、以下のツール定義を `agent.py` ファイルに追加します。新しいインポート文もお忘れなく！
 
-```python
-import json
+```py
 import os
 import vertexai
-from google.protobuf.json_format import MessageToDict
 from vertexai.preview import rag
+from google.protobuf.json_format import MessageToDict
 
 vertexai.init()
 
 def discover_schema(search_phrase: str) -> str:
-    """検索フレーズに基づいて osquery のテーブル名とスキーマを探索します。
+  """Discovers osquery table names and schemas based on a descriptive search phrase.
 
-    Args:
-        search_phrase: 取得したい情報の検索フレーズ（例: 'user login events', 'memory usage'）
+  Args:
+    search_phrase: A phrase describing the kind of information you're looking for. 
+      For example: 'user login events' or 'network traffic'.
 
-    Returns:
-        関連テーブル名とスキーマ定義の JSON 文字列
-    """
-    rag_corpora_uri = os.environ.get('RAG_CORPORA_URI')
-    response = rag.retrieval_query(
-        rag_resources=[
-            rag.RagResource(
-                rag_corpus=rag_corpora_uri,
-            )
-        ],
-        text=search_phrase,
-    )
-    return json.dumps(MessageToDict(response._pb))
+  Returns:
+    Table names and schema information for tables related to the search phrase.
+  """
+  rag_corpora_uri = os.environ.get('RAG_CORPORA_URI')
+  response = rag.retrieval_query(
+      rag_resources=[
+          rag.RagResource(
+              rag_corpus=rag_corpora_uri,
+          )
+      ],
+      text=search_phrase,
+  )
+  return json.dumps(MessageToDict(response._pb))
 ```
 
-エージェント定義に新しいツールを追加します：
+さらに、新しいツールが利用可能になったことをエージェントに知らせるためにエージェント定義を更新します：
 
-```python
+```py
 root_agent = Agent(
     model='gemini-2.5-flash',
     name='emergency_diagnostic_agent',
     description='A helpful assistant for diagnosing computer problems.',
-    instruction=... # 診断レベルの指示
+    instruction=... # 簡潔さのため省略
     tools=[
         FunctionTool(run_osquery),
-        FunctionTool(discover_schema), # RAG ツール
+        FunctionTool(discover_schema), # 新しいツール定義
     ],
 )
 ```
 
-確実にスキーマ探索を実行させるため、システムプロンプトに以下のディレクティブを追記します：
+最後に、必須ではありませんが、私はエージェントにスキーマ探索を徹底させたいため、指示（instruction）に以下の文言を追加しました：
 
 ```txt
-テーブルの正確なスキーマが事前に判明している場合を除き、すべてのリクエストで必ず discover_schema を実行してください。
+You MUST run schema discovery for all requests unless the schema is already known.
 ```
 
-エージェントを再起動すると、RAG によるスキーマ探索が動作するようになります：
+この指示は末尾に追加しても、診断レベルを定義する直前に追加しても構いません。
 
-![RAG スキーマ探索が動作している様子](image-6.png)
+ここでエージェントを再起動し、`adk web` で再度実行すると、スキーマ探索が実際に動作する様子が確認できるようになります：
 
-事前にスキーマ情報を取得することで、SQL の構文エラーや無効なテーブルへのアクセスが劇的に減少します。
+![RAG スキーマ探索が有効化された診断エージェント](image-6.png)
+
+スキーマ探索の有無による応答の違いをぜひ実際に試して比較してみてください。私のテストでは、品質の差は非常に歴然としていました。
 
 ## おわりに
 
-Google ADK へのリファクタリングにより、エージェントのコードベースが大幅に洗練され、拡張性が向上しました。さらに Vertex AI RAG を組み合わせることで、膨大な Osquery スキーマの中から適切なテーブルを動的に特定できるようになりました。
+少し長くなってしまいましたが、楽しんで読んでいただけたなら幸いです！もしご自身で診断エージェントをセットアップする際につまずいた点があれば、ぜひ教えてください。イベントで極端に忙しい時を除き、[LinkedIn](https://www.linkedin.com/in/petruzalek) でのご連絡には比較的早く返信しています。また、このエージェントをどのように拡張したかや、試してみた実験などについてもぜひお聞きしたいです。
 
-シリーズ第5弾の [Dev-UI を超えて：ADK エージェントのカスタムインターフェース構築]({{< ref "/posts/20251031-building-aida" >}}) では、標準のデバッグ UI を脱却し、FastAPI とリアルタイムストリーミング、AI 生成アバターを備えたカスタム UI（AIDA）を構築します。
+本シリーズの次回作 [Dev-UIの先へ：ADKエージェントのインターフェースを構築する方法]({{< ref "/posts/20251031-building-aida" >}}) では、標準の `adk web` デバッグ画面から一歩踏み出し、FastAPI によるストリーミング対応のカスタムランタイムと、レトロ風のインタラクティブなアバター UI（AIDA）を構築します。
 
 ## 参考リンク
 
 *   [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit)
-*   [Osquery 公式サイト](https://osquery.io/)
-*   [Osquery GitHub リポジトリ](https://github.com/osquery/osquery)
-*   [Vertex AI RAG 公式ドキュメント](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)
+*   [osquery](https://osquery.io/)
+*   [osquery GitHub page](https://github.com/osquery/osquery)
+*   [Vertex AI RAG](https://cloud.google.com/vertex-ai/docs/generative-ai/rag?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog)
