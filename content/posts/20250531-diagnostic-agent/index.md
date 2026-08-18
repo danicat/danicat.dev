@@ -2,6 +2,9 @@
 categories:
 - Agent Development
 date: '2025-05-31T01:00:00+01:00'
+series:
+- Building the Diagnostic Agent
+series_order: 1
 summary: How to create a diagnostic agent that speaks natural language using Gemini
   and Vertex AI Agent Engine
 tags:
@@ -9,7 +12,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: How I turned my computer into "USS Enterprise" using AI Agents
+title: How I Turned My Computer into "USS Enterprise" Using AI Agents
 ---
 _Space: the final frontier. These are the voyages of the starship Enterprise. Its 5-year mission: to explore strange new worlds; to seek out new life and new civilizations; to boldly go where no man has gone before._
 
@@ -21,7 +24,7 @@ Star Trek was always ahead of its time. It showed the [first interracial kiss in
 
 One thing that is really remarkable is how the engineers in the series interact with the computers. While we do see some keyboards and button presses now and then, many of the commands are vocalised in natural language. Some of the commands they give to the computer are quite iconic, like for example when they request the computer to run a “ level 1 diagnostic procedure”, which happened so many times that it practically became [a joke](https://www.youtube.com/watch?v=cYzByQjzTb0) among the most hardcore fans.
 
-Fast forward 30+ years and here we are, in the Age of AI, a technology revolution that promises to be bigger than the internet. Of course a lot of people are scared of how AI might impact their jobs ([I wrote about it last week](https://danicat.dev/posts/20250528-vibe-coding/)), but growing up watching Star Trek makes it easier for me to see how the role of the engineer will change in the next few years. Instead of commanding the computer through text, manually instructing each step of the way through lines of code and compilers, we will very soon move towards talking and brainstorming with our computers.
+Fast forward 30+ years and here we are, in the Age of AI, a technology revolution that promises to be bigger than the internet. Of course a lot of people are scared of how AI might impact their jobs ([I wrote about it last week]({{< ref "/posts/20250528-vibe-coding" >}})), but growing up watching Star Trek makes it easier for me to see how the role of the engineer will change in the next few years. Instead of commanding the computer through text, manually instructing each step of the way through lines of code and compilers, we will very soon move towards talking and brainstorming with our computers.
 
 To help people visualize this, we are going to use the technology we have today to create a small agent that allows us to interact with our own machines using natural language.
 
@@ -353,5 +356,7 @@ I know it’s a beaten argument by now, but AI is a game changer. With very few 
 ![Engineer Scotty trying to speak with the computer using the mouse as microphone](hello-computer-hello.gif)
 
 You can find the source code for all examples in this article on my [GitHub](https://github.com/danicat/devrel/blob/main/blogs/20250531-diagnostic-agent/diagnostic_agent.ipynb).
+
+In the next part of this series, [Digging Deeper into the Vertex AI SDK for Python]({{< ref "/posts/20250605-vertex-ai-sdk-python" >}}), we look under the hood at the communication protocol between the client and Gemini, and implement manual function calling.
 
 What are your impressions? Share your thoughts in the comments below.

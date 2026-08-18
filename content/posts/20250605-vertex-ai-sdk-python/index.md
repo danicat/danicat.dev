@@ -2,6 +2,9 @@
 categories:
 - Agent Development
 date: '2025-06-05T00:00:00+01:00'
+series:
+- Building the Diagnostic Agent
+series_order: 2
 summary: This article explores the communication model between the client code and
   the Gemini API using the Vertex AI SDK for Python
 tags:
@@ -9,13 +12,13 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: Digging deeper into the Vertex AI SDK for Python
+title: Digging Deeper into the Vertex AI SDK for Python
 ---
 ## Introduction
 
 This article explores the communication model between the client code and the Gemini API using the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog). We will cover concepts like how the messages are structured, how the model understands the context of the question and how to augment the model capabilities with function calls. While Gemini is the focus of this article, the same concepts you will see here can also be applied to Gemma and other LLMs.
 
-[In my previous post](https://danicat.dev/posts/20250531-diagnostic-agent/) I’ve explained how to write a simple - but surprisingly powerful - AI Agent that responds to diagnostic questions about your local machine. In very few lines of code (and not so few lines of comments) we were able to get our agent to respond to queries like “how much CPU I have in my machine” or “please check for any signs of malware”.
+[In Part 1 of this series]({{< ref "/posts/20250531-diagnostic-agent" >}}), I explained how to write a simple — but surprisingly powerful — AI Agent that responds to diagnostic questions about your local machine. In very few lines of code (and not so few lines of comments) we were able to get our agent to respond to queries like “how much CPU I have in my machine” or “please check for any signs of malware”.
 
 That was, of course, due to the beauty of the Python SDK as it simplified things a lot. For example, I relied on a feature called [Automatic Function Calling](https://ai.google.dev/gemini-api/docs/function-calling?example=weather#automatic_function_calling_python_only) to let the agent decide when to call a function. This feature also helped me get away with defining the functions as plain Python functions and the SDK figured out its signature and description dynamically for me. This capability unfortunately is only available for the Python SDK, so developers in other languages need to do a bit more work.
 
@@ -303,6 +306,6 @@ Automation is always convenient and helps us achieve results much faster, but kn
 
 I know that in times of vibe coding at first glance it is almost ironic to say something like this, but one of the things I quickly learned when vibe coding is that if you are more precise when speaking with the AI you get much better results in much less time. So now is not the time to downplay the value of knowledge, but double down on it - not besides AI but **because of** it.
 
-Hopefully you enjoyed the journey so far. In the next article we will build up on this knowledge to take the diagnostic agent to the next level, where no agent has ever gone before! (or maybe has, but certainly not mine =^_^=)
+Hopefully you enjoyed the journey so far. In the next part of this series, [Boldly Prompting: A Practical Guide to System Instructions and Agent Tools]({{< ref "/posts/20250611-system-prompt" >}}), we build up on this knowledge to create a dedicated terminal chat application with session history and dynamic table schema injection.
 
 Please write your comments below! Peace out o/

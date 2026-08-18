@@ -1,13 +1,23 @@
-+++
-date = '2025-11-03T09:00:00Z'
-draft = false
-title = 'How to Build an Offline Agent with ADK, Ollama and SQLite'
-tags = ['ai', 'python', 'tutorial', 'rag', 'gemini', 'adk']
-categories = ['AI & Development']
-summary = "Learn how to make your AI agent completely offline. We walk through swapping the cloud model for a local Qwen 2.5 via Ollama, and building a local RAG knowledge base using SQLite and `sqlite-rag` to query Osquery schemas and packs."
-+++
+---
+categories:
+- Agent Development
+date: '2025-11-03T09:00:00Z'
+series:
+- Building the Diagnostic Agent
+series_order: 6
+summary: Learn how to make your AI agent completely offline. We walk through swapping the cloud model for a local Qwen 2.5 via Ollama, and building a local RAG knowledge base using SQLite and `sqlite-rag` to query Osquery schemas and packs.
+tags:
+  - adk
+  - gemini
+  - ollama
+  - python
+  - rag
+  - sqlite
+  - tutorial
+title: How to Build an Offline Agent with ADK, Ollama and SQLite
+---
 
-In [our last post]({{< ref "/posts/20251031-building-aida/index.md" >}}), we focused on building a custom client interface for our agent. It was a great step in making the agent more usable, but it was still lacking a key feature: what happens when the network is down?
+In [Part 5 of this series]({{< ref "/posts/20251031-building-aida" >}}), we focused on building a custom client interface for our agent. It was a great step in making the agent more usable, but it was still lacking a key feature: what happens when the network is down?
 
 While I think this would be a problem for any agent, the nuance here is that we are building an "Emergency Diagnostic Agent" - what good is an emergency diagnostic agent if you cannot use it when the network is offline?
 

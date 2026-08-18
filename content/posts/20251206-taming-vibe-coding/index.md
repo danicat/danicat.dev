@@ -136,7 +136,7 @@ Doing this before giving the model the actual task will prime it with the contex
 
 ### An image is worth more than a 1000 words
 
-Sometimes, describing what you want with text is simply not enough. When working on AIDA, I wanted a specific user interface aesthetic — something like a "retro-cyberpunk-cute-anime" style. I could try to describe that in words, but it was far more effective to "show it" instead: as a starting point, I took a screenshot of an interface I liked and asked the Gemini CLI to replicate it.
+Sometimes, describing what you want with text is simply not enough. When working on [AIDA]({{< ref "/posts/20251031-building-aida" >}}), I wanted a specific user interface aesthetic — something like a "retro-cyberpunk-cute-anime" style. I could try to describe that in words, but it was far more effective to "show it" instead: as a starting point, I took a screenshot of an interface I liked and asked the Gemini CLI to replicate it.
 
 Because models like Gemini 2.5 Flash are multi-modal, they can "understand" the image. You can reference an image file in your prompt and say: "I would like to update the UI [...] to an aesthetic that resembles this interface: @image.png".
 

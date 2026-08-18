@@ -2,6 +2,9 @@
 categories:
 - Agent Development
 date: '2025-06-11T00:00:00+01:00'
+series:
+- Building the Diagnostic Agent
+series_order: 3
 summary: This article explores the concepts of system instruction, session history
   and agent tools to create a smarter diagnostic assistant.
 tags:
@@ -15,7 +18,7 @@ title: 'Boldly Prompting: A Practical Guide to System Instructions and Agent Too
 
 In this guide, we are going to learn more about system prompts and agent tools so that we can build a new and improved diagnostic agent experience. We will be working with the [Vertex AI SDK for Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b424142426&utm_medium=external&utm_source=blog), LangChain, Gemini and [osquery](https://www.osquery.io/).
 
-I must admit, the [initial version of the diagnostic agent](https://danicat.dev/posts/20250531-diagnostic-agent/) was not very “Enterprise” ready (pun intended). We didn’t have much visibility on what it was doing under the hood (was it actually running any queries?), it would not remember things discussed in the same “session” and, from time to time, it would also ignore our commands completely.
+I must admit, the [initial version of the diagnostic agent]({{< ref "/posts/20250531-diagnostic-agent" >}}) was not very “Enterprise” ready (pun intended). We didn’t have much visibility on what it was doing under the hood (was it actually running any queries?), it would not remember things discussed in the same “session” and, from time to time, it would also ignore our commands completely.
 
 This is far from the experience we wish from a proper agent. The ideal diagnostic agent needs to be capable of remembering their mistakes and executing instructions consistently, e.g., learning that certain columns are not available and working around that. Also, can we really trust that it is doing what it is saying it is doing? We should be able to see the queries at any time to make sure the information it is returning is correct and up to date.
 
@@ -630,4 +633,6 @@ Now that our agent is more robust, use this section as a practical guide to test
 >> who am i?
 ```
 
-If you find other interesting prompts, please share your experiences in the comments section below. See you next time!
+If you find other interesting prompts, please share your experiences in the comments section below.
+
+In the next part of this series, [How to Create a Diagnostic Agent with Agent Development Kit]({{< ref "/posts/20251020-diagnostic-agent-with-adk" >}}), we refactor the diagnostic agent from raw SDK boilerplate to Google's Agent Development Kit (ADK) and integrate Vertex AI RAG for dynamic table schema discovery. See you next time!

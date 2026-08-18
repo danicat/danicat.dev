@@ -2,6 +2,9 @@
 categories:
 - Agent Development
 date: '2025-10-21T15:44:03+01:00'
+series:
+- Building the Diagnostic Agent
+series_order: 4
 summary: This article is a guide to creating a diagnostic agent with the Agent Development
   Kit (ADK). It covers the development process and explains how to use Vertex AI RAG
   to improve the agent's response quality.
@@ -12,7 +15,7 @@ tags:
   - rag
   - tutorial
   - vertex-ai
-title: How to Create a Diagnostic Agent With Agent Development Kit
+title: How to Create a Diagnostic Agent with Agent Development Kit
 ---
 ## Introduction
 
@@ -20,7 +23,7 @@ It has been quite a long time since my last article as I've been quite busy trav
 
 Nevertheless, it is thanks to meeting amazing people on the road that I get inspiration for my blog, and blog posts often become new talks, so one wouldn't really exist without the other.
 
-This time I want to build up on the ["Emergency Diagnostic Agent"]({{< ref "/posts/20250611-system-prompt/index.md" >}}) I wrote about a few months ago. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
+This time I want to build up on the ["Emergency Diagnostic Agent" in Part 3]({{< ref "/posts/20250611-system-prompt" >}}) of this series. We are going to refactor the agent to use the [Agent Development Kit (ADK)](https://github.com/google/agent-development-kit) framework instead of using the lower level [Vertex AI SDK](https://cloud.google.com/vertex-ai/docs/python-sdk/overview?utm_campaign=CDR_0x72884f69_default_b427567312&utm_medium=external&utm_source=blog). You will see that this brings us many benefits including having a lot of the boilerplate code we've written before given to us out of the box for free.
 
 This doesn't mean the knowledge from those articles is obsolete though. It is quite useful to know how things work under the hood specially when problems happen and you need to diagnose. Think about ADK as a higher abstraction layer that will make our lives much easier when developing agents.
 
@@ -346,6 +349,8 @@ I highly recommend you to play with it and compare the responses with and withou
 ## Final Words
 
 Oh my! This was a long one, but hopefully you enjoyed the read! If you have any challenges setting up your own diagnostic agent please let me know. I'm fairly responsive on [LinkedIn](https://www.linkedin.com/in/petruzalek) unless I'm super busy with an event. I would also like to hear how you would extend this agent and about any experiments you have tried.
+
+In the next part of this series, [Beyond the Dev-UI: How to Build an Interface for an ADK Agent]({{< ref "/posts/20251031-building-aida" >}}), we step beyond the default `adk web` debug interface and build a custom FastAPI streaming runtime with a retro-styled interactive avatar UI (AIDA).
 
 ## References
 

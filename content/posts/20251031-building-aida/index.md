@@ -1,15 +1,24 @@
-+++
-date = '2025-10-31T11:43:35Z'
-draft = false
-title = 'Beyond the Dev-UI: How to Build an Interface for an ADK agent'
-summary = "Elevate your Google ADK agent with a custom, retro-style interface. This step-by-step guide shows you how to replace the standard Dev-UI using FastAPI and vanilla JavaScript, adding personality with a real-time streaming, AI-generated avatar."
-categories = ["AI & Development"]
-tags = ["genai", "tutorial", "adk", "gemini", "python", "fastapi", "frontend", "agent"]
-+++
+---
+categories:
+- Agent Development
+date: '2025-10-31T11:43:35Z'
+series:
+- Building the Diagnostic Agent
+series_order: 5
+summary: Elevate your Google ADK agent with a custom, retro-style interface. This step-by-step guide shows you how to replace the standard Dev-UI using FastAPI and vanilla JavaScript, adding personality with a real-time streaming, AI-generated avatar.
+tags:
+  - adk
+  - fastapi
+  - frontend
+  - gemini
+  - python
+  - tutorial
+title: 'Beyond the Dev-UI: How to Build an Interface for an ADK Agent'
+---
 
 For the past six months I have been exploring GenAI, vibe coding, agents and everything in between as part of my DevRel role at Google. Whenever I want to learn a new technology I find that the best way is to build something with it. One of my passion projects during this time has been the diagnostic agent: a software that could help people diagnose their computer problems using natural language.
 
-In this article I'm going to explore how to create a frontend for an [ADK](https://google.github.io/adk-docs/) agent so you can give a bit more of personality to your projects.
+In [Part 4 of this series]({{< ref "/posts/20251020-diagnostic-agent-with-adk" >}}), we refactored our diagnostic agent to use Google's [ADK](https://google.github.io/adk-docs/). In this article, I'm going to explore how to create a custom frontend for an ADK agent so you can give a bit more personality to your projects.
 
 ## The quest for a new user interface
 
@@ -448,7 +457,7 @@ If you are interested on a more advanced version of the agent, you can find it o
 
 I encourage you to explore the repository, try running it yourself, and maybe contribute! It's a great way to see how these building blocks come together in a real-world application.
 
-Stay tuned for Part 2, where we'll dive deep into the backend to build a fully local RAG engine using SQLite, allowing AIDA to diagnose your system without any data leaving your machine.
+In the next part of this series, [How to Build an Offline Agent with ADK, Ollama and SQLite]({{< ref "/posts/20251103-building-aida-part-2" >}}), we dive deep into making AIDA completely resilient to network outages using local Qwen 2.5 via Ollama and local SQLite RAG.
 
 ## Resources
 

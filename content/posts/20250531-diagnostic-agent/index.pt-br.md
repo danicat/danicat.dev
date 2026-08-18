@@ -2,82 +2,82 @@
 categories:
 - Agent Development
 date: '2025-05-31T01:00:00+01:00'
-summary: Como criar um agente de diagnóstico que fala linguagem natural usando Gemini
-  e Vertex AI Agent Engine
+series:
+- Building the Diagnostic Agent
+series_order: 1
+summary: Como criar um agente de diagnóstico que compreende linguagem natural usando Gemini e Vertex AI Agent Engine.
 tags:
   - gemini
   - python
   - tutorial
   - vertex-ai
-title: Como transformei meu computador na "USS Enterprise" usando Agentes de IA
+title: 'Como Transformei Meu Computador na "USS Enterprise" Usando Agentes de IA'
 ---
-{{< translation-notice >}}
-_Espaço: a fronteira final. Estas são as viagens da nave estelar Enterprise. Sua missão de 5 anos: explorar novos mundos estranhos; procurar novas vidas e novas civilizações; audaciosamente ir onde nenhum homem jamais esteve._
+_Espaço: a fronteira final. Estas são as viagens da nave estelar Enterprise. Em sua missão de cinco anos: para explorar novos mundos; para pesquisar novas vidas e novas civilizações; para audaciosamente ir onde nenhum homem jamais esteve._
 
 ## Introdução
 
-Enquanto crescia, graças à influência do meu pai, acostumei-me a ouvir essas palavras quase todos os dias. Suspeito que a paixão dele por Star Trek desempenhou um papel enorme na minha escolha pela carreira de engenharia de software. (Para aqueles que não estão familiarizados com Star Trek, este discurso era reproduzido no início de cada episódio da série original de Star Trek)
+Quando eu era criança, graças à influência do meu pai, me acostumei a ouvir essas palavras quase todos os dias. Suspeito que a paixão dele por Star Trek tenha tido um papel enorme na minha decisão de seguir a carreira de engenharia de software. (Para quem não conhece Star Trek, essa introdução passava no início de cada episódio da série clássica).
 
-Star Trek sempre esteve à frente de seu tempo. Mostrou o [primeiro beijo inter-racial na televisão dos EUA](https://en.wikipedia.org/wiki/Kirk_and_Uhura%27s_kiss), em tempos em que tal cena causava muita controvérsia. Também retratou muitas peças de tecnologia “futurista” que hoje são commodities, como smartphones e videoconferência.
+Star Trek sempre esteve à frente de seu tempo. Mostrou o [primeiro beijo interracial da televisão americana](https://en.wikipedia.org/wiki/Kirk_and_Uhura%27s_kiss), em uma época em que uma cena dessas causava imensa controvérsia. Também retratou inúmeras tecnologias "futuristas" que hoje são rotineiras, como smartphones e videoconferências.
 
-Uma coisa realmente notável é como os engenheiros da série interagem com os computadores. Embora vejamos alguns teclados e pressionamentos de botões de vez em quando, muitos dos comandos são vocalizados em linguagem natural. Alguns dos comandos que eles dão ao computador são bastante icônicos, como por exemplo, quando solicitam ao computador para executar um “procedimento de diagnóstico de nível 1”, o que aconteceu tantas vezes que praticamente se tornou [uma piada](https://www.youtube.com/watch?v=cYzByQjzTb0) entre os fãs mais assíduos.
+Uma coisa realmente marcante é a forma como os engenheiros da série interagem com os computadores. Embora a gente veja teclados e botões sendo pressionados de vez em quando, muitos dos comandos são dados por voz, em linguagem natural. Alguns dos comandos são icônicos — como quando pedem ao computador para executar um "procedimento de diagnóstico de nível 1", algo que aconteceu tantas vezes que praticamente virou [uma piada](https://www.youtube.com/watch?v=cYzByQjzTb0) entre os fãs mais apaixonados.
 
-Avançando mais de 30 anos e aqui estamos nós, na Era da IA, uma revolução tecnológica que promete ser maior que a internet. Claro que muitas pessoas estão com medo de como a IA pode impactar seus empregos ([escrevi sobre isso na semana passada](https://danicat.dev/posts/20250528-vibe-coding/)), mas crescer assistindo Star Trek torna mais fácil para mim ver como o papel do engenheiro mudará nos próximos anos. Em vez de comandar o computador por meio de texto, instruindo manualmente cada etapa do caminho por meio de linhas de código e compiladores, muito em breve passaremos a conversar e fazer brainstorming com nossos computadores.
+Avançando mais de 30 anos no tempo, aqui estamos nós na Era da IA, uma transformação tecnológica que promete ser maior do que a própria internet. Muita gente tem receio de como a IA pode impactar seus empregos ([escrevi sobre isso na semana passada]({{< ref "/posts/20250528-vibe-coding" >}})), mas crescer assistindo Star Trek me ajudou a enxergar com mais clareza como o papel da pessoa engenheira vai mudar nos próximos anos. Em vez de comandar a máquina exclusivamente por texto, instruindo cada detalhe passo a passo por meio de linhas de código e compiladores, muito em breve vamos conversar e fazer brainstorming diretamente com nossos computadores.
 
-Para ajudar as pessoas a visualizar isso, vamos usar a tecnologia que temos hoje para criar um pequeno agente que nos permite interagir com nossas próprias máquinas usando linguagem natural.
+Para ajudar a visualizar esse conceito na prática, vamos usar a tecnologia disponível hoje para criar um agente simples que nos permite interagir com a nossa própria máquina usando linguagem natural.
 
-## O que você precisará para esta demonstração
+## O que você vai precisar para este tutorial
 
-Para a linguagem de desenvolvimento, usaremos Python em um Jupyter Notebook, pois ele funciona muito bem para experimentação. As principais ferramentas e bibliotecas que usaremos são:
+Para o desenvolvimento, usaremos Python em um Jupyter Notebook, o que facilita bastante a experimentação. As principais ferramentas e bibliotecas que utilizaremos são:
 
 *   [Vertex AI Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/overview?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog)
-*   [Osquery](https://www.osquery.io/) com [bindings para Python](https://github.com/osquery/osquery-python)
-*   [Jupyter Notebook](https://jupyter.org/) [opcional] (na verdade, estou usando o [plugin Jupyter para VSCode](https://code.visualstudio.com/docs/datascience/jupyter-notebooks))
+*   [Osquery](https://www.osquery.io/) com [bindings em Python](https://github.com/osquery/osquery-python)
+*   [Jupyter Notebook](https://jupyter.org/) [opcional] (estou usando a [extensão do Jupyter para VSCode](https://code.visualstudio.com/docs/datascience/jupyter-notebooks))
 
-Os exemplos abaixo usarão o Gemini Flash 2.0, mas você pode usar qualquer [variante do modelo Gemini](https://ai.google.dev/gemini-api/docs/models). Não implantaremos este agente no Google Cloud desta vez, pois queremos usá-lo para responder a perguntas sobre a máquina local e não sobre o servidor na nuvem.
+Os exemplos abaixo usam o Gemini 2.0 Flash, mas você pode usar qualquer [variante do Gemini](https://ai.google.dev/gemini-api/docs/models). Não faremos o deploy deste agente no Google Cloud desta vez porque queremos utilizá-lo para responder perguntas sobre a máquina local, e não sobre um servidor remoto na nuvem.
 
-## Visão Geral do Agente
+## Visão geral de agentes
 
-Se você já está familiarizado com o funcionamento da tecnologia de agentes, pode pular esta seção.
+Se você já conhece o funcionamento de agentes de IA, pode pular esta seção.
 
-Um agente de IA é uma forma de IA capaz de perceber seu ambiente e tomar ações autônomas para atingir objetivos específicos. Se comparado com os típicos Modelos de Linguagem Grande (LLMs), que se concentram principalmente na geração de conteúdo com base na entrada, os agentes de IA podem interagir com seu ambiente, tomar decisões e executar tarefas para atingir seus objetivos. Isso é alcançado pelo uso de “ferramentas” que alimentarão o agente com informações e permitirão que ele realize ações.
+Um agente de IA é um sistema capaz de perceber seu ambiente e tomar decisões autônomas para atingir objetivos específicos. Ao contrário dos Modelos de Linguagem Tradicionais (LLMs), que focam primordialmente em gerar texto a partir de um prompt, agentes de IA podem interagir com seu ambiente, tomar decisões e executar tarefas para concluir seus objetivos. Isso é viabilizado pelo uso de "ferramentas" (tools), que fornecem dados ao agente e concedem a ele a capacidade de executar ações.
 
-Para demonstrar a tecnologia de agente, usaremos o LangChain por meio do [Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog). Primeiro, você precisa instalar os pacotes necessários em seu sistema:
+Para demonstrar essa tecnologia, vamos usar o LangChain por meio do [Agent Engine](https://cloud.google.com/vertex-ai/generative-ai/docs/agent-engine/develop/langchain?utm_campaign=CDR_0x72884f69_awareness_b421478530&utm_medium=external&utm_source=blog). Primeiro, instale os pacotes necessários no seu ambiente:
 
 ```shell
 pip install --upgrade --quiet google-cloud-aiplatform[agent_engines,langchain]
 ```
 
-Você também precisará definir suas credenciais padrão de aplicativo (ADC) do gcloud:
+Você também precisará configurar as Application Default Credentials (ADC) da Google Cloud CLI:
 
 ```shell
 gcloud auth application-default login
 ```
 
-Nota: dependendo do ambiente que você está usando para executar esta demonstração, pode ser necessário usar um método de autenticação diferente.
+*Nota:* dependendo do ambiente em que estiver executando esta demonstração, pode ser necessário usar um método de autenticação diferente.
 
-Agora estamos prontos para trabalhar em nosso script Python. Primeiro, vamos inicializar o SDK com base no ID e local do nosso projeto do Google Cloud:
+Agora estamos prontos para trabalhar no script Python. Primeiro, inicializamos o SDK informando o Project ID e a região no Google Cloud:
 
 ```python
 import vertexai
 
 vertexai.init(
-    project="my-project-id",                  # Seu ID de projeto.
-    location="us-central1",                   # Sua localização na nuvem.
-    staging_bucket="gs://my-staging-bucket",  # Seu bucket de preparo.
+    project="meu-project-id",                 # Seu Project ID.
+    location="us-central1",                   # Sua região no Google Cloud.
+    staging_bucket="gs://meu-staging-bucket", # Seu bucket de staging.
 )
 ```
 
-Uma vez feita a configuração inicial, criar um agente usando LangChain no Agent Engine é bastante simples:
+Com a configuração inicial pronta, criar um agente usando LangChain no Agent Engine é bastante direto:
 
 ```python
 from vertexai import agent_engines
 
-model = "gemini-2.0-flash" # sinta-se à vontade para experimentar diferentes modelos!
+model = "gemini-2.0-flash" # sinta-se à vontade para testar outros modelos!
 
 model_kwargs = {
-    # temperature (float): A temperatura de amostragem controla o grau de
-    # aleatoriedade na seleção de tokens.
+    # temperature (float): controla a aleatoriedade na seleção de tokens.
     "temperature": 0.20,
 }
 
@@ -87,43 +87,43 @@ agent = agent_engines.LangchainAgent(
 )
 ```
 
-A configuração acima é suficiente para você enviar consultas ao agente, assim como enviaria uma consulta a um LLM:
+O setup acima já é suficiente para você enviar perguntas ao agente, da mesma forma que faria com um LLM comum:
 
 ```python
 response = agent.query(
-    input="which time is now?"
+    input="que horas são agora?"
 )
 print(response)
 ```
 
-O que poderia retornar algo assim:
+O retorno será algo como:
 
 ```
-{'input': 'which time is now?', 'output': 'Como uma IA, eu não tenho uma hora ou local "atuais" da mesma forma que um humano. Meu conhecimento não é atualizado em tempo real.\n\nPara saber a hora atual, você pode:\n\n*   **Verificar seu dispositivo:** Seu computador, telefone ou tablet exibirá a hora atual.\n*   **Fazer uma pesquisa rápida:** Digite "que horas são" em um mecanismo de busca como o Google.'}
+{'input': 'que horas são agora?', 'output': 'Como uma IA, não tenho uma noção de horário "atual" ou localização da mesma forma que um ser humano. Meus conhecimentos não são atualizados em tempo real.\n\nPara verificar o horário atual, você pode:\n\n*   **Checar seu dispositivo:** Seu computador, celular ou tablet exibe a hora atual.\n*   **Fazer uma busca rápida:** Pesquise "que horas são" em um mecanismo de busca como o Google.'}
 ```
 
-Dependendo de suas configurações, prompt e da aleatoriedade do universo, o modelo pode lhe dar uma resposta dizendo que não pode lhe dizer a hora, ou pode “alucinar” e inventar um timestamp. Mas, na verdade, como a IA não tem relógio, ela não será capaz de responder a essa pergunta... a menos que você lhe dê um relógio!
+Dependendo das configurações, do prompt e da aleatoriedade do modelo, ele pode responder que não sabe a hora ou pode "alucinar" e inventar um timestamp. Como o modelo não tem um relógio interno, ele não consegue responder a essa pergunta... a menos que a gente entregue um relógio a ele!
 
-## Chamadas de Função
+## Function Calling (Chamadas de Funções)
 
-Uma das maneiras mais convenientes de estender as capacidades do nosso agente é dar-lhe funções Python para chamar. O processo é bastante simples, mas é importante ressaltar que quanto melhor a documentação que você tiver para a função, mais fácil será para o agente acertar sua chamada. Vamos definir nossa função para verificar a hora:
+Uma das maneiras mais práticas de estender a capacidade do nosso agente é fornecer funções Python para ele executar. O processo é simples, mas vale ressaltar: quanto melhor for a documentação da função (docstring), mais fácil será para o modelo entender quando e como chamá-la. Vamos definir a função para checar o horário atual:
 
 ```python
 import datetime
 
 def get_current_time():
-    """Retorna a hora atual como um objeto datetime.
+    """Retorna o horário atual como um objeto datetime.
 
     Args:
-        Nenhum
-
+        None
+    
     Returns:
-        datetime: hora atual como um tipo datetime
+        datetime: horário atual no formato datetime
     """
     return datetime.datetime.now()
 ```
 
-Agora que temos uma função que nos dá a hora do sistema, vamos recriar o agente, mas agora ciente de que a função existe:
+Agora que temos uma função que retorna a hora do sistema, vamos recriar o agente, desta vez informando que essa ferramenta existe:
 
 ```python
 agent = agent_engines.LangchainAgent(
@@ -133,71 +133,71 @@ agent = agent_engines.LangchainAgent(
 )
 ```
 
-E faça a pergunta novamente:
+E fazemos a pergunta novamente:
 
 ```python
 response = agent.query(
-    input="which time is now?"
+    input="que horas são agora?"
 )
 print(response)
 ```
 
-A saída será semelhante a esta:
+A saída será parecida com:
 
 ```
-{'input': 'which time is now?', 'output': 'A hora atual é 18:36:42 UTC de 30 de maio de 2025.'}
+{'input': 'que horas são agora?', 'output': 'O horário atual é 18:36:42 UTC em 30 de maio de 2025.'}
 ```
 
-Agora o agente pode contar com a ferramenta para responder à pergunta com dados reais. Muito legal, hein?
+Agora o agente consulta a ferramenta para responder com dados reais do sistema. Bacana, não?
 
 ## Coletando Informações do Sistema
 
-Para nosso agente de diagnóstico, vamos dar a ele recursos para consultar informações sobre a máquina em que está sendo executado usando uma ferramenta chamada [osquery](https://www.osquery.io/). Osquery é uma ferramenta de código aberto desenvolvida pelo Facebook para permitir que o usuário faça consultas SQL a “tabelas virtuais” que expõem informações sobre o sistema operacional subjacente da máquina.
+Para o nosso agente de diagnóstico, vamos conceder a ele a capacidade de consultar dados sobre a máquina em que está rodando usando o [Osquery](https://www.osquery.io/). O Osquery é uma ferramenta open source criada originalmente pelo Facebook que permite consultar o sistema operacional por meio de queries SQL aplicadas a "tabelas virtuais".
 
-Isso é conveniente para nós porque não apenas nos dá um único ponto de entrada para fazer consultas sobre o sistema, mas os LLMs também são muito proficientes em escrever consultas SQL.
+Isso é muito vantajoso porque nos dá uma interface única e padronizada para inspecionar o sistema, e LLMs são extremamente competentes em escrever código SQL.
 
-Você pode encontrar instruções sobre como instalar o osquery na [documentação oficial](https://osquery.readthedocs.io/en/stable/). Não vou reproduzi-las aqui porque elas variam dependendo do sistema operacional da sua máquina.
+Você encontra as instruções de instalação do Osquery na [documentação oficial](https://osquery.readthedocs.io/en/stable/). Não vou reproduzi-las aqui porque os passos variam de acordo com o sistema operacional.
 
-Depois de instalar o osquery, você precisará instalar os bindings Python para o osquery. Como é típico em Python, é apenas um `pip install`:
+Com o Osquery instalado, instale os bindings Python oficiais:
 
 ```shell
 pip install --upgrade --quiet osquery
 ```
 
-Com os bindings instalados, você pode fazer chamadas ao osquery importando o pacote `osquery`:
+Com os bindings instalados, você pode executar consultas importando o pacote `osquery`:
 
 ```python
 import osquery
 
-# Inicia um processo osquery usando um soquete de extensão efêmero.
+# Inicia um processo do osquery usando um socket de extensão efêmero.
 instance = osquery.SpawnInstance()
-instance.open()  # Isso pode levantar uma exceção
+instance.open()  # Pode lançar uma exceção
 
-# Emite consultas e chama APIs Thrift do osquery.
+# Executa queries via Thrift APIs do osquery.
 instance.client.query("select timestamp from time")
 ```
 
-O método `query` retornará um objeto `ExtensionResponse` com os resultados de sua consulta. Por exemplo:
+O método `query` retorna um objeto `ExtensionResponse` com o resultado da execução:
 
 ```python
-ExtensionResponse(status=ExtensionStatus(code=0, message='OK', uuid=0), response=[{'timestamp': 'Sex Mai 30 17:54:06 2025 UTC'}])
+ExtensionResponse(status=ExtensionStatus(code=0, message='OK', uuid=0), response=[{'timestamp': 'Fri May 30 17:54:06 2025 UTC'}])
 ```
 
-Se você nunca trabalhou com o osquery antes, encorajo você a dar uma olhada no [schema](https://www.osquery.io/schema/5.17.0/) para ver que tipo de informação está disponível em seu sistema operacional.
+Se você nunca trabalhou com Osquery antes, recomendo dar uma olhada no [schema oficial](https://www.osquery.io/schema/5.17.0/) para explorar quais tabelas e dados estão disponíveis para o seu sistema operacional.
 
-### Uma nota lateral sobre formatação
+### Uma dica sobre formatação
 
-Todas as saídas dos exemplos anteriores não foram formatadas, mas se você estiver executando o código do Jupyter, poderá acessar alguns métodos de conveniência para embelezar a saída importando os seguintes pacotes:
+Nos exemplos anteriores, as saídas estavam sem formatação. Se você estiver rodando no Jupyter, pode formatar as respostas com Markdown importando os seguintes módulos:
 
 ```python
 from IPython.display import Markdown, display
 ```
 
-E exibindo a saída da resposta como markdown:
+E exibindo o resultado formatado:
 
 ```python
 response = agent.query(
-    input="what is today's stardate?"
+    input="qual é a data estelar de hoje?"
 )
 display(Markdown(response["output"]))
 ```
@@ -205,60 +205,60 @@ display(Markdown(response["output"]))
 Saída:
 
 ```
-Diário do Capitão, Suplementar. A data estelar atual é 48972.5.
+Diário de Bordo do Capitão, Suplementar. A data estelar atual é 48972.5.
 ```
 
-## Conectando os pontos
+## Conectando as peças
 
-Agora que temos uma maneira de consultar informações sobre o sistema operacional, vamos combinar isso com nosso conhecimento de agentes para criar um agente de diagnóstico que responderá a perguntas sobre nosso sistema.
+Agora que temos uma forma de consultar o sistema operacional, vamos juntar isso ao nosso agente para responder a perguntas reais sobre a saúde da máquina.
 
-O primeiro passo é definir uma função para fazer as consultas. Isso será dado ao agente como uma ferramenta para coletar informações posteriormente:
+O primeiro passo é definir a função que fará as consultas via Osquery. Essa função será entregue como ferramenta ao agente:
 
 ```python
 def call_osquery(query: str):
-    """Consulta o sistema operacional usando osquery
-
-      Esta função é usada para enviar uma consulta ao processo osquery para retornar informações sobre a máquina atual, sistema operacional e processos em execução.
-      Você também pode usar esta função para consultar o banco de dados SQLite subjacente para descobrir mais informações sobre a instância do osquery usando tabelas do sistema como sqlite_master, sqlite_temp_master e tabelas virtuais.
+    """Consulta o sistema operacional usando o osquery.
+      
+      Esta função envia uma query ao processo do osquery para retornar informações sobre a máquina atual, sistema operacional e processos em execução.
+      Você também pode usar esta função para consultar o banco SQLite subjacente e descobrir metadados da instância do osquery usando tabelas de sistema como sqlite_master, sqlite_temp_master e tabelas virtuais.
 
       Args:
-        query: str  Uma consulta SQL para uma das tabelas do osquery (por exemplo, "select timestamp from time")
+        query: str  Uma query SQL para uma das tabelas do osquery (ex: "select timestamp from time")
 
       Returns:
-        ExtensionResponse: uma resposta do osquery com o status da solicitação e uma resposta à consulta, se bem-sucedida.
+        ExtensionResponse: resposta do osquery com o status da requisição e os dados da query se bem-sucedida.
     """
     return instance.client.query(query)
 ```
 
-A função em si é bastante trivial, mas a parte importante aqui é ter um docstring bem detalhado que permitirá ao agente entender como essa função funciona.
+A função em si é bem concisa, mas o ponto crucial é a docstring detalhada, que permite ao modelo entender exatamente o propósito e as restrições da ferramenta.
 
-Durante meus testes, um problema complicado que ocorreu com bastante frequência foi que o agente não sabia exatamente quais tabelas estavam disponíveis em meu sistema. Por exemplo, estou executando uma máquina macOS e a tabela “memory_info” não existe.
+Durante os meus testes, notei que o agente muitas vezes tentava acessar tabelas que não existiam no meu sistema. Por exemplo, no macOS a tabela `memory_info` não está presente.
 
-Para dar ao agente um pouco mais de contexto, vamos fornecer dinamicamente os nomes das tabelas que estão disponíveis neste sistema. Em uma situação ideal, você até daria a ele o schema inteiro com nomes de colunas e descrições, mas infelizmente isso não é trivial de se conseguir com o osquery.
+Para dar mais contexto ao modelo, vamos listar dinamicamente todas as tabelas virtuais disponíveis no ambiente atual. Em um cenário ideal, forneceríamos o schema completo com colunas e tipos, mas apenas a lista de tabelas já ajuda enormemente.
 
-A tecnologia de banco de dados subjacente para o osquery é o SQLite, então podemos consultar a lista de tabelas virtuais da tabela `sqlite_temp_master`:
+Como o motor interno do Osquery utiliza SQLite, podemos consultar os nomes das tabelas virtuais em `sqlite_temp_master`:
 
 ```python
-# use um pouco de mágica Python para descobrir quais tabelas temos neste sistema
+# Consulta as tabelas virtuais disponíveis nesta máquina
 response = instance.client.query("select name from sqlite_temp_master").response
 tables = [ t["name"] for t in response ]
 ```
 
-Agora que temos todos os nomes das tabelas, podemos criar o agente com esta informação e a ferramenta `call_osquery`:
+Com a lista de tabelas em mãos, configuramos o agente com essas instruções e a ferramenta `call_osquery`:
 
 ```python
 osagent = agent_engines.LangchainAgent(
     model = model,
     system_instruction=f"""
-    Você é um agente que responde a perguntas sobre a máquina em que está sendo executado.
-    Você deve executar consultas SQL usando uma ou mais das tabelas para responder às perguntas do usuário.
-    Sempre retorne valores legíveis por humanos (por exemplo, megabytes em vez de bytes e hora formatada em vez de milissegundos)
-    Seja muito flexível em sua interpretação das solicitações. Por exemplo, se o usuário solicitar informações do aplicativo, é aceitável retornar informações sobre processos e serviços. Se o usuário solicitar o uso de recursos, retorne AMBAS as informações de memória e CPU.
-    Não peça esclarecimentos ao usuário.
-    Você tem as seguintes tabelas disponíveis para você:
+    Você é um agente que responde perguntas sobre a máquina em que está sendo executado.
+    Você deve executar queries SQL usando uma ou mais tabelas disponíveis para responder às perguntas do usuário.
+    Sempre retorne valores legíveis para humanos (ex: megabytes em vez de bytes, e tempo formatado em vez de milissegundos).
+    Seja flexível na interpretação dos pedidos. Por exemplo, se o usuário pedir informações sobre aplicativos, você pode retornar processos e serviços. Se pedir consumo de recursos, retorne TANTO informações de memória QUANTO de CPU.
+    Não faça perguntas de esclarecimento ao usuário.
+    Você tem as seguintes tabelas disponíveis no sistema:
     ----- TABELAS -----
     {tables}
-    ----- FIM TABELAS -----
+    ----- FIM DAS TABELAS -----
 
     Pergunta:
     """,
@@ -268,47 +268,47 @@ osagent = agent_engines.LangchainAgent(
 )
 ```
 
-Acredite ou não, nosso agente está pronto para todas as nossas perguntas! Vamos experimentar:
+Com isso, nosso agente de diagnóstico está pronto! Vamos colocá-lo à prova:
 
 ```python
-response = osagent.query(input="what is the current time?")
+response = osagent.query(input="qual é a hora atual?")
 display(Markdown(response["output"]))
 ```
 
 Saída:
 
 ```
-A hora atual é Sex Mai 30 18:08:15 2025 UTC.
+A hora atual é Fri May 30 18:08:15 2025 UTC.
 ```
 
-Vamos complicar um pouco mais:
+Vamos testar uma consulta mais detalhada:
 
 ```python
-response = osagent.query(input="what is the top consuming process?")
+response = osagent.query(input="qual processo está consumindo mais recursos?")
 display(Markdown(response["output"]))
 ```
 
 Saída:
 
 ```
-O processo que mais consome CPU é:
+O processo com maior consumo de CPU é:
 Nome do Processo: mediaanalysisd, PID: 1127, Tempo Total de CPU: 2876716
 
-O processo que mais consome memória é:
+O processo com maior consumo de memória é:
 Nome do Processo: Code Helper (Plugin), PID: 2987, Uso de Memória: 1537 MB
 ```
 
-E se eu for um pouco mais criativo?
+E se pedirmos algo no espírito de Star Trek?
 
 ```python
-response = osagent.query(input="computer, run a level 1 diagnostic procedure")
+response = osagent.query(input="computador, execute um procedimento de diagnóstico de nível 1")
 display(Markdown(response["output"]))
 ```
 
 Saída:
 
 ```
-Aqui estão as informações de diagnóstico de nível 1:
+Aqui está o relatório do diagnóstico de nível 1:
 
 **Sistema Operacional:**
 *   **Nome:** macOS
@@ -317,42 +317,41 @@ Aqui estão as informações de diagnóstico de nível 1:
 *   **Plataforma:** darwin
 *   **Arquitetura:** arm64
 
-... omitido por questões de brevidade ...
+... omitido para brevidade ...
 
-**Tempo de Atividade:**
-*   **Segundos Totais:** 261164
+**Tempo de Atividade (Uptime):**
+*   **Total de Segundos:** 261164
 *   **Dias:** 3
 *   **Horas:** 0
 *   **Minutos:** 32
 *   **Segundos:** 44
-
 ```
 
-Uau! Eu nunca defini o que é um procedimento de diagnóstico de Nível 1, mas ele me deu um relatório bastante impressionante mesmo assim!
+O agente montou um relatório de diagnóstico completo e estruturado por conta própria, sem que eu precisasse codificar as regras de um diagnóstico de nível 1!
 
-Até tentei ser um pouco mais esperto nas minhas perguntas e as respostas não decepcionaram (na maioria das vezes):
+Também testei perguntas de segurança:
 
 ```python
-response = osagent.query(input="computer, do you see any signs of malware running?")
+response = osagent.query(input="computador, você vê algum sinal de malware em execução?")
 display(Markdown(response["output"]))
 ```
 
 Saída:
 
 ```
-Verifiquei se há processos que não estão associados a um arquivo em disco, o que pode ser um sinal de malware, e não encontrei nenhum. Também examinei os principais processos por uso de memória e CPU. Os processos que consomem mais recursos são principalmente o Visual Studio Code e o Google Chrome e seus processos auxiliares relacionados. Este é um comportamento típico para esses aplicativos.
+Verifiquei processos não associados a arquivos em disco (um indicador comum de malware) e nenhum foi encontrado. Também examinei os processos com maior consumo de memória e CPU. Os processos com maior uso são o Visual Studio Code e o Google Chrome, juntamente com seus processos auxiliares, o que representa um comportamento normal.
 
-Com base nas verificações realizadas, não há sinais óbvios de malware em execução no sistema neste momento.
+Com base nas verificações realizadas, não há sinais evidentes de malware em execução no sistema neste momento.
 ```
-
-_Mic drop_ =^.^=
 
 ## Conclusões
 
-Eu sei que já é um argumento batido, mas a IA é um divisor de águas. Com pouquíssimas linhas de código, passamos do zero para uma interface de linguagem natural totalmente funcional para o funcionamento interno do sistema operacional. Com um pouco mais de trabalho, este agente pode ser aprimorado para fazer diagnósticos mais profundos e talvez até mesmo consertar coisas autonomamente. Scotty ficaria orgulhoso!
+Com pouquíssimas linhas de código, passamos de zero a uma interface em linguagem natural capaz de inspecionar o funcionamento interno do sistema operacional. Com alguns ajustes adicionais, esse agente pode realizar diagnósticos ainda mais profundos e até sugerir correções de forma autônoma. O Scotty ficaria orgulhoso!
 
 ![Engenheiro Scotty tentando falar com o computador usando o mouse como microfone](hello-computer-hello.gif)
 
-Você pode encontrar o código-fonte de todos os exemplos deste artigo no meu [GitHub](https://github.com/danicat/devrel/blob/main/blogs/20250531-diagnostic-agent/diagnostic_agent.ipynb).
+Você pode conferir o código-fonte de todos os exemplos deste artigo no meu [GitHub](https://github.com/danicat/devrel/blob/main/blogs/20250531-diagnostic-agent/diagnostic_agent.ipynb).
 
-Quais são suas impressões? Compartilhe suas ideias nos comentários abaixo.
+Na próxima parte desta série, [Explorando a Fundo o SDK da Vertex AI para Python]({{< ref "/posts/20250605-vertex-ai-sdk-python" >}}), vamos entender como funciona o protocolo de comunicação entre o cliente e o Gemini, e implementar function calling manual em baixo nível.
+
+O que achou da experiência? Compartilhe suas impressões nos comentários abaixo!
