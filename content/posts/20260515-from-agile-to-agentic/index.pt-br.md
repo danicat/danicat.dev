@@ -10,7 +10,7 @@ tags:
   - gemini-cli
   - mcp
   - software-engineering
-title: "Do Ágil ao Agêntico: Guia de Desenvolvimento Corporativo"
+title: "Do Ágil ao Agêntico: Um Guia para o Desenvolvimento Corporativo Moderno"
 slug: "from-agile-to-agentic"
 aliases:
   - "/pt-br/posts/20260515-from-agile-to-agentic/"

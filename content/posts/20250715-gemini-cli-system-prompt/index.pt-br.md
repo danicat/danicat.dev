@@ -8,7 +8,7 @@ tags:
   - gemini-cli
   - tutorial
   - vibe-coding
-title: "Customizando o Gemini CLI: GEMINI.md e Prompts de Sistema"
+title: "Proatividade pode ser prejudicial?! Um guia para customizar o Gemini CLI para o seu estilo"
 slug: "gemini-cli-system-prompt"
 aliases:
   - "/pt-br/posts/20250715-gemini-cli-system-prompt/"

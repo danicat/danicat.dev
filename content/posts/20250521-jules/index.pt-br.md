@@ -5,7 +5,7 @@ summary: O novo agente autônomo de programação que todo desenvolvedor precisa
 tags:
   - jules
   - vibe-coding
-title: "Google Jules: Primeiras Impressões do Agente Autônomo de Código"
+title: "Precisamos falar sobre o Jules!"
 slug: "jules-autonomous-coding-agent"
 aliases:
   - "/pt-br/posts/20250521-jules/"

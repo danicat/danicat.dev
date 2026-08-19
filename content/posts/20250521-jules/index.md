@@ -5,7 +5,7 @@ summary: The new autonomous coding agent that every developer needs to know.
 tags:
   - jules
   - vibe-coding
-title: "Google Jules: Hands-on with the Autonomous Coding Agent"
+title: "We need to talk about Jules!"
 slug: "jules-autonomous-coding-agent"
 aliases:
   - "/posts/20250521-jules/"

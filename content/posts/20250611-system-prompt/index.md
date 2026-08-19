@@ -11,7 +11,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: "System Instructions & Agent Tools: Practical Python Guide"
+title: "Boldly Prompting: A Practical Guide to System Instructions and Agent Tools"
 slug: "system-instructions-agent-tools"
 aliases:
   - "/posts/20250611-system-prompt/"

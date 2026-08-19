@@ -10,7 +10,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: "Transformando Meu Computador na USS Enterprise com Agentes de IA"
+title: "Como transformei meu computador na \"USS Enterprise\" usando Agentes de IA"
 slug: "diagnostic-agent-uss-enterprise"
 aliases:
   - "/pt-br/posts/20250531-diagnostic-agent/"

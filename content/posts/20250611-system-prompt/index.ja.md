@@ -10,7 +10,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: "システム指示とエージェントツールの実践ガイド"
+title: "大胆なプロンプト：システム指示とエージェントツールの実践ガイド"
 slug: "system-instructions-agent-tools"
 aliases:
   - "/ja/posts/20250611-system-prompt/"

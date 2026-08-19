@@ -12,7 +12,7 @@ tags:
   - gemini
   - golang
   - mcp
-title: "Gemini for Go Developers - Part 2: Coding with Gemini"
+title: "Gemini for Go Developers: Coding with Gemini"
 slug: "gemini-for-go-developers-part-2-coding-with-gemini"
 aliases:
   - "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"

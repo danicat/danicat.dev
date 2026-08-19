@@ -9,7 +9,7 @@ tags:
   - gemini-cli
   - mcp
   - software-engineering
-title: "From Agile to Agentic: Scaling Enterprise AI Workflows"
+title: "From Agile to Agentic: A Guide to Modern Enterprise Development"
 slug: "from-agile-to-agentic"
 aliases:
   - "/posts/20260515-from-agile-to-agentic/"

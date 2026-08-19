@@ -11,7 +11,7 @@ tags:
   - gemini
   - golang
   - mcp
-title: "Go開発者のためのGemini - パート2: Geminiでコーディングする"
+title: "Go開発者のためのGemini：Geminiでコーディングする"
 slug: "gemini-for-go-developers-part-2-coding-with-gemini"
 aliases:
   - "/ja/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"

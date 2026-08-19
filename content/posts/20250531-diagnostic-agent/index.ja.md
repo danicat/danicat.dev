@@ -10,7 +10,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: "AI エージェントを使って自分の PC を「エンタープライズ号」にした話"
+title: "AIエージェントを使って自分のコンピューターを「USSエンタープライズ」に変えた方法"
 slug: "diagnostic-agent-uss-enterprise"
 aliases:
   - "/ja/posts/20250531-diagnostic-agent/"

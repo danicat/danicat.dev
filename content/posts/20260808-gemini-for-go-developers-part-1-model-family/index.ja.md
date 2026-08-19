@@ -9,7 +9,7 @@ summary: 「Go開発者のためのGemini」シリーズ第1部。Geminiモデ�
 tags:
   - gemini
   - golang
-title: "Go開発者のためのGemini - パート1: Geminiモデルファミリー"
+title: "Go開発者のためのGemini：モデルファミリー"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/ja/posts/20260808-gemini-for-go-developers-part-1-model-family/"

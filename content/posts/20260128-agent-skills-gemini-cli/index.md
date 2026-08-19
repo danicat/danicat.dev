@@ -13,7 +13,7 @@ tags:
   - gemini-cli
   - mcp
   - vibe-coding
-title: "Mastering Custom Agent Skills in Gemini CLI"
+title: "Mastering Agent Skills in Gemini CLI"
 aliases:
   - "/posts/20260128-agent-skills-gemini-cli/"
 description: "Learn how to build and configure Agent Skills in Gemini CLI. Covers progressive disclosure, on-demand prompt loading, and deterministic Python analysis scripts."

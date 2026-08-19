@@ -10,7 +10,7 @@ summary: The first chapter of the Gemini for Go Developers series, focusing on t
 tags:
   - gemini
   - golang
-title: "Gemini for Go Developers - Part 1: The Gemini Model Family"
+title: "Gemini for Go Developers: The Gemini Model Family"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/posts/20260808-gemini-for-go-developers-part-1-model-family/"

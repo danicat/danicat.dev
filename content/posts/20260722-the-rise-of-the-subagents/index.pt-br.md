@@ -9,7 +9,7 @@ tags:
   - agile
   - antigravity
   - subagents
-title: "A Ascensão dos Subagentes: Orquestrando Swarm Coding no Antigravity"
+title: "A Ascensão dos Subagentes"
 slug: "the-rise-of-the-subagents"
 aliases:
   - "/pt-br/posts/20260722-the-rise-of-the-subagents/"

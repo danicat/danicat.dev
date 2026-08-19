@@ -10,7 +10,7 @@ summary: O primeiro capítulo da série Gemini para Desenvolvedores Go, exploran
 tags:
   - gemini
   - golang
-title: "Gemini para Desenvolvedores Go - Parte 1: A Família de Modelos Gemini"
+title: "Gemini para Desenvolvedores Go: A Família de Modelos Gemini"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/pt-br/posts/20260808-gemini-for-go-developers-part-1-model-family/"

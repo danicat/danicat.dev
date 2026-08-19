@@ -10,7 +10,7 @@ tags:
   - golang
   - mcp
   - tutorial
-title: "GoDoctorの構築：Gemini CLIとGoで作るMCPサーバー"
+title: "GoDoctorの構築：Gemini CLIとGoでMCPサーバーを作成する"
 slug: "how-to-build-an-mcp-server-with-gemini-cli-and-go"
 aliases:
   - "/ja/posts/20250729-how-to-build-an-mcp-server-with-gemini-cli-and-go/"

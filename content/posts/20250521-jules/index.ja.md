@@ -5,7 +5,7 @@ summary: すべての開発者が知っておくべき、Googleの新たな自�
 tags:
   - jules
   - vibe-coding
-title: "Google Jules：自律型コーディングエージェントの実践インプレッション"
+title: "Julesについて話す必要があります！"
 slug: "jules-autonomous-coding-agent"
 aliases:
   - "/ja/posts/20250521-jules/"

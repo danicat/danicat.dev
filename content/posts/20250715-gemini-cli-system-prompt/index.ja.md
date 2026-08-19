@@ -7,7 +7,7 @@ tags:
   - gemini-cli
   - tutorial
   - vibe-coding
-title: "Gemini CLIをカスタマイズする：GEMINI.mdとシステム指示"
+title: "プロアクティブさは有害か？コーディングスタイルに合わせてGemini CLIをカスタマイズするためのガイド"
 slug: "gemini-cli-system-prompt"
 aliases:
   - "/ja/posts/20250715-gemini-cli-system-prompt/"

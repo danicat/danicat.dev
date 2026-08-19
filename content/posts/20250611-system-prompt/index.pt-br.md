@@ -10,7 +10,7 @@ tags:
   - python
   - tutorial
   - vertex-ai
-title: "Instruções de Sistema e Ferramentas para Agentes em Python"
+title: "Prompt Audacioso: Um Guia Prático para Instruções de Sistema e Ferramentas"
 slug: "system-instructions-agent-tools"
 aliases:
   - "/pt-br/posts/20250611-system-prompt/"
