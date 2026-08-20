@@ -45,9 +45,19 @@ Costumo palestrar em conferências internacionais de tecnologia e ministrar work
 
 ## Open Source e Ferramentas
 
-* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: CLI e servidor MCP automatizado para linting editorial, índice de legibilidade e diagnósticos de SEO para publicações técnicas.
-* **[Catálogo de Agent Skills](https://skills.danicat.dev)**: Pacotes de skills e kits de ferramentas de automação para agentes de codificação em IA.
+### Engenharia em Go e Verificação
+* **[GoDoctor](https://github.com/danicat/godoctor)**: CLI e servidor MCP para diagnósticos arquiteturais automáticos em Go, aplicação de estilo e refatoração via AST.
+* **[Selene](https://github.com/danicat/selene)**: Motor de testes de mutação de alta performance para Go, avaliando a eficácia dos testes e eliminando mutantes sobreviventes.
+* **[TestQuery](https://github.com/danicat/testquery)**: Motor de análise SQL sobre execuções de testes em Go, relatórios de cobertura e benchmarks.
+* **[PacGo](https://github.com/danicat/pacgo)**: Aprenda Go construindo um clone completo de Pac-Man para terminal do zero.
+
+### Agentes de IA e Inteligência Editorial
+* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: CLI e servidor MCP automatizado para linting editorial, índice de legibilidade (Fog index), detecção de slop de IA e diagnósticos de SEO.
+* **[Catálogo de Agent Skills](https://skills.danicat.dev)**: Pacotes de skills e kits de ferramentas de automação para agentes de codificação em IA ([GitHub](https://github.com/danicat/skills)).
 * **[Codelabs e Workshops](/pt-br/codelabs/)**: Tutoriais práticos sobre agentes de IA, ADK, A2UI, Antigravity e desenvolvimento na nuvem.
+
+### Ciência de Dados
+* **[read.dbc](https://github.com/danicat/read.dbc)**: Pacote em R para extrair e descomprimir bases de dados de saúde do DATASUS.
 
 ## Conecte-se e Acompanhe
 

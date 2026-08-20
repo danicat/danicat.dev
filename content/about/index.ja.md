@@ -45,9 +45,19 @@ description: "ダニエラ・ペトルザレクについて：ロンドン在住
 
 ## オープンソース & 開発者ツール
 
-* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: 技術記事の校正、可読性スコア測定、SEO 診断を行う自動化 CLI および MCP サーバー。
-* **[Agent Skills カタログ](https://skills.danicat.dev)**: AI コーディングエージェント向けのスキル定義および自動化ツールキット。
+### Go言語 エンジニアリング & 品質検証ツール
+* **[GoDoctor](https://github.com/danicat/godoctor)**: Go のアーキテクチャ診断、スタイル強制、AST 構文木リファクタリングを行う自動化 CLI & MCP サーバー。
+* **[Selene](https://github.com/danicat/selene)**: テストスイートの有効性を検証し、潜在バグを検出する Go 向け高速ミューテーションテストエンジン。
+* **[TestQuery](https://github.com/danicat/testquery)**: Go のテスト実行結果、カバレッジ、ベンチマークを SQL で分析できるクエリエンジン。
+* **[PacGo](https://github.com/danicat/pacgo)**: ゼロからターミナル版パックマンを作りながら Go 言語を学ぶ実践チュートリアル。
+
+### AI エージェント & エディトリアルインテリジェンス
+* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: 技術記事の校正、可読性スコア（Fog Index）測定、AI slop 検出、SEO 診断を行う自動化 CLI & MCP サーバー。
+* **[Agent Skills カタログ](https://skills.danicat.dev)**: AI コーディングエージェント向けのスキル定義および自動化ツールキット（[GitHub](https://github.com/danicat/skills)）。
 * **[コードラボ & ワークショップ](/ja/codelabs/)**: AI エージェント、ADK、A2UI、Antigravity、クラウド開発に関する実践的チュートリアル。
+
+### データサイエンス
+* **[read.dbc](https://github.com/danicat/read.dbc)**: ブラジル保健省（DATASUS）の圧縮データベースを展開・抽出する R 言語パッケージ。
 
 ## フォロー & リンク
 

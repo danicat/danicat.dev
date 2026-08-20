@@ -45,9 +45,19 @@ I regularly speak at international tech conferences and lead hands-on workshops 
 
 ## Open Source & Developer Tools
 
-* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: Automated CLI and MCP server for editorial linting, readability scoring, and SEO diagnostics in technical publications.
-* **[Agent Skills Catalog](https://skills.danicat.dev)**: Specialized skill definitions and automation toolkits for AI coding agents.
+### Go Engineering & Verification Suite
+* **[GoDoctor](https://github.com/danicat/godoctor)**: CLI & MCP server for automated Go architectural diagnostics, style enforcement, and AST-aware refactoring.
+* **[Selene](https://github.com/danicat/selene)**: High-performance mutation testing engine for Go to verify test suite efficacy and catch surviving mutants.
+* **[TestQuery](https://github.com/danicat/testquery)**: SQL analytics engine over Go test executions, coverage reports, and benchmark metrics.
+* **[PacGo](https://github.com/danicat/pacgo)**: Learn Go by building a complete terminal-based Pac-Man clone from scratch.
+
+### AI Agents & Editorial Intelligence
+* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: Automated CLI and MCP server for editorial linting, readability scoring (Fog index), AI slop detection, and SEO diagnostics.
+* **[Agent Skills Catalog](https://skills.danicat.dev)**: Specialized skill definitions and automation toolkits for AI coding agents ([GitHub](https://github.com/danicat/skills)).
 * **[Codelabs & Workshops](/codelabs/)**: Hands-on guides covering AI agents, ADK, A2UI, Antigravity, and cloud-native application development.
+
+### Data Science
+* **[read.dbc](https://github.com/danicat/read.dbc)**: R package to extract and decompress DATASUS health databases.
 
 ## Connect & Follow
 
