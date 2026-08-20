@@ -1,12 +1,12 @@
----categories:
+---
+categories:
 - Applied GenAI
 date: 2026-08-08
 heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 1
-summary: The first chapter of the Gemini for Go Developers series, focusing on the
-  different models of the Gemini model family and the API surfaces to consume them.
+summary: Learn about the different models of the Gemini family, their capabilities and how to consume them programmatically.
 tags:
   - gemini
   - golang
@@ -42,15 +42,15 @@ To navigate the Gemini catalog, it helps to understand how Google names its mode
 \text{[family]}-\text{[version]}-\text{[tier]}{-\text{[modifier]}}
 \]
 
-For example: `gemini-3.6-flash` or `gemini-3-pro-image`.
+For example: `gemini-3.7-flash` or `gemini-3-pro-image`.
 
-* **Family**: While most models will be in the Gemini family, Google also has other model families like Veo and Lyria.
-* **Version Numbers**: Represent generational leaps in intelligence, context window handling, and instruction adherence.
-* **Model Tiers**:
-  * **Pro**: Designed for complex multi-step reasoning.
-  * **Flash**: Balanced model with bias towards speed.
-  * **Flash-Lite**: Optimized for speed and high-throughput, simple tasks.
-* **Modifiers**: Might indicate a sub-family or specialisation, like `image` in `gemini-3.1-flash-image` or `live` in `gemini-3.1-flash-live-preview`. It may also include lifecycle modifiers like `-preview` or `-exp` (for experimental).
+**Family**: While most models will be in the Gemini family, Google also has other model families like Veo and Lyria.
+**Version Numbers**: Represent generational leaps in intelligence, context window handling, and instruction adherence.
+**Model Tiers**:
+* **Pro**: Designed for complex multi-step reasoning.
+* **Flash**: Balanced model with bias towards speed.
+* **Flash-Lite**: Optimized for speed and high-throughput, simple tasks.
+**Modifiers**: Might indicate a sub-family or specialisation, like `image` in `gemini-3.1-flash-image` or `live` in `gemini-3.1-flash-live-preview`. It may also include lifecycle modifiers like `-preview` or `-exp` (for experimental).
 
 ### Model overview
 
