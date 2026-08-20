@@ -25,6 +25,8 @@ summary: "Google シニアDevRelエンジニア、元GDE。Go言語とAIエー�
 description: "ダニエラ・ペトルザレクについて：ロンドン在住のGoogle シニアDevRelエンジニア。Go言語、データ基盤、AIエージェント、規律あるバイブコーディングが専門。"
 ---
 
+![ダニエラ・ペトルザレク](/images/profile.png)
+
 ダニエラ・ペトルザレク（Daniela Petruzalek）は、ロンドンを拠点とする Google のシニア Developer Relations Engineer です。Go 言語、データエンジニアリング、そして急速に進化する AI エージェントのエコシステムを専門としています。
 
 20年以上にわたるソフトウェアエンジニアリングおよびアーキテクチャの経験を持ち、信頼性とパフォーマンスに優れたシステムの構築や、最新の開発ツールの実践的活用を支援しています。Google 入社前は、Go 言語および Google Cloud Platform（GCP）の Google Developer Expert（GDE）を務め、オラクル認定プロフェッショナル（OCP）の資格も保持しています。
