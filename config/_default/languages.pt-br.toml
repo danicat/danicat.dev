@@ -65,9 +65,10 @@ title = "danicat.dev"
 #     { tumblr = "https://username.tumblr.com" },
 #     { twitch = "https://twitch.tv/username" },
 #     { twitter = "https://twitter.com/username" },
-    { x-twitter = "https://twitter.com/danicat83" },
+    { x-twitter = "https://x.com/danicat83" },
 #     { whatsapp = "https://wa.me/phone-number" },
 #     { youtube = "https://youtube.com/username" },
-    { ko-fi = "https://ko-fi.com/danicat" },
+#     { ko-fi = "https://ko-fi.com/username" },
 #     { codeberg = "https://codeberg.org/username"},
   ]
+

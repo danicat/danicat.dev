@@ -12,10 +12,148 @@
     {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
     "publisher" : {
       "@type": "Person",
-      "name": "{{ .Site.Params.Author.name | safeJS }}",
+      "@id": {{ "about/#person" | absURL | safeURL }},
+      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
       "url": {{ site.Home.Permalink | safeURL }}
     }
   }
+  </script>
+{{ else if or (eq .Section "about") (eq .Type "about") (in .RelPermalink "/about/") }}
+  <script type="application/ld+json">
+
+  [{
+    "@context": "https://schema.org",
+    "@type": "ProfilePage",
+    "@id": {{ printf "%s#profilepage" .Permalink | safeURL }},
+    "url": {{ .Permalink | safeURL }},
+    "name": "{{ .Title | safeJS }} - {{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
+    {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+    "mainEntity": {
+      "@type": "Person",
+      "@id": {{ "about/#person" | absURL | safeURL }},
+      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
+      "alternateName": ["danicat", "Dani Cat"],
+      "jobTitle": "{{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer" | safeJS }}",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Google",
+        "url": "https://about.google/"
+      },
+      "url": {{ "about/" | absURL | safeURL }},
+      "image": {{ "images/chibi-dani.png" | absURL | safeURL }},
+      "sameAs": [
+        "https://github.com/danicat",
+        "https://linkedin.com/in/petruzalek",
+        "https://bsky.app/profile/danicat83.bsky.social",
+        "https://x.com/danicat83",
+        "https://sessionize.com/daniela"
+      ],
+      "knowsAbout": [
+        "Go (Programming Language)",
+        "Artificial Intelligence Agents",
+        "Model Context Protocol (MCP)",
+        "Google Cloud Platform",
+        "Agent Development Kit (ADK)",
+        "Antigravity (AI Development Platform)",
+        "Data Engineering",
+        "Software Architecture"
+      ]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": {{ site.Home.Permalink }}
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "{{ .Title }}",
+        "item": {{ .Permalink }}
+      }
+    ]
+  }]
+  </script>
+{{ else if eq .Section "events" }}
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": {{ site.Home.Permalink }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ .Title }}",
+          "item": {{ .Permalink }}
+        }
+      ]
+    }
+    {{- $talks := site.Data.talks.talks -}}
+    {{- range $talks -}}
+      {{- if and .date .event .title -}}
+        {{- $tTitle := .title -}}
+        {{- $tSummary := .summary -}}
+        {{- $tDate := .date -}}
+        {{- $tLoc := (string .location) -}}
+        {{- $isOnline := or (in (lower $tLoc) "online") (in (lower $tLoc) "virtual") -}}
+      ,{
+        "@context": "https://schema.org",
+        "@type": "EducationEvent",
+        "name": "{{ $tTitle | safeJS }}",
+        {{ with $tSummary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+        "startDate": "{{ $tDate }}",
+        "eventAttendanceMode": "{{ if $isOnline }}https://schema.org/OnlineEventAttendanceMode{{ else }}https://schema.org/OfflineEventAttendanceMode{{ end }}",
+        "eventStatus": "https://schema.org/EventScheduled",
+        "location": {
+          {{- if $isOnline }}
+          "@type": "VirtualLocation",
+          "url": "{{ .url | default (absURL "events/") }}"
+          {{- else }}
+          "@type": "Place",
+          "name": "{{ .event | safeJS }}",
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "{{ .location | safeJS }}"
+          }
+          {{- end }}
+        },
+        "performer": {
+          "@type": "Person",
+          "@id": {{ "about/#person" | absURL | safeURL }},
+          "name": "Daniela Petruzalek"
+        },
+        "organizer": {
+          "@type": "Organization",
+          "name": "{{ .event | safeJS }}"
+        }
+        {{- with .url }},"url": "{{ . | safeURL }}"{{ end -}}
+        {{- with .recording }},
+        "workFeatured": {
+          "@type": "VideoObject",
+          "name": "{{ $tTitle | safeJS }}",
+          "description": "{{ $tSummary | default $tTitle | plainify | htmlUnescape | safeJS }}",
+          "uploadDate": "{{ $tDate }}",
+          "contentUrl": "{{ . | safeURL }}",
+          "embedUrl": "{{ . | safeURL }}"
+        }
+        {{- end }}
+      }
+      {{- end -}}
+    {{- end }}
+  ]
   </script>
 {{ else if .IsPage }}
   {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
@@ -51,15 +189,24 @@
     "mainEntityOfPage": {{ .Permalink }},
     "author" : {
       "@type": "Person",
+      "@id": {{ "about/#person" | absURL | safeURL }},
       "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "jobTitle": "{{ .Site.Params.Author.bio | default "Developer Relations Engineer" | safeJS }}",
-      "url": "https://danicat.dev"
+      "jobTitle": "{{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer" | safeJS }}",
+      "url": {{ "about/" | absURL | safeURL }}
     },
     "publisher" : {
       "@type": "Person",
+      "@id": {{ "about/#person" | absURL | safeURL }},
       "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "url": "https://danicat.dev"
+      "url": {{ site.Home.Permalink | safeURL }}
     },
+    {{ with .Params.series }}
+    "isPartOf": {
+      "@type": "CreativeWorkSeries",
+      "name": "{{ index . 0 | safeJS }}"
+    },
+    {{ end }}
+    {{ with .Params.series_order }}"position": {{ . }},{{ end }}
     {{ with .PublishDate }}"copyrightYear": "{{ .Format "2006" }}",{{ end }}
     {{ with .Date }}"dateCreated": "{{ .Format $iso8601 }}",{{ end }}
     {{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 }}",{{ end }}
@@ -69,7 +216,36 @@
     {{ with .Params.dependencies }}"dependencies": "{{ if reflect.IsSlice . }}{{ delimit . ", " | safeJS }}{{ else }}{{ . | safeJS }}{{ end }}",{{ end }}
     {{ with .Params.proficiencyLevel }}"proficiencyLevel": "{{ . | safeJS }}",{{ end }}
     "wordCount": {{ .WordCount }}
-  },
+  }
+  {{- with or .Params.recording .Params.video }},
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "{{ $.Title | safeJS }}",
+    "description": "{{ or $.Description $.Summary | default $.Title | plainify | htmlUnescape | safeJS }}",
+    "uploadDate": "{{ $.Date.Format $iso8601 }}",
+    "contentUrl": "{{ . | safeURL }}",
+    "embedUrl": "{{ . | safeURL }}",
+    "author": {
+      "@type": "Person",
+      "@id": {{ "about/#person" | absURL | safeURL }}
+    }
+  }
+  {{- end }}
+  {{- with or .Params.software_application .Params.software }},
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "{{ if reflect.IsMap . }}{{ .name | default $.Title | safeJS }}{{ else }}{{ $.Title | safeJS }}{{ end }}",
+    "applicationCategory": "{{ if reflect.IsMap . }}{{ .category | default "DeveloperApplication" | safeJS }}{{ else }}DeveloperApplication{{ end }}",
+    "operatingSystem": "{{ if reflect.IsMap . }}{{ .os | default "Cross-platform" | safeJS }}{{ else }}Cross-platform{{ end }}",
+    {{ if reflect.IsMap . }}{{ with .repo }}"downloadUrl": "{{ . | safeURL }}",{{ end }}{{ end }}
+    "author": {
+      "@type": "Person",
+      "@id": {{ "about/#person" | absURL | safeURL }}
+    }
+  }
+  {{- end }},
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -123,3 +299,4 @@
   }
   </script>
 {{ end }}
+

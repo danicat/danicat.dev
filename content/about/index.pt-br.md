@@ -1,4 +1,5 @@
----title: "Sobre"
+---
+title: "Sobre"
 date: 2025-06-11T00:00:00+01:00
 draft: false
 
@@ -20,23 +21,36 @@ showAuthor: true
 showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
-summary: "Senior DevRel Engineer no Google, ex-GDE, palestrante TEDx e especialista em Go e agentes de IA."
+summary: "Senior DevRel Engineer no Google, ex-GDE e especialista em sistemas escaláveis em Go e agentes de IA."
 description: "Sobre Daniela Petruzalek: Senior Developer Relations Engineer no Google em Londres, especialista em Go, Engenharia de Dados, Agentes de IA e vibe coding com disciplina."
 ---
+
 Daniela Petruzalek é Senior Developer Relations Engineer no Google, baseada em Londres. É especialista em Go, Engenharia de Dados e no ecossistema emergente de Agentes de IA.
 
-Com uma trajetória de mais de duas décadas em engenharia de software e pré-vendas, Daniela é apaixonada por construir sistemas eficientes e escaláveis, além de ajudar outras pessoas desenvolvedoras a fazerem o mesmo. Antes de ingressar no Google, foi Google Developer Expert (GDE) em Go e Google Cloud Platform. Ela também é Oracle Certified Professional e palestrante TEDx.
+Com mais de duas décadas de trajetória em engenharia e arquitetura de software, Daniela se dedica a construir sistemas eficientes e de alta performance, além de ajudar a comunidade de desenvolvimento a dominar ferramentas modernas. Antes de ingressar no Google, foi Google Developer Expert (GDE) em Go e Google Cloud Platform, e possui certificação Oracle Certified Professional.
 
-Seu foco atual abrange tudo relacionado a IA: desde o uso de IA para gerar código, imagens e texto até a criação de aplicações baseadas em inteligência artificial, como agentes e outras ferramentas. Daniela é defensora do vibe coding com disciplina, aplicando rigor de engenharia a fluxos de trabalho assistidos por IA para criar ferramentas que facilitam a vida de quem desenvolve.
+Seu foco atual abrange o desenvolvimento assistido por IA e arquiteturas agênticas — explorando como modelos generativos, o Model Context Protocol (MCP) e o Agent Development Kit (ADK) se integram à engenharia de software em produção. Ela defende o *vibe coding com disciplina*, aplicando rigor de engenharia clássica, testes automatizados e princípios sólidos de design a fluxos de trabalho assistidos por IA.
 
-Nas horas vagas, contribui para projetos open source, joga videogame e faz carinho em qualquer gato que encontra na rua.
+Nas horas vagas, contribui para projetos open source, joga videogames (retrô e modernos) e faz carinho em qualquer gato que encontra na rua.
 
-## Palestras e Eventos
+## Palestras e Workshops
 
-Se você quiser me convidar para palestrar no seu evento, envie uma mensagem para [daniela@danicat.dev](mailto:daniela@danicat.dev) com os detalhes da apresentação, incluindo público-alvo, local e data.
+Costumo palestrar em conferências internacionais de tecnologia e ministrar workshops práticos sobre programação de sistemas em Go, agentes de IA e produtividade no desenvolvimento.
 
-Você pode conferir meus conteúdos e palestras anteriores no [GitHub](https://github.com/danicat/public-speaking).
+* **Palestras Anteriores e Futuras**: Confira o diretório completo de sessões, slides e gravações na página de [Eventos](/pt-br/events/).
+* **Perfil de Palestrante**: Biografia e resumos de palestras estão disponíveis no [Sessionize](https://sessionize.com/daniela).
+* **Convites para Eventos**: Para me convidar para palestrar em sua conferência, meetup ou workshop, envie um e-mail para [daniela@danicat.dev](mailto:daniela@danicat.dev) com os detalhes do evento, tema, local e datas.
 
-## Redes Sociais
+## Open Source e Ferramentas
 
-No momento, estou mais ativa no [LinkedIn](https://www.linkedin.com/in/petruzalek/), mas fique à vontade para me acompanhar também no [X](https://twitter.com/danicat83) e no [BlueSky](https://bsky.app/profile/danicat83.bsky.social).
+* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: CLI e servidor MCP automatizado para linting editorial, índice de legibilidade e diagnósticos de SEO para publicações técnicas.
+* **[Catálogo de Agent Skills](https://skills.danicat.dev)**: Pacotes de skills e kits de ferramentas de automação para agentes de codificação em IA.
+* **[Codelabs e Workshops](/pt-br/codelabs/)**: Tutoriais práticos sobre agentes de IA, ADK, A2UI, Antigravity e desenvolvimento na nuvem.
+
+## Conecte-se e Acompanhe
+
+* **GitHub**: [@danicat](https://github.com/danicat)
+* **LinkedIn**: [Daniela Petruzalek](https://linkedin.com/in/petruzalek)
+* **Bluesky**: [@danicat83.bsky.social](https://bsky.app/profile/danicat83.bsky.social)
+* **X**: [@danicat83](https://x.com/danicat83)
+* **Sessionize**: [daniela](https://sessionize.com/daniela)

@@ -61,14 +61,22 @@ Use **only** these five canonical categories:
 *   **`series_order`:** Integer indicating the chapter/part number within the series (e.g., `series_order: 1`).
 *   **Consistency:** Use the identical series name across all language editions (`index.md`, `index.ja.md`, `index.pt-br.md`) so Hugo groups them correctly into unified series taxonomies.
 
-### Frontmatter Metadata & Schema.org (`TechArticle`) Standards
-All articles in `content/posts/` automatically generate clean Schema.org `TechArticle` and `BreadcrumbList` JSON-LD structured data via `layouts/partials/schema.html`.
-*   **`headline`:** Automatically set from the article `.Title`. (No duplicate `name` field).
-*   **`summary` / `description`:** High-signal 1-2 sentence overview. Feeds into meta descriptions, OpenGraph, and `TechArticle.description`.
-*   **`keywords`:** Mapped directly from canonical `tags` into a JSON string array.
-*   **`dependencies` (Optional):** Specific runtime or tool prerequisites (e.g., `dependencies: ["Go 1.24+", "Antigravity CLI"]`). Emitted in JSON-LD only when explicitly provided in frontmatter. Never duplicated from tags.
-*   **`proficiencyLevel` (Optional):** Target reader experience level (`"Beginner"`, `"Intermediate"`, `"Advanced"`, `"Expert"`). Emitted only when explicitly declared in frontmatter.
-*   **`wordCount`:** Emitted as an integer for machine readability.
+### Frontmatter Metadata & Schema.org Structured Data Standards
+The site automatically generates clean, interconnected Schema.org JSON-LD structured data via `layouts/partials/schema.html` across all pages:
+*   **Unified Author Knowledge Graph (`@id`):** All articles, codelabs, events, and site entities connect author references to `@id: "https://danicat.dev/about/#person"`.
+*   **`ProfilePage` (`/about/`):** Emits a dedicated `ProfilePage` (`mainEntity: Person`) linking verified social channels (`GitHub`, `LinkedIn`, `Bluesky`, `X`, `Sessionize`), Google organizational affiliation, and authoritative technical knowledge topics (`knowsAbout`).
+*   **`Event` / `EducationEvent` (`/events/`):** Automatically maps talks and workshops from `data/talks.json` into structured conference events with venues, dates, and embedded video recordings (`VideoObject`).
+*   **`TechArticle` (`content/posts/` & `content/codelabs/`):**
+    *   **`headline`:** Automatically set from the article `.Title`.
+    *   **`summary` / `description`:** High-signal 1-2 sentence overview feeding into meta descriptions, OpenGraph, and `TechArticle.description`.
+    *   **`keywords`:** Mapped directly from canonical `tags` into a JSON string array.
+    *   **`isPartOf` (`CreativeWorkSeries`):** Connected automatically whenever `series` and `series_order` are declared in frontmatter.
+    *   **`dependencies` (Optional):** Specific runtime or tool prerequisites (e.g., `dependencies: ["Go 1.24+", "Antigravity CLI"]`). Emitted in JSON-LD only when explicitly provided in frontmatter. Never duplicated from tags.
+    *   **`proficiencyLevel` (Optional):** Target reader experience level (`"Beginner"`, `"Intermediate"`, `"Advanced"`, `"Expert"`).
+    *   **`recording` / `video` (Optional):** Emits companion `VideoObject` structured data for embedded recordings.
+    *   **`software` / `software_application` (Optional):** Emits companion `SoftwareApplication` structured data for tool releases.
+    *   **`wordCount`:** Emitted as an integer for machine readability.
+
 
 ### Internal & Multilingual Linking Standards
 *   **Localized Target Parity:** When linking between articles within localized translations (`index.ja.md` or `index.pt-br.md`), internal links **must** resolve to the corresponding localized article edition using the localized post title as anchor text (e.g., `[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/..." >}})`).
