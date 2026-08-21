@@ -184,7 +184,7 @@ No Genkit, um **Flow** é a unidade fundamental de execução que fornece:
 
 ## Nano Banana Pro
 
-O motor por trás da nossa restauração é o **Gemini 3 Pro Image**, carinhosamente (e internamente) conhecido como "Nano Banana Pro".
+O motor por trás da nossa restauração é o **Gemini 3 Pro Image**, carinhosamente conhecido como "Nano Banana Pro".
 
 Ele representa um salto significativo em relação às gerações anteriores (e até mesmo aos modelos atuais "Flash"). Enquanto o Gemini 2.5 Flash é incrivelmente rápido e capaz de geração básica de imagens (`gemini-2.5-flash-image`), o **Nano Banana Pro** (`gemini-3-pro-image-preview`) foi construído para raciocínio multimodal profundo.
 

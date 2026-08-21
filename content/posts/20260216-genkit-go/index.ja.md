@@ -179,7 +179,7 @@ Genkit において **Flow（フロー）** は処理実行の基本単位であ
 
 ## Nano Banana Pro
 
-今回の写真復元を支えるエンジンは、愛称（および内部コードネーム）として「Nano Banana Pro」と呼ばれる **Gemini 3 Pro Image** です。
+今回の写真復元を支えるエンジンは、愛称として「Nano Banana Pro」と呼ばれる **Gemini 3 Pro Image** です。
 
 これは、前世代（および現行の「Flash」モデル）と比べても飛躍的な進化を遂げています。Gemini 2.5 Flash は非常に高速で基本的な画像生成（`gemini-2.5-flash-image`）に対応していますが、**Nano Banana Pro**（`gemini-3-pro-image-preview`）は高度なマルチモーダル推論を行うために設計されています。
 

@@ -369,7 +369,7 @@ Query result:  {'status': 'OK', 'response': [{'cid': '0', 'dflt_value': '', 'nam
 
 System Information:                                                                                                                                                     
 
- • Hostname: petruzalek-mac.roam.internal                                                                                                                               
+ • Hostname: workstation.localdomain                                                                                                                               
  • CPU Type: arm64e                                                                                                                                                     
  • Physical Memory: 51539607552 bytes                                                                                                                                   
 

@@ -138,17 +138,17 @@ Se você enfrentar um desafio semelhante, certifique-se de estar usando a versã
 
 ```bash
 $ which python3
-/Users/petruzalek/homebrew/opt/python@3.14/libexec/bin/python3
+/opt/homebrew/opt/python@3.14/libexec/bin/python3
 $ brew info python3
 ==> python@3.14: stable 3.14.0
 ...
 ==> Caveats
 Python is installed as
-  /Users/petruzalek/homebrew/bin/python3
+  /opt/homebrew/bin/python3
 
 Unversioned symlinks `python`, `python-config`, `pip` etc. pointing to
 `python3`, `python3-config`, `pip3` etc., respectively, are installed into
-  /Users/petruzalek/homebrew/opt/python@3.14/libexec/bin
+  /opt/homebrew/opt/python@3.14/libexec/bin
 
 See: https://docs.brew.sh/Homebrew-and-Python
 ```

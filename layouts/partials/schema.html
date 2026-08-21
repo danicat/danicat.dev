@@ -1,84 +1,115 @@
+{{- $identity := site.Data.identity -}}
+{{- $author := $identity.author -}}
+{{- $publisher := $identity.publisher -}}
 {{ if .IsHome -}}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "@id": {{ site.Home.Permalink | safeURL }},
-    "name": "{{ .Site.Title | safeJS }}",
-    "alternateName": ["danicat.dev", "Daniela Petruzalek"],
-    {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
-    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
-    "url": {{ site.Home.Permalink | safeURL }},
-    {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
-    "publisher" : {
+  [
+    {
+      "@context": "https://schema.org",
       "@type": "Person",
       "@id": {{ "about/#person" | absURL | safeURL }},
-      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "url": {{ site.Home.Permalink | safeURL }}
+      "name": "{{ $author.name | safeJS }}",
+      "jobTitle": "{{ $author.jobTitle | safeJS }}",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "{{ $author.worksFor.name | safeJS }}",
+        "url": "{{ $author.worksFor.url | safeURL }}"
+      },
+      "url": {{ "about/" | absURL | safeURL }},
+      "image": {{ $author.image | safeURL }},
+      "sameAs": {{ $author.sameAs | jsonify }}
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "name": "{{ $publisher.name | safeJS }}",
+      "url": {{ site.Home.Permalink | safeURL }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ $publisher.logo.url | safeURL }}
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": {{ printf "%s#website" site.Home.Permalink | safeURL }},
+      "name": "{{ .Site.Title | safeJS }}",
+      "alternateName": ["danicat.dev", "Daniela Petruzalek"],
+      {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
+      {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+      "url": {{ site.Home.Permalink | safeURL }},
+      {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
+      "publisher": {
+        "@type": "Organization",
+        "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }}
+      }
     }
-  }
+  ]
   </script>
 {{ else if or (eq .Section "about") (eq .Type "about") (in .RelPermalink "/about/") }}
   <script type="application/ld+json">
-
-  [{
-    "@context": "https://schema.org",
-    "@type": "ProfilePage",
-    "@id": {{ printf "%s#profilepage" .Permalink | safeURL }},
-    "url": {{ .Permalink | safeURL }},
-    "name": "{{ .Title | safeJS }} - {{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-    {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
-    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
-    "mainEntity": {
+  [
+    {
+      "@context": "https://schema.org",
       "@type": "Person",
       "@id": {{ "about/#person" | absURL | safeURL }},
-      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "alternateName": ["danicat", "Dani Cat"],
-      "jobTitle": "{{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer" | safeJS }}",
+      "name": "{{ $author.name | safeJS }}",
+      {{ with $author.alternateName }}"alternateName": {{ . | jsonify }},{{ end }}
+      "jobTitle": "{{ $author.jobTitle | safeJS }}",
       "worksFor": {
         "@type": "Organization",
-        "name": "Google",
-        "url": "https://about.google/"
+        "name": "{{ $author.worksFor.name | safeJS }}",
+        "url": "{{ $author.worksFor.url | safeURL }}"
       },
       "url": {{ "about/" | absURL | safeURL }},
-      "image": {{ "images/chibi-dani.png" | absURL | safeURL }},
-      "sameAs": [
-        "https://github.com/danicat",
-        "https://linkedin.com/in/petruzalek",
-        "https://bsky.app/profile/danicat83.bsky.social",
-        "https://x.com/danicat83",
-        "https://sessionize.com/daniela"
-      ],
-      "knowsAbout": [
-        "Go (Programming Language)",
-        "Artificial Intelligence Agents",
-        "Model Context Protocol (MCP)",
-        "Google Cloud Platform",
-        "Agent Development Kit (ADK)",
-        "Antigravity (AI Development Platform)",
-        "Data Engineering",
-        "Software Architecture"
+      "image": {{ $author.image | safeURL }},
+      "sameAs": {{ $author.sameAs | jsonify }},
+      "knowsAbout": {{ $author.knowsAbout | jsonify }}
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "name": "{{ $publisher.name | safeJS }}",
+      "url": {{ site.Home.Permalink | safeURL }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ $publisher.logo.url | safeURL }}
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      "@id": {{ printf "%s#profilepage" .Permalink | safeURL }},
+      "url": {{ .Permalink | safeURL }},
+      "name": "{{ .Title | safeJS }} - {{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
+      {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+      {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+      "mainEntity": {
+        "@type": "Person",
+        "@id": {{ "about/#person" | absURL | safeURL }}
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": {{ site.Home.Permalink }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ .Title }}",
+          "item": {{ .Permalink }}
+        }
       ]
     }
-  },
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": {{ site.Home.Permalink }}
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "{{ .Title }}",
-        "item": {{ .Permalink }}
-      }
-    ]
-  }]
+  ]
   </script>
 {{ else if eq .Section "events" }}
   <script type="application/ld+json">
@@ -172,6 +203,9 @@
       {{- end -}}
     {{- end -}}
   {{- end -}}
+  {{- if not $imageUrl -}}
+    {{- $imageUrl = "images/default-social.png" | absURL -}}
+  {{- end -}}
   {{- $schemaType := "TechArticle" -}}
   {{- if not (or (eq .Section "posts") (eq .Section "codelabs")) -}}
     {{- $schemaType = "Article" -}}
@@ -183,22 +217,29 @@
     "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
     "headline": "{{ .Title | safeJS }}",
     {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
-    {{ with $imageUrl }}"image": "{{ . }}",{{ end }}
+    "image": "{{ $imageUrl }}",
     {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
     "url" : {{ .Permalink }},
-    "mainEntityOfPage": {{ .Permalink }},
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": {{ .Permalink }}
+    },
     "author" : {
       "@type": "Person",
       "@id": {{ "about/#person" | absURL | safeURL }},
-      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "jobTitle": "{{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer" | safeJS }}",
+      "name": "{{ $author.name | safeJS }}",
+      "jobTitle": "{{ $author.jobTitle | safeJS }}",
       "url": {{ "about/" | absURL | safeURL }}
     },
     "publisher" : {
-      "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }},
-      "name": "{{ .Site.Params.Author.name | default "Daniela Petruzalek" | safeJS }}",
-      "url": {{ site.Home.Permalink | safeURL }}
+      "@type": "Organization",
+      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "name": "{{ $publisher.name | safeJS }}",
+      "url": {{ site.Home.Permalink | safeURL }},
+      "logo": {
+        "@type": "ImageObject",
+        "url": {{ $publisher.logo.url | safeURL }}
+      }
     },
     {{ with .Params.series }}
     "isPartOf": {
@@ -226,6 +267,7 @@
     "uploadDate": "{{ $.Date.Format $iso8601 }}",
     "contentUrl": "{{ . | safeURL }}",
     "embedUrl": "{{ . | safeURL }}",
+    "thumbnailUrl": "{{ $imageUrl }}",
     "author": {
       "@type": "Person",
       "@id": {{ "about/#person" | absURL | safeURL }}
@@ -239,10 +281,23 @@
     "name": "{{ if reflect.IsMap . }}{{ .name | default $.Title | safeJS }}{{ else }}{{ $.Title | safeJS }}{{ end }}",
     "applicationCategory": "{{ if reflect.IsMap . }}{{ .category | default "DeveloperApplication" | safeJS }}{{ else }}DeveloperApplication{{ end }}",
     "operatingSystem": "{{ if reflect.IsMap . }}{{ .os | default "Cross-platform" | safeJS }}{{ else }}Cross-platform{{ end }}",
+    "image": {{ $publisher.logo.url | safeURL }},
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
     {{ if reflect.IsMap . }}{{ with .repo }}"downloadUrl": "{{ . | safeURL }}",{{ end }}{{ end }}
     "author": {
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }}
+      "@id": {{ "about/#person" | absURL | safeURL }},
+      "name": "{{ $author.name | safeJS }}",
+      "url": {{ "about/" | absURL | safeURL }}
+    },
+    "publisher": {
+      "@type": "Organization",
+      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "name": "{{ $publisher.name | safeJS }}"
     }
   }
   {{- end }},
@@ -299,4 +354,5 @@
   }
   </script>
 {{ end }}
+
 
