@@ -367,7 +367,6 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -432,7 +431,7 @@ type CatalogResponse struct {
 }
 
 type AppraiserRequest struct {
-	Prompt string `json:"prompt"`
+	Prompt string `json:"prompt" jsonschema:"description=The collector's question or purchase offer to evaluate"`
 }
 
 type AppraiserResponse struct {
@@ -442,13 +441,12 @@ type AppraiserResponse struct {
 func main() {
 	ctx := context.Background()
 
-	// 1. Initialise Genkit with Vertex AI / Gemini Enterprise plugin
+	// 1. Initialise Genkit with Vertex AI plugin
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(&googlegenai.VertexAI{
 			ProjectID: os.Getenv("GOOGLE_CLOUD_PROJECT"),
 			Location:  "global",
 		}),
-		genkit.WithDefaultModel("vertexai/gemini-3.7-flash"),
 	)
 
 	// 2. Define strongly-typed tool with automatic schema generation
@@ -458,11 +456,19 @@ func main() {
 		"Search the collector's personal inventory for owned games by title or platform.",
 		func(ctx *ai.ToolContext, req CatalogRequest) (CatalogResponse, error) {
 			queryLower := strings.ToLower(strings.TrimSpace(req.Query))
+			queryWords := strings.Fields(queryLower)
 			var matches []GameItem
 
 			for _, item := range localCatalog {
-				if strings.Contains(strings.ToLower(item.Title), queryLower) ||
-					strings.Contains(strings.ToLower(item.Platform), queryLower) {
+				itemText := strings.ToLower(item.Title + " " + item.Platform)
+				allMatch := true
+				for _, word := range queryWords {
+					if !strings.Contains(itemText, word) {
+						allMatch = false
+						break
+					}
+				}
+				if allMatch {
 					matches = append(matches, item)
 				}
 			}
@@ -482,46 +488,31 @@ func main() {
 		},
 	)
 
-	// 3. Define structured appraisal flow
+	// 3. Define structured appraisal flow with typed request and response
 	appraiserFlow := genkit.DefineFlow(
 		g,
 		"appraise_game",
-		func(ctx context.Context, input string) (string, error) {
+		func(ctx context.Context, req AppraiserRequest) (AppraiserResponse, error) {
 			resp, err := genkit.Generate(ctx, g,
+				ai.WithModelName("vertexai/gemini-3.7-flash"),
 				ai.WithSystem(
 					"You are an expert Retro Game Appraiser. Assist collectors by evaluating prospective purchases, "+
 						"cross-referencing their personal inventory, and assessing fair market valuations. "+
 						"Always search the collection catalog using search_catalog before providing purchase recommendations.",
 				),
-				ai.WithPrompt(input),
+				ai.WithPrompt(req.Prompt),
 				ai.WithTools(catalogTool),
 			)
 			if err != nil {
-				return "", fmt.Errorf("appraisal generation failed: %w", err)
+				return AppraiserResponse{}, fmt.Errorf("appraisal generation failed: %w", err)
 			}
-			return resp.Text(), nil
+			return AppraiserResponse{Appraisal: resp.Text()}, nil
 		},
 	)
 
-	// 4. HTTP API Endpoint with graceful shutdown
+	// 4. Mount flow directly using Genkit's built-in HTTP handler
 	mux := http.NewServeMux()
-	mux.HandleFunc("POST /api/appraise", func(w http.ResponseWriter, req *http.Request) {
-		var body AppraiserRequest
-		if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
-			http.Error(w, "invalid request", http.StatusBadRequest)
-			return
-		}
-
-		result, err := appraiserFlow.Run(req.Context(), body.Prompt)
-		if err != nil {
-			log.Printf("flow execution error: %v", err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(AppraiserResponse{Appraisal: result})
-	})
+	mux.Handle("POST /api/appraise", genkit.Handler(appraiserFlow))
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -533,7 +524,7 @@ func main() {
 		Handler: mux,
 	}
 
-	// Handle graceful shutdown on SIGINT (Ctrl+C) and SIGTERM
+	// Graceful shutdown on Ctrl+C (SIGINT) or SIGTERM
 	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -572,7 +563,7 @@ In another terminal, send an appraisal request:
 ```sh
 curl -s -X POST http://localhost:8080/api/appraise \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "I found a copy of EarthBound for SNES for $350. Do I own it, and is it a good deal?"}' | jq .
+  -d '{"data": {"prompt": "I found a copy of EarthBound for SNES for $350. Do I own it, and is it a good deal?"}}' | jq .
 ```
 
 The flow executes, queries the catalog tool, and returns a structured appraisal payload:
