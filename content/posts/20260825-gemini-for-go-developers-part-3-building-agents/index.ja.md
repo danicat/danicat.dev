@@ -28,7 +28,7 @@ dependencies:
 
 **Go開発者のためのGemini**シリーズへようこそ！[第1部: Geminiモデルファミリー]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}})では、モデル階層ごとのGeminiの機能を確認し、[第2部: Geminiを使ったコーディング]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}})では、Go開発向けにコーディングエージェントを設定する方法を探求しました。
 
-今回は立場を逆転させ、Goで自律型エージェントを構築する方法を探求します。本記事では、エージェントの根本的な仕組みを紐解き、具体的なユースケースである**レトロゲーム鑑定士（Retro Game Appraiser）**を定義して、Goにおける3つの異なるパラダイムで段階的に構築していきます。
+今回は立場を逆転させ、GoでAI対応アプリケーションや自律型エージェントを構築する方法を探求します。本記事では、エージェントの根本的な仕組みを紐解き、具体的なユースケースである**レトロゲーム鑑定士（Retro Game Appraiser）**を定義して、Goにおける3つの異なるパラダイムで段階的に構築していきます。
 
 1. **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)** を使って直接構築する低レベルのエージェントループ
 2. **[Genkit](https://genkit.dev)** を使って構築する構造化されたフローベースのパイプライン

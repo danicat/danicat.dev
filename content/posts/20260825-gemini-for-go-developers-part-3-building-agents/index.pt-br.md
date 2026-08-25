@@ -28,7 +28,7 @@ dependencies:
 
 Boas-vindas de volta à série **Gemini para Desenvolvedores Go**! Na [Parte 1: A Família de Modelos Gemini]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), conhecemos as capacidades do Gemini entre diferentes categorias de modelos e, na [Parte 2: Programando com o Gemini]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}), exploramos como configurar nossos agentes de programação para o desenvolvimento em Go.
 
-Agora é hora de inverter os papéis e explorar o outro lado da equação: como construir agentes autônomos em Go. Neste capítulo, vamos dissecar a mecânica fundamental de um agente, definir um domínio concreto — um **Avaliador de Jogos Retrô** — e construí-lo passo a passo em três paradigmas distintos em Go:
+Agora é hora de inverter os papéis e explorar o outro lado da equação: como construir aplicações habilitadas para IA e agentes autônomos em Go. Neste capítulo, vamos dissecar a mecânica fundamental de um agente, definir um domínio concreto — um **Avaliador de Jogos Retrô** — e construí-lo passo a passo em três paradigmas distintos em Go:
 
 1. Um loop de agente de baixo nível construído diretamente com o **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)**.
 2. Um pipeline estruturado e orientado a fluxos (*flows*) construído com o **[Genkit](https://genkit.dev)**.
