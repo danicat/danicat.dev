@@ -28,7 +28,7 @@ dependencies:
 
 Welcome back to **Gemini for Go Developers**! In [Part 1: The Gemini Model Family]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), we looked at Gemini's capabilities across different model tiers and, in [Part 2: Coding with Gemini]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}), we explored how to configure our coding agents for Go development.
 
-Now it is time to turn the tables and explore the other side of the equation: how to build autonomous agents in Go. In this chapter, we will dissect the fundamental mechanics of an agent, define a concrete agent domain — a **Retro Game Appraiser** — and build it step by step across three distinct Go paradigms:
+Now it is time to turn the tables and explore the other side of the equation: how to build AI-enabled applications and autonomous agents in Go. In this chapter, we will dissect the fundamental mechanics of an agent, define a concrete agent domain — a **Retro Game Appraiser** — and build it step by step across three distinct Go paradigms:
 
 1. A low-level agent loop built directly with the **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)**.
 2. A structured, flow-centric pipeline built with **[Genkit](https://genkit.dev)**.

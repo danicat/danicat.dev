@@ -15,7 +15,7 @@ autoSwitchAppearance = true
 customCSS = ["css/custom.css"]
 
 enableSearch = true
-enableCodeCopy = false
+enableCodeCopy = true
 
 replyByEmail = false
 
