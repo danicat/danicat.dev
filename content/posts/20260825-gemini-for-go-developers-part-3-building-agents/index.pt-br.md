@@ -32,7 +32,7 @@ Agora é hora de inverter os papéis e explorar o outro lado da equação: como 
 
 1. Um loop de agente de baixo nível construído diretamente com o **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)**.
 2. Um pipeline estruturado e orientado a fluxos (*flows*) construído com o **[Genkit](https://genkit.dev)**.
-3. Um sistema multiagente modular orientado a sessões construído com o **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)** do Google.
+3. Um sistema multiagente modular orientado a sessões construído com o **[Agent Development Kit (ADK)](https://adk.dev)** do Google.
 
 Por fim, analisaremos os ambientes de execução (*runtimes*) disponíveis para publicar e hospedar agentes Go em produção na nuvem com alta confiabilidade.
 
@@ -587,7 +587,7 @@ O Genkit elimina a necessidade do loop manual. Ele cuida da desserialização do
 
 ## Implementando o agente com o Agent Development Kit (ADK)
 
-Enquanto o Genkit se concentra em pipelines de aplicação estruturados, o **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)** (`google.golang.org/adk/v2`) do Google opera em um **alto nível de abstração**, projetado especificamente para agentes conversacionais autônomos, orquestração multiagente e arquiteturas complexas que demandam memória persistente e RAG corporativo.
+Enquanto o Genkit se concentra em pipelines de aplicação estruturados, o **[Agent Development Kit (ADK)](https://adk.dev)** do Google opera em um **alto nível de abstração**, projetado especificamente para agentes conversacionais autônomos, orquestração multiagente e arquiteturas complexas que demandam memória persistente e RAG corporativo.
 
 O ADK padroniza ciclos de vida de agentes, delegação para subagentes e protocolos de comunicação agente a agente (A2A). Assim como o Genkit, ele suporta múltiplos provedores através de adaptadores modulares de modelo.
 

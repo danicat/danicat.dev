@@ -32,7 +32,7 @@ dependencies:
 
 1. **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)** を使って直接構築する低レベルのエージェントループ
 2. **[Genkit](https://genkit.dev)** を使って構築する構造化されたフローベースのパイプライン
-3. Googleの **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)** を使って構築するモジュール型マルチエージェント・セッション対応システム
+3. Googleの **[Agent Development Kit (ADK)](https://adk.dev)** を使って構築するモジュール型マルチエージェント・セッション対応システム
 
 最後に、クラウド上でGoエージェントを本番運用するための堅牢なランタイム環境（実行基盤）について比較・考察します。
 
@@ -587,7 +587,7 @@ Genkitを使うことで、手動のディスパッチループを書く必要�
 
 ## Agent Development Kit (ADK) でエージェントを実装する
 
-Genkitが構造化されたアプリケーションパイプラインに主眼を置いているのに対し、Googleの **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)**（`google.golang.org/adk/v2`）は、自律型会話エージェント、マルチエージェントのオーケストレーション、永続セッションやエンタープライズRAGを必要とする複雑なシステム向けに設計された**高レベルの抽象化**を提供します。
+Genkitが構造化されたアプリケーションパイプラインに主眼を置いているのに対し、Googleの **[Agent Development Kit (ADK)](https://adk.dev)** は、自律型会話エージェント、マルチエージェントのオーケストレーション、永続セッションやエンタープライズRAGを必要とする複雑なシステム向けに設計された**高レベルの抽象化**を提供します。
 
 ADKは、エージェントのライフサイクル、サブエージェントへのタスク委譲、エージェント間通信プロトコル（A2A）を標準化しています。Genkitと同様に、モジュール式のモデルアダプターによりマルチモデルに対応しています。
 

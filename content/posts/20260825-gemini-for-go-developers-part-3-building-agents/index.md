@@ -32,7 +32,7 @@ Now it is time to turn the tables and explore the other side of the equation: ho
 
 1. A low-level agent loop built directly with the **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)**.
 2. A structured, flow-centric pipeline built with **[Genkit](https://genkit.dev)**.
-3. A modular, session-driven multi-agent system built with Google's **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)**.
+3. A modular, session-driven multi-agent system built with Google's **[Agent Development Kit (ADK)](https://adk.dev)**.
 
 Finally, we will review the operational runtimes available for deploying Go agents reliably to the cloud.
 
@@ -587,7 +587,7 @@ Genkit eliminates the manual dispatch loop. It handles argument unmarshalling in
 
 ## Implementing the agent with Agent Development Kit (ADK)
 
-While Genkit focuses on structured application pipelines, Google's **[Agent Development Kit (ADK)](https://google.github.io/adk-docs/)** (`google.golang.org/adk/v2`) operates at a **high abstraction level**, architected specifically for autonomous conversational agents, multi-agent orchestration, and complex architectures that demand long-term memory and enterprise RAG.
+While Genkit focuses on structured application pipelines, Google's **[Agent Development Kit (ADK)](https://adk.dev)** operates at a **high abstraction level**, architected specifically for autonomous conversational agents, multi-agent orchestration, and complex architectures that demand long-term memory and enterprise RAG.
 
 ADK standardises agent lifecycles, subagent delegation, and agent-to-agent (A2A) communication protocols. Like Genkit, it supports multiple model providers through modular model adapters.
 
