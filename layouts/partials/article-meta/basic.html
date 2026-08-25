@@ -29,7 +29,8 @@
   {{ $meta.Add "partials" (slice (partial "meta/word-count.html" .)) }}
 {{ end }}
 
-{{ if and (.Params.showReadingTime | default (.Site.Params.article.showReadingTime | default true)) (ne .ReadingTime 0) }}
+{{ $readingTime := partial "functions/reading-time.html" . }}
+{{ if and (.Params.showReadingTime | default (.Site.Params.article.showReadingTime | default true)) (gt $readingTime 0) }}
   {{ $meta.Add "partials" (slice (partial "meta/reading-time.html" .)) }}
 {{ end }}
 

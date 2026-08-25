@@ -1,0 +1,5 @@
+{{ $readingTime := partial "functions/reading-time.html" . }}
+<span title="{{ i18n "article.reading_time_title" }}">
+  {{- i18n "article.reading_time" $readingTime | markdownify | emojify -}}
+</span>
+{{- /* Trim EOF */ -}}

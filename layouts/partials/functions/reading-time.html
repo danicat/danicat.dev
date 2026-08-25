@@ -1,0 +1,52 @@
+{{/*
+  functions/reading-time.html
+  Calculates realistic reading time in minutes by stripping fenced code blocks,
+  normalizing inline code tokens to avoid overestimation, and adjusting for CJK (Japanese).
+*/}}
+{{ $page := . }}
+{{ $readingTime := 1 }}
+
+{{ with $page }}
+  {{ $raw := .RawContent }}
+  {{ $lang := .Language.Lang | default "en" }}
+  
+  {{/* 1. Extract and count fenced code blocks */}}
+  {{ $codeBlocks := findRE `(?s)\x60{3,}[a-zA-Z0-9_-]*\n.*?\n\x60{3,}` $raw }}
+  {{ $codeBlockCount := len $codeBlocks }}
+  
+  {{/* 2. Strip fenced code blocks from prose */}}
+  {{ $prose := replaceRE `(?s)\x60{3,}[a-zA-Z0-9_-]*\n.*?\n\x60{3,}` "" $raw }}
+  
+  {{/* 3. Normalize inline code (backticked spans) to a single word token so dotted/slashed paths aren't split into multiple words */}}
+  {{ $prose = replaceRE `\x60[^\x60\n]+\x60` " codetoken " $prose }}
+  
+  {{/* 4. Strip markdown links [text](url) -> text, images ![alt](url) -> "", and raw HTML tags */}}
+  {{ $prose = replaceRE `\[([^\]]+)\]\([^)]+\)` "$1" $prose }}
+  {{ $prose = replaceRE `\!\[.*?\]\(.*?\)` "" $prose }}
+  {{ $prose = replaceRE `<[^>]+>` "" $prose }}
+  
+  {{/* 5. Calculate prose reading time based on language */}}
+  {{ $proseMinutes := 0.0 }}
+  {{ if eq $lang "ja" }}
+    {{/* For Japanese, count non-whitespace characters/runes. Typical reading speed is 500 characters per minute. */}}
+    {{ $cleanChars := replaceRE `\s+` "" $prose }}
+    {{ $charCount := countrunes $cleanChars }}
+    {{ $proseMinutes = div (float $charCount) 500.0 }}
+  {{ else }}
+    {{/* For English and Portuguese, typical reading speed is 200 words per minute. */}}
+    {{ $wordCount := countwords $prose }}
+    {{ $proseMinutes = div (float $wordCount) 200.0 }}
+  {{ end }}
+  
+  {{/* 6. Add inspection allowance for code blocks: 15 seconds (0.25 min) per code block */}}
+  {{ $codeMinutes := mul (float $codeBlockCount) 0.25 }}
+  {{ $totalMinutes := add $proseMinutes $codeMinutes }}
+  
+  {{/* 7. Round up with a minimum of 1 minute */}}
+  {{ $readingTime = int (math.Ceil $totalMinutes) }}
+  {{ if lt $readingTime 1 }}
+    {{ $readingTime = 1 }}
+  {{ end }}
+{{ end }}
+
+{{ return $readingTime }}
