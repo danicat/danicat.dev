@@ -36,6 +36,8 @@ Now it is time to turn the tables and explore the other side of the equation: ho
 
 Finally, we will review the operational runtimes available for deploying Go agents reliably to the cloud.
 
+All runnable examples and complete source code for this article are available on GitHub in the companion repository: [**danicat/gemini-for-go-developers**](https://github.com/danicat/gemini-for-go-developers/tree/main/part-3).
+
 ## The anatomy of an agent
 
 The word *agent* is often thrown around loosely, but in modern AI engineering it has a precise architectural definition: an autonomous system composed of a **large language model**, one or more **tools** (callable functions or APIs), and an **execution harness** operating inside a feedback loop.

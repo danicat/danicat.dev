@@ -36,6 +36,8 @@ Agora é hora de inverter os papéis e explorar o outro lado da equação: como 
 
 Por fim, analisaremos os ambientes de execução (*runtimes*) disponíveis para publicar e hospedar agentes Go em produção na nuvem com alta confiabilidade.
 
+O código-fonte completo e executável de todos os exemplos deste artigo está disponível no GitHub no repositório complementar: [**danicat/gemini-for-go-developers**](https://github.com/danicat/gemini-for-go-developers/tree/main/part-3).
+
 ## A anatomia de um agente
 
 A palavra *agente* é frequentemente usada de forma vaga, mas na engenharia moderna de IA ela possui uma definição arquitetural precisa: um sistema autônomo composto por um **modelo de linguagem (LLM)**, uma ou mais **ferramentas** (funções ou APIs executáveis) e um **harness de execução** operando dentro de um loop de feedback.
