@@ -120,17 +120,17 @@ import (
 	"google.golang.org/genai"
 )
 
-// GameItem representa um item colecionável no inventário pessoal.
+// GameItem represents a collectible item in the user's personal inventory.
 type GameItem struct {
 	Title     string  `json:"title"`
 	Platform  string  `json:"platform"`
 	Year      int     `json:"year"`
-	Condition string  `json:"condition"` // ex: "Loose Cartridge", "CIB (Complete in Box)", "Mint"
+	Condition string  `json:"condition"` // e.g. "Loose Cartridge", "CIB (Complete in Box)", "Mint"
 	PricePaid float64 `json:"price_paid"`
 	Notes     string  `json:"notes"`
 }
 
-// localCatalog simula um banco de dados de inventário de jogos retrô.
+// localCatalog simulates an inventory database for retro games.
 var localCatalog = []GameItem{
 	{
 		Title:     "Chrono Trigger",
@@ -138,7 +138,7 @@ var localCatalog = []GameItem{
 		Year:      1995,
 		Condition: "CIB (Complete in Box)",
 		PricePaid: 210.00,
-		Notes:     "Inclui mapa original e cartão de registro.",
+		Notes:     "Includes original map and registration card.",
 	},
 	{
 		Title:     "EarthBound",
@@ -146,7 +146,7 @@ var localCatalog = []GameItem{
 		Year:      1994,
 		Condition: "Loose Cartridge",
 		PricePaid: 180.00,
-		Notes:     "Placa autêntica verificada; label em excelente estado.",
+		Notes:     "Authentic board verified; label in excellent shape.",
 	},
 	{
 		Title:     "Castlevania: Symphony of the Night",
@@ -154,11 +154,11 @@ var localCatalog = []GameItem{
 		Year:      1997,
 		Condition: "CIB (Black Label)",
 		PricePaid: 135.00,
-		Notes:     "Disco original com trilha sonora incluso.",
+		Notes:     "Original soundtrack disc included.",
 	},
 }
 
-// searchCatalogTool busca jogos correspondentes na coleção local.
+// searchCatalogTool searches the local collection for matching games.
 func searchCatalogTool(args map[string]any) map[string]any {
 	query, _ := args["query"].(string)
 	queryLower := strings.ToLower(strings.TrimSpace(query))
@@ -174,7 +174,7 @@ func searchCatalogTool(args map[string]any) map[string]any {
 	if len(matches) == 0 {
 		return map[string]any{
 			"found":   false,
-			"message": fmt.Sprintf("Nenhum item correspondente a %q encontrado na coleção.", query),
+			"message": fmt.Sprintf("No items matching %q found in your collection.", query),
 		}
 	}
 
@@ -188,39 +188,39 @@ func searchCatalogTool(args map[string]any) map[string]any {
 func main() {
 	ctx := context.Background()
 
-	// Inicializa o cliente GenAI para Gemini Enterprise / Vertex AI
+	// Initialise GenAI client for Gemini Enterprise / Vertex AI
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
 		Project:  os.Getenv("GOOGLE_CLOUD_PROJECT"),
 		Location: "global",
 		Backend:  genai.BackendVertexAI,
 	})
 	if err != nil {
-		log.Fatalf("falha ao criar cliente: %v", err)
+		log.Fatalf("failed to create client: %v", err)
 	}
 
-	// 1. Declaração do schema da função personalizada de inventário
+	// 1. Declare custom function schema for collection lookup
 	catalogToolDecl := &genai.FunctionDeclaration{
 		Name:        "search_catalog",
-		Description: "Busca jogos no inventário pessoal do colecionador por título ou plataforma.",
+		Description: "Search the collector's personal inventory for owned games by title or platform.",
 		Parameters: &genai.Schema{
 			Type: genai.TypeObject,
 			Properties: map[string]*genai.Schema{
 				"query": {
 					Type:        genai.TypeString,
-					Description: "Título do jogo ou plataforma a buscar (ex: 'EarthBound', 'SNES').",
+					Description: "Game title or platform to search (e.g. 'EarthBound', 'SNES').",
 				},
 			},
 			Required: []string{"query"},
 		},
 	}
 
-	// 2. Configuração das ferramentas: função Go local + Google Search grounding
+	// 2. Configure model tools: custom function declaration + Google Search grounding
 	config := &genai.GenerateContentConfig{
 		SystemInstruction: &genai.Content{
 			Parts: []*genai.Part{
-				{Text: "Você é um Avaliador especialista em Jogos Retrô. Ao avaliar compras, consulte o " +
-					"catálogo do usuário primeiro para verificar se ele já possui o item, e depois pesquise " +
-					"preços atuais na Busca do Google para avaliar se a oferta é justa, cara ou uma pechincha."},
+				{Text: "You are an expert Retro Game Appraiser. When evaluating purchases, check the user's " +
+					"collection catalog first to see if they already own the item, then check current market " +
+					"prices using Google Search to evaluate whether the deal is fair, overpriced, or a bargain."},
 			},
 		},
 		Tools: []*genai.Tool{
@@ -233,9 +233,9 @@ func main() {
 		},
 	}
 
-	// 3. Prompt inicial do usuário
-	prompt := "Encontrei uma cópia de EarthBound para SNES completa na caixa (CIB) em estado impecável por $350. " +
-		"Eu já tenho esse jogo na coleção, e $350 é um bom negócio comparado aos preços de mercado atuais?"
+	// 3. Prepare initial user prompt
+	prompt := "I found a copy of EarthBound for SNES in mint Complete-in-Box (CIB) condition for $350. " +
+		"Do I already own it, and is $350 a good deal compared to current market prices?"
 
 	contents := []*genai.Content{
 		{
@@ -247,54 +247,54 @@ func main() {
 	model := "gemini-3.7-flash"
 	maxTurns := 6
 
-	// 4. O Loop do Agente (Requisição LLM -> Despacho de Tool -> Retorno do Resultado -> Nova Requisição)
+	// 4. The Agent Loop (LLM Request -> Tool Dispatch -> Tool Result -> LLM Request)
 	for turn := 0; turn < maxTurns; turn++ {
 		resp, err := client.Models.GenerateContent(ctx, model, contents, config)
 		if err != nil {
-			log.Fatalf("erro ao gerar conteúdo: %v", err)
+			log.Fatalf("error generating content: %v", err)
 		}
 
 		if len(resp.Candidates) == 0 || resp.Candidates[0].Content == nil {
-			log.Fatal("candidato de resposta vazio recebido do modelo")
+			log.Fatal("received empty response candidate from model")
 		}
 
-		// Adiciona a resposta do modelo ao histórico da conversa
+		// Append the model's response to the conversation history
 		modelContent := resp.Candidates[0].Content
 		contents = append(contents, modelContent)
 
-		// Verifica se o modelo solicitou a execução de ferramentas locais
+		// Check if the model requested any client-side tool executions
 		funcCalls := resp.FunctionCalls()
 		if len(funcCalls) == 0 {
-			// Condição de parada: modelo gerou a resposta final em linguagem natural
-			fmt.Println("\n=== Veredito do Avaliador ===")
+			// Terminal condition: model produced its final natural language answer
+			fmt.Println("\n=== Appraiser Verdict ===")
 			fmt.Println(resp.Text())
 			return
 		}
 
-		// Executa cada ferramenta requisitada e monta as partes de resposta
+		// Execute each requested tool and prepare response parts
 		var responseParts []*genai.Part
 		for _, call := range funcCalls {
-			fmt.Printf("[Harness] Executando tool: %s(args=%v)\n", call.Name, call.Args)
+			fmt.Printf("[Harness] Executing tool: %s(args=%v)\n", call.Name, call.Args)
 
 			var result map[string]any
 			switch call.Name {
 			case "search_catalog":
 				result = searchCatalogTool(call.Args)
 			default:
-				result = map[string]any{"error": fmt.Sprintf("ferramenta não suportada: %s", call.Name)}
+				result = map[string]any{"error": fmt.Sprintf("unsupported tool: %s", call.Name)}
 			}
 
 			responseParts = append(responseParts, genai.NewPartFromFunctionResponse(call.Name, result))
 		}
 
-		// Retorna os resultados da execução como um turno do usuário
+		// Return tool execution results as a user turn
 		contents = append(contents, &genai.Content{
 			Role:  "user",
 			Parts: responseParts,
 		})
 	}
 
-	log.Fatal("limite máximo de turnos atingido sem alcançar estado terminal")
+	log.Fatal("exceeded maximum conversation turns without reaching terminal state")
 }
 ```
 
@@ -303,7 +303,7 @@ func main() {
 Para executar este exemplo, certifique-se de ter configurado seu projeto no Google Cloud e efetuado o login com Application Default Credentials (`gcloud auth application-default login`):
 
 ```sh
-export GOOGLE_CLOUD_PROJECT="seu-projeto-gcp"
+export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
 go run main.go
 ```
 
@@ -312,18 +312,18 @@ A saída ilustra o harness coordenando a consulta local ao catálogo e a fundame
 ```text
 [Harness] Executing tool: search_catalog(args=map[query:EarthBound])
 
-=== Veredito do Avaliador ===
-Aqui está a verificação da sua coleção e a avaliação para **EarthBound (SNES)**:
+=== Appraiser Verdict ===
+Here is your collection check and appraisal for **EarthBound (SNES)**:
 
-1. **Status na Coleção Atual**:
-   - Você já possui **EarthBound** para Super Nintendo como **Cartucho Avulso (Loose)**, adquirido por **$180.00**.
+1. **Current Collection Status**:
+   - You currently own **EarthBound** on Super Nintendo as a **Loose Cartridge**, purchased for **$180.00**.
 
-2. **Avaliação de Preço de Mercado**:
-   - Vendas verificadas recentes para uma cópia autêntica e **Completa na Caixa (CIB)** de EarthBound costumam variar entre **$1.200,00 e $1.500,00**, dependendo do estado da caixa, berço e guia original.
+2. **Market Price Appraisal**:
+   - Verified market sales for an authentic, **Complete-in-Box (CIB)** copy of EarthBound typically range between **$1,200.00 and $1,500.00** depending on the condition of the box, tray, and original player's guide.
 
-3. **Recomendação**:
-   - A **$350.00**, uma cópia CIB autêntica e impecável é um **negócio excepcional** (mais de 70% abaixo do valor de mercado).
-   - **Atenção**: Como EarthBound é um dos jogos de SNES mais pirateados, verifique com cuidado a impressão da caixa, cartão de registro e placa PCB antes de fechar a compra. Sendo autêntico, é uma excelente oportunidade para fazer um upgrade do seu cartucho avulso.
+3. **Recommendation**:
+   - At **$350.00**, a genuine Mint CIB copy is an **exceptional deal** (more than 70% below prevailing market value).
+   - **Caution**: Because EarthBound is one of the most heavily counterfeited SNES titles, inspect the box printing, registration card, and PCB board carefully before completing the transaction. If verified authentic, this is an outstanding opportunity to upgrade your loose copy to CIB.
 ```
 
 A implementação com o SDK torna o fluxo mecânico totalmente explícito. Hoje, com modelos de última geração e janelas generosas de tokens, é tentadoramente fácil escrever o encanamento, os loops de despacho e todo o andaime de suporte por conta própria.
@@ -380,7 +380,7 @@ import (
 	"github.com/firebase/genkit/go/plugins/googlegenai"
 )
 
-// GameItem representa um item colecionável no inventário pessoal.
+// GameItem represents a collectible item in the user's personal inventory.
 type GameItem struct {
 	Title     string  `json:"title"`
 	Platform  string  `json:"platform"`
@@ -390,7 +390,7 @@ type GameItem struct {
 	Notes     string  `json:"notes"`
 }
 
-// localCatalog simula um banco de dados de inventário de jogos retrô.
+// localCatalog simulates an inventory database for retro games.
 var localCatalog = []GameItem{
 	{
 		Title:     "Chrono Trigger",
@@ -398,7 +398,7 @@ var localCatalog = []GameItem{
 		Year:      1995,
 		Condition: "CIB (Complete in Box)",
 		PricePaid: 210.00,
-		Notes:     "Inclui mapa original e cartão de registro.",
+		Notes:     "Includes original map and registration card.",
 	},
 	{
 		Title:     "EarthBound",
@@ -406,7 +406,7 @@ var localCatalog = []GameItem{
 		Year:      1994,
 		Condition: "Loose Cartridge",
 		PricePaid: 180.00,
-		Notes:     "Placa autêntica verificada; label em excelente estado.",
+		Notes:     "Authentic board verified; label in excellent shape.",
 	},
 	{
 		Title:     "Castlevania: Symphony of the Night",
@@ -414,12 +414,12 @@ var localCatalog = []GameItem{
 		Year:      1997,
 		Condition: "CIB (Black Label)",
 		PricePaid: 135.00,
-		Notes:     "Disco original com trilha sonora incluso.",
+		Notes:     "Original soundtrack disc included.",
 	},
 }
 
 type CatalogRequest struct {
-	Query string `json:"query" jsonschema:"description=O título do jogo ou plataforma a buscar no inventário"`
+	Query string `json:"query" jsonschema:"description=The game title or platform to search in the inventory"`
 }
 
 type CatalogResponse struct {
@@ -440,7 +440,7 @@ type AppraiserResponse struct {
 func main() {
 	ctx := context.Background()
 
-	// 1. Inicializa o Genkit com o plugin da Vertex AI / Gemini Enterprise
+	// 1. Initialise Genkit with Vertex AI / Gemini Enterprise plugin
 	g := genkit.Init(ctx,
 		genkit.WithPlugins(&googlegenai.VertexAI{
 			ProjectID: os.Getenv("GOOGLE_CLOUD_PROJECT"),
@@ -449,11 +449,11 @@ func main() {
 		genkit.WithDefaultModel("vertexai/gemini-3.7-flash"),
 	)
 
-	// 2. Define ferramenta fortemente tipada com geração automática de schema
+	// 2. Define strongly-typed tool with automatic schema generation
 	catalogTool := genkit.DefineTool(
 		g,
 		"search_catalog",
-		"Busca jogos no inventário pessoal do colecionador por título ou plataforma.",
+		"Search the collector's personal inventory for owned games by title or platform.",
 		func(ctx *ai.ToolContext, req CatalogRequest) (CatalogResponse, error) {
 			queryLower := strings.ToLower(strings.TrimSpace(req.Query))
 			var matches []GameItem
@@ -468,7 +468,7 @@ func main() {
 			if len(matches) == 0 {
 				return CatalogResponse{
 					Found:   false,
-					Message: fmt.Sprintf("Nenhum item correspondente a %q encontrado na coleção.", req.Query),
+					Message: fmt.Sprintf("No items matching %q found in personal collection.", req.Query),
 				}, nil
 			}
 
@@ -480,39 +480,39 @@ func main() {
 		},
 	)
 
-	// 3. Define o fluxo estruturado de avaliação
+	// 3. Define structured appraisal flow
 	appraiserFlow := genkit.DefineFlow(
 		g,
 		"appraise_game",
 		func(ctx context.Context, input string) (string, error) {
 			resp, err := genkit.Generate(ctx, g,
-				ai.WithSystemPrompt(
-					"Você é um Avaliador especialista em Jogos Retrô. Ajude colecionadores avaliando compras em potencial, "+
-						"cruzando dados com o inventário pessoal e verificando cotações justas de mercado. "+
-						"Sempre consulte o catálogo usando a ferramenta search_catalog antes de emitir recomendações.",
+				ai.WithSystem(
+					"You are an expert Retro Game Appraiser. Assist collectors by evaluating prospective purchases, "+
+						"cross-referencing their personal inventory, and assessing fair market valuations. "+
+						"Always search the collection catalog using search_catalog before providing purchase recommendations.",
 				),
 				ai.WithPrompt(input),
 				ai.WithTools(catalogTool),
 			)
 			if err != nil {
-				return "", fmt.Errorf("falha ao gerar avaliação: %w", err)
+				return "", fmt.Errorf("appraisal generation failed: %w", err)
 			}
 			return resp.Text(), nil
 		},
 	)
 
-	// 4. Endpoint HTTP da API com encerramento gracioso
+	// 4. HTTP API Endpoint with graceful shutdown
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /api/appraise", func(w http.ResponseWriter, req *http.Request) {
 		var body AppraiserRequest
 		if err := json.NewDecoder(req.Body).Decode(&body); err != nil {
-			http.Error(w, "requisição inválida", http.StatusBadRequest)
+			http.Error(w, "invalid request", http.StatusBadRequest)
 			return
 		}
 
 		result, err := appraiserFlow.Run(req.Context(), body.Prompt)
 		if err != nil {
-			log.Printf("erro na execução do fluxo: %v", err)
+			log.Printf("flow execution error: %v", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -531,27 +531,27 @@ func main() {
 		Handler: mux,
 	}
 
-	// Gerencia shutdown gracioso em sinais SIGINT (Ctrl+C) e SIGTERM
+	// Handle graceful shutdown on SIGINT (Ctrl+C) and SIGTERM
 	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
 	go func() {
-		log.Printf("Avaliador de Jogos Retrô (Genkit) ouvindo em :%s", port)
+		log.Printf("Retro Game Appraiser (Genkit) listening on :%s", port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("falha no servidor: %v", err)
+			log.Fatalf("server failed: %v", err)
 		}
 	}()
 
 	<-serverCtx.Done()
-	log.Println("\nEncerrando servidor graciosamente...")
+	log.Println("\nShutting down server gracefully...")
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := server.Shutdown(shutdownCtx); err != nil {
-		log.Fatalf("encerramento forçado do servidor: %v", err)
+		log.Fatalf("server forced shutdown: %v", err)
 	}
-	log.Println("Servidor finalizado com sucesso.")
+	log.Println("Server exited cleanly.")
 }
 ```
 
@@ -560,7 +560,7 @@ func main() {
 Inicie o servidor Genkit exportando a variável do projeto Google Cloud:
 
 ```sh
-export GOOGLE_CLOUD_PROJECT="seu-projeto-gcp"
+export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
 export PORT=8080
 go run main.go
 ```
@@ -570,14 +570,14 @@ Em outro terminal, envie uma solicitação de avaliação:
 ```sh
 curl -s -X POST http://localhost:8080/api/appraise \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "Encontrei EarthBound de SNES por $350. Eu já tenho ele, e é um bom negócio?"}' | jq .
+  -d '{"prompt": "I found a copy of EarthBound for SNES for $350. Do I own it, and is it a good deal?"}' | jq .
 ```
 
 O fluxo executa, consulta a ferramenta de catálogo e retorna o resultado estruturado:
 
 ```json
 {
-  "appraisal": "### 1. Verificação do Catálogo\n**Sim, você já possui este jogo.**\n* **Título:** *EarthBound* (SNES, 1994)\n* **Status na Coleção:** Cartucho Avulso (Loose)\n* **Estado/Notas:** Placa autêntica verificada; label em excelente estado.\n* **Preço Pago:** $180\n\n---\n\n### 2. Avaliação de Mercado\n* **Cartucho Avulso:** A cotação atual para uma fita avulsa autêntica fica entre **$320 e $380**. A **$350**, o valor está exatamente no **preço justo de mercado**.\n* **Completo na Caixa (CIB):** Caso o anúncio inclua a caixa original e o guia de estratégia, $350 seria uma oportunidade imperdível (cópias CIB são vendidas por **$1.500 a $2.500+**).\n\n---\n\n### 3. Recomendação\n* **Passe adiante (se for Avulso):** Como você já possui uma cópia autêntica em ótimo estado, pagar o valor de tabela por um cartucho avulso duplicado não faz sentido.\n* **Compre na hora (se for CIB):** Vale muito a pena se vier com embalagem original completa ou representar um grande upgrade de conservação."
+  "appraisal": "### 1. Catalog Check\n**Yes, you already own it.**\n* **Title:** *EarthBound* (SNES, 1994)\n* **Status in Collection:** Loose Cartridge\n* **Condition/Notes:** Authentic board verified; label in excellent shape.\n* **Price Paid:** $180\n\n---\n\n### 2. Market Appraisal & Deal Analysis\n* **Loose Cartridge:** The current going market rate for an authentic loose copy ranges between **$320 and $380**. At **$350**, it is priced right at **fair market value**—neither an overpriced listing nor a significant bargain.\n* **Complete in Box (CIB) / Boxed with Guide:** If this listing happens to include the original big box and strategy guide with scratch-and-sniff cards, $350 would be an extraordinary steal (CIB copies regularly sell for **$1,500–$2,500+**).\n\n---\n\n### 3. Recommendation\n* **Pass (if Loose):** Since you already have an authentic copy in excellent condition, paying retail market price ($350) for a duplicate loose cart does not offer strong value or upside.\n* **Buy immediately (if Complete/Boxed):** Only pull the trigger if it includes the original packaging or represents a major condition upgrade/variant.\n* **Buyer Beware:** If you do ever consider another copy, always inspect the PCB (printed circuit board) screws and chips, as *EarthBound* is one of the most frequently counterfeited games on the SNES."
 }
 ```
 
@@ -619,17 +619,17 @@ import (
 	"google.golang.org/adk/v2/tool/functiontool"
 )
 
-// GameItem representa um item colecionável no inventário pessoal.
+// GameItem represents a collectible item in the user's personal inventory.
 type GameItem struct {
 	Title     string  `json:"title"`
 	Platform  string  `json:"platform"`
 	Year      int     `json:"year"`
-	Condition string  `json:"condition"`
+	Condition string  `json:"condition"` // e.g. "Loose Cartridge", "CIB (Complete in Box)", "Mint"
 	PricePaid float64 `json:"price_paid"`
 	Notes     string  `json:"notes"`
 }
 
-// localCatalog simula um banco de dados de inventário de jogos retrô.
+// localCatalog simulates an inventory database for retro games.
 var localCatalog = []GameItem{
 	{
 		Title:     "Chrono Trigger",
@@ -637,7 +637,7 @@ var localCatalog = []GameItem{
 		Year:      1995,
 		Condition: "CIB (Complete in Box)",
 		PricePaid: 210.00,
-		Notes:     "Inclui mapa original e cartão de registro.",
+		Notes:     "Includes original map and registration card.",
 	},
 	{
 		Title:     "EarthBound",
@@ -645,7 +645,7 @@ var localCatalog = []GameItem{
 		Year:      1994,
 		Condition: "Loose Cartridge",
 		PricePaid: 180.00,
-		Notes:     "Placa autêntica verificada; label em excelente estado.",
+		Notes:     "Authentic board verified; label in excellent shape.",
 	},
 	{
 		Title:     "Castlevania: Symphony of the Night",
@@ -653,11 +653,12 @@ var localCatalog = []GameItem{
 		Year:      1997,
 		Condition: "CIB (Black Label)",
 		PricePaid: 135.00,
-		Notes:     "Disco original com trilha sonora incluso.",
+		Notes:     "Original soundtrack disc included.",
 	},
 }
 
 type CatalogRequest struct {
+	// Query is the game title or platform to search in the inventory.
 	Query string `json:"query"`
 }
 
@@ -681,20 +682,20 @@ type AppraiserResponse struct {
 func main() {
 	ctx := context.Background()
 
-	// 1. Inicializa o adaptador de modelo Gemini para Gemini Enterprise / Vertex AI
+	// 1. Initialise Gemini Model adapter for Gemini Enterprise / Vertex AI
 	model, err := gemini.NewModel(ctx, "gemini-3.7-flash", &genai.ClientConfig{
 		Project:  os.Getenv("GOOGLE_CLOUD_PROJECT"),
 		Location: "global",
 		Backend:  genai.BackendVertexAI,
 	})
 	if err != nil {
-		log.Fatalf("falha ao criar modelo Gemini: %v", err)
+		log.Fatalf("failed to create Gemini model: %v", err)
 	}
 
-	// 2. Encapsula a consulta ao inventário como uma Function Tool do ADK
+	// 2. Wrap collection lookup as an ADK Function Tool
 	catalogTool, err := functiontool.New(functiontool.Config{
 		Name:        "search_catalog",
-		Description: "Busca jogos no inventário pessoal do colecionador por título ou plataforma.",
+		Description: "Search the collector's personal inventory for owned games by title or platform.",
 	}, func(ctx agent.Context, req CatalogRequest) (CatalogResponse, error) {
 		queryLower := strings.ToLower(strings.TrimSpace(req.Query))
 		var matches []GameItem
@@ -709,7 +710,7 @@ func main() {
 		if len(matches) == 0 {
 			return CatalogResponse{
 				Found:   false,
-				Message: fmt.Sprintf("Nenhum item correspondente a %q encontrado na coleção.", req.Query),
+				Message: fmt.Sprintf("No items matching %q found in personal collection.", req.Query),
 			}, nil
 		}
 
@@ -720,23 +721,23 @@ func main() {
 		}, nil
 	})
 	if err != nil {
-		log.Fatalf("falha ao criar tool de catálogo: %v", err)
+		log.Fatalf("failed to create catalog tool: %v", err)
 	}
 
-	// 3. Define o Agente LLM autônomo
+	// 3. Define autonomous LLM Agent
 	appraiserAgent, err := llmagent.New(llmagent.Config{
 		Name:        "retro_game_appraiser",
 		Model:       model,
-		Description: "Avaliador especialista que analisa compras de jogos retrô e inventário pessoal.",
-		Instruction: "Você é um Avaliador especialista em Jogos Retrô. Ajude colecionadores verificando o " +
-			"status da coleção com a ferramenta search_catalog, avaliando variações de conservação e oferecendo recomendações objetivas.",
+		Description: "Expert appraiser that analyzes retro video game purchases and collection inventory.",
+		Instruction: "You are an expert Retro Game Appraiser. Assist collectors by verifying collection " +
+			"status with search_catalog, assessing condition variants, and offering objective buying recommendations.",
 		Tools: []tool.Tool{catalogTool},
 	})
 	if err != nil {
-		log.Fatalf("falha ao criar agente avaliador: %v", err)
+		log.Fatalf("failed to create appraiser agent: %v", err)
 	}
 
-	// 4. Inicializa o Runner do ADK com serviço de sessão para controle de estado
+	// 4. Initialise ADK Runner with Session Service for state management
 	r, err := runner.New(runner.Config{
 		AppName:           "retro_game_vault",
 		Agent:             appraiserAgent,
@@ -744,16 +745,16 @@ func main() {
 		AutoCreateSession: true,
 	})
 	if err != nil {
-		log.Fatalf("falha ao criar runner ADK: %v", err)
+		log.Fatalf("failed to create ADK runner: %v", err)
 	}
 
-	// 5. Handler HTTP com suporte a streaming e continuação de sessões multi-turno
+	// 5. HTTP Handler streaming multi-turn responses with session continuation
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("POST /api/chat", func(w http.ResponseWriter, req *http.Request) {
 		var chatReq AppraiserRequest
 		if err := json.NewDecoder(req.Body).Decode(&chatReq); err != nil {
-			http.Error(w, "requisição inválida", http.StatusBadRequest)
+			http.Error(w, "invalid request", http.StatusBadRequest)
 			return
 		}
 
@@ -772,8 +773,8 @@ func main() {
 		var responseBuilder strings.Builder
 		for event, err := range r.Run(req.Context(), "collector_user", sessionID, userMsg, agent.RunConfig{}) {
 			if err != nil {
-				log.Printf("erro no runner: %v", err)
-				http.Error(w, fmt.Sprintf("erro no agente: %v", err), http.StatusInternalServerError)
+				log.Printf("runner error: %v", err)
+				http.Error(w, fmt.Sprintf("agent error: %v", err), http.StatusInternalServerError)
 				return
 			}
 			if event != nil && event.Content != nil {
@@ -802,27 +803,27 @@ func main() {
 		Handler: mux,
 	}
 
-	// Shutdown gracioso em SIGINT ou SIGTERM
+	// Graceful shutdown on Ctrl+C (SIGINT) or SIGTERM
 	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
 	go func() {
-		log.Printf("Avaliador de Jogos Retrô (ADK) ouvindo em :%s", port)
+		log.Printf("Retro Game Appraiser (ADK) listening on :%s", port)
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("falha no servidor: %v", err)
+			log.Fatalf("server failed: %v", err)
 		}
 	}()
 
 	<-serverCtx.Done()
-	log.Println("\nEncerrando servidor graciosamente...")
+	log.Println("\nShutting down server gracefully...")
 
 	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
 	if err := server.Shutdown(shutdownCtx); err != nil {
-		log.Fatalf("encerramento forçado do servidor: %v", err)
+		log.Fatalf("server forced shutdown: %v", err)
 	}
-	log.Println("Servidor finalizado com sucesso.")
+	log.Println("Server exited cleanly.")
 }
 ```
 
@@ -831,7 +832,7 @@ func main() {
 Inicie o servidor do ADK com as credenciais do seu projeto no Google Cloud:
 
 ```sh
-export GOOGLE_CLOUD_PROJECT="seu-projeto-gcp"
+export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
 export PORT=8081
 go run main.go
 ```
@@ -841,14 +842,14 @@ Em outro terminal, envie uma pergunta inicial para iniciar a conversa:
 ```sh
 curl -s -X POST http://localhost:8081/api/chat \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "Eu tenho Chrono Trigger na minha coleção?"}' | jq .
+  -d '{"prompt": "Do I have Chrono Trigger in my collection?"}' | jq .
 ```
 
 O runner do ADK cuida da inicialização da sessão, executa a tool registrada `search_catalog` e devolve a resposta acompanhada do `session_id` persistido:
 
 ```json
 {
-  "appraisal": "Sim, você possui **Chrono Trigger** na sua coleção! Aqui estão os detalhes do seu inventário:\n\n* **Título:** Chrono Trigger\n* **Plataforma:** Super Nintendo (SNES)\n* **Ano:** 1995\n* **Estado:** Completo na Caixa (CIB)\n* **Preço Pago:** $210.00\n* **Notas:** Inclui mapa original e cartão de registro.",
+  "appraisal": "Yes, you have **Chrono Trigger** in your collection! Here are the details from your inventory:\n\n* **Title:** Chrono Trigger\n* **Platform:** Super Nintendo (SNES)\n* **Release Year:** 1995\n* **Condition:** CIB (Complete in Box)\n* **Price Paid:** $210.00\n* **Notes:** Includes original map and registration card.",
   "session_id": "session-1787674771186589000"
 }
 ```
@@ -858,12 +859,12 @@ Como o `runner` do ADK preserva o estado através do `SessionService`, você pod
 ```sh
 curl -s -X POST http://localhost:8081/api/chat \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "Quanto eu paguei por ele?", "session_id": "session-1787674771186589000"}' | jq .
+  -d '{"prompt": "What did I pay for it?", "session_id": "session-1787674771186589000"}' | jq .
 ```
 
 ```json
 {
-  "appraisal": "Você pagou **$210.00** por ele.",
+  "appraisal": "You paid **$210.00** for it.",
   "session_id": "session-1787674771186589000"
 }
 ```

@@ -486,7 +486,7 @@ func main() {
 		"appraise_game",
 		func(ctx context.Context, input string) (string, error) {
 			resp, err := genkit.Generate(ctx, g,
-				ai.WithSystemPrompt(
+				ai.WithSystem(
 					"You are an expert Retro Game Appraiser. Assist collectors by evaluating prospective purchases, "+
 						"cross-referencing their personal inventory, and assessing fair market valuations. "+
 						"Always search the collection catalog using search_catalog before providing purchase recommendations.",
