@@ -262,7 +262,7 @@ func main() {
 }
 ```
 
-このプログラムは以下のコマンドで実行できます：
+このサンプルを実行するには、AI Platform APIが有効化されたGoogle Cloudプロジェクトが必要です。例：
 
 ```sh
 export GOOGLE_CLOUD_PROJECT="your-project-id-goes-here"

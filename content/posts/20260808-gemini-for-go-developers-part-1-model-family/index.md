@@ -263,7 +263,7 @@ func main() {
 }
 ```
 
-You can run this program using the following:
+To run this example you will need a Google Cloud Project with the AI Platform API enabled. For example:
 
 ```sh
 export GOOGLE_CLOUD_PROJECT="your-project-id-goes-here"

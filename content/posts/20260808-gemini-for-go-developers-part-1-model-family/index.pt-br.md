@@ -263,7 +263,7 @@ func main() {
 }
 ```
 
-Para executar este código no terminal:
+Para executar este exemplo, você precisará de um projeto no Google Cloud com a API AI Platform ativada. Por exemplo:
 
 ```sh
 export GOOGLE_CLOUD_PROJECT="your-project-id-goes-here"
