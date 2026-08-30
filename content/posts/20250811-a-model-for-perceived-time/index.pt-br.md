@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Perspectives
 date: 2025-08-11
 summary: Uma exploração de por que o tempo parece acelerar à medida que envelhecemos,

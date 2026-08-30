@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agent Development
 date: 2025-08-17 15:00:00+00:00
 summary: GopherCon UK 2025 での基調講演をベースに、Model Context Protocol（MCP）の基本概念、アーキテクチャ、そして Go で AI 対応アプリケーションを構築するためのビルディングブロック（Tools、Prompts、Resources）を詳しく解説します。

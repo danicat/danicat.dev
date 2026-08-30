@@ -1,4 +1,5 @@
----title: "ADK と A2UI を使用してリッチなエージェント インターフェースを構築する"
+---
+title: "ADK と A2UI を使用してリッチなエージェント インターフェースを構築する"
 date: 2026-06-17
 externalUrl: "https://codelabs.developers.google.com/adk-gemini-a2ui?hl=ja#0"
 featureimage: "/images/codelabs/placeholder.png"

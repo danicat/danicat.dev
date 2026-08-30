@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agentic Coding
 date: 2026-01-21 00:00:00+00:00
 draft: false

@@ -1,4 +1,5 @@
----author: Daniela Petruzalek
+---
+author: Daniela Petruzalek
 categories:
 - Agent Development
 date: 2025-07-29

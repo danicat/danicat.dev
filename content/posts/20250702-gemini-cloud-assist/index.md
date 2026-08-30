@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
 summary: How to design infrastructure using natural language on Google Cloud using

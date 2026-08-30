@@ -1,4 +1,5 @@
----title: "Build a Match 3 Arcade Game With Gemini and Antigravity"
+---
+title: "Build a Match 3 Arcade Game With Gemini and Antigravity"
 date: 2026-05-07
 externalUrl: "https://codelabs.developers.google.com/cloud-crush-agy#0"
 featureimage: "/images/codelabs/placeholder.png"

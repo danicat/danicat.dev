@@ -1,4 +1,5 @@
----title: "Create Your Own Executive Assistant with Agent Development Kit"
+---
+title: "Create Your Own Executive Assistant with Agent Development Kit"
 date: 2026-03-11
 externalUrl: "https://codelabs.developers.google.com/cloud-adk-executive-assistant#0"
 featureimage: "/images/codelabs/placeholder.png"

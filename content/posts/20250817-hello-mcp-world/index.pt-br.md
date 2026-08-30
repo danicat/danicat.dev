@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agent Development
 date: 2025-08-17 15:00:00+00:00
 summary: Baseado na minha keynote na GopherCon UK 2025, este artigo é uma introdução

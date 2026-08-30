@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agent Development
 date: '2025-10-21T15:44:03+01:00'
 series:

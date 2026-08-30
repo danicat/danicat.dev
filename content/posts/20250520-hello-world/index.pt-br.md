@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Perspectives
 date: '2025-05-20T17:38:53+01:00'
 summary: Uma introdução ao propósito deste blog — compartilhar jornadas técnicas em desenvolvimento de software, computação em nuvem e IA.

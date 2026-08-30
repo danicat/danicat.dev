@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
 summary: Como desenhar infraestrutura no Google Cloud usando linguagem natural com o Gemini Cloud Assist

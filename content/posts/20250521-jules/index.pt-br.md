@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agentic Coding
 date: '2025-05-21T17:45:07+01:00'
 summary: O novo agente autônomo de programação que todo desenvolvedor precisa conhecer.

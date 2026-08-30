@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agentic Coding
 date: 2026-05-21 11:00:00+00:00
 heroStyle: big

@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Perspectives
 date: 2025-10-29 09:00:00+00:00
 summary: Celebrating my first six months at Google! Reflecting on a whirlwind of 15

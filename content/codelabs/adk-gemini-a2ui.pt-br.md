@@ -1,4 +1,5 @@
----title: "Crie interfaces agênticas ricas com o ADK e o A2UI"
+---
+title: "Crie interfaces agênticas ricas com o ADK e o A2UI"
 date: 2026-06-17
 externalUrl: "https://codelabs.developers.google.com/adk-gemini-a2ui?hl=pt-br#0"
 featureimage: "/images/codelabs/placeholder.png"

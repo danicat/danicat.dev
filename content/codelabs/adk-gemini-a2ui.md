@@ -1,4 +1,5 @@
----title: "Build Rich Agentic Interfaces with ADK and A2UI"
+---
+title: "Build Rich Agentic Interfaces with ADK and A2UI"
 date: 2026-06-17
 externalUrl: "https://codelabs.developers.google.com/adk-gemini-a2ui#0"
 featureimage: "/images/codelabs/placeholder.png"

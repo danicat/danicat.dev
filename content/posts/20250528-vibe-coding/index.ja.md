@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agentic Coding
 date: '2025-05-28T16:30:00+01:00'
 summary: ソフトウェアエンジニアというキャリアの未来についての考察。

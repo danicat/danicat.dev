@@ -1,4 +1,5 @@
----categories:
+---
+categories:
   - Applied GenAI
 date: 2026-02-24
 externalUrl: "https://codelabs.developers.google.com/cloud-genkit-go-nano-banana?hl=ja#0"

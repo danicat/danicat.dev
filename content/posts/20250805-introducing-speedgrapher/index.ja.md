@@ -1,4 +1,5 @@
----author: Daniela Petruzalek
+---
+author: Daniela Petruzalek
 categories:
 - Agentic Coding
 date: 2025-08-05

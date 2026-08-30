@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Agentic Coding
 date: '2025-05-21T17:45:07+01:00'
 summary: すべての開発者が知っておくべき、Googleの新たな自律型コーディングエージェント「Jules」の紹介。

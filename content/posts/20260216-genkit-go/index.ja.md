@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Applied GenAI
 date: 2026-02-16
 heroStyle: big

@@ -1,4 +1,5 @@
----title: "Agent Development Kit で独自の役員アシスタントを作成する"
+---
+title: "Agent Development Kit で独自の役員アシスタントを作成する"
 date: 2026-03-11
 externalUrl: "https://codelabs.developers.google.com/cloud-adk-executive-assistant?hl=ja#0"
 featureimage: "/images/codelabs/placeholder.png"

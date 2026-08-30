@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Perspectives
 date: 2025-10-29 09:00:00+00:00
 summary: Celebrando meus primeiros seis meses no Google! Uma retrospectiva de um turbilhão

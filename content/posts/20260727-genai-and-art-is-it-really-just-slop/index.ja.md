@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Perspectives
 date: 2026-07-27 19:40:00+00:00
 feature: feature.jpg

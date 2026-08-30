@@ -1,4 +1,5 @@
----categories:
+---
+categories:
 - Applied GenAI
 date: '2025-07-02T00:00:00+01:00'
 summary: Gemini Cloud Assistを活用し、Google Cloud上で自然言語プロンプトからインフラストラクチャを設計・コード生成する方法を実践的に解説します。
