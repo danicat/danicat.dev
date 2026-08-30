@@ -307,3 +307,67 @@ html.dark .event-action-buttons {
   border-radius: 4px;
 }
 
+/* ==========================================================================
+   Code Block Line Wrapping
+   ========================================================================== */
+
+/* 1. Prevent Chroma code container from forcing min-width: max-content */
+.chroma:not(:is(table *)) > code,
+.chroma code,
+pre code {
+  display: block !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 2. Enable wrapping on pre containers and highlight wrappers */
+.highlight-wrapper,
+.highlight,
+.highlight-wrapper pre,
+.highlight pre,
+pre,
+pre.chroma {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  overflow-x: hidden !important;
+  max-width: 100% !important;
+}
+
+/* 3. Override Chroma flex line container to allow natural wrapping */
+.chroma .line {
+  display: inline !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+.chroma .cl {
+  display: inline !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+/* 4. Ensure line-numbered tables wrap properly without horizontal scroll */
+.chroma .lntable {
+  display: table !important;
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.chroma .lntd:last-child {
+  width: 100% !important;
+}
+
+.chroma .lntd:last-child pre,
+.chroma .lntd:last-child code {
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+
+
