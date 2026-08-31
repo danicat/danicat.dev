@@ -3,12 +3,66 @@
     "firstName": "Daniela",
     "lastName": "Petruzalek",
     "tagline": "Developer Relations Engineer at Google",
-    "bio": "Daniela Petruzalek is a developer relations engineer at Google focused on Google Cloud Platform. Her specialisation is backend development and data engineering. She has previously worked at companies like JPMorgan, Oracle and ThoughtWorks. On her spare time she contributes to open source, plays video games and pets random cats on the streets.",
+    "bio": "Daniela Petruzalek is a Senior Developer Relations Engineer at Google based in London, where she leads technical advocacy and ecosystem development for Go, Google Cloud, and the emerging architecture of autonomous AI agents.\r\n\r\nWith over 20 years of experience in distributed systems, backend engineering, and data platforms, Daniela has led engineering practices and cloud modernization across major global enterprises. Prior to Google, she served as a Principal Software Engineer and Architect at JPMorgan Chase, built data infrastructure at GoCardless and Thoughtworks, and led recommendation engines serving over 100M monthly users at Globo.com. She was also recognized as a Google Developer Expert (GDE) in both Go and Google Cloud Platform.\r\n\r\nHer current work focuses on developer tooling, the Model Context Protocol (MCP), Gemini API integration, and agentic workflows. As a regular speaker at international conferences like GopherCon, TEDx, and Google Cloud Next, Daniela champions \"disciplined vibe coding\"—pairing the speed of AI coding agents with compiler feedback loops, mutation testing, and production-grade engineering design.\r\n\r\nExplore her open-source projects, codelabs, and technical articles at https://danicat.dev.",
     "speakerProfileUrl": "https://sessionize.com/daniela",
-    "photoUrl": "https://cdn.sessionize.com/image/838f-200o200o2-4RWiEd2HdfW1LrdrkkrE92.JPG",
-    "photoLargeUrl": "https://cdn.sessionize.com/image/ec0a-1000o1000o1-4RWiEd2HdfW1LrdrkkrE92.JPG"
+    "photoUrl": "https://cdn.sessionize.com/image/14cf-200o200o2-TuGVRwVUegrvE5yAP3aSp7.png",
+    "photoLargeUrl": "https://cdn.sessionize.com/image/a77c-1000o1000o1-TuGVRwVUegrvE5yAP3aSp7.png"
   },
   "talks": [
+    {
+      "id": "2023-08-17-gophercon-uk-2023-fun-with-generics",
+      "title": "Fun with Generics",
+      "event": "GopherCon UK 2023",
+      "date": "2023-08-17",
+      "location": "London, UK",
+      "url": "https://danicat.dev/talks/fun-with-generics/",
+      "summary": "This talk explores the practical and \"fun\" applications of Go generics, two years after their introduction. Daniela shares her journey of building a monads library using generics, discussing the challenges, limitations, and comparing it with non-generic Go implementations. Attendees will learn about generics syntax, constraints, and the concept of monads, ultimately deciding if this creative use of generics was a good idea.",
+      "image": null,
+      "slides": null,
+      "source_code": null,
+      "recording": null,
+      "codelab": null,
+      "materials": null,
+      "language": null,
+      "tags": [
+        "generics",
+        "generics-constraints",
+        "generics-syntax",
+        "go",
+        "monads",
+        "option-type",
+        "software-development"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "2023-06-02-go-conference-2023-fun-with-slices",
+      "title": "Fun with Slices",
+      "event": "Go Conference 2023",
+      "date": "2023-06-02",
+      "location": "Online",
+      "url": "https://gocon.jp/2023/sessions/",
+      "summary": "This session provides a deep dive into Go slices, exploring their underlying mechanics beyond simple collections. It covers slice declaration, operations like slicing, copying, and resizing, and discusses their surprising behaviors. The talk uses code examples and delves into the Go compiler's slice implementation.",
+      "image": null,
+      "slides": null,
+      "source_code": null,
+      "recording": null,
+      "codelab": null,
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "compiler",
+        "data-structures",
+        "go",
+        "programming-language",
+        "slices"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
     {
       "id": "2026-06-09-google-cloud-summit-dach-2026-building-rich-agent-uis-from-text-to-web-components-with-adk-a2ui",
       "title": "Building Rich Agent UIs: From Text to Web Components with ADK & A2UI",
