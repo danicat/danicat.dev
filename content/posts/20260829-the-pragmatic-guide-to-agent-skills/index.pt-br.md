@@ -15,11 +15,6 @@ tags:
   - gemini-cli
   - vibe-coding
 proficiencyLevel: "Intermediate"
-dependencies:
-  - "Antigravity 2.0"
-  - "Antigravity CLI"
-  - "Gemini CLI"
-  - "Claude Code"
 ---
 
 Pode parecer difícil de acreditar, mas o padrão [**Agent Skills**](https://agentskills.io) não tem sequer um ano de vida. O [artigo original da Anthropic](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills) foi publicado em outubro de 2025, apresentando inicialmente as Agent Skills como uma extensão do Claude Code antes de se consolidar como um padrão aberto em dezembro de 2025. A especificação provou ser tão prática que, em pouco tempo, foi adotada pelos principais agentes de código e frameworks de desenvolvimento de agentes para equipar modelos de IA com instruções modulares, scripts determinísticos e fluxos especializados de domínio.

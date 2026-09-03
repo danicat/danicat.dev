@@ -379,6 +379,7 @@ import (
 	"github.com/firebase/genkit/go/ai"
 	"github.com/firebase/genkit/go/genkit"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
+	"google.golang.org/genai"
 )
 
 // GameItem represents a collectible item in the user's personal inventory.
@@ -494,12 +495,20 @@ func main() {
 		"appraise_game",
 		func(ctx context.Context, req AppraiserRequest) (AppraiserResponse, error) {
 			resp, err := genkit.Generate(ctx, g,
-				ai.WithModelName("vertexai/gemini-3.7-flash"),
+				ai.WithModelName("vertexai/gemini-3.8-flash"),
 				ai.WithSystem(
 					"You are an expert Retro Game Appraiser. Assist collectors by evaluating prospective purchases, "+
 						"cross-referencing their personal inventory, and assessing fair market valuations. "+
 						"Always search the collection catalog using search_catalog before providing purchase recommendations.",
 				),
+				ai.WithConfig(&genai.GenerateContentConfig{
+					ThinkingConfig: &genai.ThinkingConfig{IncludeThoughts: true},
+					Tools: []*genai.Tool{
+						{
+							GoogleSearch: &genai.GoogleSearch{},
+						},
+					},
+				}),
 				ai.WithPrompt(req.Prompt),
 				ai.WithTools(catalogTool),
 			)
@@ -591,25 +600,21 @@ package main
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"os/signal"
 	"strings"
-	"syscall"
-	"time"
 
 	"google.golang.org/genai"
 
 	"google.golang.org/adk/v2/agent"
 	"google.golang.org/adk/v2/agent/llmagent"
+	"google.golang.org/adk/v2/cmd/launcher"
+	"google.golang.org/adk/v2/cmd/launcher/full"
 	"google.golang.org/adk/v2/model/gemini"
-	"google.golang.org/adk/v2/runner"
-	"google.golang.org/adk/v2/session"
 	"google.golang.org/adk/v2/tool"
 	"google.golang.org/adk/v2/tool/functiontool"
+	"google.golang.org/adk/v2/tool/geminitool"
 )
 
 // GameItem represents a collectible item in the user's personal inventory.
@@ -617,7 +622,7 @@ type GameItem struct {
 	Title     string  `json:"title"`
 	Platform  string  `json:"platform"`
 	Year      int     `json:"year"`
-	Condition string  `json:"condition"` // e.g. "Loose Cartridge", "CIB (Complete in Box)", "Mint"
+	Condition string  `json:"condition"`
 	PricePaid float64 `json:"price_paid"`
 	Notes     string  `json:"notes"`
 }
@@ -651,8 +656,7 @@ var localCatalog = []GameItem{
 }
 
 type CatalogRequest struct {
-	// Query is the game title or platform to search in the inventory.
-	Query string `json:"query"`
+	Query string `json:"query" jsonschema:"The game title or platform to search in the inventory."`
 }
 
 type CatalogResponse struct {
@@ -662,24 +666,14 @@ type CatalogResponse struct {
 	Results []GameItem `json:"results,omitempty"`
 }
 
-type AppraiserRequest struct {
-	Prompt    string `json:"prompt"`
-	SessionID string `json:"session_id,omitempty"`
-}
-
-type AppraiserResponse struct {
-	Appraisal string `json:"appraisal"`
-	SessionID string `json:"session_id,omitempty"`
-}
-
 func main() {
 	ctx := context.Background()
 
-	// 1. Initialise Gemini Model adapter for Gemini Enterprise / Vertex AI
-	model, err := gemini.NewModel(ctx, "gemini-3.7-flash", &genai.ClientConfig{
+	// 1. Initialise Gemini Model adapter for Gemini Enterprise
+	model, err := gemini.NewModel(ctx, "gemini-flash-latest", &genai.ClientConfig{
 		Project:  os.Getenv("GOOGLE_CLOUD_PROJECT"),
 		Location: "global",
-		Backend:  genai.BackendVertexAI,
+		Backend:  genai.BackendEnterprise,
 	})
 	if err != nil {
 		log.Fatalf("failed to create Gemini model: %v", err)
@@ -724,145 +718,66 @@ func main() {
 		Description: "Expert appraiser that analyzes retro video game purchases and collection inventory.",
 		Instruction: "You are an expert Retro Game Appraiser. Assist collectors by verifying collection " +
 			"status with search_catalog, assessing condition variants, and offering objective buying recommendations.",
-		Tools: []tool.Tool{catalogTool},
+		Tools: []tool.Tool{
+			catalogTool,
+			geminitool.GoogleSearch{},
+		},
 	})
 	if err != nil {
 		log.Fatalf("failed to create appraiser agent: %v", err)
 	}
 
-	// 4. Initialise ADK Runner with Session Service for state management
-	r, err := runner.New(runner.Config{
-		AppName:           "retro_game_vault",
-		Agent:             appraiserAgent,
-		SessionService:    session.InMemoryService(),
-		AutoCreateSession: true,
-	})
-	if err != nil {
-		log.Fatalf("failed to create ADK runner: %v", err)
+	// 4. Configure launcher and execute
+	config := &launcher.Config{
+		AgentLoader: agent.NewSingleLoader(appraiserAgent),
 	}
 
-	// 5. HTTP Handler streaming multi-turn responses with session continuation
-	mux := http.NewServeMux()
-
-	mux.HandleFunc("POST /api/chat", func(w http.ResponseWriter, req *http.Request) {
-		var chatReq AppraiserRequest
-		if err := json.NewDecoder(req.Body).Decode(&chatReq); err != nil {
-			http.Error(w, "invalid request", http.StatusBadRequest)
-			return
-		}
-
-		userMsg := &genai.Content{
-			Role: genai.RoleUser,
-			Parts: []*genai.Part{
-				{Text: chatReq.Prompt},
-			},
-		}
-
-		sessionID := chatReq.SessionID
-		if sessionID == "" {
-			sessionID = fmt.Sprintf("session-%d", time.Now().UnixNano())
-		}
-
-		var responseBuilder strings.Builder
-		for event, err := range r.Run(req.Context(), "collector_user", sessionID, userMsg, agent.RunConfig{}) {
-			if err != nil {
-				log.Printf("runner error: %v", err)
-				http.Error(w, fmt.Sprintf("agent error: %v", err), http.StatusInternalServerError)
-				return
-			}
-			if event != nil && event.Content != nil {
-				for _, part := range event.Content.Parts {
-					if part.Text != "" {
-						responseBuilder.WriteString(part.Text)
-					}
-				}
-			}
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		_ = json.NewEncoder(w).Encode(AppraiserResponse{
-			Appraisal: responseBuilder.String(),
-			SessionID: sessionID,
-		})
-	})
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
+	l := full.NewLauncher()
+	if err = l.Execute(ctx, config, os.Args[1:]); err != nil {
+		log.Fatalf("run failed: %v\n\n%s", err, l.CommandLineSyntax())
 	}
-
-	server := &http.Server{
-		Addr:    ":" + port,
-		Handler: mux,
-	}
-
-	// Graceful shutdown on Ctrl+C (SIGINT) or SIGTERM
-	serverCtx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
-	defer stop()
-
-	go func() {
-		log.Printf("Retro Game Appraiser (ADK) listening on :%s", port)
-		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			log.Fatalf("server failed: %v", err)
-		}
-	}()
-
-	<-serverCtx.Done()
-	log.Println("\nShutting down server gracefully...")
-
-	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-
-	if err := server.Shutdown(shutdownCtx); err != nil {
-		log.Fatalf("server forced shutdown: %v", err)
-	}
-	log.Println("Server exited cleanly.")
 }
 ```
 
 ### Running the ADK agent
 
-Start the ADK streaming server with your Google Cloud project configured:
+ADK provides a universal launcher (`full.NewLauncher()`) that eliminates the need to manually construct HTTP routing, JSON marshalling, or session boilerplate. By passing command-line arguments to the launcher, you can run the agent across multiple interaction modes without altering application code.
+
+To start an interactive terminal chat session, execute:
 
 ```sh
 export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
-export PORT=8081
 go run main.go
 ```
 
-In another terminal, send an initial question to start a conversation:
+The launcher starts in console mode, allowing you to converse with the appraiser directly:
+
+```text
+User: Do I have Chrono Trigger in my collection?
+Agent: Yes, you have Chrono Trigger in your collection! Here are the details from your inventory:
+
+* Title: Chrono Trigger
+* Platform: Super Nintendo (SNES)
+* Release Year: 1995
+* Condition: CIB (Complete in Box)
+* Price Paid: $210.00
+* Notes: Includes original map and registration card.
+
+User: What did I pay for it?
+Agent: You paid $210.00 for it.
+```
+
+Because ADK manages conversational state and session continuity automatically, follow-up queries retain full contextual memory of earlier turns in the conversation.
+
+Alternatively, you can launch ADK's built-in developer Web UI and REST API server:
 
 ```sh
-curl -s -X POST http://localhost:8081/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "Do I have Chrono Trigger in my collection?"}' | jq .
+go run main.go web webui api
 ```
 
-The ADK runner orchestrates session initialisation, executes the registered `search_catalog` function tool, and returns the response alongside the persisted `session_id`:
+Navigating to `http://localhost:8080` opens an interactive web chat interface that provides real-time streaming responses, session history, and transparent step-by-step visibility into tool executions (both your custom `search_catalog` function tool and native `GoogleSearch` grounding).
 
-```json
-{
-  "appraisal": "Yes, you have **Chrono Trigger** in your collection! Here are the details from your inventory:\n\n* **Title:** Chrono Trigger\n* **Platform:** Super Nintendo (SNES)\n* **Release Year:** 1995\n* **Condition:** CIB (Complete in Box)\n* **Price Paid:** $210.00\n* **Notes:** Includes original map and registration card.",
-  "session_id": "session-1787674771186589000"
-}
-```
-
-Because ADK's `runner` maintains state via `SessionService`, you can continue the conversation simply by passing the returned `session_id` in subsequent turns:
-
-```sh
-curl -s -X POST http://localhost:8081/api/chat \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "What did I pay for it?", "session_id": "session-1787674771186589000"}' | jq .
-```
-
-```json
-{
-  "appraisal": "You paid **$210.00** for it.",
-  "session_id": "session-1787674771186589000"
-}
-```
-
-ADK provides clean architectural separation between agent definition (`llmagent`), tool bindings (`functiontool`), and conversation state management (`runner` + `SessionService`), making it the framework of choice when building complex multi-agent hierarchies or conversational assistants.
+ADK provides clean architectural separation between agent definition (`llmagent`), tool bindings (`functiontool` and built-in tools like `geminitool.GoogleSearch`), and execution environments (`launcher` and `runner`), making it the framework of choice when building complex multi-agent hierarchies or conversational assistants.
 
 ## Agent runtimes
 
