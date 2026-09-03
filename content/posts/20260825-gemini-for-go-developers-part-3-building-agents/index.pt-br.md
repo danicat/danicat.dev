@@ -247,7 +247,7 @@ func main() {
 		os.Exit(0)
 	}()
 
-	model := "gemini-flash-latest"
+	model := "gemini-3.8-flash"
 	var contents []*genai.Content
 
 	fmt.Println("Retro Game Appraiser (SDK Agent)")
@@ -703,7 +703,7 @@ func main() {
 	ctx := context.Background()
 
 	// 1. Initialise Gemini Model adapter for Gemini Enterprise
-	model, err := gemini.NewModel(ctx, "gemini-flash-latest", &genai.ClientConfig{
+	model, err := gemini.NewModel(ctx, "gemini-3.8-flash", &genai.ClientConfig{
 		Project:  os.Getenv("GOOGLE_CLOUD_PROJECT"),
 		Location: "global",
 		Backend:  genai.BackendEnterprise,
