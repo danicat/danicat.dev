@@ -113,11 +113,14 @@ Abaixo está a implementação completa e executável:
 package main
 
 import (
+	"bufio"
 	"context"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
 	"strings"
+	"syscall"
 
 	"google.golang.org/genai"
 )
@@ -235,68 +238,91 @@ func main() {
 		},
 	}
 
-	// 3. Prepare initial user prompt
-	prompt := "I found a copy of EarthBound for SNES in mint Complete-in-Box (CIB) condition for $350. " +
-		"Do I already own it, and is $350 a good deal compared to current market prices?"
+	// 3. Graceful shutdown on Ctrl+C (SIGINT) or SIGTERM
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	go func() {
+		<-sigChan
+		fmt.Println("\nGoodbye!")
+		os.Exit(0)
+	}()
 
-	contents := []*genai.Content{
-		{
-			Role:  "user",
-			Parts: []*genai.Part{genai.NewPartFromText(prompt)},
-		},
-	}
+	model := "gemini-flash-latest"
+	var contents []*genai.Content
 
-	model := "gemini-3.7-flash"
-	maxTurns := 6
+	fmt.Println("Retro Game Appraiser (SDK Agent)")
+	fmt.Println("Type your question below, or 'exit' (Ctrl+C / Ctrl+D) to quit.")
+	fmt.Println("-----------------------------------------------------------------")
 
-	// 4. The Agent Loop (LLM Request -> Tool Dispatch -> Tool Result -> LLM Request)
-	for turn := 0; turn < maxTurns; turn++ {
-		resp, err := client.Models.GenerateContent(ctx, model, contents, config)
-		if err != nil {
-			log.Fatalf("error generating content: %v", err)
+	scanner := bufio.NewScanner(os.Stdin)
+	for {
+		fmt.Print("\nUser: ")
+		if !scanner.Scan() {
+			fmt.Println("\nGoodbye!")
+			break
 		}
 
-		if len(resp.Candidates) == 0 || resp.Candidates[0].Content == nil {
-			log.Fatal("received empty response candidate from model")
+		input := strings.TrimSpace(scanner.Text())
+		if input == "" {
+			continue
+		}
+		if strings.EqualFold(input, "exit") {
+			fmt.Println("Goodbye!")
+			break
 		}
 
-		// Append the model's response to the conversation history
-		modelContent := resp.Candidates[0].Content
-		contents = append(contents, modelContent)
-
-		// Check if the model requested any client-side tool executions
-		funcCalls := resp.FunctionCalls()
-		if len(funcCalls) == 0 {
-			// Terminal condition: model produced its final natural language answer
-			fmt.Println("\n=== Appraiser Verdict ===")
-			fmt.Println(resp.Text())
-			return
-		}
-
-		// Execute each requested tool and prepare response parts
-		var responseParts []*genai.Part
-		for _, call := range funcCalls {
-			fmt.Printf("[Harness] Executing tool: %s(args=%v)\n", call.Name, call.Args)
-
-			var result map[string]any
-			switch call.Name {
-			case "search_catalog":
-				result = searchCatalogTool(call.Args)
-			default:
-				result = map[string]any{"error": fmt.Sprintf("unsupported tool: %s", call.Name)}
-			}
-
-			responseParts = append(responseParts, genai.NewPartFromFunctionResponse(call.Name, result))
-		}
-
-		// Return tool execution results as a user turn
 		contents = append(contents, &genai.Content{
 			Role:  "user",
-			Parts: responseParts,
+			Parts: []*genai.Part{genai.NewPartFromText(input)},
 		})
-	}
 
-	log.Fatal("exceeded maximum conversation turns without reaching terminal state")
+		// 4. The Agent Loop: model generation -> tool dispatch -> feedback -> until final answer
+		for {
+			resp, err := client.Models.GenerateContent(ctx, model, contents, config)
+			if err != nil {
+				log.Printf("error generating content: %v", err)
+				break
+			}
+
+			if len(resp.Candidates) == 0 || resp.Candidates[0].Content == nil {
+				log.Println("received empty response candidate from model")
+				break
+			}
+
+			// Append the model's response to the conversation history
+			modelContent := resp.Candidates[0].Content
+			contents = append(contents, modelContent)
+
+			// Check if the model requested any client-side tool executions
+			funcCalls := resp.FunctionCalls()
+			if len(funcCalls) == 0 {
+				fmt.Printf("\nAppraiser: %s\n", resp.Text())
+				break
+			}
+
+			// Execute each requested tool and prepare response parts
+			var responseParts []*genai.Part
+			for _, call := range funcCalls {
+				fmt.Printf("[Harness] Executing tool: %s(args=%v)\n", call.Name, call.Args)
+
+				var result map[string]any
+				switch call.Name {
+				case "search_catalog":
+					result = searchCatalogTool(call.Args)
+				default:
+					result = map[string]any{"error": fmt.Sprintf("unsupported tool: %s", call.Name)}
+				}
+
+				responseParts = append(responseParts, genai.NewPartFromFunctionResponse(call.Name, result))
+			}
+
+			// Return tool execution results as a user turn
+			contents = append(contents, &genai.Content{
+				Role:  "user",
+				Parts: responseParts,
+			})
+		}
+	}
 }
 ```
 
@@ -309,13 +335,17 @@ export GOOGLE_CLOUD_PROJECT="your-gcp-project-id"
 go run main.go
 ```
 
-A saída ilustra o harness coordenando a consulta local ao catálogo e a fundamentação com a Busca do Google no servidor:
+A sessão interativa de chat é iniciada diretamente no seu terminal. Você pode conversar com o avaliador ao longo de múltiplos turnos e encerrar a qualquer momento digitando `exit`, pressionando `Ctrl+C` ou enviando um `EOF` via `Ctrl+D`:
 
 ```text
+Retro Game Appraiser (SDK Agent)
+Type your question below, or 'exit' (Ctrl+C / Ctrl+D) to quit.
+-----------------------------------------------------------------
+
+User: I found a copy of EarthBound for SNES in mint Complete-in-Box (CIB) condition for $350. Do I already own it, and is $350 a good deal compared to current market prices?
 [Harness] Executing tool: search_catalog(args=map[query:EarthBound])
 
-=== Appraiser Verdict ===
-Here is your collection check and appraisal for **EarthBound (SNES)**:
+Appraiser: Here is your collection check and appraisal for **EarthBound (SNES)**:
 
 1. **Current Collection Status**:
    - You currently own **EarthBound** on Super Nintendo as a **Loose Cartridge**, purchased for **$180.00**.
@@ -326,6 +356,9 @@ Here is your collection check and appraisal for **EarthBound (SNES)**:
 3. **Recommendation**:
    - At **$350.00**, a genuine Mint CIB copy is an **exceptional deal** (more than 70% below prevailing market value).
    - **Caution**: Because EarthBound is one of the most heavily counterfeited SNES titles, inspect the box printing, registration card, and PCB board carefully before completing the transaction. If verified authentic, this is an outstanding opportunity to upgrade your loose copy to CIB.
+
+User: exit
+Goodbye!
 ```
 
 A implementação com o SDK torna o fluxo mecânico totalmente explícito. Hoje, com modelos de última geração e janelas generosas de tokens, é tentadoramente fácil escrever o encanamento, os loops de despacho e todo o andaime de suporte por conta própria.
