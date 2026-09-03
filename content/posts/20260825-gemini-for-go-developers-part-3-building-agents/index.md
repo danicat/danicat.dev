@@ -190,11 +190,11 @@ func searchCatalogTool(args map[string]any) map[string]any {
 func main() {
 	ctx := context.Background()
 
-	// Initialise GenAI client for Gemini Enterprise / Vertex AI
+	// Initialise GenAI client for Gemini Enterprise
 	client, err := genai.NewClient(ctx, &genai.ClientConfig{
 		Project:  os.Getenv("GOOGLE_CLOUD_PROJECT"),
 		Location: "global",
-		Backend:  genai.BackendVertexAI,
+		Backend:  genai.BackendEnterprise,
 	})
 	if err != nil {
 		log.Fatalf("failed to create client: %v", err)
