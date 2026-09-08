@@ -4,7 +4,7 @@ categories:
 date: 2026-07-22 00:00:00+00:00
 heroStyle: big
 summary: Uma exploração sobre o paradigma de subagentes no Antigravity, desde sua evolução
-  e capacidades até aplicações práticas. Compartilho também a skill 'swarm-coding'
+  e capacidades até aplicações práticas. Compartilho também a skill 'swarm coding'
   para ajudar você a orquestrar subagentes especializados em tarefas complexas de engenharia.
 tags:
   - agile
@@ -31,7 +31,7 @@ Neste artigo, quero compartilhar como acompanhei a evolução do paradigma de su
 
 ## Uma breve (e incompleta) linha do tempo da evolução dos subagentes
 
-Subagentes não são novidade. Eu já usava esse recurso muito antes de o termo "subagente" virar moda, encapsulando chamadas a modelos como ferramentas MCP. Por exemplo, as primeiras versões do [**GoDoctor**](https://github.com/danicat/godoctor) incluíam uma ferramenta `code_review`, que nada mais era do que uma chamada ao Gemini com um prompt especializado em revisão de código. Essa ferramenta funcionava, na prática, como um subagente — embora com comportamento fixo e sem suporte a conversas continuadas. (Tecnicamente era possível estender, mas preferi não implementar para garantir uma avaliação limpa e imparcial a cada chamada.)
+Subagentes não são novidade. Eu já usava esse recurso muito antes de o termo "subagente" virar moda, encapsulando chamadas a modelos como ferramentas MCP. Por exemplo, as primeiras versões do [**GoDoctor**]({{< ref "/posts/20250729-how-to-build-an-mcp-server-with-gemini-cli-and-go" >}}) incluíam uma ferramenta `code_review`, que nada mais era do que uma chamada ao Gemini com um prompt especializado em [revisão de código]({{< ref "/posts/20260303-code-reviews-in-2026" >}}). Essa ferramenta funcionava, na prática, como um subagente — embora com comportamento fixo e sem suporte a conversas continuadas. (Tecnicamente era possível estender, mas preferi não implementar para garantir uma avaliação limpa e imparcial a cada chamada.)
 
 Por volta do inverno passado, os principais agentes de código do mercado (Claude, Gemini CLI, etc.) começaram a introduzir suporte a subagentes personalizados definidos em arquivos Markdown. Gostei muito desse padrão como uma forma prática de empacotar conhecimento especializado com um conjunto refinado de ferramentas. No cenário ideal, o GoDoctor seria um agente especialista completo e não apenas uma coleção de ferramentas, mas acabei não seguindo por esse caminho na época porque o ecossistema mudava constantemente e o padrão de subagentes ainda não havia se estabilizado.
 

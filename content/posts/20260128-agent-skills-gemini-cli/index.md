@@ -25,7 +25,7 @@ dependencies:
 ---
 
 {{< alert "circle-info" >}}
-**Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the updated platform and features.
+**Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the platform, and read [The Pragmatic Guide to Agent Skills]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}}) for modern production patterns, skill catalogs, and token optimization.
 {{< /alert >}}
 
 When I wrote about [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) last week I didn't cover one important aspect about experiment analysis: how to extract insights from experiments. Even though I have a nice frontend with summaries and statistical metrics and tests, it is really hard to capture the nuances of each configuration from just a summary.

@@ -278,7 +278,7 @@ In this adapted cycle, the focus shifts slightly:
 
 *   **Red (Define Acceptance Criteria):** Instead of writing a failing unit test code manually, you define the acceptance criteria in your prompt. This becomes the contract the model must fulfill.
 *   **Green (AI Generates Code):** The agent implements the solution and, ideally, writes the tests to prove it works.
-*   **Refactor (Enforce Standards):** This is the quality gate. While you can (and should) use AI to help review the code, avoid using the same session that generated it, as it will be biased towards its own output. I built a specific "review" tool in GoDoctor just for this purpose. Use this step to run your traditional linters and tests, verify the code matches your standards, and manage the context by committing changes and clearing the agent’s history to prevent confusion from cluttered sessions.
+*   **Refactor (Enforce Standards):** This is the quality gate. While you can (and should) use AI to help review the code, avoid using the same session that generated it, as it will be biased towards its own output. I built a specific "review" tool in [GoDoctor]({{< ref "/posts/20250729-how-to-build-an-mcp-server-with-gemini-cli-and-go" >}}) just for this purpose (and later codified my full review framework in [How to Do Code Reviews in the Agentic Era]({{< ref "/posts/20260303-code-reviews-in-2026" >}})). Use this step to run your traditional linters and tests, verify the code matches your standards, and manage the context by committing changes and clearing the agent’s history to prevent confusion from cluttered sessions.
 
 ![Vibe Coding Cycle](vibe-coding-cycle.png "The Adapted Vibe Coding Loop")
 

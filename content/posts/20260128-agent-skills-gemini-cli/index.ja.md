@@ -16,7 +16,7 @@ tags:
 title: "Gemini CLI で Agent Skills をマスターする"
 aliases:
   - "/ja/posts/20260128-agent-skills-gemini-cli/"
-description: "Gemini CLI の Agent Skills の基本構造と段階的開示（Progressive Disclosure）設計を解説。実験分析用スキル experiment-analyst の実装例とスクリプト構成を紹介。"
+description: "Gemini CLI における Agent Skills の構築と設定方法を解説。段階的開示（Progressive Disclosure）、オンデマンドなプロンプト読み込み、決定論的な Python 分析スクリプトの活用法を網羅。"
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
@@ -24,14 +24,14 @@ dependencies:
 ---
 
 {{< alert "circle-info" >}}
-**追記 (2026年):** Gemini CLI は **Google Antigravity 2.0** へと進化しました。本記事で解説している Agent Skills の基本概念や構造は引き続き有効ですが、最新プラットフォームと機能の概要については [Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
+**追記 (2026年):** Gemini CLI は **Google Antigravity 2.0** へと進化しました。本記事で解説している Agent Skills の基本概念や構造は引き続き有効ですが、プラットフォームの概要については [Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) を、本番環境向けの最新パターンやスキルカタログ、トークン最適化については [Agent Skills 実践ガイド]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}}) をご覧ください。
 {{< /alert >}}
 
 先週 [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science/" >}}) について記事を書いた際、実験分析に関する重要な側面——「実験結果からいかにして洞察を抽出するか」については触れませんでした。サマリーや統計指標、検定結果を確認できる使い勝手のよいフロントエンドはあるものの、単なるサマリーから各設定の微妙なニュアンスを汲み取るのは非常に困難です。
 
 たとえば、ファイルの読み取り操作（`read_file` や godoctor の `smart_read` など）は、タスクが失敗したシナリオや完了までに時間がかかったシナリオと強い相関があることにしばしば気づきます。これは読み取り操作自体が悪いからでしょうか？いいえ、エージェントがエラーから復帰するために、ソースコードを再度読み直して知識をリフレッシュする必要があったからです。つまり、読み取り操作の多さと処理の遅延や失敗との間には強い相関関係があるものの、決して因果関係があるわけではありません。統計学者が言うように、「相関関係は因果関係を意味しない（相関は因果ではない）」のです。
 
-ここ数週間数多くの実験を重ねる中で、毎回モデルに対してより深い分析を行うよう指示するのはあまり効率的ではないとすぐに気づきました。通常このようなシナリオでは、エージェントのコンテキスト（`GEMINI.md` など）に分析指示を追加するか、必要なプロンプトを MCP サーバーに格納してスラッシュコマンドにマッピングするかのいずれかを行います。
+ここ数週間数多くの実験を重ねる中で、毎回モデルに対してより深い分析を行うよう指示するのはあまり効果的ではないとすぐに気づきました。通常このようなシナリオでは、エージェントのコンテキスト（`GEMINI.md` など）に分析指示を追加するか、必要なプロンプトを MCP サーバーに格納してスラッシュコマンドにマッピングするかのいずれかを行います。
 
 どちらのアプローチも機能はしますが、それぞれに限界があります。実行したいタスクごとにエージェントのコンテキストを拡張していくと、コンテキストの肥大化（context bloat）を招き、エージェントの動作精度が低下します。一方でプロンプトごとにスラッシュコマンドを作成する場合、エージェントは設計上それらのコマンドの存在を認識できないため、人間が明示的にコマンドを呼び出さなければなりません。
 
@@ -90,7 +90,7 @@ experiment-analyst/
 
 ### 専門家のペルソナを定義する
 
-`SKILL.md` ファイルには、分析の手順や規律を定義します。エージェントに何をすべきかを教えつつも、単なる機械的で型通りの振る舞い（cookie-cutter）にならないようバランスを取っています。重要なポイントの一つは、エージェントが安易に結論へ飛びつくのを防ぎ、より堅実で客観的なペルソナを確立することです。私自身、エージェントのすべての主張を検証し、すべての結論を批判的に受け止めるようにしていますが、このスキルによって、手動では発見に多大な労力を要したであろう興味深い洞察を数多く得ることができました。
+`SKILL.md` ファイルには、分析の手順や規律を定義します。エージェントに何をすべきかを教えつつも、単なる機械的で型通りの振る舞い（cookie-cutter）にならないようバランスを取っています。重要なポイントの一つは、エージェントが安易に結論へ飛びつくのを防ぎ、より堅実で客観的なペルソナを確立することです。私自身、エージェントのすべての主張を検証し、すべての結論を慎重に受け止めるようにしていますが、このバージョンによって、手動では発見に多大な労力を要したであろう興味深い洞察を数多く得ることができました。
 
 ```text
 ---
@@ -101,12 +101,12 @@ description: Expertise in analysing Tenkai agent experiments. Use when asked to 
 # Experiment Analyst
 
 ## Core Mandates
-1. **Evidence-Based:** データなしに主張を行わないこと。特定の Run ID を引用すること。
-2. **Correlation ≠ Causation:** ツール（例：`read_file`）は回復処理に使用されるため失敗と相関している可能性がある。常に使用された「文脈（コンテキスト）」を調査すること。
-3. **Comparative:** 常に代替手法のパフォーマンスと比較・対比すること。
+1. **Evidence-Based:** Never make claims without data. Cite specific Run IDs.
+2. **Correlation ≠ Causation:** A tool might be correlated with failure (e.g., `read_file`) because it's used for recovery. Always investigate the *context* of usage.
+3. **Comparative:** Always contrast the performance of alternatives.
 ```
 
-（参考: [SKILL.md の完全な内容](https://github.com/danicat/skills/blob/main/experiment-analyst/SKILL.md)はこちらで確認できます）
+注: [SKILL.md の完全な内容](https://github.com/danicat/skills/blob/main/experiment-analyst/SKILL.md) はこちらから確認できます。
 
 ### スキルのアセット
 
@@ -114,14 +114,14 @@ description: Expertise in analysing Tenkai agent experiments. Use when asked to 
 
 実験分析スキルの作成にあたり、エージェントに自由な探索の余地を残しつつも、毎回車輪の再発明をしてほしくはありませんでした。そのため、以下のような事前パッケージ化されたスクリプトを同梱しています。
 
-- `analyze_experiment.py`: フロントエンドにあるものと同様の実験サマリーを再現しつつ、シェルコマンドのツール呼び出しを適切にグルーピング
-- `analyze_patterns.py`: ツール利用パターンを特定するために、エージェントの会話履歴からサンプルを抽出
+- `analyse_experiment.py`: フロントエンドにあるものと同様の実験サマリーを再現しつつ、シェルコマンドのツール呼び出しを適切にグルーピング
+- `analyse_patterns.py`: ツール利用パターンを特定するために、エージェントの会話履歴からサンプルを抽出
 - `get_experiment_config.py`: 実験定義を取得し、エージェントが実験設定を正確に把握できるよう支援
 - `success_determinants.py`: タスクの成功結果とツール呼び出しの相関関係を算出
 
 また、エージェントがアドホックなクエリを実行することを選んだときのために、`references/tenkai_db_schema.md` でデータベーススキーマを提供しています。これにより、エージェントは毎回スキーマを探索し直す必要がなくなります（このスキーマは実行間で比較的安定しています）。
 
-この構成が完璧だと言うつもりはありませんし、まだ洗練に膨大な時間を費やしたわけでもありません。しかし、このコンテキスト情報と事前パッケージ化されたスクリプトの組み合わせによって、私が普段エージェントに探索させたい質問の大部分を十分にカバーできています。
+この構成が完璧だと言うつもりはありませんし、まだ洗練に膨大な時間を費やしたわけでもありません。しかし、この情報と事前パッケージ化されたスクリプトの組み合わせによって、私が普段エージェントに探索させたい質問の大部分を十分にカバーできています。
 
 ## おわりに
 

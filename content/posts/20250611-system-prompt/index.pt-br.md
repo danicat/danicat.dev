@@ -29,7 +29,7 @@ Neste guia, vamos nos aprofundar em prompts de sistema (system instructions) e f
 
 Preciso admitir: a [versão inicial do agente de diagnóstico]({{< ref "/posts/20250531-diagnostic-agent" >}}) não estava tão pronta para a "Enterprise" (com o perdão do trocadilho). Não tínhamos visibilidade do que ele fazia por baixo dos panos (estava realmente rodando queries SQL?), ele não se lembrava do que havia sido discutido na mesma sessão e, de vez em quando, ignorava nossos comandos por completo.
 
-Isso está longe da experiência ideal para um agente autônomo. Um agente de diagnóstico confiável precisa lembrar de seus erros e executar instruções com consistência — por exemplo, descobrindo que certas colunas não existem e contornando o problema. Além disso, precisamos auditar o que ele faz em tempo de execução para garantir que as respostas sejam precisas e atualizadas.
+Isso está longe da experiência ideal para um agente autônomo. Um agente de diagnóstico confiável precisa lembrar de seus erros e executar instruções com consistência, por exemplo, descobrindo que certas colunas não existem e contornando o problema. Além disso, precisamos auditar o que ele faz em tempo de execução para garantir que as respostas sejam precisas e atualizadas.
 
 Com esses objetivos em mente, vamos colocar a mão na massa e construir o nosso ~~Holograma Médico~~ Agente de Diagnóstico de Emergência!
 
@@ -161,7 +161,7 @@ Qual é a natureza da sua emergência de diagnóstico?
 
 Há duas mudanças em relação à versão original: primeiro, adicionamos um loop interativo no terminal que mantém o agente em execução até que o usuário digite `exit` ou `quit`.
 
-Segundo, ajustamos o prompt de sistema. Agora o chamamos de "Agente de Diagnóstico de Emergência" — um nome que, além de ser um easter egg de Star Trek, estabelece um tom de urgência que incentiva o modelo a seguir as instruções com maior rigor e menos recusas indevidas.
+Segundo, ajustamos o prompt de sistema. Agora o chamamos de "Agente de Diagnóstico de Emergência", um nome que, além de ser um easter egg de Star Trek, estabelece um tom de urgência que incentiva o modelo a seguir as instruções com maior rigor e menos recusas indevidas.
 
 ## Estruturando Instruções de Sistema (System Prompts)
 

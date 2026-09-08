@@ -15,7 +15,7 @@ title: "skill-creator で Agent Skills を構築する"
 slug: "gemini-cli-skills-part-2"
 aliases:
   - "/ja/posts/20260227-gemini-cli-skills-part-2/"
-description: "Gemini CLI の skill-creator を使った Agent Skills 設計ガイド。latest-version、Ruffを活用した pyhd、find-examples、de-sloppify の4つの実践例を解説。"
+description: "Gemini CLI の skill-creator を使った Agent Skills 設計ガイド。latest-version、Ruff を活用した pyhd、find-examples、de-sloppify の4つの実践例を解説。"
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
@@ -33,14 +33,14 @@ dependencies:
 
 ## Agent Skills とは
 
-パート1を見逃した方のために、簡単におさらいしておきましょう。[Agent Skills](https://agentskills.io) は、コーディングエージェントに「ジャストインタイム（必要なときだけ）」の専門知識を提供するために設計されたオープンスタンダードです。専門知識が必要なタイミングでのみコンテキストへ追加される仕組みになっているため、いわゆるコンテキストの肥大化（context bloat）を防ぐことができます。この設計思想を専門用語では **Progressive Disclosure（段階的開示）** と呼びます。コアとなる指示（`SKILL.md`）は極力スリムに保ち、詳細なリファレンスやスクリプトは別ファイルに切り出して、*必要なときだけ*ロードするのです。
+パート1を見逃した方のために、簡単におさらいしておきましょう。Agent Skills は、コーディングエージェントに「ジャストインタイム（必要なときだけ）」の専門知識を提供するために設計されたオープンスタンダードです。専門知識が必要なタイミングでのみコンテキストへ追加される仕組みになっているため、いわゆるコンテキストの肥大化（context bloat）を防ぐことができます。この設計思想を専門用語では **Progressive Disclosure（段階的開示）** と呼びます。コアとなる指示（`SKILL.md`）は極力スリムに保ち、詳細なリファレンスやスクリプトは別ファイルに切り出して、*必要なときだけ*ロードするのです。
 
-ディスク上では、スキルは `SKILL.md` ファイルと、必要に応じたバンドルリソースを含むひとつのフォルダとして構成されます。
+ディスク上では、スキルは `SKILL.md` ファイルと、必要に応じたバンドルリソース（Bundled Resources）を含むひとつのフォルダとして構成されます。
 
 ```text
 skill-name/
 ├── SKILL.md (必須: 名前、説明、コアとなる指示のみ)
-└── バンドルされたリソース (オプション)
+└── Bundled Resources (オプション)
     ├── scripts/    (繰り返し実行するタスク用の実行可能コード)
     ├── references/ (オンデマンドで読み込まれるドキュメント。例: API スキーマ)
     └── assets/     (出力で使用されるテンプレートやバイナリファイル)
@@ -50,10 +50,10 @@ skill-name/
 
 スキルを手動で書くことももちろん可能ですが、Gemini CLI には `skill-creator` というメタスキルが標準で組み込まれており、これを使うと作業が格段に楽になります。
 
-このスキルを呼び出すには、Gemini CLI にスキルの作成（またはリファクタリング）を依頼するだけです。
+このスキルを呼び出すには、Gemini CLI にスキルの作成（またはリファクタリング）を依頼するだけです：
 > *「ソフトウェアパッケージの実際の最新バージョンを取得する新しいスキルを作って。バージョンのハルシネーションを起こさないようにしたいんだ。」*
 
-「スキル作成」に関するプロンプトであれば通常は自動で `skill-creator` がトリガーされますが、もしモデルの機嫌が悪くて反応が鈍い場合は、次のように明示的に指示することもできます。
+「スキル作成」に関するプロンプトであれば通常は自動で `skill-creator` がトリガーされますが、もしモデルの機嫌が悪くて反応が鈍い場合は、次のように明示的に指示することもできます：
 
 > *「skill-creator を使って、AI 生成テキストの AI っぽさ（スロップ）を排除する de-sloppify スキルを書いて（気を悪くしないでね）」*
 
@@ -61,16 +61,16 @@ Gemini CLI は、スキルのボイラープレート（雛形）を出力する
 
 ## スキルを作るべきタイミング
 
-私の個人的なワークフローでは、スキルを作成する目的は主に2つあります。
+私の個人的なワークフローでは、スキルを作成する目的は主に2つあります：
 
 1. **自分独自のワークフローやプロセスを手順化するため**（例：自分好みのコードレビューの手順、リポジトリの初期化方法、ブログ記事の品質評価など）
 2. **特定のツール、言語、技術に関する専門知識を付与するため**（例：Genkit プロジェクトの構造と動かし方、ADK を使ったエージェント開発の流れなど）
 
-ある意味で、スキルは**スラッシュコマンド**（私は MCP プロンプトとして保存することが多いです）と**ツール**の中間に位置する概念だと言えます。スラッシュコマンドを作るときは「再現可能なプロセス（手順）」を定義したいのであり、ツールを作るときはモデルに「確定的（デターミニスティック）な実行手段」を持たせたいケースがほとんどです。スキルにはプロンプトとスクリプトの両方を含められるため、スクリプトにツールの役割を担わせることで、その両方をひとまとめに実現できます。
+ある意味で、スキルはスラッシュコマンド（私は MCP プロンプトとして保存することが多いです）とツールの間に位置する中間的な概念だと言えます。スラッシュコマンドを作るときは「再現可能なプロセス（手順）」を定義したいのであり、ツールを作るときはモデルに「確定的（デターミニスティック）な実行手段」を持たせたいケースがほとんどです。スキルにはプロンプトとスクリプトの両方を含められるため、スクリプトにツールの役割を担わせることで、その両方をひとまとめに実現できます。
 
 もちろん、スキルを拡張機能（Extension）としてパッケージ化する場合は、ツールを提供する MCP サーバーと一緒に配布されるケースも多いでしょう。スキルの定義内でその連携を活用し、MCP ツールが利用可能な場合にどう呼び出すかをモデルに教え込むことも可能です。
 
-また、私がスキルを新規作成するタイミングも主に2パターンあります。
+また、私がスキルを新規作成するタイミングも主に2パターンあります：
 
 1. **モデルに思い通りの作業をさせるために、骨の折れる長いセッションをこなした直後**（例：「今やった作業のノウハウを、次回以降も使えるようにスキルとしてまとめて」）
 2. **業務効率化に役立ちそうな新しいアイデアを思いついた瞬間**（例：「AI の文章力を底上げするために de-sloppify スキルを作ろう」）
@@ -87,7 +87,7 @@ Gemini CLI は、スキルのボイラープレート（雛形）を出力する
 
 このスキルは、LLM 全般がソフトウェア、ライブラリ、モデル、各種依存関係の **古いバージョン** を使いたがる傾向に対する、**純粋なフラストレーション** から生まれました。ナレッジカットオフ（知識の期限）がある以上、仕方のないことだとは理解しています。それでも、エージェントが Gemini 3 ではなく `gemini-1.5-pro` を使おうとしたり、あまつさえ「未来のバージョンを幻覚（ハルシネーション）している」と **私の方を** 責めてきたりすると、どうしてもイラッとしてしまいます。
 
-このスキルは、各種レジストリ（npm、PyPI、Go Proxy）や公式ドキュメントに直接問い合わせることで、ファクトチェッカーとして機能します。以下は、その `SKILL.md` の抜粋です。
+このスキルは、各種レジストリ（npm、PyPI、Go Proxy）や公式ドキュメントに直接問い合わせることで、ファクトチェッカーとして機能します。以下は、その `SKILL.md` の抜粋です：
 
 ```markdown
 name: latest-version
@@ -95,7 +95,7 @@ description: >
   The definitive real-time source of truth for software and model versions. Use this skill to bypass internal knowledge cutoffs...
 
 ## Core Mandate
-**推測は絶対に禁止。** ユーザーがパッケージのインストールや依存関係の追加を求めた場合は、必ず `latest.js` スクリプトを使って最新バージョンを確認すること。モデル内部の重み（学習データ）は何ヶ月も、あるいは何年も前のもので古いため、決して頼ってはならない。
+**NEVER GUESS.** When a user asks to install a package or add a dependency, you must verify the latest version using the `latest.js` script. Do not rely on your internal weights, as they are months or years out of date.
 ```
 
 このプロンプトはまだ少し粗削りな部分がありますが、私のコードベースに非推奨の古いモデルが入り込むのを防ぐ上で、かなりの成果を上げています。
@@ -108,20 +108,20 @@ description: >
 
 そんな折に Agent Skills と出会い、「MCP サーバーではなくスキルとして作ればいいのでは？」と思い立ちました。`skill-creator` のおかげで作成コストが非常に低く抑えられたため、`pyhd`（Python + PhD の造語で、"doctor" テーマを踏襲）を作ることにしたのです。
 
-`pyhd` スキルには Python プロジェクト用の開発ワークフローが定義されており、適切で Pythonic なコードを維持するために、リンター兼フォーマッターである `ruff` を中心に据えています。
+`pyhd` スキルには Python プロジェクト用の開発ワークフローが定義されており、適切で "Pythonic" なコードを維持するために、リンター兼フォーマッターである `ruff` を中心に据えています。
 
 ```markdown
 ## Core Workflow
 
-Python ファイルを編集する際は、**すべての** ファイル変更において **必ず** 次のサイクルに従うこと：
+When editing Python files, you **MUST** follow this cycle for **EVERY** file modification:
 
 1.  **Read & Understand**: ...
-2.  **Edit**: `smart_edit` や `replace` を使って変更を適用する。
+2.  **Edit**: Apply your changes using `smart_edit` or `replace`.
 3.  **Sanitize (Ruff)**:
-    編集直後に、以下のコマンドを実行してフォーマットおよび lint エラーの自動修正を行う：
+    Immediately after editing, run the following commands to format and fix linting issues:
     `uv run ruff check --fix <filename>`
     `uv run ruff format <filename>`
-4.  **Verify**: テストを実行する...
+4.  **Verify**: Run tests...
 ```
 
 このスキルによって、Python ファイルの編集直後に必ず標準的な lint とフォーマットが実行されるようになり、初期段階でのミスを素早く検知できるようになりました。本格的な "pydoctor" を実装する時間が取れるまでは、これが私の Python 開発における定番スキルになっています。
@@ -136,11 +136,11 @@ GitHub の公開検索のみを利用しているためパーソナルアクセ�
 
 ```markdown
 ### 1. Search for Repositories (Multi-Language)
-`github_search.py` スクリプトを実行する。対象の言語であまりサンプルが見つからない場合は、SDK がサポートしている関連言語も追加して検索する。
+Run the `github_search.py` script. If you can't find many examples in your target language, add related languages supported by the SDK.
 
 ### 4. Clone and Inspect
-選択したリポジトリを `_examples` フォルダにクローンする。
-クローン完了後、`list_files`、`smart_read`、`grep_search` などを使って関連する実装の詳細を調査する。
+Clone the selected repositories into the `_examples` folder.
+Once cloned, use `list_files`, `smart_read`, or `grep_search` to find relevant implementation details.
 ```
 
 また、マルチ言語対応（ポリグロット）の SDK 向けに、別言語でのコード例も探し出せる機能を追加しました。最近作ったばかりのスキルなのでまだ使い込んではいませんが、面白いユースケースの例として紹介しました。

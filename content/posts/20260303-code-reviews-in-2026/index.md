@@ -95,7 +95,7 @@ The ones that aren't your major framework or client library dependencies. These 
 
 This isn't a one-size-fits-all protocol. There is also a lot that can be said about how you are instrumenting your code base. Code reviews alone won't catch all potential problems, and this is why I strongly advocate for automation, now with agentic coding more than never.
 
-Modern coding agents have many extension patterns that allow you to constrain the model and get more deterministic outputs: [Agent Skills]({{< ref "/posts/20260128-agent-skills-gemini-cli/" >}}), hooks, [MCP tools]({{< ref "/posts/20250817-hello-mcp-world/" >}}), policies, rules... Use those tools to put well defined limits to the scope of your agents and your life will become much easier.
+Modern coding agents have many extension patterns that allow you to constrain the model and get more deterministic outputs: [Agent Skills]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}}), [hooks]({{< ref "/posts/20260610-mastering-hooks" >}}), [MCP tools]({{< ref "/posts/20250817-hello-mcp-world/" >}}), policies, rules... Use those tools to put well defined limits to the scope of your agents and your life will become much easier.
 
 A car can only run as fast as its brakes support it. Invest in learning the guardrails for your favourite coding agent, and use your precious time to review what can't be automated.
 

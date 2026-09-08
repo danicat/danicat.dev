@@ -391,7 +391,7 @@ Vejamos como nosso Avaliador de Jogos Retrô é implementado em cada um desses f
 
 O **[Genkit](https://genkit.dev)** opera em um **nível médio de abstração**, trazendo disciplina de engenharia de software e observabilidade integrada para aplicações com IA. No Genkit, tudo é estruturado em torno de **Flows** (pipelines fortemente tipados e observáveis) e **Tools** (funções Go type-safe com geração automática de schemas).
 
-O Genkit é a escolha perfeita para aplicações com **gerações pontuais** (como ferramentas de linha de comando, processamento em lote e webhooks), fluxos determinísticos e agentes focados em um único domínio. Ele suporta múltiplos provedores através de plugins e, por ser executado como um servidor HTTP padrão em Go, pode rodar em qualquer infraestrutura — sendo o **Google Cloud Run** o destino preferencial pela simplicidade no gerenciamento de contêineres e escalabilidade automática.
+O Genkit é a escolha ideal para aplicações com **gerações pontuais** (como ferramentas de linha de comando, processamento em lote e webhooks), fluxos determinísticos e agentes focados em um único domínio (como o [pipeline multimodal de restauração de fotos]({{< ref "/posts/20260216-genkit-go" >}}) que construí anteriormente). Ele suporta múltiplos provedores através de plugins e, por ser executado como um servidor HTTP padrão em Go, pode rodar em qualquer infraestrutura — sendo o **Google Cloud Run** o destino preferencial pela simplicidade no gerenciamento de contêineres e escalabilidade automática.
 
 Abaixo está o Avaliador de Jogos Retrô construído com o Genkit Go:
 

@@ -90,7 +90,7 @@ An example of a documentation skill that I created is [ebitengineer](https://ski
 
 ### Level 2: Process
 
-A skill that enforces a specific process or workflow, such as performing a code review, conducting a security audit, or analysing performance metrics. This type of skill usually bundles not only knowledge but custom scripts or CLI tools to perform tasks, saving the model the effort to build them from scratch every single time you need them.
+A skill that enforces a specific process or workflow, such as [performing a code review]({{< ref "/posts/20260303-code-reviews-in-2026" >}}), conducting a security audit, or analysing performance metrics. This type of skill usually bundles not only knowledge but custom scripts or CLI tools to perform tasks, saving the model the effort to build them from scratch every single time you need them.
 
 You should create process skills whenever you see yourself instructing the model to do the same task over and over, especially if there are deterministic steps that can be scripted. A few process skills that I use a lot belong to the [analytics](https://skills.danicat.dev/analytics) skill set to collect and analyse data from social networks, Google Analytics, and Google Search Console.
 

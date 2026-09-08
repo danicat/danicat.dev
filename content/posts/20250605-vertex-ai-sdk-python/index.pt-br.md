@@ -26,7 +26,7 @@ dependencies:
 
 Este artigo explora o modelo de comunicação entre o código cliente e a API Gemini usando o [SDK da Vertex AI para Python](https://cloud.google.com/vertex-ai/docs/python-sdk/use-vertex-ai-python-sdk?utm_campaign=CDR_0x72884f69_awareness_b422727650&utm_medium=external&utm_source=blog). Vamos cobrir como as mensagens são estruturadas, como o modelo compreende o contexto de uma conversa e como expandir as capacidades do modelo com function calls (chamadas de função). Embora o foco aqui seja o Gemini, os mesmos conceitos se aplicam a modelos como o Gemma e outros LLMs modernos.
 
-[Na Parte 1 desta série]({{< ref "/posts/20250531-diagnostic-agent" >}}), mostrei como criar um agente de IA simples — porém surpreendentemente poderoso — que responde a perguntas de diagnóstico sobre a sua máquina local. Com pouquíssimas linhas de código (e comentários bem detalhados), nosso agente já respondia a pedidos como "quanto de CPU tenho disponível" ou "verifique se há sinais de malware".
+[Na Parte 1 desta série]({{< ref "/posts/20250531-diagnostic-agent" >}}), mostrei como criar um agente de IA simples, porém surpreendentemente poderoso, que responde a perguntas de diagnóstico sobre a sua máquina local. Com pouquíssimas linhas de código (e comentários bem detalhados), nosso agente já respondia a pedidos como "quanto de CPU tenho disponível" ou "verifique se há sinais de malware".
 
 Isso foi possível graças à facilidade do SDK do Python, que abstrai boa parte da complexidade. Por exemplo, usei o recurso de [Automatic Function Calling](https://ai.google.dev/gemini-api/docs/function-calling?example=weather#automatic_function_calling_python_only) para deixar o agente decidir quando invocar cada função. Esse recurso também me permitiu declarar funções Python normais enquanto o SDK inferia assinaturas e docstrings dinamicamente. No entanto, essa facilidade é exclusiva do SDK Python; desenvolvedores em Go, JavaScript ou Java precisam estruturar essas chamadas de forma manual.
 
@@ -70,7 +70,7 @@ Saída:
 Estou funcionando perfeitamente, obrigado por perguntar! Como um modelo de linguagem, não sinto emoções como os humanos, mas estou pronto para ajudar. Como posso ser útil hoje?
 ```
 
-Primeiro instanciamos o cliente — seja no modo Vertex AI (`vertexai=True`) ou fornecendo uma chave de API do Gemini Developer.
+Primeiro instanciamos o cliente (seja no modo Vertex AI (`vertexai=True`) ou fornecendo uma chave de API do Gemini Developer).
 
 Em seguida, enviamos o prompt chamando `client.models.generate_content`, especificando o modelo (`gemini-2.0-flash`) e a mensagem no argumento `contents`.
 

@@ -6,9 +6,7 @@ heroStyle: big
 series:
 - Agent Skills
 series_order: 2
-summary: Aprenda a usar o skill-creator nativo da Gemini CLI para gerar, refinar
-  e estruturar automaticamente suas próprias Agent Skills personalizadas usando exemplos
-  práticos.
+summary: Aprenda a usar o skill-creator nativo da Gemini CLI para gerar, refinar e estruturar automaticamente suas próprias Agent Skills personalizadas usando exemplos práticos.
 tags:
   - agent-skills
   - gemini-cli
@@ -17,7 +15,7 @@ title: "Criando Agent Skills com o skill-creator"
 slug: "gemini-cli-skills-part-2"
 aliases:
   - "/pt-br/posts/20260227-gemini-cli-skills-part-2/"
-description: "Guia de design de Agent Skills com o skill-creator na Gemini CLI. Exemplos práticos: latest-version, pyhd com Ruff, find-examples e de-sloppify."
+description: "Explore o design prático de Agent Skills com o skill-creator da Gemini CLI. Exemplos detalhados: latest-version, pyhd com Ruff, find-examples e de-sloppify."
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
@@ -26,7 +24,7 @@ dependencies:
 ---
 
 {{< alert "circle-info" >}}
-**Atualização (2026):** A Gemini CLI evoluiu para o **Google Antigravity 2.0**. Embora os conceitos fundamentais e a estrutura de Agent Skills apresentados neste artigo continuem válidos, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) para uma visão geral da plataforma atualizada e de seus novos recursos.
+**Atualização (2026):** A Gemini CLI evoluiu para o **Google Antigravity 2.0**. Embora os conceitos fundamentais e a estrutura de Agent Skills abordados neste artigo continuem sendo a base, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) para uma visão geral da plataforma atualizada e de seus novos recursos.
 {{< /alert >}}
 
 Na [Parte 1: Dominando Agent Skills na Gemini CLI]({{< ref "/posts/20260128-agent-skills-gemini-cli" >}}), exploramos como as Agent Skills adicionam novos recursos à Gemini CLI. Analisamos a skill `experiment-analyst` como um exemplo prático de como manter o contexto do agente limpo, fornecendo instruções específicas para uma tarefa.
@@ -106,7 +104,7 @@ Esse prompt ainda parece um pouco rústico, mas tem tido um sucesso razoável a 
 
 ### 2. `pyhd`
 
-Quando criei o servidor MCP `godoctor` no ano passado, queria que ele fosse a ferramenta definitiva (respaldada pela ciência! ^^) para o desenvolvimento agêntico em Go. Não tínhamos skills naquela época, então fazia todo sentido empacotar todas as ferramentas necessárias em um servidor MCP. Por um tempo, flertei com a ideia de criar algo parecido para Python, mas com tantas coisas no backlog isso acabou virando baixa prioridade.
+Quando criei o servidor MCP `godoctor` no ano passado, queria que ele fosse a ferramenta definitiva (respaldada pela ciência! ^^) para o desenvolvimento agêntico em Go. Não tínhamos skills naquela época, então fazia todo sentido empacotar todas as ferramentas necessárias em um servidor MCP. Por um tempo, flertei com a ideia de criar algo parecido para Python, mas com tantas coisas no backlog isso acabou virando baixa prioridade para mim.
 
 Foi aí que conheci as skills e pensei: "por que não transformar isso em uma skill?". Com o `skill-creator`, o esforço de criação ficou muito baixo, então decidi criar o `pyhd` (uma combinação de Python + PhD, mantendo a temática de "doutor").
 
@@ -151,7 +149,7 @@ Também adicionei um recurso em que ela tenta encontrar exemplos em diferentes l
 
 ### 4. `de-sloppify`
 
-Uso essa skill para identificar padrões comuns de escrita gerada por IA. Ela traz um script que calcula um "slop score" com base na escolha de palavras, variação no tamanho das frases e repetições estruturais.
+Uso essa skill para identificar padrões comuns de escrita gerada por IA. Ela traz um script que calcula um "slop score" com base na escolha de palavras, variação no tamanho das frases e repetição estrutural.
 
 O script usa o NLTK para realizar tagging morfossintático (POS tagging), o que ajuda a detectar a alta densidade de substantivos e o uso excessivo de voz passiva típicos de textos de IA sem edição. Ele roda localmente e gera um relatório detalhado dos marcadores encontrados.
 

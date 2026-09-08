@@ -11,7 +11,7 @@ tags:
   - software-engineering
   - tdd
   - vibe-coding
-title: "Domando o Vibe Coding: O Guia da Engenheira"
+title: "Domando o Vibe Coding: O Guia Prático da Engenheira"
 slug: "taming-vibe-coding"
 aliases:
   - "/pt-br/posts/20251206-taming-vibe-coding/"
@@ -187,7 +187,7 @@ Quando você está no assento de pilotagem direcionando o agente, chamo isso de 
 *   **Síncrono:** Gemini CLI, Gemini Code Assist no VS Code, Claude Code.
 *   **Assíncrono:** Jules, Gemini CLI no modo YOLO, GitHub Copilot Agent.
 
-Claro que, como em qualquer taxonomia, essa separação é meramente didática, já que a mesma ferramenta pode operar em modos diferentes — ou um novo paradigma pode emergir (olhando diretamente para você, [Antigravity](https://antigravity.google/)!).
+Claro que, como em qualquer taxonomia, essa separação é meramente didática, já que a mesma ferramenta pode operar em diferentes modos — ou um novo paradigma pode emergir (olhando diretamente para você, [Antigravity](https://antigravity.google/)!).
 
 Para escolher a ferramenta de cada tarefa, adoto uma matriz 2x2 simples baseada em Valor de Negócio (*Business Value*) e Certeza Técnica (*Technical Certainty*):
 
@@ -278,7 +278,7 @@ Neste ciclo adaptado, o foco muda ligeiramente:
 
 *   **Red (Defina os Critérios de Aceitação):** Em vez de escrever o teste unitário que falha na mão, você especifica os critérios de aceitação no prompt. Esse passa a ser o contrato que o modelo é obrigado a cumprir.
 *   **Green (IA Gera o Código):** O agente desenvolve a solução e, preferencialmente, escreve os testes automatizados para comprovar que ela funciona.
-*   **Refactor (Aplique Padrões):** Este é o seu portão de qualidade (*quality gate*). Embora você possa (e deva) usar IA para apoiar na revisão, evite usar a mesma sessão que gerou o código, pois ela terá viés em relação à própria saída. Criei uma ferramenta específica de 'review' no GoDoctor exatamente para isso. Use esta etapa para rodar linters e testes tradicionais, checar se o código atende às suas diretrizes e gerenciar o contexto — commitando as mudanças e limpando o histórico do agente para evitar a degradação de sessões poluídas.
+*   **Refactor (Aplique Padrões):** Este é o seu portão de qualidade (*quality gate*). Embora você possa (e deva) usar IA para apoiar na revisão, evite usar a mesma sessão que gerou o código, pois ela terá viés em relação à própria saída. Criei uma ferramenta específica de "review" no [GoDoctor]({{< ref "/posts/20250729-how-to-build-an-mcp-server-with-gemini-cli-and-go" >}}) exatamente para esse propósito (e mais tarde formalizei meu framework completo de revisão em [Como Fazer Code Reviews na Era Agêntica]({{< ref "/posts/20260303-code-reviews-in-2026" >}})). Use esta etapa para rodar linters e testes tradicionais, checar se o código atende às suas diretrizes e gerenciar o contexto — commitando as mudanças e limpando o histórico do agente para evitar a degradação de sessões poluídas.
 
 ![Ciclo de Vibe Coding](vibe-coding-cycle.png "O loop adaptado de Vibe Coding")
 

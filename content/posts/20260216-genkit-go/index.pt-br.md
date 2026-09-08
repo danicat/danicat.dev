@@ -3,8 +3,7 @@ categories:
 - Applied GenAI
 date: 2026-02-16
 heroStyle: big
-summary: Aprenda a construir uma ferramenta de restauração de fotos em alta fidelidade
-  usando Go, Genkit e os recursos 4K nativos do Nano Banana Pro (Gemini 3 Pro Image).
+summary: Aprenda a construir uma ferramenta de restauração de fotos em alta fidelidade usando Go, Genkit e os recursos 4K nativos do Nano Banana Pro (Gemini 3 Pro Image).
 tags:
   - gemini
   - genkit
@@ -15,7 +14,7 @@ title: "Trazendo Fotos Antigas à Vida com Genkit e Gemini 3"
 slug: "genkit-go-photo-restoration"
 aliases:
   - "/pt-br/posts/20260216-genkit-go/"
-description: "Tutorial prático para criar uma ferramenta de restauração de fotos 4K em Go usando Genkit e Gemini 3 Pro Image (Nano Banana Pro) com dotprompt e flows."
+description: "Tutorial prático para criar uma ferramenta de restauração de fotos 4K em Go usando Genkit e Gemini 3 Pro Image (Nano Banana Pro) com schemas Handlebars dotprompt e flows."
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -23,18 +22,18 @@ dependencies:
   - "Google Cloud Vertex AI"
 ---
 
-Como parte do meu trabalho, conheço todo tipo de pessoa, e um tema muito comum de conversa é sobre a minha ascendência. Não apenas tenho um sobrenome com sonoridade evidente do Leste Europeu, como meus traços também lembram a região, então as pessoas frequentemente assumem que sou polonesa ou tcheca. Muita gente fica surpresa quando conto que, na realidade, sou brasileira nata.
+Como parte do meu trabalho, conheço todo tipo de pessoa, e um tema muito comum de conversa é sobre a minha ascendência. Não apenas tenho um sobrenome com sonoridade evidente do Leste Europeu, como meus traços também lembram a região, então as pessoas frequentemente acham que sou polonesa ou tcheca. Muita gente fica surpresa quando conto que, na realidade, sou originária do Brasil.
 
-Ninguém na família sabe ao certo de onde nossos antepassados vieram, já que sempre fomos realmente **péssimos** em guardar registros históricos. Talvez por termos consciência disso, frequentemente conversamos na família sobre a parte da história que conhecemos e como ela também está se perdendo. Conforme todos vamos envelhecendo, as memórias são as primeiras a ir embora, seguidas pelos documentos e fotos. Há um sentimento natural de tristeza ao perceber que a última vez que vi minha avó foi há 30 anos, e que o rosto dela muitas vezes não passa de um borrão. É por isso que fotografias são tão importantes para mim: elas são a fortaleza para combater a degradação das minhas próprias memórias.
+Ninguém na família sabe ao certo de onde nossos antepassados vieram, já que sempre fomos realmente **péssimos** em guardar registros históricos. Talvez por termos consciência disso, frequentemente conversamos em família sobre a parte da história que conhecemos e como ela também está se perdendo. Conforme todos vamos envelhecendo, as memórias são as primeiras a ir embora, seguidas pelos documentos e fotos. Há um sentimento natural de tristeza ao perceber que a última vez que vi minha avó foi há 30 anos, e que o rosto dela muitas vezes não passa de um borrão. É por isso que fotografias são tão importantes para mim: elas são a fortaleza para combater a degradação das minhas próprias memórias.
 
 Qualquer coisa registrada nos últimos anos pode ser facilmente duplicada e guardada em quantas cópias redundantes na nuvem eu desejar, mas aqui estamos falando de lembranças de antes da era digital. Mesmo que eu as tivesse digitalizado anos atrás, muitas já acumulam décadas de poeira, mofo, desgaste e ranhuras. Estão congeladas no tempo, mas sem chance de melhora por conta própria.
 
-Graças à evolução da IA generativa, nem tudo está perdido: finalmente posso dar um sopro de ar fresco a essas fotos, não apenas restaurando os danos causados pela passagem do tempo, mas também colorindo e fazendo upscale para trazê-las aos padrões modernos. Foi assim que nasceu um pequeno software chamado "GlowUp".
+Graças à evolução da IA generativa, nem tudo está perdido: finalmente posso dar um sopro de ar fresco a essas fotos, não apenas restaurando os danos causados pela passagem do tempo, mas também colorizando e fazendo upscale para trazê-las aos padrões modernos. Foi assim que nasceu um pequeno software chamado "GlowUp".
 
 
 Abaixo está um exemplo dessa restauração:
 
-![Foto original danificada e em preto e branco da minha avó preparando uma torta de banana](original.jpg "Original: minha avó preparando sua mundialmente famosa torta de banana")
+![Foto original danificada e monocromática da minha avó preparando uma torta de banana](original.jpg "Original: minha avó preparando sua mundialmente famosa torta de banana")
 
 ![Foto restaurada e colorizada em alta fidelidade 4K usando o Nano Banana Pro](restored.png "Restaurada: restauração e colorização por Nano Banana Pro")
 
@@ -46,7 +45,7 @@ Optei por usar o Nano Banana Pro (também conhecido como Gemini 3 Pro Image Prev
 
 No lado do cliente, em vez de optar por um SDK de baixo nível como o [go-genai](https://pkg.go.dev/google.golang.org/genai), decidi usar o Genkit, pois ele fornece várias melhorias de qualidade de vida em relação ao código de nível mais baixo, tais como:
 
-- Agnóstico de modelo: posso testar diferentes modelos se desejar, mesmo locais ou de terceiros, com uma simples troca de plugin.
+- Agnóstico quanto a modelos: posso testar modelos diferentes se desejar, mesmo locais ou de fora do ecossistema Google, com uma simples troca de plugin.
 - Suporte nativo à Dev UI para conveniências como testar modelos, prompts e rastreamento (tracing) de chamadas de modelo.
 - Arquitetura flexível: pode ser empacotado tanto como uma aplicação CLI quanto como um servidor web.
 
@@ -168,8 +167,8 @@ Tell me a joke about {{theme}}.
 ### Fluxos (Flows)
 No Genkit, um **Flow** é a unidade fundamental de execução que fornece:
 1.  **Observabilidade**: a execução de cada flow gera automaticamente traces e métricas (latência, uso de tokens, taxa de sucesso) visualizáveis na Genkit Dev UI ou no Google Cloud Trace.
-2.  **Segurança de Tipos (Type Safety)**: flows são estritamente tipados com schemas de entrada e saída, prevenindo erros em tempo de execução ao encadear múltiplas operações de IA.
-3.  **Facilidade de Deploy (Deployability)**: flows são estritamente desacoplados da lógica de serving. Para fazer o deploy, basta envolvê-los com `genkit.Handler`, que converte um flow em um `http.Handler` padrão. Isso torna possível servi-los usando a biblioteca padrão ou qualquer framework web Go:
+2.  **Segurança de Tipos (Type Safety)**: flows são estritamente tipados com schemas de entrada e saída, prevenindo erros em runtime ao encadear múltiplas operações de IA.
+3.  **Facilidade de Deploy (Deployability)**: flows são estritamente desacoplados da lógica de serving. Para fazer o deploy, basta envolvê-los com `genkit.Handler`, que converte um flow em um `http.Handler` padrão. Isso torna possível servi-los usando a biblioteca padrão ou qualquer framework web em Go:
 
 ```go
     // Define a flow
@@ -196,7 +195,7 @@ Ele não apenas "enxerga" pixels; ele compreende o contexto semântico. Sabe dif
 *   **Flash (gemini-2.5-flash-image)**: otimizado para velocidade e custo. Ótimo para miniaturas (thumbnails) ou ilustrações simples. Resolução máxima de 1024x1024.
 *   **Pro (gemini-3-pro-image-preview)**: otimizado para fidelidade e raciocínio. Suporta geração em **resolução 4K** nativa (até 4096px), o que é indispensável para restauração de fotos.
 
-O modelo também aceita parâmetros `imageConfig` para fazer fine-tune no output:
+O modelo também aceita parâmetros `imageConfig` para ajustar o output:
 *   `imageSize`: "4K" ou "2K".
 *   `aspectRatio`: "16:9", "4:3", "1:1", etc.
 
@@ -269,7 +268,7 @@ func defineGlowUpFlow(g *genkit.Genkit) *core.Flow[Input, string, struct{}] {
 }
 ```
 
-Para suportar arquivos locais nativamente, usamos uma função auxiliar `fileToDataURI`. Esta função lê um arquivo local, detecta seu tipo MIME usando `http.DetectContentType` e o codifica em uma Data URI Base64 padrão que a API do Gemini espera. Isso é crítico para manter a fidelidade em diferentes formatos de escaneamento sem fixar extensões no código.
+Para suportar arquivos locais nativamente, usamos uma função auxiliar `fileToDataURI`. Esta função lê um arquivo local, detecta seu tipo MIME usando `http.DetectContentType` e o codifica em uma Data URI Base64 padrão que a API do Gemini espera. Isso é fundamental para manter a fidelidade em diferentes formatos de escaneamento sem fixar extensões no código.
 
 ```go
 func fileToDataURI(path string) (uri, contentType string, err error) {
@@ -283,7 +282,6 @@ func fileToDataURI(path string) (uri, contentType string, err error) {
 	return uri, contentType, nil
 }
 ```
-
 
 Como o Nano Banana Pro é inteligente o suficiente para inferir a proporção de tela (aspect ratio) da imagem de entrada, nós não precisamos de lógicas complexas para calculá-la e injetá-la. Nós apenas fornecemos os pixels e deixamos o modelo fazer o seu trabalho.
 

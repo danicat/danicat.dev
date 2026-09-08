@@ -391,7 +391,7 @@ Let's examine how our Retro Game Appraiser is implemented in each framework.
 
 **[Genkit](https://genkit.dev)** operates at a **medium abstraction level**, bringing software engineering discipline and structured observability to AI applications. In Genkit, everything is organised around **Flows** (strongly-typed, observable pipelines) and **Tools** (type-safe Go functions with automatic schema generation).
 
-Genkit is the ideal choice for applications with **one-off generation** (such as CLI tools, batch processing, and webhook endpoints), deterministic workflows, and single-domain agents. It natively supports multiple model providers through plugins, and because a Genkit app is simply a standard Go HTTP server, it can run on any backend platform — with **Google Cloud Run** being the preferred deployment target for seamless container hosting and automatic scaling.
+Genkit is the ideal choice for applications with **one-off generation** (such as CLI tools, batch processing, and webhook endpoints), deterministic workflows, and single-domain agents (like the [multimodal photo restoration pipeline]({{< ref "/posts/20260216-genkit-go" >}}) I built earlier). It natively supports multiple model providers through plugins, and because a Genkit app is simply a standard Go HTTP server, it can run on any backend platform — with **Google Cloud Run** being the preferred deployment target for seamless container hosting and automatic scaling.
 
 Here is the Retro Game Appraiser implemented with Genkit Go:
 

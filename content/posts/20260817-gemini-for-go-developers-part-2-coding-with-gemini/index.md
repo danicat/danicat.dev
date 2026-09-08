@@ -104,13 +104,13 @@ Because skills can be packaged with scripts, some people are even ditching MCPs 
 
 A [skill](https://agentskills.io) is a directory containing instructions (`SKILL.md`), optional helper scripts, and documentation that teach an agent how to execute a specific engineering workflow.
 
-The defining architectural concept behind skills is **progressive disclosure**. Instead of dumping hundreds of pages of documentation into the agent's context window up front, the system only injects the skill's name and description. When the agent determines that a task matches a skill, it loads the full `SKILL.md` instructions and executes the bundled scripts on demand. This model ensures specialist knowledge is always available, but doesn't overwhelm the context window or distract your agent with data that is not relevant to the task at hand.
+The defining architectural concept behind skills is **progressive disclosure** (explore production patterns in [The Pragmatic Guide to Agent Skills]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}})). Instead of dumping hundreds of pages of documentation into the agent's context window up front, the system only injects the skill's name and description. When the agent determines that a task matches a skill, it loads the full `SKILL.md` instructions and executes the bundled scripts on demand. This model ensures specialist knowledge is always available, but doesn't overwhelm the context window or distract your agent with data that is not relevant to the task at hand.
 
 Agents use skill descriptions to identify their activation triggers, but relying solely on automatic activation is risky. By default, Antigravity maps all skills as slash commands, so you can force a skill activation by typing `/<skill-name>` anywhere within your prompt. Being proactive with skill activation will save you a lot of headaches if the skill is important for your workflow.
 
 ### Hooks
 
-While rules, prompts, and even skills offer soft guidance, **hooks** introduce deterministic control into the agent loop. Hooks are callbacks that intercept the agent lifecycle at specific moments, such as before a tool runs (`PreToolUse`), after a tool executes (`PostToolUse`), before a model invocation (`PreInvocation`), or upon session termination (`Stop`).
+While rules, prompts, and even skills offer soft guidance, [**hooks**]({{< ref "/posts/20260610-mastering-hooks" >}}) introduce deterministic control into the agent loop. Hooks are callbacks that intercept the agent lifecycle at specific moments, such as before a tool runs (`PreToolUse`), after a tool executes (`PostToolUse`), before a model invocation (`PreInvocation`), or upon session termination (`Stop`).
 
 Because LLMs are non-deterministic, telling an agent to "always run a linter after editing code" via prompts leaves validation up to chance. Hooks, on the other hand, are controlled by the harness and always run for their given event.
 
@@ -120,7 +120,7 @@ It saddens me to say this: in the past, I used hooks a lot, but with the new gen
 
 ### Subagents
 
-**Subagents** offer another solution to the context window problem, while also enabling some interesting paradigms, like parallel execution. By spawning subagents, the main agent can segment the problem space and create an agent focused on each task.
+[**Subagents**]({{< ref "/posts/20260722-the-rise-of-the-subagents" >}}) offer another solution to the context window problem, while also enabling some interesting paradigms, like parallel execution. By spawning subagents, the main agent can segment the problem space and create an agent focused on each task.
 
 A trivial example would be to work on a web service that has both a frontend and a backend. The changes are essentially orthogonal to each other: the frontend requires HTML, CSS, and JavaScript, while the backend requires Go, Python, and maybe some SQL. Both frontend and backend tasks will have different coding standards and build pipelines. With the exception of their contract, they have nothing in common and if done in the same context window, one part will only be noise for the other.
 

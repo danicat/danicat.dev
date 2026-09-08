@@ -105,7 +105,7 @@ Preview ウィンドウでの表示：
 
 ![データベースシークレットを削除するGeminiの提案](images/image011.png "データベースシークレットを削除するGeminiの提案")
 
-これは非常に重要な教訓です。AIがどれほど進化しても、エンジニアが評価・判断を下す責任から解放されるわけではありません。最終的に本番環境の責任を負うのは私たち自身です。すべてを自分の目で検証する姿勢を忘れないようにしましょう 🙂
+これは非常に重要な教訓です。AIがどれほど進化しても、エンジニアが評価・判断を下す責任から解放されるわけではありません。最終的に本番環境の責任を負うのは私たち自身です（私たちの仕事がかかっています！）。すべてを自分の目で検証する姿勢を忘れないようにしましょう 🙂
 
 検証という点では、もうひとつ気になったことがありました。Gemini が提案してきた Cloud SQL のインスタンスタイプが `db-perf-optimized-N-8` というかなりハイスペックなものだったのです。小さなプロトタイプには明らかに過剰スペックなので、プロンプトでコストを抑えるよう指示してみます。
 
@@ -119,7 +119,7 @@ Preview ウィンドウでの表示：
 
 ![Geminiがマシンタイプ（tier）も変更したことを示すTerraform差分](images/image013.png "Geminiがマシンタイプ（tier）も変更したことを示すTerraform差分")
 
-これには納得がいかなかったので、理由を問い詰めてみました。
+これには納得がいかなかったので、理由を尋ねてみました。
 
 > なぜ MySQL のほうが PostgreSQL よりもコスト効率が良いと考えるのですか？（Why do you consider MySQL more cost effective than PostgreSQL?）
 
@@ -146,7 +146,7 @@ Gemini からの回答では、MySQL が PostgreSQL よりコスト効率が良�
 
 アーキテクチャの設計が固まったら、UI右上にある［&lt;&gt; Get Code（コードを取得）］ボタンをクリックします。これで、生成された Terraform コード一式が zip ファイルとしてパッケージングされ、ローカルマシンにダウンロードできるようになります。
 
-本記事の執筆時点では、Application Design Center は GitHub や GitLab、Google Cloud Source Repositories、Bitbucket といった VCS（バージョン管理システム）との直接連携をサポートしていません。ツールからコードを取り出す手段は、現時点ではこの zip ダウンロードのみとなります。
+本記事の執筆時点では、Application Design Center は GitHub や GitLab、Google Source、Bitbucket といったバージョン管理システムとの直接連携をサポートしていません。ツールからコードを取り出す手段は、現時点ではこの zip ダウンロードのみとなります。
 
 組織（Organization）階層がセットアップされた企業アカウントであれば、この設計をそのまま AppHub 経由でデプロイできますが、個人アカウントを利用している場合は、現時点ではコードのダウンロードまでがツールの対応範囲となります。
 
@@ -155,7 +155,7 @@ Gemini からの回答では、MySQL が PostgreSQL よりコスト効率が良�
 
 ［Edit app design］ボタンをクリックしたときの挙動は、Google Cloud コンソールの設定環境によって異なります。組織（Organization）に紐付いていない個人アカウントで試している場合、設計図の閲覧と Terraform コードのダウンロードができる「Preview」ウィンドウは開きますが、Application Design Center のフル機能 UI にはアクセスできません。
 
-フル機能を利用するには組織配下のアカウントである必要があります。Application Design Center のセットアップには「ADC 有効化（App Design Center enabled）」フォルダーという特殊なフォルダー構成が必要となるためです。組織を持たないアカウントではフォルダーを作成できず、組織内であってもクラウド管理者によるフォルダー設定が必要になります。
+フル機能を利用するには組織配下のアカウントである必要があります。Application Design Center のセットアップには「ADC 有効化（app design center enabled）」フォルダーという特殊なフォルダー構成が必要となるためです。組織を持たないアカウントではフォルダーを作成できず、組織内であってもクラウド管理者によるフォルダー設定が必要になります。
 
 そのため、組織に属していない個人開発者アカウントでは、現時点では ADC の全機能をフルに活用することはできません。
 
@@ -170,6 +170,6 @@ UI や Gemini の提案精度にはまだ粗削りな部分が残っているも
 
 このツールは今後数ヶ月で急速に進化していくはずなので、この記事の内容も早晩アップデートされていくでしょう。最新情報をキャッチアップするには公式の [Application Design Center](https://cloud.google.com/application-design-center/docs/overview?utm_campaign=CDR_0x72884f69_awareness_b428663487&utm_medium=external&utm_source=blog) ドキュメントをチェックしてみてください。もちろん本ブログでも、面白い新機能やアップデートがあれば随時取り上げていきます。
 
-プロンプトのアイデアとして、「コスト効率を高めて（make it cost effective）」「高可用性構成にして（make it highly available）」「なぜ Y ではなく X を選んだのか説明して（explain why x instead of y）」「X を Y に置き換えて（replace x with y）」「初心者にもわかりやすく解説して（explain x to me like I’m 5）」など、いろいろなプロンプトを試してみるのがおすすめです。
+プロンプトのアイデアとして、「make it cost effective（コスト効率を高めて）」「make it highly available（高可用性構成にして）」「explain why x instead of y（なぜ Y ではなく X を選んだのか説明して）」「replace x with y（X を Y に置き換えて）」「explain x to me like I’m 5（5歳児にもわかるように説明して）」など、クリエイティブなプロンプトをいろいろ試してみるのがおすすめです。
 
-皆さんはどう思いましたか？こうしたツールにワクワクしますか、それとも脅威を感じますか？面白いプロンプトを見つけたら、ぜひ下のコメント欄で教えてください！
+皆さんはどう思いましたか？こうしたツールにワクワクしますか、それとも怖さを感じますか？面白いプロンプトを見つけたら、ぜひ下のコメント欄で教えてください！

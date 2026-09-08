@@ -2,7 +2,7 @@
 categories:
 - Perspectives
 date: '2025-05-20T17:38:53+01:00'
-summary: Uma introdução ao propósito deste blog — compartilhar jornadas técnicas em desenvolvimento de software, computação em nuvem e IA.
+summary: "Uma introdução ao propósito deste blog: compartilhar jornadas técnicas em desenvolvimento de software, computação em nuvem e IA."
 tags:
   - blogging
   - career
@@ -21,7 +21,7 @@ Meu nome é Daniela Petruzalek e atualmente trabalho como Developer Relations En
 
 ## Propósito e Abordagem
 
-Embora eu já venha compartilhando conteúdo técnico em eventos e plataformas como o GitHub, eu queria um espaço para trazer artigos mais detalhados e estruturados em torno de histórias reais. O objetivo é ir além de tutoriais simplistas e documentar de verdade o processo de construção e aprendizado — incluindo os tropeços e desafios que surgem no caminho.
+Embora eu já venha compartilhando conteúdo técnico em eventos e plataformas como o GitHub, eu queria um espaço para trazer artigos mais detalhados e estruturados em torno de histórias reais. O objetivo é ir além de tutoriais simplistas e documentar de verdade o processo de construção e aprendizado, incluindo os tropeços e desafios que surgem no caminho.
 
 O site em si foi construído com [Hugo](https://gohugo.io/) e o tema [Blowfish](https://blowfish.page/). Essa escolha reflete minha preferência por ferramentas rápidas, simples e customizáveis, o que é um padrão recorrente nas decisões técnicas sobre as quais costumo escrever.
 
