@@ -70,3 +70,14 @@ This is an unlisted directory of profile photos, avatars, and campaign media ass
 - **Alt Text:** `A selfie of Daniela Petruzalek smiling and holding up a vintage copy of the book "Peter Norton's Assembly Language Book for the IBM PC" by Peter Norton and John Socha (Brady Books), featuring the classic photo of Peter Norton in a white shirt and red tie with crossed arms next to an IBM PC.`
 
 ![Peter Norton Assembly & 486 Story](/images/socials/2026-08-norton-assembly.png)
+
+---
+
+### Go Live Fridays Podcast (September 2026)
+- **Campaign:** *Go Live Fridays Podcast Concept*
+- **Direct URL:** [`https://danicat.dev/images/socials/2026-09-go-live-fridays.png`](https://danicat.dev/images/socials/2026-09-go-live-fridays.png)
+- **Format:** PNG (1376×768 px, 16:9, ~1.7 MB)
+- **Alt Text:** `A warm watercolor illustration of two cute Go gopher mascots wearing headphones and speaking into vintage microphones while hosting a podcast together in a cozy studio.`
+
+![Go Live Fridays Podcast Concept](/images/socials/2026-09-go-live-fridays.png)
+
