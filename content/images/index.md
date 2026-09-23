@@ -81,3 +81,14 @@ This is an unlisted directory of profile photos, avatars, and campaign media ass
 
 ![Go Live Fridays Podcast Concept](/images/socials/2026-09-go-live-fridays.png)
 
+---
+
+### Broken Windows and AI Agents (September 2026)
+- **Campaign:** *Broken Windows in the Age of AI Coding Agents*
+- **Direct URL:** [`https://danicat.dev/images/socials/2026-08-broken-windows.png`](https://danicat.dev/images/socials/2026-08-broken-windows.png)
+- **Format:** PNG (1200×630 px, ~1.5 MB)
+- **Alt Text:** `A watercolor split illustration showing nocturnal decay vs luminous disciplined order`
+
+![Broken Windows in the Age of AI Coding Agents](/images/socials/2026-08-broken-windows.png)
+
+
