@@ -212,4 +212,4 @@ Se você deseja uma configuração opinativa para começar a trabalhar com o Gem
 
 Neste capítulo, cobrimos o panorama de harnesses de agentes, padrões de customização (regras, MCP, skills, hooks, subagentes e plugins) e como configurar um ambiente prático para programar em Go com o Gemini.
 
-Na **Parte 3: Desenvolvendo Agentes em Go**, vamos atravessar para o outro lado da mesa: construir runtimes de agentes autônomos em Go. Vamos explorar loops de chamada de ferramentas (*tool calling*), engenharia de contexto e frameworks de agentes de nível superior como o **Genkit Go** e o **Agent Development Kit (ADK)**. Até lá!
+Na [**Parte 3: Construindo Agentes em Go**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}), vamos atravessar para o outro lado da mesa: construir runtimes de agentes autônomos em Go. Vamos explorar loops de chamada de ferramentas (*tool calling*), engenharia de contexto e frameworks de agentes de nível superior como o **Genkit Go** e o **Agent Development Kit (ADK)**. Até lá!

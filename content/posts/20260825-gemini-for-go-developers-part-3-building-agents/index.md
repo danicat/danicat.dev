@@ -847,11 +847,6 @@ Instead of provisioning databases and writing custom session storage adapters yo
 
 ## What's next?
 
-It is difficult to do justice to all of these frameworks or runtime platforms in a single article, but don't worry — across the remainder of this series we will explore them in depth:
-
-* **Part 4**: Deep dive into **Genkit for Go** — dotprompt templates, custom plugins, streaming, and observability with the Dev UI.
-* **Part 5**: Deep dive into **Agent Development Kit (ADK)** — building autonomous multi-agent hierarchies, subagent delegation, and session state.
-* **Part 6**: Deploying Go agents to **Cloud Run** and the **Gemini Enterprise Agent Platform** with production-grade CI/CD and IAM.
-* **Part 7**: Shifting gears into game development in Go with **[Ebitengine](https://ebitengine.org/)**.
+It is difficult to do justice to all of these frameworks in a single article, so in the upcoming chapters of **Gemini for Go Developers** we will explore them in depth. In [**Part 4: Building Agentic Backends with Genkit Go**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}), we will take a deep dive into Genkit Go — covering typed flows, `dotprompt` templates, middleware, Agent Skills, stateful multi-agent delegation, and production observability — before moving on to Google's **Agent Development Kit (ADK)** in a future chapter.
 
 Stay tuned, and happy hacking!

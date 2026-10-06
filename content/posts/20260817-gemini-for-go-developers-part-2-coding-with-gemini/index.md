@@ -214,4 +214,4 @@ If you want an opinionated setup to start working with Gemini today, here is the
 
 In this chapter, we covered the landscape of agent harnesses, customisation standards (rules, MCP, skills, hooks, subagents, and plugins), and how to configure a practical environment for coding in Go with Gemini.
 
-In **Part 3: Developing Agents in Go**, we will cross over to the other side of the table: building autonomous agent runtimes in Go. We will explore tool-calling loops, context engineering, and higher-level agent frameworks like **Genkit Go** and the **Agent Development Kit (ADK)**. See you there!
+In [**Part 3: Building Agents in Go**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}), we will cross over to the other side of the table: building autonomous agent runtimes in Go. We will explore tool-calling loops, context engineering, and higher-level agent frameworks like **Genkit Go** and the **Agent Development Kit (ADK)**. See you there!

@@ -21,7 +21,7 @@ dependencies:
   - "google.golang.org/genai"
 ---
 
-Welcome to **Gemini for Go Developers**! This series is your complete guide to building AI-powered software in Go. Across seven hands-on chapters, we will cover everything from agentic coding, to building autonomous agents with **Genkit** and **ADK**, developing games, and using the full **G3 Stack** (Go, Gemini, GCP) to deploy applications to the cloud.
+Welcome to **Gemini for Go Developers**! This series is your complete guide to building AI-powered software in Go. Across a series of hands-on chapters, we will cover everything from agentic coding, to building autonomous agents with **Genkit** and **ADK**, developing games, and using the full **G3 Stack** (Go, Gemini, GCP) to deploy applications to the cloud.
 
 In Chapter 1, we lay the foundation by exploring the Gemini model family, model configurations, and writing our first code with the official [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai).
 

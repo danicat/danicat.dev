@@ -21,7 +21,7 @@ dependencies:
   - "google.golang.org/genai"
 ---
 
-Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir software potencializado por IA em Go. Ao longo de sete capítulos práticos, abordaremos desde codificação agentiva e a criação de agentes autônomos com **Genkit** e **ADK**, até o desenvolvimento de jogos e o uso da **G3 Stack** completa (Go, Gemini, GCP) para fazer deploy de aplicações na nuvem.
+Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir software potencializado por IA em Go. Ao longo de uma série de capítulos práticos, abordaremos desde codificação agentiva e a criação de agentes autônomos com **Genkit** e **ADK**, até o desenvolvimento de jogos e o uso da **G3 Stack** completa (Go, Gemini, GCP) para fazer deploy de aplicações na nuvem.
 
 No Capítulo 1, estabelecemos a base explorando a família de modelos Gemini, configurações de modelos e escrevendo nosso primeiro código com o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
 

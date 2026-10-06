@@ -847,11 +847,6 @@ Em vez de provisionar bancos de dados e escrever adaptadores manuais de persist�
 
 ## O que vem a seguir?
 
-É difícil fazer justiça a todos esses frameworks e plataformas de execução em um único artigo, mas não se preocupe — ao longo dos próximos capítulos desta série vamos nos aprofundar em cada um deles:
-
-* **Parte 4**: Mergulho no **Genkit para Go** — templates dotprompt, plugins customizados, streaming e observabilidade com o Dev UI.
-* **Parte 5**: Mergulho no **Agent Development Kit (ADK)** — construção de hierarquias multiagente autônomas, delegação para subagentes e gerenciamento de sessões.
-* **Parte 6**: Publicação de agentes Go no **Cloud Run** e na **Gemini Enterprise Agent Platform** com CI/CD e IAM prontos para produção.
-* **Parte 7**: Mudando de marcha para o desenvolvimento de jogos em Go com o **[Ebitengine](https://ebitengine.org/)**.
+É difícil fazer justiça a todos esses frameworks em um único artigo, por isso nos próximos capítulos de **Gemini para Desenvolvedores Go** vamos nos aprofundar em cada um deles. Na [**Parte 4: Construindo Backends Agentivos com Genkit Go**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}), faremos um mergulho profundo no Genkit Go — cobrindo fluxos tipados, templates `dotprompt`, middlewares, Agent Skills, delegação multiagente com estado e observabilidade em produção — antes de explorar o **Agent Development Kit (ADK)** do Google em um capítulo futuro.
 
 Fique ligado, e boas programações!

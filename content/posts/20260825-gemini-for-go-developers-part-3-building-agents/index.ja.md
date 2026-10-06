@@ -847,11 +847,6 @@ Cloud Runの主なメリット:
 
 ## 次回予告
 
-1つの記事ですべてのフレームワークやランタイム環境を網羅し切ることは困難ですが、ご安心ください。本シリーズの今後の記事でそれぞれを徹底的に深掘りしていきます。
-
-* **第4部**: **Genkit for Go** のディープダイブ — dotpromptテンプレート、カスタムプラグイン、ストリーミング、Dev UIによる可観測性。
-* **第5部**: **Agent Development Kit (ADK)** のディープダイブ — 自律型マルチエージェント階層の構築、サブエージェントへの委譲、セッション状態管理。
-* **第6部**: 本番環境レベルのCI/CDとIAMを備えた、Goエージェントの **Cloud Run** および **Gemini Enterprise Agent Platform** へのデプロイ。
-* **第7部**: **[Ebitengine](https://ebitengine.org/)** を使用したGoによるゲーム開発への展開。
+1つの記事ですべてのフレームワークを網羅し切ることは困難ですので、「Go開発者のためのGemini」の今後の章でそれぞれを詳しく掘り下げていきます。[**第4部：Genkit Goによるエージェンティック・バックエンドの構築**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}})では、型付きフロー、`dotprompt` テンプレート、ミドルウェア、Agent Skills、ステートフルなマルチエージェント委譲、そして本番環境の可観測性まで Genkit Go を徹底解説し、その後の章で Google の **Agent Development Kit (ADK)** も詳しく取り上げる予定です。
 
 Stay tuned, and happy hacking!
