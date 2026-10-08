@@ -10,6 +10,109 @@
   },
   "talks": [
     {
+      "id": "2026-09-30-gdg-london-a-tale-of-three-agents-building-agents-in-go",
+      "title": "A Tale of Three Agents: Building Agents in Go",
+      "event": "GDG London",
+      "date": "2026-09-30",
+      "location": "London, UK",
+      "url": null,
+      "summary": "An exploration of three distinct architectural approaches to building AI agents in Go: low-level integration with the GenAI SDK, middleware-driven flows using Genkit, and autonomous agent orchestration with the Agent Development Kit (ADK).",
+      "image": "https://files.speakerdeck.com/presentations/dbdc6edb389c4f71a7c666a9ea4fb329/preview_slide_0.jpg?40827016",
+      "slides": "https://speakerdeck.com/danicat/gdg-london-a-tale-of-three-agents",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "adk",
+        "ai-agents",
+        "gemini",
+        "genkit",
+        "golang"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-09-23-ai-devcamp-by-gdg-london-rich-interfaces-with-a2ui-the-good-the-bad-and-the-ugly",
+      "title": "Rich Interfaces With A2UI: The Good, The Bad and The Ugly",
+      "event": "AI DevCamp by GDG London",
+      "date": "2026-09-23",
+      "location": "London, UK",
+      "url": "https://aidevcamp.gdg.london/",
+      "summary": "A practical deep dive into rendering interactive agent interfaces using A2UI and Web Components with ADK, covering architecture patterns, real-world lessons, and common pitfalls.",
+      "image": "https://files.speakerdeck.com/presentations/bcd21ea337b34c2eb0aee42ab99cd44e/preview_slide_0.jpg?40661105",
+      "slides": "https://speakerdeck.com/danicat/gdg-london-rich-interfaces-with-a2ui-the-good-the-bad-and-the-ugly",
+      "recording": null,
+      "source_code": "https://github.com/danicat/aida",
+      "codelab": null,
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "a2ui",
+        "adk",
+        "ai-agents",
+        "web-components"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-09-03-gophercon-latam-2026-construindo-agentes-de-ia-usando-go",
+      "title": "Construindo agentes de IA usando Go",
+      "event": "GopherCon LATAM 2026",
+      "date": "2026-09-03",
+      "location": "Florianópolis, Brazil",
+      "url": "https://gopherconlatam.org/",
+      "summary": "Presentation on developing autonomous AI agents in Go, walking through design patterns from low-level API calls with the GenAI SDK to structured workflows with Genkit and full agent systems with ADK.",
+      "image": "https://files.speakerdeck.com/presentations/7da7a93607df47f3a903cdcc8f4e69e9/preview_slide_0.jpg?40490934",
+      "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-construindo-agentes-de-ia-usando-go",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": null,
+      "language": "pt-BR",
+      "tags": [
+        "adk",
+        "ai-agents",
+        "gemini",
+        "genkit",
+        "golang"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-09-03-gophercon-latam-2026-gemini-para-desenvolvedores-go",
+      "title": "Gemini para Desenvolvedores Go",
+      "event": "GopherCon LATAM 2026",
+      "date": "2026-09-03",
+      "location": "Florianópolis, Brazil",
+      "url": "https://gopherconlatam.org/",
+      "summary": "Comprehensive workshop for Go developers exploring the Google GenAI SDK, function calling, embeddings, Model Context Protocol (MCP) integration, and vibe-coding a mini game with Gemini CLI.",
+      "image": "https://files.speakerdeck.com/presentations/efb8ab47747645cdab3219ba595f790b/preview_slide_0.jpg?40496029",
+      "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-gemini-para-desenvolvedores-go",
+      "recording": null,
+      "source_code": "https://github.com/danicat/gclatam26",
+      "codelab": null,
+      "materials": null,
+      "language": "pt-BR",
+      "tags": [
+        "gemini",
+        "golang",
+        "mcp",
+        "vibe-coding",
+        "workshop"
+      ],
+      "categories": [
+        "Applied GenAI"
+      ]
+    },
+    {
       "id": "2026-06-09-google-cloud-summit-dach-2026-building-rich-agent-uis-from-text-to-web-components-with-adk-a2ui",
       "title": "Building Rich Agent UIs: From Text to Web Components with ADK & A2UI",
       "event": "Google Cloud Summit DACH 2026",
