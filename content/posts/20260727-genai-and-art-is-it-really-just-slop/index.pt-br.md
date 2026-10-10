@@ -2,7 +2,7 @@
 categories:
 - Perspectives
 date: 2026-07-27 19:40:00+00:00
-feature: feature.jpg
+feature: featured.jpg
 heroStyle: big
 summary: Toda grande transformação tecnológica enfrenta resistência moralizante antes
   de se consolidar como o novo cânone. Um ensaio sobre gatekeeping, linguagem de domínio

@@ -1,83 +1,86 @@
 {{ define "main" }}
 {{ .Scratch.Set "scope" "list" }}
 
-<header>
+<header class="mt-5 mb-8">
   {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
-  {{ partial "breadcrumbs.html" . }}
+    {{ partial "breadcrumbs.html" . }}
   {{ end }}
-  <h1 class="mt-5 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
-  <div class="mt-4 mb-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
-    {{ .Params.Description | default .Summary }}
-  </div>
+  <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+  {{ with (.Params.Summary | default .Params.Description) }}
+    <div class="mt-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ . }}
+    </div>
+  {{ end }}
 </header>
 
 {{ if .Content }}
-<section class="mt-12 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
-    <div class="min-w-0 min-h-0 max-w-prose">
-      {{ .Content }}
-    </div>
+<section class="mt-6 mb-8 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
+  <div class="min-w-0 min-h-0 max-w-prose">
+    {{ .Content }}
+  </div>
 </section>
 {{ end }}
 
 {{ if gt (len .Pages) 0 }}
-<section class="space-y-10 w-full mt-0 flex flex-col">
-    {{ $lastYear := "" }}
-    {{ range .Pages.ByDate.Reverse }}
-        {{ $currentYear := .Date.Year }}
-        
-        {{ if ne $currentYear $lastYear }}
-            <h2 class="mt-12 text-2xl font-bold text-neutral-700 first:mt-0 dark:text-neutral-300">
-                {{ $currentYear }}
-            </h2>
-            {{ $lastYear = $currentYear }}
-        {{ end }}
-
-        <div class="flex flex-wrap md:flex-nowrap article">
-            
-            {{/* Image Column */}}
-            {{ $featured := "" }}
-            {{ if .Params.featureimage }}
-                {{ $featured = .Params.featureimage }}
-            {{ else }}
-                {{ $images := .Resources.ByType "image" }}
-                {{ $match := $images.GetMatch "*feature*" }}
-                {{ if not $match }}{{ $match = $images.GetMatch "*cover*" }}{{ end }}
-                {{ if not $match }}{{ $match = $images.GetMatch "*thumbnail*" }}{{ end }}
-                {{ if $match }}
-                    {{ $featured = $match.RelPermalink }}
-                {{ else }}
-                    {{ $featured = "/images/codelabs/placeholder.png" }}
-                {{ end }}
-            {{ end }}
-
-            <div class="w-full md:w-auto h-full thumbnail_card nozoom thumbnailshadow md:mr-7 flex-shrink-0" style="background-image:url({{ $featured }});"></div>
-
-                        {{/* Content Column */}}
-            <div class="mt-3 md:mt-0 flex flex-col flex-grow min-w-0">
-                <div class="mb-2">
-                    <h3 class="text-xl font-bold text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
-                        <a href="{{ .Params.externalUrl | default .RelPermalink }}" target="_blank" rel="external noopener">
-                            {{ .Title | emojify }}
-                            {{ if .Params.externalUrl }}
-                                <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
-                                    <span class="rtl:hidden">&#8599;</span>
-                                    <span class="ltr:hidden">&#8598;</span>
-                                </span>
-                            {{ end }}
-                        </a>
-                    </h3>
-                </div>
-
-                <div class="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
-                    {{ partial "article-meta/basic.html" . }}
-                </div>
-
-                <div class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed mb-4 prose dark:prose-invert max-w-none">
-                    {{ .Summary | plainify }}
-                </div>
-            </div>
-        </div>
+<section class="space-y-6 w-full mt-0 flex flex-col">
+  {{ range .Pages.ByDate.Reverse }}
+    {{ $href := .Params.externalUrl | default .RelPermalink }}
+    {{ $featured := "" }}
+    {{ if .Params.featureimage }}
+      {{ $featured = .Params.featureimage }}
+    {{ else }}
+      {{ $images := .Resources.ByType "image" }}
+      {{ $match := $images.GetMatch "*feature*" }}
+      {{ if not $match }}{{ $match = $images.GetMatch "*cover*" }}{{ end }}
+      {{ if not $match }}{{ $match = $images.GetMatch "*thumbnail*" }}{{ end }}
+      {{ if $match }}
+        {{ $featured = $match.RelPermalink }}
+      {{ else }}
+        {{ $featured = "/images/codelabs/placeholder.png" }}
+      {{ end }}
     {{ end }}
+
+    <article class="article-link--simple danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative">
+      <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }} class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block" tabindex="-1" aria-hidden="true">
+        <img src="{{ $featured }}" alt="{{ .Title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+      </a>
+
+      <div class="flex flex-col justify-between grow min-w-0">
+        <div>
+          <header class="items-center text-start">
+            <h3>
+              <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }}
+                 class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+                {{ .Title | emojify }}
+                {{ if .Params.externalUrl }}
+                  <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
+                    <span class="rtl:hidden">&#8599;</span>
+                    <span class="ltr:hidden">&#8598;</span>
+                  </span>
+                {{ end }}
+              </a>
+            </h3>
+          </header>
+
+          <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400 flex flex-row flex-wrap items-center">
+            {{ partial "meta/date.html" .Date }}
+            {{ with .Params.proficiencyLevel }}
+              <span class="px-2 text-primary-500">&middot;</span>
+              <span>{{ . }}</span>
+            {{ end }}
+            {{ with .Params.dependencies }}
+              <span class="px-2 text-primary-500">&middot;</span>
+              <span>{{ delimit . ", " }}</span>
+            {{ end }}
+          </div>
+        </div>
+
+        <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+          {{ .Summary | plainify }}
+        </div>
+      </div>
+    </article>
+  {{ end }}
 </section>
 {{ end }}
 

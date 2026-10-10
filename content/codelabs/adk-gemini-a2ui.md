@@ -15,5 +15,7 @@ showSummary: true
 description: "Step-by-step codelab on building rich agentic user interfaces with Google ADK and A2UI. Learn dynamic web component rendering and event streaming."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Python 3.10+\n  - Google ADK\n  - A2UI
+  - Python 3.10+
+  - Google ADK
+  - A2UI
 ---

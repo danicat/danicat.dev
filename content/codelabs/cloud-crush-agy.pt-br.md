@@ -16,5 +16,7 @@ showSummary: true
 description: "Construa o Cloud Crush, um jogo Match-3 em Go e Ebitengine usando o Gemini 3 e a CLI Antigravity com testes automatizados no navegador."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.22+\n  - Ebitengine v2\n  - Antigravity CLI
+  - Go 1.22+
+  - Ebitengine v2
+  - Antigravity CLI
 ---

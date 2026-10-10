@@ -2,7 +2,7 @@
 categories:
 - Perspectives
 date: 2026-07-27 19:40:00+00:00
-feature: feature.jpg
+feature: featured.jpg
 heroStyle: big
 summary: あらゆる技術的変革は、新たな規範（カノン）として定着する前に道徳的な反発に直面してきました。ゲートキーピング、ドメイン言語、そして人間の創作意図をめぐるエッセイ。
 tags:

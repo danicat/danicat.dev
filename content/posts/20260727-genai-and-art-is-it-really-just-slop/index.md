@@ -2,7 +2,7 @@
 categories:
 - Perspectives
 date: 2026-07-27 19:40:00+00:00
-feature: feature.jpg
+feature: featured.jpg
 heroStyle: big
 summary: Every major technological shift faces moralizing resistance before becoming
   the new canon. An essay on gatekeeping, domain language, and human intent.

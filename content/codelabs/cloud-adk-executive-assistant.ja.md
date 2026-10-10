@@ -12,7 +12,9 @@ categories:
   - Agent Development
 showSummary: true
 description: "Agent Development Kit (ADK) と Gemini API を使用してパーソナライズされた役員アシスタントを構築する実践的Googleコードラボ。"
-proficiencyLevel: "Beginner"
+proficiencyLevel: "Intermediate"
 dependencies:
-  - Python 3.10+\n  - Google ADK\n  - Gemini API
+  - Python 3.10+
+  - Google ADK
+  - Gemini API
 ---

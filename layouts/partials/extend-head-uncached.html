@@ -7,3 +7,6 @@
 {{ end }}
 {{ end }}
 <link rel="describedby" href="{{ "llms.txt" | absURL }}" />
+{{- if and .IsPage (eq .Section "posts") (not .Params.externalURL) }}
+<link rel="alternate" type="text/markdown" href="{{ .Permalink }}index.md" title="{{ .Title }} (Markdown)" />
+{{- end }}

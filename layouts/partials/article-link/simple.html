@@ -1,0 +1,104 @@
+{{/* Used by
+  1. list.html and term.html (when the cardView option is not enabled)
+  2. Recent articles template (when the cardView option is not enabled)
+  3. Shortcode list.html
+*/}}
+{{ $disableImageOptimization := site.Store.Get "disableImageOptimization" }}
+
+{{ $page := .Page }}
+{{ $featured := "" }}
+{{ $featuredURL := "" }}
+{{ if not .Params.hideFeatureImage }}
+  {{/* frontmatter */}}
+  {{ with $page }}
+    {{ with .Params.featureimage }}
+      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ if site.Params.hotlinkFeatureImage }}
+          {{ $featuredURL = . }}
+        {{ else }}
+          {{ $featured = resources.GetRemote . }}
+        {{ end }}
+      {{ else }}
+        {{ $featured = resources.Get . }}
+      {{ end }}
+    {{ end }}
+
+    {{/* page resources */}}
+    {{ if not (or $featured $featuredURL) }}
+      {{ $images := .Resources.ByType "image" }}
+      {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
+        {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+      {{ end }}
+    {{ end }}
+
+    {{/* fallback to default */}}
+    {{ if not (or $featured $featuredURL) }}
+      {{ $default := site.Store.Get "defaultFeaturedImage" }}
+      {{ if $default.url }}
+        {{ $featuredURL = $default.url }}
+      {{ else if $default.obj }}
+        {{ $featured = $default.obj }}
+      {{ end }}
+    {{ end }}
+
+    {{/* generate image URL if not hotlink */}}
+    {{ if not $featuredURL }}
+      {{ with $featured }}
+        {{ $featuredURL = .RelPermalink }}
+        {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
+          {{ $featuredURL = (.Resize "600x").RelPermalink }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<article class="article-link--simple danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative">
+  {{ with $featuredURL }}
+    <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900">
+      <img
+        src="{{ . }}"
+        alt="{{ $.Title }}"
+        loading="lazy"
+        decoding="async"
+        class="not-prose w-full h-full object-cover nozoom">
+    </div>
+  {{ end }}
+  <div class="flex flex-col justify-between grow min-w-0">
+    <div>
+      <header class="items-center text-start">
+        <h3>
+          <a
+            {{ with $page.Params.externalUrl }}
+              href="{{ . }}" target="_blank" rel="external noopener"
+            {{ else }}
+              href="{{ $page.RelPermalink }}"
+            {{ end }}
+            class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+            {{ .Title | emojify }}
+            {{ if .Params.externalUrl }}
+              <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
+                <span class="rtl:hidden">&#8599;</span>
+                <span class="ltr:hidden">&#8598;</span>
+              </span>
+            {{ end }}
+          </a>
+        </h3>
+        {{ if and .Draft .Site.Params.article.showDraftLabel }}
+          <div class="ms-2">{{ partial "badge.html" (i18n "article.draft" | emojify) }}</div>
+        {{ end }}
+        {{ if templates.Exists "partials/extend-article-link.html" }}
+          {{ partial "extend-article-link.html" . }}
+        {{ end }}
+      </header>
+      <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400">
+        {{ partial "article-meta/basic.html" . }}
+      </div>
+    </div>
+    {{ if .Params.showSummary | default (site.Params.list.showSummary | default false) }}
+      <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+        {{ .Summary | plainify }}
+      </div>
+    {{ end }}
+  </div>
+</article>

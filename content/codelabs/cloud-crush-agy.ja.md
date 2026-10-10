@@ -16,5 +16,7 @@ showSummary: true
 description: "Gemini 3 と Antigravity CLI を使ってGo/Ebitengine製のマッチ3アーケードゲームCloud Crushを構築する実践コードラボ。"
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.22+\n  - Ebitengine v2\n  - Antigravity CLI
+  - Go 1.22+
+  - Ebitengine v2
+  - Antigravity CLI
 ---

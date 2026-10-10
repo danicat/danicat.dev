@@ -1,68 +1,176 @@
-{{ $constrainItemsWidth := .Page.Site.Params.list.constrainItemsWidth | default false }}
-
-{{ $articleClasses := "flex flex-wrap md:flex-nowrap article" }}
-{{ if .Site.Params.list.showCards }}
-{{ $articleClasses = delimit (slice $articleClasses "border border-neutral-200 dark:border-neutral-700 border-2 rounded-md overflow-hidden") " " }}
-{{ else }}
-{{ $articleClasses = delimit (slice $articleClasses "") " " }}
+{{ $e := . }}
+{{ $now := now.Format "2006-01-02" }}
+{{ $currentYear := "" }}
+{{ $isUpcoming := false }}
+{{ $eventTime := now }}
+{{ if and $e.date (ne $e.date "-") }}
+  {{ $eventTime = time.AsTime $e.date }}
+  {{ $currentYear = $eventTime.Year }}
+  {{ $isUpcoming = ge $e.date $now }}
 {{ end }}
 
-{{ $articleImageClasses := "w-full md:w-auto h-full thumbnail nozoom" }}
-{{ if .Site.Params.list.showCards }}
-{{ $articleImageClasses = delimit (slice $articleImageClasses "") " " }}
-{{ else }}
-{{ $articleImageClasses = delimit (slice $articleImageClasses "thumbnailshadow md:mr-7") " " }}
+{{ $cardId := $e.id | default (printf "%s-%s" ($e.date | default "talk") ($e.title | urlize)) }}
+{{ $thumbTarget := printf "video-%s" ($cardId | urlize) }}
+
+{{/* Strict Thumbnail Priority: 1. Video -> 2. Slide/Custom -> 3. Placeholder */}}
+{{ $resolvedThumbnail := "" }}
+{{ if $e.recording }}
+  {{ if (strings.Contains $e.recording "youtu.be/") }}
+    {{ $videoId := index (split (index (split $e.recording "youtu.be/") 1) "?") 0 }}
+    {{ if $videoId }}
+      {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+    {{ end }}
+  {{ else if (strings.Contains $e.recording "watch?v=") }}
+    {{ $videoId := index (split (index (split $e.recording "watch?v=") 1) "&") 0 }}
+    {{ if $videoId }}
+      {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if and (not $resolvedThumbnail) $e.image }}
+  {{ $resolvedThumbnail = $e.image }}
+{{ end }}
+{{ if not $resolvedThumbnail }}
+  {{ $resolvedThumbnail = "/images/talks/placeholder.png" }}
 {{ end }}
 
-{{ $disableImageOptimization := .Page.Site.Params.disableImageOptimization | default false }}
-
-{{ $articleInnerClasses := "" }}
-{{ if .Site.Params.list.showCards }}
-{{ $articleInnerClasses = delimit (slice $articleInnerClasses "p-4") " " }}
-{{ else }}
-{{ $articleInnerClasses = delimit (slice $articleInnerClasses "mt-3 md:mt-0") " " }}
+{{/* Priority Thumbnail Action: 1. Video -> 2. Slides -> 3. Codelab/Materials -> 4. Source Code -> 5. Event URL */}}
+{{ $thumbAction := "" }}
+{{ $thumbUrl := "" }}
+{{ if $e.recording }}
+  {{ $thumbAction = "video" }}
+  {{ $thumbUrl = $e.recording }}
+{{ else if $e.slides }}
+  {{ $thumbAction = "link" }}
+  {{ $thumbUrl = $e.slides }}
+{{ else if or $e.codelab $e.materials }}
+  {{ $thumbAction = "link" }}
+  {{ $thumbUrl = $e.codelab | default $e.materials }}
+{{ else if $e.source_code }}
+  {{ $thumbAction = "link" }}
+  {{ $thumbUrl = $e.source_code }}
+{{ else if $e.url }}
+  {{ $thumbAction = "link" }}
+  {{ $thumbUrl = $e.url }}
 {{ end }}
 
-{{ if $constrainItemsWidth }}
-{{ $articleClasses = delimit (slice $articleClasses "max-w-prose") " " }}
-{{ end }}
+<article class="article-link--simple event-card danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative" data-year="{{ $currentYear }}">
+  {{/* Left Thumbnail (Identical md:w-72 16:9 rounded-lg geometry to Posts & Codelabs) */}}
+  {{ if eq $thumbAction "video" }}
+  <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block thumb-action-video group/thumb cursor-pointer"
+       role="button" tabindex="0" aria-label="Play recording: {{ $e.title }}"
+       data-target="{{ $thumbTarget }}" data-video-url="{{ $thumbUrl }}" title="Click to play recording">
+    <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+    <div class="absolute inset-0 bg-black/25 group-hover/thumb:bg-black/40 transition-colors flex items-center justify-center">
+      <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/70 backdrop-blur-sm text-white flex items-center justify-center shadow-lg group-hover/thumb:scale-110 group-hover/thumb:bg-primary-600 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="h-6 w-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+  {{ else if eq $thumbAction "link" }}
+  <a href="{{ $thumbUrl }}" target="_blank" rel="noopener noreferrer"
+     class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block group/thumb cursor-pointer"
+     tabindex="-1" aria-hidden="true">
+    <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+  </a>
+  {{ else }}
+  <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block">
+    <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+  </div>
+  {{ end }}
 
-<a class="{{ $articleClasses }}" href="{{ .RelPermalink }}">
-    {{ $image := .Resources.GetMatch .Params.featuredImage }}
-    {{ if $image }}
-        {{ $resized := "" }}
-        {{ if not (or $disableImageOptimization (strings.HasSuffix $image ".svg")) }}
-            {{ $resized = $image.Resize "600x" }}
-        {{ else }}
-            {{ $resized = $image }}
+  {{/* Right Content Column (Identical 3-Row Title -> Metadata -> Summary hierarchy to Posts & Codelabs) */}}
+  <div class="flex flex-col justify-between grow min-w-0">
+    <div>
+      <header class="items-center text-start">
+        <h3>
+          {{ if $thumbUrl }}
+            <a href="{{ $thumbUrl }}" target="_blank" rel="external noopener"
+               class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+              {{ $e.title | emojify }}
+              <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
+                <span class="rtl:hidden">&#8599;</span>
+                <span class="ltr:hidden">&#8598;</span>
+              </span>
+            </a>
+          {{ else }}
+            <span class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral">
+              {{ $e.title | emojify }}
+            </span>
+          {{ end }}
+        </h3>
+      </header>
+
+      <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400 flex flex-row flex-wrap items-center">
+        {{ if and $e.date (ne $e.date "-") }}
+          {{ partial "meta/date.html" $eventTime }}
         {{ end }}
-        <div class="{{ $articleImageClasses }}" style="background-image:url({{ $resized.RelPermalink }});"></div>
-    {{ else }}
-        <div class="{{ $articleImageClasses }} flex items-center justify-center bg-gray-100 dark:bg-gray-700 text-gray-400 dark:text-gray-500">
-            <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-        </div>
+        {{ if $e.event }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          {{ if $e.url }}
+            <a href="{{ $e.url }}" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+              {{ $e.event }}
+            </a>
+          {{ else }}
+            <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ $e.event }}</span>
+          {{ end }}
+        {{ end }}
+        {{ if and $e.location (ne $e.location "-") }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span>{{ $e.location }}</span>
+        {{ end }}
+        {{ $lang := lower ($e.language | default "en") }}
+        {{ if or (eq $lang "pt-br") (eq $lang "pt") }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span title="Delivered in Portuguese (PT-BR)">🇧🇷 PT-BR</span>
+        {{ else if or (eq $lang "ja") (eq $lang "ja-jp") }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span title="Delivered in Japanese">🇯🇵 JA</span>
+        {{ end }}
+        {{ if $isUpcoming }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span class="font-semibold text-primary-600 dark:text-primary-400">Upcoming</span>
+        {{ end }}
+        {{ if $e.slides }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ i18n "event_decks_label" | default "Slides" }} &#8599;
+          </a>
+        {{ end }}
+        {{ if or $e.codelab $e.materials }}
+          {{ $matUrl := $e.codelab | default $e.materials }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ if $e.codelab }}Codelab{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }} &#8599;
+          </a>
+        {{ end }}
+        {{ if $e.source_code }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ i18n "event_source_code_label" | default "Source Code" }} &#8599;
+          </a>
+        {{ end }}
+        {{ if $e.recording }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn font-medium text-primary-600 dark:text-primary-400 hover:underline cursor-pointer bg-transparent border-0 p-0 inline" data-target="{{ $thumbTarget }}" data-video-url="{{ $e.recording }}">
+            <span class="btn-label">{{ i18n "event_recording_label" | default "Recording" }}</span> &#9654;
+          </button>
+        {{ end }}
+      </div>
+    </div>
+
+    {{ with $e.summary }}
+    <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+      {{ . | plainify }}
+    </div>
     {{ end }}
 
-    <div class="{{ $articleInnerClasses }}">
-      <div class="items-center text-left text-xl font-semibold">
-        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
-          href="{{ .RelPermalink }}">{{ .Title | emojify }}</div>
-      </div>
-      <div class="text-sm text-neutral-500 dark:text-neutral-400">
-        <p>
-            {{ .Params.eventStartDate | time.Format ":date_long" }}
-            {{ if .Params.eventEndDate }}
-            - {{ .Params.eventEndDate | time.Format ":date_long" }}
-            {{ end }}
-        </p>
-        {{ with .Params.location }}
-        <p>{{ . }}</p>
-        {{ end }}
-      </div>
-      {{ if .Summary }}
-      <div class="py-1 max-w-fit prose dark:prose-invert">
-        {{ .Summary | plainify }}
-      </div>
-      {{ end }}
+    {{ if $e.recording }}
+    <div id="{{ $thumbTarget }}" class="video-player-container hidden mt-4 w-full aspect-video rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md">
+      <!-- lazy loaded on button click -->
     </div>
-</a>
+    {{ end }}
+  </div>
+</article>

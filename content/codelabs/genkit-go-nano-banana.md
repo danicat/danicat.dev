@@ -16,5 +16,7 @@ title: "Build a Photo Restoration App Using Genkit Go and Nano Banana Pro"
 description: "Hands-on tutorial building GlowUp, an AI photo restoration app in Go using Genkit and Gemini 3 Pro Image (Nano Banana Pro) 4K model."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.24+\n  - Genkit Go >= 0.1.0\n  - Vertex AI
+  - Go 1.24+
+  - Genkit Go >= 0.1.0
+  - Vertex AI
 ---

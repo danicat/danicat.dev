@@ -14,7 +14,7 @@ autoSwitchAppearance = true
 # For example, if you have `assets/css/custom.css`, the value should be `css/custom.css`.
 customCSS = ["css/custom.css"]
 
-enableSearch = true
+enableSearch = false
 enableCodeCopy = true
 
 replyByEmail = false
@@ -51,7 +51,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layout = "profile" # valid options: page, profile, hero, card, background, custom
   #homepageImage = "IMAGE.jpg" # used in: hero, and card
   showRecent = true
-  showRecentItems = 8
+  showRecentItems = 6
   showMoreLink = true
   showMoreLinkDest = "/posts/"
   cardView = true
@@ -84,7 +84,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showRelatedContent = true
   relatedContentLimit = 3
   showTaxonomies = false # use showTaxonomies OR showCategoryOnly, not both
-  showCategoryOnly = true # use showTaxonomies OR showCategoryOnly, not both
+  showCategoryOnly = false # use showTaxonomies OR showCategoryOnly, not both
   showAuthorsBadges = false
   showWordCount = false
   sharingLinks = [ "linkedin", "twitter", "bluesky", "email", "whatsapp"]
@@ -103,7 +103,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showTableOfContents = false
   showCards = false
   orderByWeight = false
-  groupByYear = true
+  groupByYear = false
   cardView = false
   cardViewScreenWidth = false
   constrainItemsWidth = false

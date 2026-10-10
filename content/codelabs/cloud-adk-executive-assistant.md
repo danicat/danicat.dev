@@ -12,7 +12,9 @@ categories:
   - Agent Development
 showSummary: true
 description: "Hands-on Google codelab to create a personalized AI executive assistant using the Agent Development Kit (ADK), Gemini API, and tool integration."
-proficiencyLevel: "Beginner"
+proficiencyLevel: "Intermediate"
 dependencies:
-  - Python 3.10+\n  - Google ADK\n  - Gemini API
+  - Python 3.10+
+  - Google ADK
+  - Gemini API
 ---

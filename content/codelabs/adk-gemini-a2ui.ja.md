@@ -15,5 +15,7 @@ showSummary: true
 description: "Google ADK と A2UI を使用してリッチなエージェントUIを構築するコードラボ。動的コンポーネントレンダリングとイベントストリーミングを解説。"
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Python 3.10+\n  - Google ADK\n  - A2UI
+  - Python 3.10+
+  - Google ADK
+  - A2UI
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Sobre"
+type: "about"
 date: 2025-06-11T00:00:00+01:00
 draft: false
 
@@ -9,60 +10,100 @@ showDateUpdated: false
 showHeadingAnchors: false
 showPagination: false
 showReadingTime: false
-showTableOfContents: true
-showTaxonomies: false 
+showTableOfContents: false
+showTaxonomies: false
 showWordCount: false
 showSummary: false
 sharingLinks: false
 showEdit: false
 showViews: false
 showLikes: false
-showAuthor: true
+showAuthor: false
 showRelatedContent: false
 showComments: false
 layoutBackgroundHeaderSpace: false
+
+profileName: "Daniela Petruzalek"
+role: "Engenheira Sênior de Developer Relations no Google"
+badges:
+  - "📍 Londres, Reino Unido"
+  - "Ex-GDE (Go & Cloud)"
+  - "20+ Anos em Software"
+
 summary: "Senior DevRel Engineer no Google, ex-GDE e especialista em sistemas escaláveis em Go e agentes de IA."
 description: "Sobre Daniela Petruzalek: Senior Developer Relations Engineer no Google em Londres, especialista em Go, Engenharia de Dados, Agentes de IA e vibe coding com disciplina."
+
+speaking:
+  heading: "Palestras e Workshops"
+  subtitle: "Keynotes em conferências internacionais, sessões técnicas e workshops práticos de engenharia."
+  cards:
+    - icon: "🎬"
+      title: "Palestras e Gravações"
+      description: "Confira o histórico completo de apresentações, slides e gravações em vídeo."
+      url: "/pt-br/events/"
+      cta: "Ver Eventos"
+      external: false
+    - icon: "🎤"
+      title: "Perfil de Palestrante"
+      description: "Biografia oficial, resumos de palestras e histórico de eventos no Sessionize."
+      url: "https://sessionize.com/daniela"
+      cta: "Sessionize"
+      external: true
+    - icon: "✉️"
+      title: "Convites para Eventos"
+      description: "Convide-me para palestrar em sua conferência, meetup ou workshop enviando detalhes e datas."
+      url: "mailto:daniela@danicat.dev"
+      cta: "Entrar em Contato"
+      external: true
+
+projects:
+  heading: "Open Source e Ferramentas"
+  subtitle: "Criadora e mantenedora de projetos open source para engenharia em Go, agentes de IA e qualidade editorial."
+  items:
+    - name: "KungFu & Catálogo de Agent Skills"
+      badge: "Agentes de IA · CLI"
+      description: "Catálogo com 32 Agent Skills especializadas e a CLI KungFu para carregamento JIT de contexto."
+      url: "https://skills.danicat.dev/pt-br/"
+      external: false
+    - name: "GoDoctor"
+      badge: "Go · Servidor MCP"
+      description: "Diagnósticos arquiteturais em Go, verificação de estilo e refatoração via AST por CLI e MCP."
+      url: "https://github.com/danicat/godoctor"
+      external: true
+    - name: "Selene"
+      badge: "Go · Testes de Mutação"
+      description: "Motor de testes de mutação de alta performance em Go para validar a eficácia de suítes de teste."
+      url: "https://github.com/danicat/selene"
+      external: true
+    - name: "TestQuery"
+      badge: "Go · Análise SQL"
+      description: "Motor de consultas SQL sobre execuções de testes em Go, cobertura de código e benchmarks."
+      url: "https://github.com/danicat/testquery"
+      external: true
+    - name: "Speedgrapher"
+      badge: "Editorial · Servidor MCP"
+      description: "CLI e servidor MCP para revisão editorial, índice de legibilidade (Fog index) e detecção de slop de IA."
+      url: "https://github.com/danicat/speedgrapher"
+      external: true
+    - name: "Codelabs e Workshops"
+      badge: "Tutoriais · Cloud & IA"
+      description: "Tutoriais práticos passo a passo sobre ADK, APIs Gemini, A2UI, Antigravity e Go no Google Cloud."
+      url: "/pt-br/codelabs/"
+      external: false
+    - name: "PacGo"
+      badge: "Go · Game Dev"
+      description: "Aprenda Go do zero construindo um clone completo de Pac-Man para terminal passo a passo."
+      url: "https://github.com/danicat/pacgo"
+      external: true
+    - name: "read.dbc"
+      badge: "R · Ciência de Dados"
+      description: "Pacote em R amplamente utilizado para descomprimir e extrair bases de dados públicas do DATASUS."
+      url: "https://github.com/danicat/read.dbc"
+      external: true
 ---
 
-![Daniela Petruzalek](/images/profile.png)
+Sou Senior Developer Relations Engineer no Google, baseada em Londres, com foco em **Go**, **Engenharia de Dados** e **Agentes de IA**. Com mais de duas décadas de experiência em engenharia e arquitetura de software, dedico-me a construir sistemas confiáveis de alta performance e a ajudar pessoas desenvolvedoras a dominar ferramentas modernas. Antes do Google, fui Google Developer Expert (GDE) em Go e Google Cloud Platform.
 
-Daniela Petruzalek é Senior Developer Relations Engineer no Google, baseada em Londres. É especialista em Go, Engenharia de Dados e no ecossistema emergente de Agentes de IA.
+Meu trabalho atual concentra-se no desenvolvimento assistido por IA e em arquiteturas agênticas — explorando como modelos generativos, o Model Context Protocol (MCP) e o Agent Development Kit (ADK) se integram à engenharia de software em produção. Defendo o *vibe coding com disciplina*: unir o rigor da engenharia clássica, verificação automatizada e design arquitetural sólido aos fluxos de trabalho potencializados por IA.
 
-Com mais de duas décadas de trajetória em engenharia e arquitetura de software, Daniela se dedica a construir sistemas eficientes e de alta performance, além de ajudar a comunidade de desenvolvimento a dominar ferramentas modernas. Antes de ingressar no Google, foi Google Developer Expert (GDE) em Go e Google Cloud Platform, e possui certificação Oracle Certified Professional.
-
-Seu foco atual abrange o desenvolvimento assistido por IA e arquiteturas agênticas — explorando como modelos generativos, o Model Context Protocol (MCP) e o Agent Development Kit (ADK) se integram à engenharia de software em produção. Ela defende o *vibe coding com disciplina*, aplicando rigor de engenharia clássica, testes automatizados e princípios sólidos de design a fluxos de trabalho assistidos por IA.
-
-Nas horas vagas, contribui para projetos open source, joga videogames (retrô e modernos) e faz carinho em qualquer gato que encontra na rua.
-
-## Palestras e Workshops
-
-Costumo palestrar em conferências internacionais de tecnologia e ministrar workshops práticos sobre programação de sistemas em Go, agentes de IA e produtividade no desenvolvimento.
-
-* **Palestras Anteriores e Futuras**: Confira o diretório completo de sessões, slides e gravações na página de [Eventos](/pt-br/events/).
-* **Perfil de Palestrante**: Biografia e resumos de palestras estão disponíveis no [Sessionize](https://sessionize.com/daniela).
-* **Convites para Eventos**: Para me convidar para palestrar em sua conferência, meetup ou workshop, envie um e-mail para [daniela@danicat.dev](mailto:daniela@danicat.dev) com os detalhes do evento, tema, local e datas.
-
-## Open Source e Ferramentas
-
-### Engenharia em Go e Verificação
-* **[GoDoctor](https://github.com/danicat/godoctor)**: CLI e servidor MCP para diagnósticos arquiteturais automáticos em Go, aplicação de estilo e refatoração via AST.
-* **[Selene](https://github.com/danicat/selene)**: Motor de testes de mutação de alta performance para Go, avaliando a eficácia dos testes e eliminando mutantes sobreviventes.
-* **[TestQuery](https://github.com/danicat/testquery)**: Motor de análise SQL sobre execuções de testes em Go, relatórios de cobertura e benchmarks.
-* **[PacGo](https://github.com/danicat/pacgo)**: Aprenda Go construindo um clone completo de Pac-Man para terminal do zero.
-
-### Agentes de IA e Inteligência Editorial
-* **[Speedgrapher](https://github.com/danicat/speedgrapher)**: CLI e servidor MCP automatizado para linting editorial, índice de legibilidade (Fog index), detecção de slop de IA e diagnósticos de SEO.
-* **[Catálogo de Agent Skills](https://skills.danicat.dev)**: Pacotes de skills e kits de ferramentas de automação para agentes de codificação em IA ([GitHub](https://github.com/danicat/skills)).
-* **[Codelabs e Workshops](/pt-br/codelabs/)**: Tutoriais práticos sobre agentes de IA, ADK, A2UI, Antigravity e desenvolvimento na nuvem.
-
-### Ciência de Dados
-* **[read.dbc](https://github.com/danicat/read.dbc)**: Pacote em R para extrair e descomprimir bases de dados de saúde do DATASUS.
-
-## Conecte-se e Acompanhe
-
-* **GitHub**: [@danicat](https://github.com/danicat)
-* **LinkedIn**: [Daniela Petruzalek](https://linkedin.com/in/petruzalek)
-* **Bluesky**: [@danicat83.bsky.social](https://bsky.app/profile/danicat83.bsky.social)
-* **X**: [@danicat83](https://x.com/danicat83)
-* **Sessionize**: [daniela](https://sessionize.com/daniela)
+Nas horas vagas, mantenho ferramentas open source, jogo videogames retrô e modernos e faço carinho em todo gato simpático que encontro pela rua.

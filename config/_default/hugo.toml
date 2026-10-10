@@ -18,6 +18,10 @@ enableEmoji = true
 
 googleAnalytics = "G-8RHDQGEGZ2"
 
+[services]
+  [services.googleAnalytics]
+    id = "G-8RHDQGEGZ2"
+
 [pagination]
   pagerSize = 100
 
@@ -29,7 +33,6 @@ googleAnalytics = "G-8RHDQGEGZ2"
 [taxonomies]
   tag = "tags"
   category = "categories"
-  author = "authors"
   series = "series"
 
 [sitemap]
@@ -37,32 +40,32 @@ googleAnalytics = "G-8RHDQGEGZ2"
   filename = 'sitemap.xml'
   priority = 0.5
 
+[outputFormats]
+  [outputFormats.LLMS]
+    mediaType = "text/plain"
+    baseName = "llms"
+    isPlainText = true
+    notAlternative = true
+  [outputFormats.MarkDown]
+    mediaType = "text/markdown"
+    baseName = "index"
+    isPlainText = true
+    notAlternative = false
+
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "LLMS"]
+  page = ["HTML", "MarkDown"]
+  section = ["HTML"]
+  taxonomy = ["HTML"]
+  term = ["HTML"]
 
 [related]
   threshold = 0
   toLower = false
 
     [[related.indices]]
-        name = "tags"
-        weight = 100
-
-    [[related.indices]]
-        name = "categories"
-        weight = 100
-
-    [[related.indices]]
-        name = "series"
-        weight = 50
-
-    [[related.indices]]
-        name = "authors"
-        weight = 20
-
-    [[related.indices]]
-        name = "date"
-        weight = 10
+      name = "date"
+      weight = 10
 
     [[related.indices]]
       applyFilter = false
@@ -70,8 +73,14 @@ googleAnalytics = "G-8RHDQGEGZ2"
       type = 'fragments'
       weight = 10
 
+[caches]
+  [caches.images]
+    dir = ":cacheDir/images"
+
 [markup]
   [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
     [markup.goldmark.extensions]
       [markup.goldmark.extensions.passthrough]
         enable = true

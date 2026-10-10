@@ -17,7 +17,7 @@ title = "danicat.dev"
 [params.author]
   name = "ダニエラ・ペトルザレク"
   email = "daniela@danicat.dev"
-  image = "chibi-dani.png"
+  image = "profile.png"
   imageQuality = 96
   headline = "テクノロジスト、ゲーマー、猫好き"
   bio = "Googleのシニアデベロッパーリレーションズエンジニア"

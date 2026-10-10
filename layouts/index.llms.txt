@@ -1,0 +1,26 @@
+{{- $author := .Site.Data.identity.author -}}
+# {{ .Site.Title }} — {{ $author.name | default "Daniela Petruzalek" }}
+
+> {{ .Site.Params.Author.headline | default "Hands-on software engineering, AI agents, and cloud architecture" }} — {{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer at Google" }}
+
+- Website: {{ .Site.BaseURL }}
+- Agent Skills Catalog: https://skills.danicat.dev/ (LLMs index: https://skills.danicat.dev/llms.txt | JSON manifest: https://skills.danicat.dev/catalog.json)
+- GitHub: https://github.com/danicat
+- LinkedIn: https://linkedin.com/in/petruzalek
+- X / Twitter: https://x.com/danicat83
+
+## Articles & Deep Dives
+{{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
+- [{{ .Title }}]({{ .Permalink }}) ([Markdown]({{ .Permalink }}index.md) · {{ .Date.Format "2006-01-02" }}){{ with (.Params.description | default (.Summary | plainify | htmlUnescape)) }}: {{ . | replaceRE "\\s+" " " | truncate 180 }}{{ end }}
+{{- end }}
+
+## Interactive Codelabs & Workshops
+{{- range (where .Site.RegularPages "Section" "codelabs").ByDate.Reverse }}
+{{- $url := .Params.externalUrl | default .Permalink }}
+- [{{ .Title }}]({{ $url }}) ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}){{ with (.Summary | plainify | htmlUnescape) }}: {{ . | replaceRE "\\s+" " " | truncate 180 }}{{ end }}
+{{- end }}
+
+## Talks & Conference Events
+{{- range .Site.Data.talks.talks }}
+- **{{ .title }}** — {{ .event }} ({{ .date }}{{ with .location }}, {{ . }}{{ end }}){{ with .recording }} | [Recording]({{ . }}){{ end }}{{ with .slides }} | [Slides]({{ . }}){{ end }}{{ with .codelab }} | [Codelab]({{ . }}){{ end }}
+{{- end }}

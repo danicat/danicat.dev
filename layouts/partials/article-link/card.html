@@ -1,40 +1,36 @@
 {{ $disableImageOptimization := .Page.Site.Params.disableImageOptimization | default false }}
 {{ with .Params.externalUrl }}
-<a href="{{ . }}" target="_blank" rel="external noopener" class="min-w-full">
+<a href="{{ . }}" target="_blank" rel="external noopener" class="min-w-full group">
   {{ else }}
-  <a href="{{ .RelPermalink }}" class="min-w-full">
+  <a href="{{ .RelPermalink }}" class="min-w-full group">
     {{ end }}
-    <div class="min-h-full border border-neutral-200 dark:border-neutral-700 border-2 rounded overflow-hidden shadow-2xl relative">
+    <div class="min-h-full danicat-card overflow-hidden relative flex flex-col">
 
-      {{- with $.Params.images -}}
-      {{- range first 6 . }}
-      <meta property="og:image" content="{{ . | absURL }}" />{{ end -}}
-      {{- else -}}
       {{- $images := $.Resources.ByType "image" -}}
       {{- $featured := $images.GetMatch "*feature*" -}}
       {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
       {{ if and .Params.featureimage (not $featured) }}
-      {{- $url:= .Params.featureimage -}}
-      {{ $featured = resources.GetRemote $url }}
+      {{- $url := .Params.featureimage -}}
+      {{ $featured = $.Resources.GetMatch $url }}
+      {{- if not $featured }}{{ $featured = resources.GetRemote $url }}{{ end -}}
       {{ end }}
       {{- if not $featured }}{{ with .Site.Params.defaultFeaturedImage }}{{ $featured = resources.Get . }}{{ end }}{{ end -}}
       {{ if .Params.hideFeatureImage }}{{ $featured = false }}{{ end }}
       {{- with $featured -}}
-      {{ if or $disableImageOptimization (strings.HasSuffix $featured ".svg")}}
+      {{ if or $disableImageOptimization (strings.HasSuffix $featured ".svg") }}
         {{ with . }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }});"></div>
+        <div class="w-full aspect-video thumbnail_card nozoom overflow-hidden bg-neutral-100 dark:bg-neutral-900 border-b border-neutral-200/60 dark:border-neutral-700/60">
+          <img src="{{ .RelPermalink }}" loading="lazy" decoding="async" alt="{{ $.Title }}" class="not-prose w-full h-full object-cover nozoom">
+        </div>
         {{ end }}
       {{ else }}
         {{ with .Resize "600x" }}
-        <div class="w-full thumbnail_card nozoom" style="background-image:url({{ .RelPermalink }});"></div>
+        <div class="w-full aspect-video thumbnail_card nozoom overflow-hidden bg-neutral-100 dark:bg-neutral-900 border-b border-neutral-200/60 dark:border-neutral-700/60">
+          <img src="{{ .RelPermalink }}" loading="lazy" decoding="async" alt="{{ $.Title }}" class="not-prose w-full h-full object-cover nozoom">
+        </div>
         {{ end }}
       {{ end }}
-      {{- else -}}
-      {{- with $.Site.Params.images }}
-      <meta property="og:image" content="{{ index . 0 | absURL }}" />{{ end -}}
       {{- end -}}
-      {{- end -}}
-
 
       {{ if and .Draft .Site.Params.article.showDraftLabel }}
       <span class="absolute top-0 right-0 m-2">
@@ -42,36 +38,31 @@
       </span>
       {{ end }}
 
-      <div class="px-6 py-4">
+      <div class="px-6 py-4 flex flex-col flex-grow">
 
         {{ with .Params.externalUrl }}
         <div>
-          <div
-            class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral">
+          <h3 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
             {{ $.Title | emojify }}
             <span class="text-xs align-top cursor-default text-neutral-400 dark:text-neutral-500">
               <span class="rtl:hidden">&#8599;</span>
               <span class="ltr:hidden">&#8598;</span>
             </span>
-          </div>
+          </h3>
         </div>
         {{ else }}
-        <div class="font-bold text-xl text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
-          href="{{ .RelPermalink }}">{{ .Title | emojify }}</div>
+        <h3 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">{{ .Title | emojify }}</h3>
         {{ end }}
 
-        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+        <div class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">
           {{ partial "article-meta/basic.html" . }}
         </div>
 
         {{ if .Params.showSummary | default (.Site.Params.list.showSummary | default false) }}
-        <div class="py-1 prose dark:prose-invert">
+        <div class="py-1 prose dark:prose-invert line-clamp-3 text-base text-neutral-600 dark:text-neutral-300">
           {{ .Summary | plainify }}
         </div>
         {{ end }}
-      </div>
-      <div class="px-6 pt-4 pb-2">
-
       </div>
     </div>
   </a>

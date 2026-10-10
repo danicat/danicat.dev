@@ -15,5 +15,7 @@ title: Genkit Go と Nano Banana Pro を使用して写真復元アプリを構�
 description: "Genkit Go と Nano Banana Pro (Gemini 3 Pro Image) 4Kモデルを活用してAI写真修復アプリGlowUpを構築する実践コードラボ。"
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.24+\n  - Genkit Go >= 0.1.0\n  - Vertex AI
+  - Go 1.24+
+  - Genkit Go >= 0.1.0
+  - Vertex AI
 ---

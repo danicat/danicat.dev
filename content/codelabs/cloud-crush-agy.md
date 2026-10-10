@@ -16,5 +16,7 @@ showSummary: true
 description: "Build Cloud Crush, an 8x8 Match-3 arcade game in Go and Ebitengine using Gemini 3 and the Antigravity CLI agent. Covers automated browser testing."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.22+\n  - Ebitengine v2\n  - Antigravity CLI
+  - Go 1.22+
+  - Ebitengine v2
+  - Antigravity CLI
 ---

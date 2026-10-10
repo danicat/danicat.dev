@@ -16,6 +16,8 @@ title: Build an MCP Server with Go and Gemini CLI
 description: "Learn how to extend the Gemini CLI with custom tools using the Model Context Protocol (MCP) in Go. Step-by-step official Google codelab."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.24+\n  - Gemini CLI / Antigravity CLI\n  - MCP Go SDK
+  - Go 1.24+
+  - Gemini CLI / Antigravity CLI
+  - MCP Go SDK
 ---
 

@@ -17,10 +17,10 @@ title = "danicat.dev"
 [params.author]
   name = "Daniela Petruzalek"
   email = "daniela@danicat.dev"
-  image = "chibi-dani.png"
+  image = "profile.png"
   imageQuality = 96
   headline = "Tecnologista, gamer e gateira"
-  bio = "Senior Developer Relations Engineer at Google"
+  bio = "Engenheira Sênior de Developer Relations no Google"
   links = [
 #   { email = "mailto:daniela@danicat.dev" },
 #     { link = "https://link-to-some-website.com/" },

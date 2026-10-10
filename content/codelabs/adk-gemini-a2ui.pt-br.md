@@ -15,5 +15,7 @@ showSummary: true
 description: "Codelab prático sobre criação de interfaces agênticas com o Google ADK e A2UI. Aprenda renderização de componentes web dinâmicos e streaming."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Python 3.10+\n  - Google ADK\n  - A2UI
+  - Python 3.10+
+  - Google ADK
+  - A2UI
 ---

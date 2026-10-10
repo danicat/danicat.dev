@@ -1,13 +1,18 @@
 {{- $identity := site.Data.identity -}}
 {{- $author := $identity.author -}}
 {{- $publisher := $identity.publisher -}}
+{{- $website := $identity.website -}}
+{{- $personID := index $author "@id" | default "https://danicat.dev/#person" -}}
+{{- $orgID := index $publisher "@id" | default "https://danicat.dev/#organization" -}}
+{{- $orgURL := $publisher.url | default "https://danicat.dev" -}}
+{{- $websiteID := index $website "@id" | default "https://danicat.dev/#website" -}}
 {{ if .IsHome -}}
   <script type="application/ld+json">
   [
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }},
+      "@id": "{{ $personID | safeJS }}",
       "name": "{{ $author.name | safeJS }}",
       "jobTitle": "{{ $author.jobTitle | safeJS }}",
       "worksFor": {
@@ -17,14 +22,14 @@
       },
       "url": {{ "about/" | absURL | safeURL }},
       "image": {{ $author.image | safeURL }},
-      "sameAs": {{ $author.sameAs | jsonify }}
+      "sameAs": {{ $author.sameAs | jsonify | safeJS }}
     },
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "@id": "{{ $orgID | safeJS }}",
       "name": "{{ $publisher.name | safeJS }}",
-      "url": {{ site.Home.Permalink | safeURL }},
+      "url": "{{ $orgURL | safeURL }}",
       "logo": {
         "@type": "ImageObject",
         "url": {{ $publisher.logo.url | safeURL }}
@@ -33,16 +38,16 @@
     {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      "@id": {{ printf "%s#website" site.Home.Permalink | safeURL }},
+      "@id": "{{ $websiteID | safeJS }}",
       "name": "{{ .Site.Title | safeJS }}",
       "alternateName": ["danicat.dev", "Daniela Petruzalek"],
       {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
       {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
       "url": {{ site.Home.Permalink | safeURL }},
-      {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
+      {{ with .Site.Params.keywords }}"keywords": {{ . | jsonify | safeJS }},{{ end }}
       "publisher": {
         "@type": "Organization",
-        "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }}
+        "@id": "{{ $orgID | safeJS }}"
       }
     }
   ]
@@ -53,9 +58,9 @@
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }},
+      "@id": "{{ $personID | safeJS }}",
       "name": "{{ $author.name | safeJS }}",
-      {{ with $author.alternateName }}"alternateName": {{ . | jsonify }},{{ end }}
+      {{ with $author.alternateName }}"alternateName": {{ . | jsonify | safeJS }},{{ end }}
       "jobTitle": "{{ $author.jobTitle | safeJS }}",
       "worksFor": {
         "@type": "Organization",
@@ -64,15 +69,15 @@
       },
       "url": {{ "about/" | absURL | safeURL }},
       "image": {{ $author.image | safeURL }},
-      "sameAs": {{ $author.sameAs | jsonify }},
-      "knowsAbout": {{ $author.knowsAbout | jsonify }}
+      "sameAs": {{ $author.sameAs | jsonify | safeJS }},
+      "knowsAbout": {{ $author.knowsAbout | jsonify | safeJS }}
     },
     {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "@id": "{{ $orgID | safeJS }}",
       "name": "{{ $publisher.name | safeJS }}",
-      "url": {{ site.Home.Permalink | safeURL }},
+      "url": "{{ $orgURL | safeURL }}",
       "logo": {
         "@type": "ImageObject",
         "url": {{ $publisher.logo.url | safeURL }}
@@ -88,7 +93,7 @@
       {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
       "mainEntity": {
         "@type": "Person",
-        "@id": {{ "about/#person" | absURL | safeURL }}
+        "@id": "{{ $personID | safeJS }}"
       }
     },
     {
@@ -104,7 +109,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "{{ .Title }}",
+          "name": "{{ .Title | safeJS }}",
           "item": {{ .Permalink }}
         }
       ]
@@ -127,7 +132,7 @@
         {
           "@type": "ListItem",
           "position": 2,
-          "name": "{{ .Title }}",
+          "name": "{{ .Title | safeJS }}",
           "item": {{ .Permalink }}
         }
       ]
@@ -140,11 +145,36 @@
         {{- $tDate := .date -}}
         {{- $tLoc := (string .location) -}}
         {{- $isOnline := or (in (lower $tLoc) "online") (in (lower $tLoc) "virtual") -}}
+        {{- $videoId := "" -}}
+        {{- if .recording -}}
+          {{- if strings.Contains .recording "youtu.be/" -}}
+            {{- $videoId = index (split (index (split .recording "youtu.be/") 1) "?") 0 -}}
+          {{- else if strings.Contains .recording "watch?v=" -}}
+            {{- $videoId = index (split (index (split .recording "watch?v=") 1) "&") 0 -}}
+          {{- end -}}
+        {{- end -}}
+        {{- $eventImage := "" -}}
+        {{- if .image -}}
+          {{- if strings.HasPrefix .image "/" -}}
+            {{- $eventImage = printf "https://danicat.dev%s" .image -}}
+          {{- else -}}
+            {{- $eventImage = .image -}}
+          {{- end -}}
+        {{- else if $videoId -}}
+          {{- $eventImage = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId -}}
+        {{- else -}}
+          {{- $eventImage = "https://danicat.dev/images/talks/placeholder.png" -}}
+        {{- end -}}
+        {{- $videoThumb := $eventImage -}}
+        {{- if $videoId -}}
+          {{- $videoThumb = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId -}}
+        {{- end -}}
       ,{
         "@context": "https://schema.org",
         "@type": "EducationEvent",
         "name": "{{ $tTitle | safeJS }}",
         {{ with $tSummary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+        "image": "{{ $eventImage | safeURL }}",
         "startDate": "{{ $tDate }}",
         "eventAttendanceMode": "{{ if $isOnline }}https://schema.org/OnlineEventAttendanceMode{{ else }}https://schema.org/OfflineEventAttendanceMode{{ end }}",
         "eventStatus": "https://schema.org/EventScheduled",
@@ -163,22 +193,27 @@
         },
         "performer": {
           "@type": "Person",
-          "@id": {{ "about/#person" | absURL | safeURL }},
-          "name": "Daniela Petruzalek"
+          "@id": "{{ $personID | safeJS }}",
+          "name": "{{ $author.name | safeJS }}"
         },
         "organizer": {
           "@type": "Organization",
           "name": "{{ .event | safeJS }}"
         }
         {{- with .url }},"url": "{{ . | safeURL }}"{{ end -}}
-        {{- with .recording }},
+        {{- with .recording -}}
+          {{- $embedUrl := . -}}
+          {{- if $videoId -}}
+            {{- $embedUrl = printf "https://www.youtube.com/embed/%s" $videoId -}}
+          {{- end -}},
         "workFeatured": {
           "@type": "VideoObject",
           "name": "{{ $tTitle | safeJS }}",
           "description": "{{ $tSummary | default $tTitle | plainify | htmlUnescape | safeJS }}",
+          "thumbnailUrl": "{{ $videoThumb | safeURL }}",
           "uploadDate": "{{ $tDate }}",
           "contentUrl": "{{ . | safeURL }}",
-          "embedUrl": "{{ . | safeURL }}"
+          "embedUrl": "{{ $embedUrl | safeURL }}"
         }
         {{- end }}
       }
@@ -226,16 +261,16 @@
     },
     "author" : {
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }},
+      "@id": "{{ $personID | safeJS }}",
       "name": "{{ $author.name | safeJS }}",
       "jobTitle": "{{ $author.jobTitle | safeJS }}",
       "url": {{ "about/" | absURL | safeURL }}
     },
     "publisher" : {
       "@type": "Organization",
-      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "@id": "{{ $orgID | safeJS }}",
       "name": "{{ $publisher.name | safeJS }}",
-      "url": {{ site.Home.Permalink | safeURL }},
+      "url": "{{ $orgURL | safeURL }}",
       "logo": {
         "@type": "ImageObject",
         "url": {{ $publisher.logo.url | safeURL }}
@@ -253,12 +288,22 @@
     {{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 }}",{{ end }}
     {{ with .ExpiryDate }}"expires": "{{ .Format $iso8601 }}",{{ end }}
     {{ with .Lastmod }}"dateModified": "{{ .Format $iso8601 }}",{{ end }}
-    {{ with or .Keywords .Params.tags }}"keywords": {{ . }},{{ end }}
+    {{ with or .Keywords .Params.tags }}"keywords": {{ . | jsonify | safeJS }},{{ end }}
     {{ with .Params.dependencies }}"dependencies": "{{ if reflect.IsSlice . }}{{ delimit . ", " | safeJS }}{{ else }}{{ . | safeJS }}{{ end }}",{{ end }}
     {{ with .Params.proficiencyLevel }}"proficiencyLevel": "{{ . | safeJS }}",{{ end }}
     "wordCount": {{ .WordCount }}
   }
-  {{- with or .Params.recording .Params.video }},
+  {{- with or .Params.recording .Params.video -}}
+    {{- $pageVidId := "" -}}
+    {{- if strings.Contains . "youtu.be/" -}}
+      {{- $pageVidId = index (split (index (split . "youtu.be/") 1) "?") 0 -}}
+    {{- else if strings.Contains . "watch?v=" -}}
+      {{- $pageVidId = index (split (index (split . "watch?v=") 1) "&") 0 -}}
+    {{- end -}}
+    {{- $pageEmbedUrl := . -}}
+    {{- if $pageVidId -}}
+      {{- $pageEmbedUrl = printf "https://www.youtube.com/embed/%s" $pageVidId -}}
+    {{- end }},
   {
     "@context": "https://schema.org",
     "@type": "VideoObject",
@@ -266,11 +311,11 @@
     "description": "{{ or $.Description $.Summary | default $.Title | plainify | htmlUnescape | safeJS }}",
     "uploadDate": "{{ $.Date.Format $iso8601 }}",
     "contentUrl": "{{ . | safeURL }}",
-    "embedUrl": "{{ . | safeURL }}",
+    "embedUrl": "{{ $pageEmbedUrl | safeURL }}",
     "thumbnailUrl": "{{ $imageUrl }}",
     "author": {
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }}
+      "@id": "{{ $personID | safeJS }}"
     }
   }
   {{- end }}
@@ -290,13 +335,13 @@
     {{ if reflect.IsMap . }}{{ with .repo }}"downloadUrl": "{{ . | safeURL }}",{{ end }}{{ end }}
     "author": {
       "@type": "Person",
-      "@id": {{ "about/#person" | absURL | safeURL }},
+      "@id": "{{ $personID | safeJS }}",
       "name": "{{ $author.name | safeJS }}",
       "url": {{ "about/" | absURL | safeURL }}
     },
     "publisher": {
       "@type": "Organization",
-      "@id": {{ printf "%s#organization" site.Home.Permalink | safeURL }},
+      "@id": "{{ $orgID | safeJS }}",
       "name": "{{ $publisher.name | safeJS }}"
     }
   }
@@ -318,7 +363,7 @@
           {
             "@type": "ListItem",
             "position": {{ $position }},
-            "name": "{{ .Title }}",
+            "name": "{{ .Title | safeJS }}",
             "item": {{ .Permalink }}
           }
         {{- end -}}
@@ -326,7 +371,7 @@
       {
         "@type": "ListItem",
         "position": {{ add $position 1 }},
-        "name": "{{ .Title }}",
+        "name": "{{ .Title | safeJS }}",
         "item": {{ .Permalink }}
       }
     ]
@@ -334,25 +379,50 @@
   </script>
 {{ else }}
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": {{ site.Home.Permalink }}
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "{{ .Title }}",
-        "item": {{ .Permalink }}
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": {{ printf "%s#collectionpage" .Permalink | safeURL }},
+      "name": "{{ .Title | safeJS }}",
+      {{ with or .Description .Summary .Site.Params.description }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+      "url": {{ .Permalink | safeURL }},
+      {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "{{ $websiteID | safeJS }}"
       }
-    ]
-  }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": {{ site.Home.Permalink }}
+        }
+        {{- $position := 1 -}}
+        {{- range .Ancestors.Reverse -}}
+          {{- if not .IsHome -}}
+            {{- $position = add $position 1 -}},
+            {
+              "@type": "ListItem",
+              "position": {{ $position }},
+              "name": "{{ .Title | safeJS }}",
+              "item": {{ .Permalink }}
+            }
+          {{- end -}}
+        {{- end -}},
+        {
+          "@type": "ListItem",
+          "position": {{ add $position 1 }},
+          "name": "{{ .Title | safeJS }}",
+          "item": {{ .Permalink }}
+        }
+      ]
+    }
+  ]
   </script>
 {{ end }}
-
-

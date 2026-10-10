@@ -1,4 +1,37 @@
-<div id="comments">
-    <h2>Comments</h2>
-    {{ partial "utterances/script" . }}
+<div id="comments" class="mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-800">
+  <h2 class="text-2xl font-bold mb-4 text-neutral-900 dark:text-neutral-100">{{ i18n "comments_heading" | default "Comments" }}</h2>
+  <script src="https://utteranc.es/client.js"
+          repo="danicat/danicat.dev"
+          issue-term="pathname"
+          label="comments"
+          theme="preferred-color-scheme"
+          crossorigin="anonymous"
+          async>
+  </script>
+  <script>
+    (function () {
+      function getUtterancesTheme() {
+        return document.documentElement.classList.contains('dark') ? 'github-dark' : 'github-light';
+      }
+      function syncUtterancesTheme() {
+        var iframe = document.querySelector('iframe.utterances-frame');
+        if (!iframe || !iframe.contentWindow) return;
+        iframe.contentWindow.postMessage({ type: 'set-theme', theme: getUtterancesTheme() }, 'https://utteranc.es');
+      }
+      window.addEventListener('message', function (event) {
+        if (event.origin === 'https://utteranc.es') {
+          syncUtterancesTheme();
+        }
+      });
+      var observer = new MutationObserver(function (mutations) {
+        for (var i = 0; i < mutations.length; i++) {
+          if (mutations[i].attributeName === 'class') {
+            syncUtterancesTheme();
+            break;
+          }
+        }
+      });
+      observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    })();
+  </script>
 </div>

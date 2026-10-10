@@ -15,5 +15,7 @@ title: Crie um app de restauração de fotos usando o Genkit Go e o Nano Banana 
 description: "Tutorial prático de desenvolvimento do app GlowUp para restauração de fotos antigas em Go usando Genkit e o modelo 4K Nano Banana Pro."
 proficiencyLevel: "Intermediate"
 dependencies:
-  - Go 1.24+\n  - Genkit Go >= 0.1.0\n  - Vertex AI
+  - Go 1.24+
+  - Genkit Go >= 0.1.0
+  - Vertex AI
 ---

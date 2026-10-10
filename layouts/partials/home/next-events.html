@@ -15,10 +15,10 @@
     {{ i18n "next_events_title" | default "My Next Events" }}
   </h2>
   
-  <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+  <section class="w-full grid gap-6 sm:grid-cols-2 md:grid-cols-3">
     {{ range $nextEvents }}
     <a href="{{ .url | default ("/events/" | relLangURL) }}" target="_blank" rel="noopener noreferrer" class="min-w-full block group">
-      <div class="min-h-full border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 relative flex flex-col p-6">
+      <div class="min-h-full danicat-card overflow-hidden relative flex flex-col p-6">
         
         <div class="flex-grow">
           <div class="font-bold text-xl text-neutral-800 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300 mb-1">
@@ -46,18 +46,18 @@
     {{ end }}
 
     {{/* Virtual "View All" Card */}}
-    <a href="{{ "events" | relLangURL }}" class="min-w-full block group">
-      <div class="min-h-full border border-dashed border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden shadow-lg hover:shadow-xl hover:border-primary-500 transition-all duration-300 relative flex flex-col items-center justify-center p-6 text-center">
+    <a href="{{ "/events/" | relLangURL }}" class="min-w-full block group">
+      <div class="min-h-full danicat-card border-dashed overflow-hidden relative flex flex-col items-center justify-center p-6 text-center">
         <div class="text-primary-600 dark:text-primary-400 mb-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
         </div>
         <div class="font-bold text-xl text-neutral-800 dark:text-neutral-100 group-hover:text-primary-600 dark:group-hover:text-primary-400">
-            View All Events
+            {{ i18n "view_all_events" | default "View All Events" }}
         </div>
         <div class="text-sm text-neutral-500 dark:text-neutral-400 mt-2">
-            Browse full talk history
+            {{ i18n "browse_talk_history" | default "Browse full talk history" }}
         </div>
       </div>
     </a>
