@@ -169,6 +169,7 @@
         {{- if $videoId -}}
           {{- $videoThumb = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId -}}
         {{- end -}}
+        {{- $eventUrl := .url | default $.Permalink -}}
       ,{
         "@context": "https://schema.org",
         "@type": "EducationEvent",
@@ -176,12 +177,13 @@
         {{ with $tSummary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
         "image": "{{ $eventImage | safeURL }}",
         "startDate": "{{ $tDate }}",
+        "endDate": "{{ $tDate }}",
         "eventAttendanceMode": "{{ if $isOnline }}https://schema.org/OnlineEventAttendanceMode{{ else }}https://schema.org/OfflineEventAttendanceMode{{ end }}",
         "eventStatus": "https://schema.org/EventScheduled",
         "location": {
           {{- if $isOnline }}
           "@type": "VirtualLocation",
-          "url": "{{ .url | default (absURL "events/") }}"
+          "url": "{{ $eventUrl | safeURL }}"
           {{- else }}
           "@type": "Place",
           "name": "{{ .event | safeJS }}",
@@ -191,6 +193,14 @@
           }
           {{- end }}
         },
+        "offers": {
+          "@type": "Offer",
+          "url": "{{ $eventUrl | safeURL }}",
+          "price": "0",
+          "priceCurrency": "USD",
+          "availability": "https://schema.org/InStock",
+          "validFrom": "{{ $tDate }}"
+        },
         "performer": {
           "@type": "Person",
           "@id": "{{ $personID | safeJS }}",
@@ -198,9 +208,10 @@
         },
         "organizer": {
           "@type": "Organization",
-          "name": "{{ .event | safeJS }}"
-        }
-        {{- with .url }},"url": "{{ . | safeURL }}"{{ end -}}
+          "name": "{{ .event | safeJS }}",
+          "url": "{{ $eventUrl | safeURL }}"
+        },
+        "url": "{{ $eventUrl | safeURL }}"
         {{- with .recording -}}
           {{- $embedUrl := . -}}
           {{- if $videoId -}}
