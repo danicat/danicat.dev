@@ -33,7 +33,7 @@ TALKS_JSON_PATH = ROOT_DIR / "data" / "talks.json"
 
 CHANNEL_ID = "UCRa5xBK_o3-HPAqph86z_LQ"
 PLAYLIST_ID = "PL9dBIQfOJu-6uny3OQLlG5MbJ_hYWCJjr"
-CHANNEL_RSS_URL = f"https://www.youtube.com/feeds/videos.xml?channel_id={CHANNEL_ID}"
+CHANNEL_VIDEOS_URL = "https://www.youtube.com/@danikopaizen/videos"
 PLAYLIST_URL = f"https://www.youtube.com/playlist?list={PLAYLIST_ID}"
 
 HEADERS = {
@@ -53,32 +53,24 @@ def extract_youtube_id(url: str) -> str:
     return ""
 
 
-def fetch_channel_rss() -> List[Dict[str, Any]]:
-    resp = requests.get(CHANNEL_RSS_URL, headers=HEADERS, timeout=15)
+def fetch_channel_videos() -> List[Dict[str, Any]]:
+    resp = requests.get(CHANNEL_VIDEOS_URL, headers=HEADERS, timeout=15)
     resp.raise_for_status()
-    ns = {
-        "atom": "http://www.w3.org/2005/Atom",
-        "yt": "http://www.youtube.com/xml/schemas/2015",
-        "media": "http://search.yahoo.com/mrss/",
-    }
-    root = ET.fromstring(resp.text)
+    seen: set[str] = set()
     items: List[Dict[str, Any]] = []
-    for entry in root.findall("atom:entry", ns):
-        vid_el = entry.find("yt:videoId", ns)
-        title_el = entry.find("atom:title", ns)
-        pub_el = entry.find("atom:published", ns)
-        author_el = entry.find("atom:author/atom:name", ns)
-        desc_el = entry.find("media:group/media:description", ns)
-        if vid_el is None or not vid_el.text:
-            raise RuntimeError("Malformed YouTube RSS entry: missing yt:videoId")
-        vid = vid_el.text.strip()
+    for vid in re.findall(r'"videoId":"([a-zA-Z0-9_-]{11})"', resp.text):
+        if vid in seen:
+            continue
+        seen.add(vid)
+        title = fetch_oembed_title(vid)
         items.append(
             {
                 "id": vid,
-                "title": (title_el.text or "").strip() if title_el is not None else vid,
-                "date": (pub_el.text or "")[:10] if pub_el is not None else "",
-                "channelName": (author_el.text or "Daniela Petruzalek").strip() if author_el is not None else "Daniela Petruzalek",
-                "summary": ((desc_el.text or "").strip().split("\n\n")[0].replace("\n", " ")) if desc_el is not None else "",
+                "title": title,
+                "date": "",
+                "duration": "",
+                "channelName": "Daniela Petruzalek",
+                "summary": "",
                 "kind": "demo",
             }
         )
@@ -157,6 +149,13 @@ def fetch_video_watch_metadata(vid: str) -> Dict[str, str]:
     }
 
 
+def fetch_oembed_title(vid: str) -> str:
+    url = f"https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={vid}&format=json"
+    resp = requests.get(url, headers=HEADERS, timeout=15)
+    resp.raise_for_status()
+    return (resp.json().get("title") or "").strip()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Sync YouTube channel & playlist videos into data/videos.json")
     parser.add_argument("--dry-run", action="store_true", help="Preview new videos without writing data/videos.json")
@@ -178,14 +177,23 @@ def main() -> None:
         if yt_id:
             talks_by_vid[yt_id] = t
 
-    console.print("[bold cyan]Fetching @danikopaizen channel RSS and Conference Talks playlist...[/bold cyan]")
-    channel_items = fetch_channel_rss()
+    console.print("[bold cyan]Fetching @danikopaizen channel videos and Conference Talks playlist...[/bold cyan]")
+    channel_items = fetch_channel_videos()
     playlist_items = fetch_playlist_items()
 
     added_count = 0
+    updated_count = 0
     for src in channel_items + playlist_items:
         vid = src["id"]
         if vid in existing_by_id:
+            if src["kind"] == "demo" and vid not in talks_by_vid:
+                live_title = fetch_oembed_title(vid) or src["title"]
+                if live_title and existing_by_id[vid].get("title") != live_title:
+                    console.print(
+                        f"[yellow]Updated title for {vid}:[/yellow] '{existing_by_id[vid].get('title')}' -> '{live_title}'"
+                    )
+                    existing_by_id[vid]["title"] = live_title
+                    updated_count += 1
             continue
         console.print(f"[yellow]New video discovered:[/yellow] {vid} ({src['title']})")
         watch_meta = fetch_video_watch_metadata(vid)
@@ -214,7 +222,7 @@ def main() -> None:
     sorted_videos = sorted(existing_by_id.values(), key=lambda x: x.get("date") or "", reverse=True)
     videos_doc["videos"] = sorted_videos
 
-    table = Table(title=f"Videos Catalog ({len(sorted_videos)} total, {added_count} newly added)")
+    table = Table(title=f"Videos Catalog ({len(sorted_videos)} total, {added_count} added, {updated_count} updated)")
     table.add_column("Date", style="cyan", no_wrap=True)
     table.add_column("Kind", style="magenta", no_wrap=True)
     table.add_column("ID", style="dim", no_wrap=True)
@@ -230,9 +238,11 @@ def main() -> None:
         )
     console.print(table)
 
-    if not args.dry_run and added_count > 0:
+    if not args.dry_run and (added_count > 0 or updated_count > 0):
         VIDEOS_JSON_PATH.write_text(json.dumps(videos_doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-        console.print(f"[bold green]Updated {VIDEOS_JSON_PATH} with {added_count} new video(s).[/bold green]")
+        console.print(
+            f"[bold green]Updated {VIDEOS_JSON_PATH} ({added_count} new, {updated_count} updated).[/bold green]"
+        )
     elif args.dry_run:
         console.print("[dim]Dry run complete; no files written.[/dim]")
     else:
