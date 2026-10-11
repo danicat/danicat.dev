@@ -9,10 +9,6 @@
   {{ $langPrefix = printf "/%s" .Site.Language.Lang }}
 {{ end }}
 
-{{ $demos := where $sortedVideos "kind" "demo" }}
-{{ $talks := where $sortedVideos "kind" "talk" }}
-{{ $interviews := where $sortedVideos "kind" "interview" }}
-
 <header class="mt-5 mb-6">
   {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
     {{ partial "breadcrumbs.html" . }}
@@ -55,26 +51,6 @@
   </div>
 </section>
 
-{{/* Category Filter Pills */}}
-<nav class="flex flex-wrap items-center gap-2 mb-6 print:hidden" aria-label="Filter videos by category">
-  <button type="button" data-filter="all" aria-pressed="true"
-          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold transition-colors cursor-pointer bg-primary-600 text-white border border-primary-600">
-    {{ i18n "videos_filter_all" | default "All" }} ({{ len $sortedVideos }})
-  </button>
-  <button type="button" data-filter="demo" aria-pressed="false"
-          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
-    {{ i18n "videos_filter_demos" | default "Channel & Demos" }} ({{ len $demos }})
-  </button>
-  <button type="button" data-filter="talk" aria-pressed="false"
-          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
-    {{ i18n "videos_filter_talks" | default "Conference Talks" }} ({{ len $talks }})
-  </button>
-  <button type="button" data-filter="interview" aria-pressed="false"
-          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
-    {{ i18n "videos_filter_interviews" | default "Interviews & Panels" }} ({{ len $interviews }})
-  </button>
-</nav>
-
 {{ if gt (len $sortedVideos) 0 }}
 <section class="space-y-6 w-full mt-0 flex flex-col" id="videos-list">
   {{ range $idx, $v := $sortedVideos }}
@@ -86,32 +62,6 @@
 function initVideosPage() {
   const watchLabel = '{{ i18n "videos_watch_label" | default "Watch" }}';
   const hideLabel = '{{ i18n "videos_hide_label" | default "Hide Video" }}';
-
-  // Filter buttons
-  const filterBtns = document.querySelectorAll('.video-filter-btn');
-  const cards = document.querySelectorAll('.video-card');
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const selected = btn.getAttribute('data-filter');
-      filterBtns.forEach(b => {
-        const isActive = b === btn;
-        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        if (isActive) {
-          b.className = 'video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold transition-colors cursor-pointer bg-primary-600 text-white border border-primary-600';
-        } else {
-          b.className = 'video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500';
-        }
-      });
-      cards.forEach(card => {
-        const kind = card.getAttribute('data-kind');
-        if (selected === 'all' || kind === selected) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
-    });
-  });
 
   // Thumbnail click-to-play facade
   document.querySelectorAll('.thumb-action-video').forEach(thumb => {
