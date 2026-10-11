@@ -37,9 +37,10 @@
     }
 
     if (!authPromise) {
+      // Omit Content-Type: application/json header so fetch uses text/plain (CORS simple request)
+      // and avoids an extra OPTIONS preflight round-trip on identitytoolkit.googleapis.com.
       authPromise = fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ returnSecureToken: true }),
       })
         .then(async (res) => {
@@ -110,7 +111,12 @@
     setCounterNode,
   };
 
+  let hydrated = false;
+
   async function hydrateCounters() {
+    if (hydrated) return;
+    hydrated = true;
+
     const viewNodes = Array.from(document.querySelectorAll("span[id^='views_']"));
     const likeNodes = Array.from(document.querySelectorAll("span[id^='likes_']"));
 
@@ -184,11 +190,11 @@
   }
 
   function scheduleHydration() {
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(() => hydrateCounters(), { timeout: 2000 });
-    } else {
-      setTimeout(hydrateCounters, 100);
-    }
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setTimeout(hydrateCounters, 250);
+      });
+    });
   }
 
   if (document.readyState === "complete") {

@@ -1,0 +1,21 @@
+{{ $gaID := site.Config.Services.GoogleAnalytics.ID }}
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ $gaID }}');
+  (function() {
+    var loaded = false;
+    function loadGtag() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id={{ $gaID }}';
+      document.head.appendChild(s);
+    }
+    ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(function(evt) {
+      window.addEventListener(evt, loadGtag, { once: true, passive: true });
+    });
+  })();
+</script>

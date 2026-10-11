@@ -35,24 +35,18 @@
       });
   }
 
+  function scheduleViewIncrement() {
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setTimeout(recordViewIfNeeded, 300);
+      });
+    });
+  }
+
   if (document.readyState === "complete") {
-    if ("requestIdleCallback" in window) {
-      window.requestIdleCallback(recordViewIfNeeded, { timeout: 2500 });
-    } else {
-      setTimeout(recordViewIfNeeded, 200);
-    }
+    scheduleViewIncrement();
   } else {
-    window.addEventListener(
-      "load",
-      function () {
-        if ("requestIdleCallback" in window) {
-          window.requestIdleCallback(recordViewIfNeeded, { timeout: 2500 });
-        } else {
-          setTimeout(recordViewIfNeeded, 200);
-        }
-      },
-      { once: true }
-    );
+    window.addEventListener("load", scheduleViewIncrement, { once: true });
   }
 
   window.process_article = function () {

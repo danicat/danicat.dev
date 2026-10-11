@@ -51,15 +51,16 @@
         {{ if not $lcpImg }}{{ $lcpImg = $imgs.GetMatch "{*cover*,*thumbnail*}" }}{{ end }}
       {{ end }}
       {{ if and $lcpImg (not (eq $lcpImg.MediaType.SubType "svg")) }}
-        {{ $img480 := $lcpImg.Resize "480x webp q82" }}
-        {{ $img680 := $lcpImg.Resize "680x webp q82" }}
-        {{ $img960 := $lcpImg.Resize "960x webp q82" }}
+        {{ $img480 := $lcpImg.Fill "480x270 webp q45" }}
+        {{ $img600 := $lcpImg.Fill "600x338 webp q45" }}
+        {{ $img634 := $lcpImg.Fill "634x357 webp q45" }}
+        {{ $img960 := $lcpImg.Fill "960x540 webp q45" }}
         <link
           rel="preload"
           as="image"
-          href="{{ $img680.RelPermalink }}"
-          imagesrcset="{{ $img480.RelPermalink }} 480w, {{ $img680.RelPermalink }} 680w, {{ $img960.RelPermalink }} 960w"
-          imagesizes="(min-width: 1280px) 614px, (min-width: 768px) 55vw, 92vw"
+          href="{{ $img600.RelPermalink }}"
+          imagesrcset="{{ $img480.RelPermalink }} 480w, {{ $img600.RelPermalink }} 600w, {{ $img634.RelPermalink }} 634w, {{ $img960.RelPermalink }} 960w"
+          imagesizes="(min-width: 1280px) 596px, (min-width: 853px) 50vw, 88vw"
           fetchpriority="high"
           type="image/webp">
       {{ end }}
@@ -125,7 +126,7 @@
 
   {{ $alg := .Site.Params.fingerprintAlgorithm | default "sha512" }}
 
-  {{/* CSS */}}
+  {{/* CSS inlined to eliminate render-blocking stylesheet request and critical path chain */}}
   {{ $cssResources := slice }}
   {{ $schemeName := .Site.Params.colorScheme | default "blowfish" }}
   {{ $cssScheme := resources.Get (printf "css/schemes/%s.css" (lower $schemeName)) | default (resources.Get "css/schemes/blowfish.css") }}
@@ -137,12 +138,8 @@
   {{ if and .IsPage (not (.Site.Params.disableImageZoom | default true)) }}
     {{ $cssResources = $cssResources | append (resources.Get "lib/zoom/style.css") }}
   {{ end }}
-  {{ $bundleCSS := $cssResources | resources.Concat "css/main.bundle.css" | resources.Minify | resources.Fingerprint $alg }}
-  <link
-    type="text/css"
-    rel="stylesheet"
-    href="{{ $bundleCSS.RelPermalink }}"
-    integrity="{{ $bundleCSS.Data.Integrity }}">
+  {{ $bundleCSS := $cssResources | resources.Concat "css/main.bundle.css" | resources.Minify }}
+  <style>{{ $bundleCSS.Content | safeCSS }}</style>
 
   {{/* Appearance JS inlined to prevent FOUC and avoid a render-blocking network request */}}
   {{ $jsAppearance := resources.Get "js/appearance.js" | resources.ExecuteAsTemplate "js/appearance.js" . | resources.Minify }}

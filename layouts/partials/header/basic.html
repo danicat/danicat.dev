@@ -14,17 +14,17 @@
         {{ $avatarSrc := $authorImage.RelPermalink }}
         {{ $avatarSrcset := "" }}
         {{ if not $disableImageOptimization }}
-          {{ $avatar104 := $authorImage.Fill "104x104 webp q85" }}
-          {{ $avatar208 := $authorImage.Fill "208x208 webp q85" }}
+          {{ $avatar104 := $authorImage.Fill "104x104 webp q75" }}
+          {{ $avatar148 := $authorImage.Fill "148x148 webp q75" }}
+          {{ $avatar208 := $authorImage.Fill "208x208 webp q75" }}
           {{ $avatarSrc = $avatar104.RelPermalink }}
-          {{ $avatarSrcset = printf "%s 104w, %s 208w" $avatar104.RelPermalink $avatar208.RelPermalink }}
+          {{ $avatarSrcset = printf "%s 104w, %s 148w, %s 208w" $avatar104.RelPermalink $avatar148.RelPermalink $avatar208.RelPermalink }}
         {{ end }}
         <a href="{{ $homeUrl }}" class="shrink-0">
           <img
             class="home-profile-avatar nozoom"
             width="104"
             height="104"
-            decoding="async"
             alt="{{ $.Site.Params.Author.name | default "Author" }}"
             src="{{ $avatarSrc }}"
             {{ if $avatarSrcset }}srcset="{{ $avatarSrcset }}" sizes="(min-width: 640px) 104px, 84px"{{ end }} />

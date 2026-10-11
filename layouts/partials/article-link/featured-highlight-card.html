@@ -35,20 +35,20 @@
     {{ if $featured_image_resource }}
       <div class="md:col-span-7 relative aspect-video bg-neutral-100 dark:bg-neutral-900 overflow-hidden">
         {{ if or $disableImageOptimization (eq $featured_image_resource.MediaType.SubType "svg") }}
-          <img src="{{ $featured_image_resource.RelPermalink }}" alt="{{ $image_alt_text }}" fetchpriority="high" decoding="async" class="not-prose w-full h-full object-cover nozoom transition-transform duration-300 group-hover:scale-[1.02]">
+          <img src="{{ $featured_image_resource.RelPermalink }}" alt="{{ $image_alt_text }}" fetchpriority="high" class="not-prose w-full h-full object-cover nozoom transition-transform duration-300 group-hover:scale-[1.02]">
         {{ else }}
-          {{ $img480 := $featured_image_resource.Resize "480x webp q82" }}
-          {{ $img680 := $featured_image_resource.Resize "680x webp q82" }}
-          {{ $img960 := $featured_image_resource.Resize "960x webp q82" }}
+          {{ $img480 := $featured_image_resource.Fill "480x270 webp q45" }}
+          {{ $img600 := $featured_image_resource.Fill "600x338 webp q45" }}
+          {{ $img634 := $featured_image_resource.Fill "634x357 webp q45" }}
+          {{ $img960 := $featured_image_resource.Fill "960x540 webp q45" }}
           <img
-            src="{{ $img680.RelPermalink }}"
-            srcset="{{ $img480.RelPermalink }} 480w, {{ $img680.RelPermalink }} 680w, {{ $img960.RelPermalink }} 960w"
-            sizes="(min-width: 1280px) 614px, (min-width: 768px) 55vw, 92vw"
-            width="{{ $img680.Width }}"
-            height="{{ $img680.Height }}"
+            width="{{ $img600.Width }}"
+            height="{{ $img600.Height }}"
+            src="{{ $img600.RelPermalink }}"
+            srcset="{{ $img480.RelPermalink }} 480w, {{ $img600.RelPermalink }} 600w, {{ $img634.RelPermalink }} 634w, {{ $img960.RelPermalink }} 960w"
+            sizes="(min-width: 1280px) 596px, (min-width: 853px) 50vw, 88vw"
             alt="{{ $image_alt_text }}"
             fetchpriority="high"
-            decoding="async"
             class="not-prose w-full h-full object-cover nozoom transition-transform duration-300 group-hover:scale-[1.02]">
         {{ end }}
       </div>
