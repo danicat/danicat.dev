@@ -6,18 +6,20 @@ heroStyle: big
 series:
   - Gemini for Go Developers
 series_order: 3
-summary: "Go GenAI SDK、Genkit、ADKを使用してGoで自律型AIエージェントを構築する方法を、実践的なレトロゲーム鑑定士エージェントを通じて学びます。"
+summary: "Goで自律型AIエージェントを構築するには何が必要なのか？同じレトロゲーム鑑定士エージェントを3つの方法で実装し、Go GenAI SDK、Genkit、ADKを徹底比較します。"
 tags:
   - adk
+  - ai-agents
+  - cloud-run
   - gemini
   - genkit
   - golang
-title: "Go開発者のためのGemini: Goでエージェントを構築する"
+title: "GoでAIエージェントを構築する：GenAI SDK、Genkit、ADKの徹底比較"
 slug: "gemini-for-go-developers-part-3-building-agents"
 aliases:
   - "/ja/posts/20260825-gemini-for-go-developers-part-3-building-agents/"
   - "/ja/posts/20260826-gemini-for-go-developers-part-3-building-agents/"
-description: "Go開発者のためのGemini 第3部: Go GenAI SDK、Genkit、Google ADKを使ってレトロゲーム鑑定士エージェントを構築し、Cloud Runなどのランタイム環境を比較します。"
+description: "Goでレトロゲーム鑑定士エージェントを3つのパラダイム（Go GenAI SDKのツールループ、Genkitの型付きフロー、Google ADKのマルチエージェント）で実装し比較します。"
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -26,9 +28,9 @@ dependencies:
   - "google.golang.org/genai"
 ---
 
-**Go開発者のためのGemini**シリーズへようこそ！[第1部: Geminiモデルファミリー]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}})では、モデル階層ごとのGeminiの機能を確認し、[第2部: Geminiを使ったコーディング]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}})では、Go開発向けにコーディングエージェントを設定する方法を探求しました。
+コーディングエージェントを使ってGoコードを書くことは、AI活用の片面にすぎません。もう一つの側面は、GoでAI対応アプリケーションや自律型エージェントのランタイムそのものを設計・構築することです。
 
-今回は立場を逆転させ、GoでAI対応アプリケーションや自律型エージェントを構築する方法を探求します。本記事では、エージェントの根本的な仕組みを紐解き、具体的なユースケースである**レトロゲーム鑑定士（Retro Game Appraiser）**を定義して、Goにおける3つの異なるパラダイムで段階的に構築していきます。
+Goエコシステムには複数のライブラリが存在するため、どの抽象化レイヤーを選ぶべきかは必ずしも自明ではありません。本ガイドでは、エージェントの根本的な仕組みを紐解き、具体的なユースケースである**レトロゲーム鑑定士（Retro Game Appraiser）**を定義して、Goにおける3つの異なるパラダイムで段階的に構築していきます。
 
 1. **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)** を使って直接構築する低レベルのエージェントループ
 2. **[Genkit](https://genkit.dev)** を使って構築する構造化されたフローベースのパイプライン
@@ -845,8 +847,10 @@ Cloud Runの主なメリット:
 * **Agent-to-Agent（A2A）プロトコル:** 組織内の異なる領域に存在する独立したエージェント同士が、機能を検出し、スキーマを合意し、タスクを相互に委譲できる標準化されたプロトコル。
 * **セキュリティ、エージェントID、Model Armor:** きめ細やかなIAM権限、VPC Service Controls境界、およびプロンプトインジェクションやデータ漏洩、ポリシー違反を検知・防御するModel Armorランタイム保護。
 
-## 次回予告
+## 次に読むべきガイド
 
-1つの記事ですべてのフレームワークを網羅し切ることは困難ですので、「Go開発者のためのGemini」の今後の章でそれぞれを詳しく掘り下げていきます。[**第4部：Genkit Goによるエージェンティック・バックエンドの構築**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}})では、型付きフロー、`dotprompt` テンプレート、ミドルウェア、Agent Skills、ステートフルなマルチエージェント委譲、そして本番環境の可観測性まで Genkit Go を徹底解説し、その後の章で Google の **Agent Development Kit (ADK)** も詳しく取り上げる予定です。
+同じエージェントを3通りの方法で実装してみると、それぞれのトレードオフが明確に浮かび上がります。**Go GenAI SDK** は低レベルの実行ループを完全に制御したい場合に適しており、**Genkit** は型安全なフロー、プロンプト管理、HTTPサービス構築で真価を発揮し、**ADK** はセッション駆動のマルチエージェントシステムに構造化されたプリミティブを提供します。
 
-Stay tuned, and happy hacking!
+このスターターサンプルから実際のアプリケーションへと発展させる実践例については、[**Python製のRAGエージェントをGoとGenkitで書き直した理由**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}})をご覧ください。PythonとSQLite RAGで書かれた旧式のエージェントを、型付き `dotprompt` テンプレート、Agent Skillsミドルウェア、マルチエージェント委譲を用いて単一バイナリのGoエージェントへと刷新するプロセスを詳しく解説しています。
+
+Happy hacking!

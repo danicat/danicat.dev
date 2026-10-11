@@ -34,14 +34,20 @@ summary: "Senior DevRel Engineer at Google, ex-GDE, and builder of scalable Go s
 description: "About Daniela Petruzalek: Senior Developer Relations Engineer at Google based in London, specializing in Go, Data Engineering, AI Agents, and disciplined vibe coding."
 
 speaking:
-  heading: "Speaking & Workshops"
-  subtitle: "International conference keynotes, technical sessions, and hands-on engineering workshops."
+  heading: "Speaking, Videos & Workshops"
+  subtitle: "International conference keynotes, YouTube demos, technical sessions, and hands-on engineering workshops."
   cards:
-    - icon: "🎬"
-      title: "Talks & Recordings"
-      description: "Browse past and upcoming conference sessions, slide decks, and video recordings."
+    - icon: "📅"
+      title: "Events & Talks"
+      description: "Browse past and upcoming conference sessions, slide decks, and workshop materials."
       url: "/events/"
       cta: "View Events"
+      external: false
+    - icon: "🎬"
+      title: "Videos & YouTube"
+      description: "Watch coding demos on @danikopaizen, AI agent deep dives, and recorded conference keynotes."
+      url: "/videos/"
+      cta: "Watch Videos"
       external: false
     - icon: "🎤"
       title: "Speaker Profile"

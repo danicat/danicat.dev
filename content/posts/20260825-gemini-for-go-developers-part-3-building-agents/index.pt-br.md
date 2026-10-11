@@ -6,18 +6,20 @@ heroStyle: big
 series:
   - Gemini for Go Developers
 series_order: 3
-summary: "Aprenda a construir agentes autônomos em Go usando o Go GenAI SDK, Genkit e ADK através de um exemplo prático de Avaliador de Jogos Retrô."
+summary: "O que realmente é necessário para construir um agente autônomo em Go? Implementamos o mesmo Avaliador de Jogos Retrô de três formas para comparar o Go GenAI SDK, Genkit e ADK."
 tags:
   - adk
+  - ai-agents
+  - cloud-run
   - gemini
   - genkit
   - golang
-title: "Gemini para Desenvolvedores Go: Construindo Agentes em Go"
+title: "Construindo Agentes de IA em Go: GenAI SDK, Genkit e ADK"
 slug: "gemini-for-go-developers-part-3-building-agents"
 aliases:
   - "/pt-br/posts/20260825-gemini-for-go-developers-part-3-building-agents/"
   - "/pt-br/posts/20260826-gemini-for-go-developers-part-3-building-agents/"
-description: "Parte 3 de Gemini para Desenvolvedores Go: construa um agente Avaliador de Jogos Retrô com o Go GenAI SDK, Genkit e Google ADK antes de publicar no Cloud Run."
+description: "Construa um agente Avaliador de Jogos Retrô em Go em três paradigmas: loops de ferramentas com o Go GenAI SDK, fluxos tipados no Genkit e multiagentes no ADK."
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -26,9 +28,9 @@ dependencies:
   - "google.golang.org/genai"
 ---
 
-Boas-vindas de volta à série **Gemini para Desenvolvedores Go**! Na [Parte 1: A Família de Modelos Gemini]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), conhecemos as capacidades do Gemini entre diferentes categorias de modelos e, na [Parte 2: Programando com o Gemini]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}), exploramos como configurar nossos agentes de programação para o desenvolvimento em Go.
+Usar agentes de programação para escrever código Go é apenas um lado da equação. O outro lado é projetar suas próprias aplicações habilitadas para IA e runtimes de agentes autônomos em Go.
 
-Agora é hora de inverter os papéis e explorar o outro lado da equação: como construir aplicações habilitadas para IA e agentes autônomos em Go. Neste capítulo, vamos dissecar a mecânica fundamental de um agente, definir um domínio concreto — um **Avaliador de Jogos Retrô** — e construí-lo passo a passo em três paradigmas distintos em Go:
+Com diversas bibliotecas disponíveis no ecossistema Go, escolher o nível certo de abstração nem sempre é óbvio. Neste guia, vamos dissecar a mecânica fundamental de um agente, definir um domínio concreto (um **Avaliador de Jogos Retrô**) e construí-lo passo a passo em três paradigmas distintos em Go:
 
 1. Um loop de agente de baixo nível construído diretamente com o **[Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai)**.
 2. Um pipeline estruturado e orientado a fluxos (*flows*) construído com o **[Genkit](https://genkit.dev)**.
@@ -845,8 +847,10 @@ Em vez de provisionar bancos de dados e escrever adaptadores manuais de persist�
 * **Protocolos Agente a Agente (A2A):** Protocolos padronizados que permitem a agentes independentes descobrir capacidades, negociar contratos e delegar tarefas entre si através de diferentes áreas da organização.
 * **Segurança, Identidade do Agente e Model Armor:** Permissões granulares de IAM, perímetros de VPC Service Controls e proteção em tempo de execução com o Model Armor contra injeção de prompt, vazamento de dados e violações de política.
 
-## O que vem a seguir?
+## Para onde ir a partir daqui
 
-É difícil fazer justiça a todos esses frameworks em um único artigo, por isso nos próximos capítulos de **Gemini para Desenvolvedores Go** vamos nos aprofundar em cada um deles. Na [**Parte 4: Construindo Backends Agentivos com Genkit Go**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}), faremos um mergulho profundo no Genkit Go — cobrindo fluxos tipados, templates `dotprompt`, middlewares, Agent Skills, delegação multiagente com estado e observabilidade em produção — antes de explorar o **Agent Development Kit (ADK)** do Google em um capítulo futuro.
+Construir o mesmo agente de três formas deixa os trade-offs claros: o **Go GenAI SDK** dá controle total sobre o loop de execução, o **Genkit** brilha em fluxos fortemente tipados, gestão de prompts e serviços HTTP, e o **ADK** oferece primitivas estruturadas para sistemas multiagentes orientados a sessões.
 
-Fique ligado, e boas programações!
+Se você quiser ver como uma aplicação real evolui além deste exemplo inicial, confira [**Por Que Reescrevi Meu Agente RAG em Python Usando Go e Genkit**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}), onde refatoramos um agente legado em Python com RAG em um binário Go compilado usando templates `dotprompt` tipados, middleware de Agent Skills e delegação multiagente.
+
+Boas programações!

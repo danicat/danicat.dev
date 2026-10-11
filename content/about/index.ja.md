@@ -34,14 +34,20 @@ summary: "Google シニアDevRelエンジニア、元GDE。Go言語とAIエー�
 description: "ダニエラ・ペトルザレクについて：ロンドン在住のGoogle シニアDevRelエンジニア。Go言語、データ基盤、AIエージェント、規律あるバイブコーディングが専門。"
 
 speaking:
-  heading: "登壇・ワークショップ"
-  subtitle: "国際技術カンファレンスでの基調講演、技術セッション、実践的なハンズオンワークショップ。"
+  heading: "登壇・動画・ワークショップ"
+  subtitle: "国際技術カンファレンスでの基調講演、YouTubeデモ動画、技術セッション、実践的なハンズオンワークショップ。"
   cards:
-    - icon: "🎬"
-      title: "講演一覧・録画アーカイブ"
-      description: "過去および今後のカンファレンス登壇、スライド資料、講演動画をご覧いただけます。"
+    - icon: "📅"
+      title: "イベント・登壇一覧"
+      description: "過去および今後のカンファレンス登壇、スライド資料、ワークショップ教材をご覧いただけます。"
       url: "/ja/events/"
       cta: "イベントを見る"
+      external: false
+    - icon: "🎬"
+      title: "動画 & YouTube"
+      description: "@danikopaizen チャンネルのデモ動画、AIエージェント解説、カンファレンス講演アーカイブ。"
+      url: "/ja/videos/"
+      cta: "動画を見る"
       external: false
     - icon: "🎤"
       title: "スピーカープロフィール"

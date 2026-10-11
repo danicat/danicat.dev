@@ -10,6 +10,30 @@
   },
   "talks": [
     {
+      "id": "2026-10-08-devoxx-belgium-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "Devoxx Belgium 2026",
+      "date": "2026-10-08",
+      "location": "Antwerp, Belgium",
+      "url": "https://devoxx.be/",
+      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering, covering the transition from code completion to autonomous agents that plan, execute, and verify complex tasks.",
+      "image": "https://files.speakerdeck.com/presentations/13ab34cf62de4379bd8765e4db015379/preview_slide_0.jpg?39701277",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "recording": "https://www.youtube.com/watch?v=nHRSwiFNQ9E",
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "codelab": null,
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "ai-agents",
+        "llms",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
       "id": "2026-09-30-gdg-london-a-tale-of-three-agents-building-agents-in-go",
       "title": "A Tale of Three Agents: Building Agents in Go",
       "event": "GDG London",
@@ -20,9 +44,9 @@
       "image": "https://files.speakerdeck.com/presentations/dbdc6edb389c4f71a7c666a9ea4fb329/preview_slide_0.jpg?40827016",
       "slides": "https://speakerdeck.com/danicat/gdg-london-a-tale-of-three-agents",
       "recording": null,
-      "source_code": null,
+      "source_code": "https://github.com/danicat/gemini-for-go-developers/tree/main/part-3",
       "codelab": null,
-      "materials": null,
+      "materials": "/posts/gemini-for-go-developers-part-3-building-agents/",
       "language": "en",
       "tags": [
         "adk",
@@ -71,9 +95,9 @@
       "image": "https://files.speakerdeck.com/presentations/7da7a93607df47f3a903cdcc8f4e69e9/preview_slide_0.jpg?40490934",
       "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-construindo-agentes-de-ia-usando-go",
       "recording": null,
-      "source_code": null,
+      "source_code": "https://github.com/danicat/gemini-for-go-developers/tree/main/part-3",
       "codelab": null,
-      "materials": null,
+      "materials": "/pt-br/posts/gemini-for-go-developers-part-3-building-agents/",
       "language": "pt-BR",
       "tags": [
         "adk",
@@ -96,7 +120,7 @@
       "summary": "Comprehensive workshop for Go developers exploring the Google GenAI SDK, function calling, embeddings, Model Context Protocol (MCP) integration, and vibe-coding a mini game with Gemini CLI.",
       "image": "https://files.speakerdeck.com/presentations/efb8ab47747645cdab3219ba595f790b/preview_slide_0.jpg?40496029",
       "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-gemini-para-desenvolvedores-go",
-      "recording": null,
+      "recording": "https://www.youtube.com/watch?v=i_5uKHL7sR4",
       "source_code": "https://github.com/danicat/gclatam26",
       "codelab": null,
       "materials": null,
@@ -215,7 +239,7 @@
       "url": null,
       "summary": "Exploring modern AI-driven development workflows, developer tooling, and the evolution from code assistance to autonomous agent pair programming.",
       "slides": null,
-      "recording": null,
+      "recording": "https://www.youtube.com/watch?v=-BGxpt0vdBo",
       "source_code": null,
       "image": null,
       "tags": [
@@ -674,7 +698,7 @@
       "url": "https://golab.io/talks/the-gopher-s-craft-in-the-age-of-ai",
       "summary": "The talk explores the evolving role of Gophers in the age of AI, focusing on extending language models with custom tools and integrating AI as a powerful extension of skills, using the Model Context Protocol (MCP) and live Go demonstrations.",
       "slides": "https://speakerdeck.com/danicat/golab-2025-the-gophers-craft-in-the-age-of-ai",
-      "recording": null,
+      "recording": "https://www.youtube.com/watch?v=RtVauMye7vk",
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/175701bb35bd4722a8b59ee9c9ae06d0/preview_slide_0.jpg?38277118",
       "tags": [
@@ -718,7 +742,7 @@
       "url": "https://thedevconf.com/tdc/2025/saopaulo/",
       "summary": "This talk demonstrates how to build an AI agent step-by-step using Python, Vertex AI, Gemini, and Osquery. It explores how Osquery, a tool for exposing OS information via SQL, can be leveraged by large language models to enable advanced diagnostics through natural language queries, eliminating the need to memorize complex command lines.",
       "slides": "https://speakerdeck.com/danicat/como-criar-um-agente-de-diagnosticos-usando-gemini-e-osquery",
-      "recording": null,
+      "recording": "https://www.youtube.com/watch?v=jv_qWM5BqJg",
       "source_code": null,
       "image": "https://files.speakerdeck.com/presentations/6b5cd0ea918744c6ab99c3e2da4df857/preview_slide_0.jpg?36647960",
       "language": "pt-BR",

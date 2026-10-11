@@ -1,0 +1,189 @@
+{{ define "main" }}
+{{ .Scratch.Set "scope" "list" }}
+
+{{ $channel := .Site.Data.videos.channel }}
+{{ $allVideos := .Site.Data.videos.videos }}
+{{ $sortedVideos := sort $allVideos "date" "desc" }}
+{{ $langPrefix := "" }}
+{{ if ne .Site.Language.Lang "en" }}
+  {{ $langPrefix = printf "/%s" .Site.Language.Lang }}
+{{ end }}
+
+{{ $demos := where $sortedVideos "kind" "demo" }}
+{{ $talks := where $sortedVideos "kind" "talk" }}
+{{ $interviews := where $sortedVideos "kind" "interview" }}
+
+<header class="mt-5 mb-6">
+  {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
+    {{ partial "breadcrumbs.html" . }}
+  {{ end }}
+  <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+  {{ with (.Params.Summary | default .Params.Description) }}
+    <div class="mt-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ . }}
+    </div>
+  {{ end }}
+</header>
+
+{{/* YouTube Channel Hero Banner */}}
+<section class="danicat-card p-5 sm:p-6 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+  <div class="space-y-1.5 min-w-0">
+    <div class="flex flex-wrap items-center gap-2">
+      <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400 border border-red-500/20">
+        <span class="inline-block w-3.5 h-3.5">{{ partial "icon.html" "youtube" }}</span>
+        {{ i18n "videos_channel_badge" | default "YouTube Channel" }}
+      </span>
+      <a href="{{ $channel.url }}" target="_blank" rel="me noopener noreferrer" class="text-sm font-mono font-semibold text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 no-underline">
+        {{ $channel.handle }} &#8599;
+      </a>
+    </div>
+    <p class="text-sm sm:text-base text-neutral-600 dark:text-neutral-300 m-0 leading-relaxed">
+      {{ i18n "videos_channel_desc" | default $channel.description }}
+    </p>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-3 shrink-0">
+    <a href="{{ $channel.subscribeUrl }}" target="_blank" rel="noopener noreferrer"
+       class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-colors no-underline">
+      <span class="inline-block w-4 h-4">{{ partial "icon.html" "youtube" }}</span>
+      <span>{{ i18n "videos_subscribe_cta" | default "Subscribe on YouTube" }}</span>
+    </a>
+    <a href="{{ $channel.playlistUrl }}" target="_blank" rel="noopener noreferrer"
+       class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 transition-colors no-underline">
+      <span>{{ i18n "videos_playlist_cta" | default "Talks Playlist" }} &#8599;</span>
+    </a>
+  </div>
+</section>
+
+{{/* Category Filter Pills */}}
+<nav class="flex flex-wrap items-center gap-2 mb-6 print:hidden" aria-label="Filter videos by category">
+  <button type="button" data-filter="all" aria-pressed="true"
+          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold transition-colors cursor-pointer bg-primary-600 text-white border border-primary-600">
+    {{ i18n "videos_filter_all" | default "All" }} ({{ len $sortedVideos }})
+  </button>
+  <button type="button" data-filter="demo" aria-pressed="false"
+          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
+    {{ i18n "videos_filter_demos" | default "Channel & Demos" }} ({{ len $demos }})
+  </button>
+  <button type="button" data-filter="talk" aria-pressed="false"
+          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
+    {{ i18n "videos_filter_talks" | default "Conference Talks" }} ({{ len $talks }})
+  </button>
+  <button type="button" data-filter="interview" aria-pressed="false"
+          class="video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500">
+    {{ i18n "videos_filter_interviews" | default "Interviews & Panels" }} ({{ len $interviews }})
+  </button>
+</nav>
+
+{{ if gt (len $sortedVideos) 0 }}
+<section class="space-y-6 w-full mt-0 flex flex-col" id="videos-list">
+  {{ range $idx, $v := $sortedVideos }}
+    {{ partial "video-card.html" (dict "video" $v "index" $idx "langPrefix" $langPrefix) }}
+  {{ end }}
+</section>
+
+<script>
+function initVideosPage() {
+  const watchLabel = '{{ i18n "videos_watch_label" | default "Watch" }}';
+  const hideLabel = '{{ i18n "videos_hide_label" | default "Hide Video" }}';
+
+  // Filter buttons
+  const filterBtns = document.querySelectorAll('.video-filter-btn');
+  const cards = document.querySelectorAll('.video-card');
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selected = btn.getAttribute('data-filter');
+      filterBtns.forEach(b => {
+        const isActive = b === btn;
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) {
+          b.className = 'video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-semibold transition-colors cursor-pointer bg-primary-600 text-white border border-primary-600';
+        } else {
+          b.className = 'video-filter-btn px-3.5 py-1.5 rounded-full text-sm font-medium transition-colors cursor-pointer bg-neutral-100 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300 border border-neutral-200 dark:border-neutral-700 hover:border-primary-500';
+        }
+      });
+      cards.forEach(card => {
+        const kind = card.getAttribute('data-kind');
+        if (selected === 'all' || kind === selected) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Thumbnail click-to-play facade
+  document.querySelectorAll('.thumb-action-video').forEach(thumb => {
+    const triggerVideo = () => {
+      const targetId = thumb.getAttribute('data-target');
+      const toggleBtn = document.querySelector(`.video-toggle-btn[data-target="${targetId}"]`);
+      if (toggleBtn) {
+        toggleBtn.click();
+        const container = document.getElementById(targetId);
+        if (container && !container.classList.contains('hidden')) {
+          container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    };
+    thumb.addEventListener('click', triggerVideo);
+    thumb.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerVideo();
+      }
+    });
+  });
+
+  // Lazy iframe / video injection
+  document.querySelectorAll('.video-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const videoUrl = btn.getAttribute('data-video-url');
+      const container = document.getElementById(targetId);
+      const labelSpan = btn.querySelector('.btn-label');
+      if (!container) return;
+
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+        if (labelSpan) labelSpan.textContent = hideLabel;
+
+        if (!container.hasChildNodes() || container.innerHTML.trim() === '') {
+          let embedHtml = '';
+          if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            let videoId = '';
+            if (videoUrl.includes('youtu.be/')) {
+              videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+            } else if (videoUrl.includes('watch?v=')) {
+              videoId = videoUrl.split('watch?v=')[1].split('&')[0];
+            }
+            embedHtml = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          } else if (videoUrl.endsWith('.webm') || videoUrl.endsWith('.mp4')) {
+            embedHtml = `<video class="w-full h-full bg-black" controls autoplay preload="metadata"><source src="${videoUrl}" type="video/${videoUrl.endsWith('.webm') ? 'webm' : 'mp4'}">Your browser does not support video.</video>`;
+          } else {
+            embedHtml = `<iframe class="w-full h-full" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
+          }
+          container.innerHTML = embedHtml;
+        }
+      } else {
+        container.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+        if (labelSpan) labelSpan.textContent = watchLabel;
+        container.innerHTML = '';
+      }
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initVideosPage);
+} else {
+  initVideosPage();
+}
+</script>
+{{ end }}
+
+{{ end }}

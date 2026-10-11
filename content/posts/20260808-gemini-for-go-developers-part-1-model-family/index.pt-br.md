@@ -6,24 +6,27 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 1
-summary: Conheça os diferentes modelos da família Gemini, suas capacidades e como consumi-los via código.
+summary: "Nem toda tarefa exige um modelo de raciocínio de fronteira. Aprenda a navegar pelo catálogo de modelos Gemini, equilibrar latência e custo, e chamar seu primeiro modelo em Go."
 tags:
   - gemini
+  - genai-sdk
   - golang
-title: "Gemini para Desenvolvedores Go: A Família de Modelos Gemini"
+  - llm
+  - multimodal
+title: "A Família de Modelos Gemini: Um Guia Prático para Gophers"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/pt-br/posts/20260808-gemini-for-go-developers-part-1-model-family/"
-description: "Parte 1 de Gemini para Desenvolvedores Go: compare os modelos Gemini 3.x, Flash, Pro e Nano Banana, explore as APIs e escreva seu primeiro código Go com o GenAI SDK."
+description: "Compare os modelos Gemini 3.x Pro, Flash, Flash-Lite e Nano Banana, ajuste níveis de raciocínio e escreva aplicações multimodais em Go com o GenAI SDK oficial."
 proficiencyLevel: "Beginner"
 dependencies:
   - "Go 1.24+"
   - "google.golang.org/genai"
 ---
 
-Boas-vindas ao **Gemini para Desenvolvedores Go**! Esta série é o seu guia completo para construir software potencializado por IA em Go. Ao longo de uma série de capítulos práticos, abordaremos desde codificação agentiva e a criação de agentes autônomos com **Genkit** e **ADK**, até o desenvolvimento de jogos e o uso da **G3 Stack** completa (Go, Gemini, GCP) para fazer deploy de aplicações na nuvem.
+Construir software confiável potencializado por IA em Go começa por entender os modelos por baixo do capô. Antes de recorrer a frameworks de agentes de alto nível ou orquestrar fluxos de múltiplas etapas, você precisa saber qual modelo se adapta à sua carga de trabalho, como ajustar seu orçamento de raciocínio e qual superfície de API combina com a sua arquitetura.
 
-No Capítulo 1, estabelecemos a base explorando a família de modelos Gemini, configurações de modelos e escrevendo nosso primeiro código com o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
+Neste guia, vamos explorar a família de modelos Gemini, detalhar parâmetros essenciais de configuração como níveis de *thinking* e escrever nossa primeira aplicação multimodal usando o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
 
 ## A família de modelos Gemini
 
@@ -274,8 +277,11 @@ Aqui está o resultado:
 
 ![Saída de imagem de gato mago gerada no terminal Go](image.png "O verdadeiro propósito da IA: geração infinita de fotos de gatinhos")
 
-Embora este seja apenas um exemplo simples para mostrar como trabalhar com o SDK, ao longo desta série veremos mais exemplos tanto do Go GenAI SDK quanto de frameworks de nível mais alto como o [Genkit](https://genkit.dev/) e o [Agent Development Kit (ADK)](https://adk.dev/).
+Embora este seja um exemplo simples para mostrar como o SDK de baixo nível funciona, essas mesmas primitivas alimentam desde ferramentas locais de CLI até runtimes de agentes em produção.
 
-## O que vem a seguir?
+## Para onde ir a partir daqui
 
-Na [**Parte 2: Programando com o Gemini**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}) da série **Gemini para Desenvolvedores Go**, vamos nos aprofundar em agentes de codificação e em como preparar seu ambiente para trabalhar em bases de código Go. Fique ligado!
+Agora que você já conhece o catálogo de modelos Gemini e o Go GenAI SDK, há dois caminhos naturais para explorar a seguir:
+
+* Se você quiser usar o Gemini para escrever, verificar e refatorar código Go mais rápido, confira [**Por Que Go Foi Feito para Agentes de Código (E Como Ajustar o Seu)**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}).
+* Se você estiver pronto para construir agentes com chamada de ferramentas e comparar o Go GenAI SDK com frameworks de nível mais alto como [Genkit](https://genkit.dev/) e [ADK](https://adk.dev/), vá direto para [**Construindo Agentes de IA em Go: GenAI SDK, Genkit e ADK**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}).

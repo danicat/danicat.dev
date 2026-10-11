@@ -6,17 +6,19 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 2
-summary: 「Go開発者のためのGemini」第2部。Goの高いエージェンティック親和性、Antigravityエコシステムの各サーフェス、実践的なAIネイティブ開発環境の構築手順を徹底解説します。
+summary: "AI時代になぜプログラミング言語の選択が重要なのか？Goの高いエージェンティック親和性を紐解き、AntigravityやMCPサーバー、Agent SkillsをGo向けに最適化する手順を解説します。"
 tags:
+  - agent-skills
   - antigravity
   - gemini
+  - godoctor
   - golang
   - mcp
-title: "Go開発者のためのGemini：Geminiでコーディングする"
+title: "なぜGoはコーディングエージェントに最適なのか（そしてそのチューニング方法）"
 slug: "gemini-for-go-developers-part-2-coding-with-gemini"
 aliases:
   - "/ja/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"
-description: "Go開発者のためのGemini第2部：Goの高いエージェンティック親和性、Antigravity各サーフェス、MCP設定とAIネイティブ開発環境を解説。"
+description: "AIコーディングハーネスでGoのエージェンティック親和性を最大化。Antigravity、MCPサーバー、Agent Skills、godoctorを活用した実践的なGo開発環境を解説します。"
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -24,9 +26,9 @@ dependencies:
   - "godoctor"
 ---
 
-**Go開発者のためのGemini** シリーズへようこそ！[パート1: Geminiモデルファミリー]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}) では、特定のユースケースに応じたGeminiモデルの使い分けやモデルを利用するためのAPIサーフェスを掘り下げ、公式の [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) を使って最初のGoコードを作成しました。
+AIコーディングエージェントとGoを組み合わせるとき、どうすれば最高の成果を引き出せるでしょうか？本記事では、Goにおけるエージェンティック・コーディングのための実践的でシグナル密度の高い開発環境の構築方法を探求します。
 
-続くこのパート2では、Geminiを活用してGoでコーディングを行う方法を探究します。まずはAI時代におけるプログラミング言語の選択についての考察から始め、エージェントハーネス（実行環境）やエージェント標準規格の動向を整理し、開発環境においてGoのエージェンティック親和性を高めるための推奨セットアップで締めくくります。
+まずはAI時代においてもプログラミング言語の選択が重要である理由を考察し、エージェントハーネス（実行環境）やオープンなカスタマイズ規格（Rules、MCP、Skills、Hooks、Subagents、Plugins）の全体像を整理した上で、日々のワークフローでGoのエージェンティック親和性を最大化するための推奨セットアップを紹介します。
 
 ## AI時代になぜGoを使うのか？
 
@@ -208,8 +210,11 @@ Geminiを使って今すぐGo開発を始めたい方のための、5分で完�
    エージェントにプロンプトを入力して、自律的な検証パスを実行させます。
    > Run a smart build on this package with godoctor, address any findings, and evaluate the test suite with selene.
 
-## 次のステップ
+## まとめ
 
-本章では、エージェントハーネスの全体像、カスタマイズ規格（Rules、MCP、Skills、Hooks、Subagents、Plugins）、そしてGeminiを使った実践的なGo開発環境の構築方法について解説しました。
+本記事では、Goの高速なコンパイラと厳格なツールチェーンが高いエージェンティック親和性をもたらす理由、カスタマイズ規格（Rules、MCP、Skills、Hooks、Subagents、Plugins）の組み合わせ方、そしてAntigravityにおける実践的なGo開発環境の構築方法について解説しました。
 
-続く [**パート3: Goでエージェントを構築する**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}) では、テーブルの反対側へと回り、Goを用いた自律型エージェントランタイムの構築に踏み込みます。ツール呼び出し（Tool Calling）ループ、コンテキストエンジニアリング、そして **Genkit Go** や **Agent Development Kit (ADK)** などの高レベルエージェントフレームワークを探求します。それでは、次回お会いしましょう！
+開発ワークフローが整ったら、次はテーブルの反対側へと回り、Goで自律型エージェントそのものを構築してみましょう。
+
+* Goにおける3大エージェントアーキテクチャの比較については、[**GoでAIエージェントを構築する：GenAI SDK、Genkit、ADKの徹底比較**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}})をご覧ください。
+* コンパイル済みGoバイナリ内でAgent Skillsやマルチエージェント委譲を動かす実践例については、[**Python製のRAGエージェントをGoとGenkitで書き直した理由**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}})をご覧ください。

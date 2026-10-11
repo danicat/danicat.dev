@@ -1,0 +1,619 @@
+{
+  "channel": {
+    "name": "Daniela Petruzalek",
+    "handle": "@danikopaizen",
+    "channelId": "UCRa5xBK_o3-HPAqph86z_LQ",
+    "url": "https://www.youtube.com/@danikopaizen",
+    "subscribeUrl": "https://www.youtube.com/@danikopaizen?sub_confirmation=1",
+    "playlistId": "PL9dBIQfOJu-6uny3OQLlG5MbJ_hYWCJjr",
+    "playlistUrl": "https://www.youtube.com/playlist?list=PL9dBIQfOJu-6uny3OQLlG5MbJ_hYWCJjr",
+    "avatar": "/images/profile.png",
+    "description": "Hands-on demos, AI agent deep dives, game development in Go, and international conference keynotes."
+  },
+  "videos": [
+    {
+      "id": "A2zOv5Xoh0M",
+      "title": "Antigravity Plugins & UI Extensions: Building a 2D Game Studio Inside My Coding Agent",
+      "date": "2026-10-10",
+      "duration": "5:26",
+      "kind": "demo",
+      "channelName": "Daniela Petruzalek",
+      "event": null,
+      "url": "https://www.youtube.com/watch?v=A2zOv5Xoh0M",
+      "thumbnail": "https://img.youtube.com/vi/A2zOv5Xoh0M/hqdefault.jpg",
+      "summary": "Walkthrough of Antigravity 2.22 UI Extensions and sidecars, using the agy-game-studio plugin to design, build, and playtest a 2D Tower Defense game in Go without leaving the coding agent workspace.",
+      "language": "en",
+      "slides": null,
+      "source_code": "https://github.com/danicat/agy-game-studio",
+      "post": "/posts/building-sidecars-and-ui-extensions-in-antigravity/",
+      "tags": [
+        "agent-skills",
+        "antigravity",
+        "ebitengine",
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "nHRSwiFNQ9E",
+      "title": "State of Agentic Coding",
+      "date": "2026-10-08",
+      "duration": "48:03",
+      "kind": "talk",
+      "channelName": "Devoxx",
+      "event": "Devoxx Belgium 2026",
+      "url": "https://www.youtube.com/watch?v=nHRSwiFNQ9E",
+      "thumbnail": "https://img.youtube.com/vi/nHRSwiFNQ9E/hqdefault.jpg",
+      "summary": "An exploration of the current landscape and future directions of AI agents in software engineering, covering planning systems, Agent Skills, deterministic hooks, and subagent orchestration.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
+      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "post": null,
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "hooks",
+        "mcp",
+        "subagents"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "i_5uKHL7sR4",
+      "title": "Build a 2D game with Go and Antigravity in 1 hour",
+      "date": "2026-09-17",
+      "duration": "2:18",
+      "kind": "demo",
+      "channelName": "Daniela Petruzalek",
+      "event": "GopherCon LATAM 2026",
+      "url": "https://www.youtube.com/watch?v=i_5uKHL7sR4",
+      "thumbnail": "https://img.youtube.com/vi/i_5uKHL7sR4/hqdefault.jpg",
+      "summary": "Recap and game jam showcase from the Gemini for Go Developers workshop at GopherCon LATAM 2026, where attendees built playable 2D Ebitengine games in one hour under the theme 'Panic & Recover'.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-gemini-para-desenvolvedores-go",
+      "source_code": "https://github.com/danicat/gclatam26",
+      "post": null,
+      "tags": [
+        "antigravity",
+        "ebitengine",
+        "game-dev",
+        "gemini",
+        "golang",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "-BGxpt0vdBo",
+      "title": "AI-driven development (I/O Connect '26)",
+      "date": "2026-07-15",
+      "duration": "37:15",
+      "kind": "talk",
+      "channelName": "Google Cloud Events",
+      "event": "Google I/O Connect Berlin 2026",
+      "url": "https://www.youtube.com/watch?v=-BGxpt0vdBo",
+      "thumbnail": "https://img.youtube.com/vi/-BGxpt0vdBo/hqdefault.jpg",
+      "summary": "Session from Google I/O Connect Berlin '26 with Wietse Venema and Daniela Petruzalek exploring agentic development workflows on Google Cloud, Gemini CLI, and autonomous pair programming.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "ai-agents",
+        "gemini-cli",
+        "google-cloud",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "Pi_J0hYpq8M",
+      "title": "IWD 2026 Special: Break the Pattern, Engineer the Agentic Future",
+      "date": "2026-03-15",
+      "duration": "1:21:40",
+      "kind": "interview",
+      "channelName": "GDG on Campus UTM",
+      "event": "International Women's Day 2026 Summit",
+      "url": "https://www.youtube.com/watch?v=Pi_J0hYpq8M",
+      "thumbnail": "https://img.youtube.com/vi/Pi_J0hYpq8M/hqdefault.jpg",
+      "summary": "International Women's Day 2026 summit session with Daniela Petruzalek and Zhi Yi Ho discussing engineering leadership, career patterns, and building the agentic future.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "ai-agents",
+        "career",
+        "community"
+      ],
+      "categories": [
+        "Perspectives"
+      ]
+    },
+    {
+      "id": "fosdem-2026-godoctor",
+      "title": "Making of GoDoctor: an MCP server for Go development",
+      "date": "2026-02-01",
+      "duration": "28:00",
+      "kind": "talk",
+      "channelName": "FOSDEM",
+      "event": "FOSDEM 2026",
+      "url": "https://video.fosdem.org/2026/ub5132/3BD3Z9-making_of_godoctor_an_mcp_server_for_go_development.av1.webm",
+      "thumbnail": "https://files.speakerdeck.com/presentations/3b1328a8b6f9456e88318dbb2c1efaaf/preview_slide_0.jpg?38277323",
+      "summary": "A deep dive into the design and implementation of GoDoctor, a specialized Model Context Protocol (MCP) server for Go, exploring how domain-specific AST tools improve agent reliability.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/making-of-godoctor-lessons-learned-while-building-a-go-aware-mcp-server",
+      "source_code": "https://github.com/danicat/godoctor",
+      "post": null,
+      "tags": [
+        "ai-agents",
+        "golang",
+        "mcp"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "zqCeeQteWGc",
+      "title": "Build AI Apps with Genkit Go",
+      "date": "2026-01-08",
+      "duration": "16:49",
+      "kind": "demo",
+      "channelName": "Google for Developers",
+      "event": null,
+      "url": "https://www.youtube.com/watch?v=zqCeeQteWGc",
+      "thumbnail": "https://img.youtube.com/vi/zqCeeQteWGc/hqdefault.jpg",
+      "summary": "Official Google for Developers deep dive into Genkit Go, demonstrating compile-time type safety, dotprompt templates, integrated observability, and production-ready AI flows in Go.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "gemini",
+        "genkit",
+        "golang"
+      ],
+      "categories": [
+        "Applied GenAI"
+      ]
+    },
+    {
+      "id": "RtVauMye7vk",
+      "title": "The Gopher's Craft in the Age of AI (Keynote)",
+      "date": "2025-10-06",
+      "duration": "46:26",
+      "kind": "talk",
+      "channelName": "GoLab Conference",
+      "event": "GoLab 2025",
+      "url": "https://www.youtube.com/watch?v=RtVauMye7vk",
+      "thumbnail": "https://img.youtube.com/vi/RtVauMye7vk/hqdefault.jpg",
+      "summary": "Keynote exploring the evolving role of Gophers in the age of AI, focusing on extending language models with custom tools and Model Context Protocol (MCP) servers through live Go demonstrations.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/golab-2025-the-gophers-craft-in-the-age-of-ai",
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "ai-agents",
+        "golang",
+        "keynote",
+        "mcp"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "jv_qWM5BqJg",
+      "title": "Como criar um agente de diagnósticos usando Gemini e Osquery",
+      "date": "2025-09-19",
+      "duration": "39:30",
+      "kind": "talk",
+      "channelName": "TheDevConf",
+      "event": "TDC São Paulo 2025",
+      "url": "https://www.youtube.com/watch?v=jv_qWM5BqJg",
+      "thumbnail": "https://img.youtube.com/vi/jv_qWM5BqJg/hqdefault.jpg",
+      "summary": "Step-by-step demonstration of building a Star Trek-inspired natural language system diagnostics agent using Python, Vertex AI, Gemini, and Osquery SQL telemetry.",
+      "language": "pt-BR",
+      "slides": "https://speakerdeck.com/danicat/como-criar-um-agente-de-diagnosticos-usando-gemini-e-osquery",
+      "source_code": null,
+      "post": "/posts/diagnostic-agent-uss-enterprise/",
+      "tags": [
+        "ai-agents",
+        "gemini",
+        "osquery",
+        "python",
+        "vertex-ai"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "keh-_VJtIwE",
+      "title": "A Gopher's Guide to Vibe Coding",
+      "date": "2025-08-15",
+      "duration": "1:01:20",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2025",
+      "url": "https://www.youtube.com/watch?v=keh-_VJtIwE",
+      "thumbnail": "https://img.youtube.com/vi/keh-_VJtIwE/hqdefault.jpg",
+      "summary": "Sharing real-world engineering lessons from building TestQuery—a SQL analytics tool for Go test executions—using disciplined vibe coding from product ideation to implementation.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/a-gophers-guide-to-vibe-coding-b7ee3039-5fc6-45a0-8e94-ef4ade3f1e73",
+      "source_code": "https://github.com/danicat/testquery",
+      "post": "/posts/taming-vibe-coding/",
+      "tags": [
+        "golang",
+        "testing",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "WzfYd6cV4gE",
+      "title": "Hello, MCP World!",
+      "date": "2025-08-14",
+      "duration": "30:18",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2025",
+      "url": "https://www.youtube.com/watch?v=WzfYd6cV4gE",
+      "thumbnail": "https://img.youtube.com/vi/WzfYd6cV4gE/hqdefault.jpg",
+      "summary": "Keynote presentation at GopherCon UK 2025 introducing the Model Context Protocol (MCP), its core architecture, and the building blocks used to create AI-enabled applications in Go.",
+      "language": "en",
+      "slides": "https://speakerdeck.com/danicat/hello-mcp-world",
+      "source_code": null,
+      "post": "/posts/hello-mcp-world/",
+      "tags": [
+        "golang",
+        "keynote",
+        "mcp"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "Lw4CVypP7jI",
+      "title": "Production Ready 'Hello, World!'",
+      "date": "2024-08-14",
+      "duration": "52:20",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2024",
+      "url": "https://www.youtube.com/watch?v=Lw4CVypP7jI",
+      "thumbnail": "https://img.youtube.com/vi/Lw4CVypP7jI/hqdefault.jpg",
+      "summary": "Going beyond the basics to implement a 'Hello, World!' service in Go with production-grade documentation, structured logging, error handling, configuration, and testing.",
+      "language": "en",
+      "slides": "https://docs.google.com/presentation/d/1zkAvvb1jP2qhlOor4ka_W2EEv-f7rX_kgIWr-v1maC4/pub?start=false&loop=false&delayms=3000",
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "architecture",
+        "golang",
+        "testing"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "av2f2okDOyk",
+      "title": "Who Tests the Tests?",
+      "date": "2024-07-09",
+      "duration": "29:38",
+      "kind": "talk",
+      "channelName": "Gopher Academy",
+      "event": "GopherCon 2024",
+      "url": "https://www.youtube.com/watch?v=av2f2okDOyk",
+      "thumbnail": "https://img.youtube.com/vi/av2f2okDOyk/hqdefault.jpg",
+      "summary": "An exploration of mutation testing in Go: learn how to parse ASTs and programmatically rewrite code to verify that your test suite actually catches regressions.",
+      "language": "en",
+      "slides": "https://github.com/gophercon/2024-talks/tree/main/DanielaPetruzalek-WhoTestsTheTests",
+      "source_code": "https://github.com/danicat/selene",
+      "post": null,
+      "tags": [
+        "golang",
+        "mutation-testing",
+        "testing"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "jPaIiEioYXQ",
+      "title": "Go Beyond Work (Go Time Panel)",
+      "date": "2024-03-12",
+      "duration": "44:14",
+      "kind": "interview",
+      "channelName": "Changelog",
+      "event": "GopherCon / Go Time",
+      "url": "https://www.youtube.com/watch?v=jPaIiEioYXQ",
+      "thumbnail": "https://img.youtube.com/vi/jPaIiEioYXQ/hqdefault.jpg",
+      "summary": "Panel conversation on Changelog's Go Time podcast exploring creative side projects, game development, hardware tinkering, and using Go outside of day-to-day enterprise work.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "community",
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Perspectives"
+      ]
+    },
+    {
+      "id": "gTUUkRugpDc",
+      "title": "Fun with Generics",
+      "date": "2023-09-08",
+      "duration": "37:28",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2023",
+      "url": "https://www.youtube.com/watch?v=gTUUkRugpDc",
+      "thumbnail": "https://img.youtube.com/vi/gTUUkRugpDc/hqdefault.jpg",
+      "summary": "Practical and entertaining explorations of generics in Go—examining type parameters, constraints, data structures, and when generics simplify or complicate real-world Go code.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "golang"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "Oce77qCXu7I",
+      "title": "Building an Indie Game in Go",
+      "date": "2021-11-22",
+      "duration": "43:42",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2021",
+      "url": "https://www.youtube.com/watch?v=Oce77qCXu7I",
+      "thumbnail": "https://img.youtube.com/vi/Oce77qCXu7I/hqdefault.jpg",
+      "summary": "How good is Go for developing indie games? A practical deep dive into 2D game loops, rendering, assets, and building playable games in Go.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "ebitengine",
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "yEiaCx0fR9k",
+      "title": "Fun With Pointers",
+      "date": "2019-10-02",
+      "duration": "32:34",
+      "kind": "talk",
+      "channelName": "GopherCon UK",
+      "event": "GopherCon UK 2019",
+      "url": "https://www.youtube.com/watch?v=yEiaCx0fR9k",
+      "thumbnail": "https://img.youtube.com/vi/yEiaCx0fR9k/hqdefault.jpg",
+      "summary": "Learn how to use pointers effectively in Go—from the fundamentals of memory addresses and value vs. pointer semantics to escape analysis and garbage collector performance.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "golang",
+        "performance"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "0qvW4kIlS8I",
+      "title": "Pac-Man from Scratch",
+      "date": "2019-08-19",
+      "duration": "24:47",
+      "kind": "talk",
+      "channelName": "SPACE",
+      "event": "GoWayFest 3.0 (Minsk 2019)",
+      "url": "https://www.youtube.com/watch?v=0qvW4kIlS8I",
+      "thumbnail": "https://img.youtube.com/vi/0qvW4kIlS8I/hqdefault.jpg",
+      "summary": "Building a terminal-based Pac-Man clone with emojis in Go from scratch as a hands-on tutorial for mastering Go fundamentals, concurrency, and terminal rendering.",
+      "language": "en",
+      "slides": null,
+      "source_code": "https://github.com/danicat/pacgo",
+      "post": null,
+      "tags": [
+        "game-dev",
+        "golang",
+        "tutorial"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "SM8LTMnB4x0",
+      "title": "Pac-Man from Scratch (LondonGophers)",
+      "date": "2019-07-17",
+      "duration": "30:59",
+      "kind": "talk",
+      "channelName": "LondonGophers",
+      "event": "LondonGophers (July 2019)",
+      "url": "https://www.youtube.com/watch?v=SM8LTMnB4x0",
+      "thumbnail": "https://img.youtube.com/vi/SM8LTMnB4x0/hqdefault.jpg",
+      "summary": "Live coding and architectural walkthrough of pacgo—a terminal Pac-Man game written in Go—at the LondonGophers meetup.",
+      "language": "en",
+      "slides": null,
+      "source_code": "https://github.com/danicat/pacgo",
+      "post": null,
+      "tags": [
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "GH0DlCKTppE",
+      "title": "Pac-Man from Scratch (GothamGo)",
+      "date": "2019-06-11",
+      "duration": "21:52",
+      "kind": "talk",
+      "channelName": "GothamGo",
+      "event": "GothamGo 2019 (New York)",
+      "url": "https://www.youtube.com/watch?v=GH0DlCKTppE",
+      "thumbnail": "https://img.youtube.com/vi/GH0DlCKTppE/hqdefault.jpg",
+      "summary": "Presenting pacgo at GothamGo 2019 in New York: how building a classic arcade game in the terminal with emojis makes learning Go approachable for beginners.",
+      "language": "en",
+      "slides": null,
+      "source_code": "https://github.com/danicat/pacgo",
+      "post": null,
+      "tags": [
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "yOy-SEw7aO8",
+      "title": "Keynote: Python Brasil 14",
+      "date": "2019-06-05",
+      "duration": "25:26",
+      "kind": "talk",
+      "channelName": "Python Brasil",
+      "event": "Python Brasil 2018 (PyBR14)",
+      "url": "https://www.youtube.com/watch?v=yOy-SEw7aO8",
+      "thumbnail": "https://img.youtube.com/vi/yOy-SEw7aO8/hqdefault.jpg",
+      "summary": "Keynote presentation at Python Brasil 14 reflecting on community, open-source contributions, polyglot engineering, and career growth in technology.",
+      "language": "pt-BR",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "career",
+        "community",
+        "keynote",
+        "python"
+      ],
+      "categories": [
+        "Perspectives"
+      ]
+    },
+    {
+      "id": "r-ur2Go4-vU",
+      "title": "Pac-Man from Scratch (GoCardless)",
+      "date": "2019-05-16",
+      "duration": "19:29",
+      "kind": "talk",
+      "channelName": "The Exchange",
+      "event": "GoCardless / The Exchange (London)",
+      "url": "https://www.youtube.com/watch?v=r-ur2Go4-vU",
+      "thumbnail": "https://img.youtube.com/vi/r-ur2Go4-vU/hqdefault.jpg",
+      "summary": "Step-by-step introduction to building a terminal Pac-Man clone in Go with emojis, hosted at GoCardless in London.",
+      "language": "en",
+      "slides": null,
+      "source_code": "https://github.com/danicat/pacgo",
+      "post": null,
+      "tags": [
+        "game-dev",
+        "golang"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "FXRz-e51TMc",
+      "title": "The Best Feature of Go",
+      "date": "2019-01-04",
+      "duration": "41:55",
+      "kind": "interview",
+      "channelName": "InfoQ Brasil",
+      "event": "InfoQ Brasil",
+      "url": "https://www.youtube.com/watch?v=FXRz-e51TMc",
+      "thumbnail": "https://img.youtube.com/vi/FXRz-e51TMc/hqdefault.jpg",
+      "summary": "Exploring how to engage with the global Go community—from contributing to open source and writing tutorials to speaking at international conferences.",
+      "language": "pt-BR",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "career",
+        "community",
+        "golang"
+      ],
+      "categories": [
+        "Perspectives"
+      ]
+    },
+    {
+      "id": "SeJu5VXkwxA",
+      "title": "Fazendo deploys de modelos em produção: chegou a hora do DataOps?",
+      "date": "2018-12-04",
+      "duration": "20:26",
+      "kind": "talk",
+      "channelName": "Python Brasil",
+      "event": "Python Brasil 2018 (PyBR14)",
+      "url": "https://www.youtube.com/watch?v=SeJu5VXkwxA",
+      "thumbnail": "https://img.youtube.com/vi/SeJu5VXkwxA/hqdefault.jpg",
+      "summary": "Architectural practices and DataOps principles for taking machine learning models and data pipelines reliably from notebooks into production.",
+      "language": "pt-BR",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "architecture",
+        "python"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    },
+    {
+      "id": "7QUO6ZdQy1w",
+      "title": "Big Data com Apache Spark na Globo.com",
+      "date": "2018-01-25",
+      "duration": "35:57",
+      "kind": "talk",
+      "channelName": "Python Brasil",
+      "event": "Python Brasil 2017 (PyBR13)",
+      "url": "https://www.youtube.com/watch?v=7QUO6ZdQy1w",
+      "thumbnail": "https://img.youtube.com/vi/7QUO6ZdQy1w/hqdefault.jpg",
+      "summary": "Case study on large-scale data engineering and distributed processing with Apache Spark and Python at Globo.com.",
+      "language": "pt-BR",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "architecture",
+        "python"
+      ],
+      "categories": [
+        "Software Engineering"
+      ]
+    }
+  ]
+}

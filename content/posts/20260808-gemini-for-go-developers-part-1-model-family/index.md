@@ -6,24 +6,27 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 1
-summary: Learn about the different models of the Gemini family, their capabilities and how to consume them programmatically.
+summary: "Not every task needs a frontier reasoning model. Learn how to navigate the Gemini model catalog, balance latency and cost, and call your first model in Go."
 tags:
   - gemini
+  - genai-sdk
   - golang
-title: "Gemini for Go Developers: The Gemini Model Family"
+  - llm
+  - multimodal
+title: "The Gemini Model Family: A Practical Guide for Gophers"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/posts/20260808-gemini-for-go-developers-part-1-model-family/"
-description: "Part 1 of Gemini for Go Developers: compare Gemini 3.x, Flash, Pro, and Nano Banana models, explore APIs, and write your first Go code with GenAI SDK."
+description: "Compare Gemini 3.x Pro, Flash, Flash-Lite, and Nano Banana models, tune thinking levels, and write multimodal Go applications with the official GenAI SDK."
 proficiencyLevel: "Beginner"
 dependencies:
   - "Go 1.24+"
   - "google.golang.org/genai"
 ---
 
-Welcome to **Gemini for Go Developers**! This series is your complete guide to building AI-powered software in Go. Across a series of hands-on chapters, we will cover everything from agentic coding, to building autonomous agents with **Genkit** and **ADK**, developing games, and using the full **G3 Stack** (Go, Gemini, GCP) to deploy applications to the cloud.
+Building reliable AI-powered software in Go starts with understanding the models under the hood. Before reaching for higher-level agent frameworks or orchestrating multi-step workflows, you need to know which model fits your workload, how to tune its reasoning budget, and which API surface matches your architecture.
 
-In Chapter 1, we lay the foundation by exploring the Gemini model family, model configurations, and writing our first code with the official [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai).
+In this guide, we will explore the Gemini model family, break down key configuration parameters like thinking levels, and write our first multimodal application using the official [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai).
 
 ## The Gemini model family
 
@@ -274,8 +277,11 @@ Here is the result:
 
 ![Generated wizard cat image output in Go terminal](image.png "The true purpose of AI: infinite cat picture generation")
 
-While this is just a simple example to show how to work with the SDK, throughout this series we will see more examples of both the Go GenAI SDK and higher-level frameworks like [Genkit](https://genkit.dev/) and [Agent Development Kit (ADK)](https://adk.dev/).
+While this is a simple example to show how the low-level SDK works, these same primitives power everything from local CLI tools to production agent runtimes.
 
-## What's next?
+## Where to go from here
 
-In [**Part 2: Coding with Gemini**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}) of the **Gemini for Go Developers** series, we'll dive deep into coding agents and how to prepare your environment for working in Go codebases. Stay tuned!
+Now that you know your way around the Gemini model catalog and the Go GenAI SDK, there are two natural paths to explore next:
+
+* If you want to use Gemini to write, verify, and refactor Go code faster, check out [**Why Go Is Built for Coding Agents (And How to Tune Yours)**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}).
+* If you are ready to build tool-calling agents and compare the Go GenAI SDK with higher-level frameworks like [Genkit](https://genkit.dev/) and [ADK](https://adk.dev/), jump straight into [**Building AI Agents in Go: GenAI SDK, Genkit, and ADK**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}).

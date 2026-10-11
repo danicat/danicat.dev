@@ -1,0 +1,119 @@
+{{ $v := .video }}
+{{ $idx := .index | default 1 }}
+{{ $langPrefix := .langPrefix | default "" }}
+
+{{ $videoTime := now }}
+{{ $currentYear := "" }}
+{{ if and $v.date (ne $v.date "-") }}
+  {{ $videoTime = time.AsTime $v.date }}
+  {{ $currentYear = $videoTime.Year }}
+{{ end }}
+
+{{ $cardId := $v.id | default ($v.title | urlize) }}
+{{ $thumbTarget := printf "video-player-%s" ($cardId | urlize) }}
+{{ $resolvedThumbnail := $v.thumbnail | default "/images/talks/placeholder.png" }}
+{{ $kind := $v.kind | default "talk" }}
+
+<article class="article-link--simple video-card danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative" data-kind="{{ $kind }}" data-year="{{ $currentYear }}">
+  {{/* Left Thumbnail (16:9 md:w-72 geometry matching Posts, Codelabs, and Events) */}}
+  <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block thumb-action-video group/thumb cursor-pointer"
+       role="button" tabindex="0" aria-label="{{ i18n "videos_watch_label" | default "Watch" }}: {{ $v.title }}"
+       data-target="{{ $thumbTarget }}" data-video-url="{{ $v.url }}" title="{{ i18n "videos_watch_label" | default "Watch" }}: {{ $v.title }}">
+    {{ if eq $idx 0 }}
+      <img src="{{ $resolvedThumbnail }}" alt="{{ $v.title }}" fetchpriority="high" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+    {{ else }}
+      <img src="{{ $resolvedThumbnail }}" alt="{{ $v.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+    {{ end }}
+    <div class="absolute inset-0 bg-black/25 group-hover/thumb:bg-black/40 transition-colors flex items-center justify-center">
+      <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-black/75 backdrop-blur-sm text-white flex items-center justify-center shadow-lg group-hover/thumb:scale-110 group-hover/thumb:bg-primary-600 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="h-6 w-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </div>
+    </div>
+    {{ with $v.duration }}
+      <span class="absolute bottom-2 right-2 px-1.5 py-0.5 rounded bg-black/80 text-white text-xs font-mono font-semibold tracking-tight shadow-sm">
+        {{ . }}
+      </span>
+    {{ end }}
+  </div>
+
+  {{/* Right Content Column */}}
+  <div class="flex flex-col justify-between grow min-w-0">
+    <div>
+      <header class="items-center text-start">
+        <h3>
+          <a href="{{ $v.url }}" target="_blank" rel="external noopener"
+             class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+            {{ $v.title | emojify }}
+            <span class="cursor-default align-top text-xs text-neutral-400 dark:text-neutral-500">
+              <span class="rtl:hidden">&#8599;</span>
+              <span class="ltr:hidden">&#8598;</span>
+            </span>
+          </a>
+        </h3>
+      </header>
+
+      <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400 flex flex-row flex-wrap items-center">
+        {{ if and $v.date (ne $v.date "-") }}
+          {{ partial "meta/date.html" $videoTime }}
+        {{ end }}
+        {{ with ($v.event | default $v.channelName) }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ . }}</span>
+        {{ end }}
+        {{ if and $v.event $v.channelName (ne $v.event $v.channelName) }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span>{{ $v.channelName }}</span>
+        {{ end }}
+        {{ $lang := lower ($v.language | default "en") }}
+        {{ if or (eq $lang "pt-br") (eq $lang "pt") }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span title="Delivered in Portuguese (PT-BR)">🇧🇷 PT-BR</span>
+        {{ else if or (eq $lang "ja") (eq $lang "ja-jp") }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span title="Delivered in Japanese">🇯🇵 JA</span>
+        {{ end }}
+        {{ with $v.post }}
+          {{ $targetUrl := . }}
+          {{ $localizedCandidate := printf "%s%s" $langPrefix . }}
+          {{ range site.RegularPages }}
+            {{ if eq .RelPermalink $localizedCandidate }}
+              {{ $targetUrl = $localizedCandidate }}
+            {{ end }}
+          {{ end }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ $targetUrl }}" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ i18n "videos_article_label" | default "Article" }} &rarr;
+          </a>
+        {{ end }}
+        {{ with $v.slides }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ i18n "event_decks_label" | default "Slides" }} &#8599;
+          </a>
+        {{ end }}
+        {{ with $v.source_code }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
+            {{ i18n "event_source_code_label" | default "Source Code" }} &#8599;
+          </a>
+        {{ end }}
+        <span class="px-2 text-primary-500">&middot;</span>
+        <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn font-medium text-primary-600 dark:text-primary-400 hover:underline cursor-pointer bg-transparent border-0 p-0 inline" data-target="{{ $thumbTarget }}" data-video-url="{{ $v.url }}">
+          <span class="btn-label">{{ i18n "videos_watch_label" | default "Watch" }}</span> &#9654;
+        </button>
+      </div>
+    </div>
+
+    {{ with $v.summary }}
+    <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+      {{ . | plainify }}
+    </div>
+    {{ end }}
+
+    <div id="{{ $thumbTarget }}" class="video-player-container hidden mt-4 w-full aspect-video rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md">
+      <!-- lazy loaded on button click -->
+    </div>
+  </div>
+</article>

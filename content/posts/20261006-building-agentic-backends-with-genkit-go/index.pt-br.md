@@ -1,22 +1,24 @@
 ---
-title: "Gemini para Desenvolvedores Go: Construindo Backends Agentivos com Genkit"
+title: "Por Que Reescrevi Meu Agente RAG em Python Usando Go e Genkit"
 date: 2026-10-06
 draft: false
 categories:
   - Agent Development
 tags:
   - agent-skills
+  - ai-agents
   - gemini
   - genkit
   - golang
   - osquery
+  - rag
 series:
   - Gemini for Go Developers
 series_order: 4
 heroStyle: big
 slug: "building-agentic-backends-with-genkit-go"
-description: "Aprenda a construir backends agentivos com Genkit Go: fluxos tipados, templates dotprompt, middlewares e Agent Skills, delegação multiagente e Cloud Run."
-summary: "Aprenda a construir backends agentivos em Go com Genkit usando fluxos tipados, templates dotprompt, middlewares, Agent Skills e delegação multiagente."
+description: "Veja como substituí um agente legado em Python com SQLite RAG por um binário único em Go usando Genkit, templates dotprompt tipados e Agent Skills sob demanda."
+summary: "Quando sua base de código começa a te segurar, jogue tudo fora e comece do zero. Veja como substituí um pipeline RAG em Python por um agente compilado em Go com Genkit e Agent Skills."
 proficiencyLevel: "Advanced"
 dependencies:
   - "Go 1.25+"
@@ -24,19 +26,22 @@ dependencies:
   - "google.golang.org/genai"
 ---
 
-No [capítulo anterior de Gemini para Desenvolvedores Go]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}), exploramos como construir um agente em Go usando três bibliotecas diferentes: o [GenAI SDK](https://pkg.go.dev/google.golang.org/genai), o [Genkit](https://genkit.dev) e o [ADK](https://adk.dev). Mantivemos aquele agente simples de propósito para podermos comparar a ergonomia de cada estilo de desenvolvimento lado a lado. Agora é hora de nos aprofundarmos em cada framework.
+Há pouco mais de um ano, construí a [AIDA, a Agente de Diagnóstico por IA]({{< ref "/posts/20250531-diagnostic-agent" >}}), o primeiro agente autônomo que criei. A missão dela é diagnosticar problemas no computador consultando o sistema operacional por meio do [osquery](https://osquery.io/). Embora a AIDA tenha passado por algumas atualizações ao longo dos meses, nunca havia questionado sua arquitetura de verdade até recentemente.
 
-Neste artigo, vamos focar na construção de backends agentivos com o Genkit. Cobriremos o processo de desenvolvimento de ponta a ponta, desde a configuração do ambiente de desenvolvimento até o deploy da sua aplicação Genkit na nuvem. Também precisamos passar pela teoria por trás dos elementos principais do Genkit (como fluxos, ferramentas, prompts, plugins, middlewares, etc.), mas para garantir que continuemos com os pés no chão e focados no que realmente importa, vamos combinar todos esses conceitos com uma aplicação prática. Para isso, vamos revisitar e modernizar a AIDA, a Agente de Diagnóstico por IA (*AI Diagnostic Agent*) que apresentei neste blog no ano passado.
+Quando construí a AIDA originalmente em Python, os modelos estavam em outro patamar de capacidade (`gemini-2.5-flash` na época) e técnicas como [Agent Skills](https://agentskills.io) ainda não haviam sido inventadas. Como o `osquery` expõe centenas de tabelas que variam entre macOS, Linux e Windows, construí uma [solução local de RAG baseada em SQLite]({{< ref "/posts/20251103-building-aida-part-2" >}}) para injetar definições de schemas sob demanda no contexto. Mesmo sendo um conjunto de dados pequeno e estático (uma tabela por chunk, com embeddings gerados uma única vez), montar um banco vetorial para isso era trabalhoso, e o modelo nem sempre formulava as melhores consultas para a ferramenta de RAG, às vezes recuperando as tabelas erradas ou deixando passar uma tabela relacionada.
 
-## Revisitando a AIDA: a Agente de Diagnóstico por IA
+Mas não era apenas o RAG. Toda a base de código da AIDA havia sido feita na base da gambiarra em vez de engenharia de verdade, usando a fase inicial do "vibe coding".
 
-A AIDA foi o [primeiro agente que eu criei]({{< ref "/posts/20250531-diagnostic-agent" >}}). O objetivo dela é diagnosticar problemas no computador consultando o sistema operacional por meio de uma ferramenta open-source chamada [osquery](https://osquery.io/). A AIDA já tem um pouco mais de um ano de vida e, embora tenha passado por algumas atualizações ao longo dos meses, eu nunca havia questionado de verdade a sua arquitetura até hoje.
+Venho dizendo isso há mais de uma década, e hoje é mais verdade do que nunca: se a sua base de código está te segurando, jogue tudo fora e comece do zero. Enfrentar as dores de crescimento da v1 ensina exatamente o que simplificar na v2. E enquanto reescritas costumavam exigir meses de esforço e capital político, hoje você consegue iterar por três arquiteturas limpas antes do almoço.
 
-Quando a AIDA foi criada, os modelos estavam em outro patamar de capacidade e técnicas como Agent Skills ainda nem tinham sido inventadas. Para melhorar a qualidade das respostas, tive que injetar conhecimento de schemas e consultas sob demanda no contexto do agente usando uma [solução rudimentar de RAG baseada em SQLite]({{< ref "/posts/20251103-building-aida-part-2" >}}). É engraçado como algo que há tão pouco tempo era legal e "estado da arte" agora parece velho e desajeitado. Mas não era só o RAG: toda a base de código da AIDA foi feita na base da gambiarra em vez de engenharia de verdade. Pior ainda, tudo foi feito na fase inicial do "vibe coding".
+Depois de [comparar as três principais bibliotecas de agentes em Go]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}) (o [GenAI SDK](https://pkg.go.dev/google.golang.org/genai), o [Genkit](https://genkit.dev) e o [ADK](https://adk.dev)), decidi reconstruir a AIDA do zero em Go usando o **Genkit**. Migrar de Python e RAG para Genkit Go me permitiu:
 
-Venho dizendo isso há mais de uma década, mas hoje é mais verdade do que nunca: se a sua base de código está te segurando, jogue tudo fora e comece do zero. Existe algo em recomeçar do zero depois de enfrentar as dores de crescimento de um projeto que sempre torna a v2 (ou N+1) melhor: você aprende o que não fazer, otimiza e simplifica. A melhor parte? Hoje em dia você consegue fazer três versões de alguma coisa antes do almoço. No passado, uma reescrita levava meses e exigia muito capital político.
+1. **Compilar a AIDA em um único binário Go autocontido** que roda tanto como ferramenta local de CLI quanto como serviço HTTP no Cloud Run.
+2. **Substituir o pipeline de RAG em SQLite por Agent Skills sob demanda**, entregando ao modelo o catálogo completo de tabelas do `osquery` para cada sistema operacional sem depender de buscas difusas.
+3. **Garantir segurança de tipos em tempo de compilação** desde as entradas do prompt até as saídas estruturadas usando `dotprompt` e structs Go.
+4. **Evoluir de um fluxo único para delegação multiagente com estado**, isolando a telemetria ruidosa do sistema das pesquisas na web.
 
-Reescrever a AIDA em Genkit não apenas nos dará a oportunidade de trazê-la para os padrões modernos, mas também vai melhorar enormemente a manutenibilidade e a legibilidade do código. A AIDA será compilada em um único binário capaz de funcionar tanto como uma aplicação standalone quanto como um servidor web que pode ser publicado na nuvem.
+Vamos ver como cada parte dessa nova arquitetura funciona na prática.
 
 ## Configurando seu agente de programação e fluxo de trabalho local
 
@@ -291,9 +296,13 @@ g := genkit.Init(ctx,
 
 O conceito de middleware deve ser familiar para a maioria dos desenvolvedores Go, mas é importante destacar esse plugin, pois ele é a porta de entrada para recursos críticos como fallbacks, novas tentativas (*retries*) e Agent Skills. Vamos analisá-lo mais de perto a seguir.
 
-### Middlewares e Agent Skills
+### Substituindo o SQLite RAG pelo middleware de Agent Skills
 
-A AIDA já consegue executar comandos `osquery` por meio da ferramenta `runOsquery` que definimos antes, mas ela ainda depende dos dados gerais de treinamento do modelo para adivinhar quais tabelas e colunas existem em cada sistema operacional (`darwin`, `linux` e `windows`). Para dar à AIDA um conhecimento preciso do schema, vamos fornecer uma skill para cada sistema operacional na pasta `./skills`. Essas skills foram geradas passando para o Antigravity o link do [repositório do osquery](https://github.com/osquery/osquery) e pedindo para ele gerar skills específicas para cada sistema operacional com base na disponibilidade das tabelas. As skills incluem as tabelas e seus respectivos schemas.
+A AIDA já consegue executar comandos `osquery` por meio da ferramenta `runOsquery` que definimos antes, mas ela ainda depende dos pesos gerais de treinamento do modelo para adivinhar quais tabelas e colunas existem em cada sistema operacional (`darwin`, `linux` e `windows`).
+
+Na versão legada em Python da AIDA, resolvi isso com um banco local de RAG em SQLite onde cada chunk continha a definição de uma tabela. Embora o conjunto de dados fosse pequeno e estático, a abordagem com RAG era trabalhosa de montar e tinha uma falha sutil: o `gemini-2.5-flash` precisava adivinhar primeiro o que buscar e, quando a consulta de RAG saía um pouco fora do alvo, ele trazia as tabelas erradas ou deixava passar uma tabela relacionada completamente.
+
+Na reescrita em Go, apaguei o pipeline de RAG e o substituí por [Agent Skills](https://agentskills.io). Apontando o Antigravity para o [repositório do osquery](https://github.com/osquery/osquery), gerei três skills específicas por sistema operacional (`darwin`, `linux` e `windows`) na pasta `./skills`, cada uma contendo o catálogo completo de tabelas e schemas daquela plataforma. Em vez de torcer para uma busca vetorial retornar a tabela certa, a AIDA simplesmente ativa a skill do sistema operacional atual e carrega a referência completa de schemas sob demanda.
 
 O Genkit anexa middlewares às chamadas de geração usando `ai.WithUse`, e o pacote `plugins/middleware` fornece implementações nativas para retentativas, fallbacks de modelo e [Agent Skills](https://agentskills.io):
 
@@ -516,7 +525,7 @@ Minha primeira opção é sempre um runtime de containers serverless. No Google,
 
 Também vale dizer que, no passado, esse tipo de decisão costumava ser mais importante do que é hoje. Mudar de plataforma (*replatforming*) dava muito trabalho, então as pessoas tinham a tendência de querer "acertar de primeira" logo no início. Com agentes de programação, conseguimos adaptar uma aplicação para uma nova plataforma em questão de dias (se não horas), então não há mais desculpas para adicionar complexidade cedo demais a um projeto.
 
-Essa é a teoria. Na prática, ao longo do último ano não encontrei nenhum caso que eu não conseguisse resolver com o Cloud Run. Ele é simplesmente conveniente demais! As coisas serão um pouco diferentes quando discutirmos o ADK em um artigo futuro, já que o ecossistema do Gemini Enterprise tem algumas sinergias com o ADK que merecem atenção.
+Essa é a teoria. Na prática, ao longo do último ano não encontrei nenhum caso que eu não conseguisse resolver com o Cloud Run. Ele é simplesmente conveniente demais! A principal exceção é quando você está construindo fortemente em torno do [ADK](https://adk.dev) e quer persistência de sessão gerenciada e conectores corporativos prontos para uso, onde o Gemini Enterprise Agent Platform (que cobrimos em [Construindo Agentes de IA em Go]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}})) oferece fortes sinergias nativas.
 
 Normalmente, os agentes — especialmente os baseados em Gemini, como o Antigravity — não precisam de ajuda para fazer deploy no Cloud Run. Mas, se o seu agente estiver de mau humor, você sempre pode instalar a skill do Cloud Run disponível em [github.com/google/skills](https://github.com/google/skills/tree/main/skills/cloud/cloud-run-basics) para dar um empurrãozinho nele.
 
@@ -576,8 +585,8 @@ func registerOTLP(ctx context.Context) func(context.Context) error {
 
 ## Conclusão
 
-Para ser sincera, embora este exercício de reconstruir a AIDA tenha nos permitido passar pela maior parte das funcionalidades principais do Genkit, ele está longe de ser o mergulho definitivo que eu planejava fazer. Dito isso, é um problema do tipo bom: o Genkit tem tantos recursos interessantes que é impossível falar sobre todos eles em um único artigo. É por isso que decidi focar este texto no aspecto de backend do design de agentes e reservei o frontend com A2UI e design de interação para o próximo artigo.
+Reconstruir a AIDA do zero é um ótimo lembrete de quão rápido a engenharia de IA amadureceu nos últimos doze meses. O que antes exigia um pipeline de RAG customizado em SQLite, um modelo de embedding local e centenas de linhas de código Python frágil (uma crítica ao meu próprio vibe coding inicial, e não ao Python em si) agora é compilado em um único binário Go fortemente tipado, impulsionado pelo Genkit e por Agent Skills sob demanda.
 
-Ainda assim, este artigo não apenas mostra do que o Genkit é capaz, mas também evidencia o quanto a própria indústria evoluiu nos últimos 12 meses. O que antes exigia um pipeline de RAG customizado, um modelo de embedding e centenas de linhas de código Python de qualidade duvidosa (isso não é uma crítica ao Python, é uma crítica ao meu próprio código) agora pode ser resolvido com Go fortemente tipado e uma chamada ao middleware de Agent Skills. Eu adoro especialmente a sensação de agilidade de ter um agente compilado, ainda mais quando combinado com um modelo rápido como o Gemini 3.8 Flash.
+Migrar para o Genkit Go trouxe para a AIDA validação de schemas em tempo de compilação com `dotprompt`, retentativas nativas e injeção de skills por middleware, além de uma delegação multiagente limpa, mantendo a inicialização rápida e a simplicidade de deploy de um serviço HTTP padrão em Go. Combinado com um modelo rápido como o Gemini 3.8 Flash, a diferença de agilidade em comparação com a versão legada é da água para o vinho.
 
-Não quero transformar este texto em uma disputa entre Python e Go, nem vou tentar te convencer a usar um ou outro, mas se você planeja construir agentes em Go, seja lá por qual motivo for, recomendo fortemente o Genkit. Por todos os motivos que você viu neste artigo, mais os que vou cobrir no próximo, e todos os outros que ainda nem descobri. :)
+Neste artigo focamos no runtime principal e na arquitetura de backend da AIDA, reservando o frontend (usando A2UI e design de interação generativa) para um artigo de continuação. Se você planeja construir agentes em Go, ou se tem um protótipo inicial com RAG começando a mostrar a idade, recomendo fortemente dar uma chance ao Genkit.

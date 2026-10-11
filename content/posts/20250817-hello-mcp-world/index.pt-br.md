@@ -17,6 +17,7 @@ aliases:
   - "/pt-br/posts/20250817-hello-mcp-world/"
 description: "Introdução à arquitetura do Model Context Protocol (MCP) em Go baseada na keynote do GopherCon UK 2025. Aborda Hosts, Clients, Servers, Tools, Prompts e Resources."
 proficiencyLevel: "Beginner"
+video: "https://www.youtube.com/watch?v=WzfYd6cV4gE"
 dependencies:
   - "Go 1.24+"
   - "MCP Go SDK"

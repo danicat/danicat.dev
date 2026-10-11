@@ -7,6 +7,7 @@
 - Agent Skills Catalog: https://skills.danicat.dev/ (LLMs index: https://skills.danicat.dev/llms.txt | JSON manifest: https://skills.danicat.dev/catalog.json)
 - GitHub: https://github.com/danicat
 - LinkedIn: https://linkedin.com/in/petruzalek
+- YouTube: https://www.youtube.com/@danikopaizen
 - X / Twitter: https://x.com/danicat83
 
 ## Articles & Deep Dives
@@ -18,6 +19,11 @@
 {{- range (where .Site.RegularPages "Section" "codelabs").ByDate.Reverse }}
 {{- $url := .Params.externalUrl | default .Permalink }}
 - [{{ .Title }}]({{ $url }}) ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}){{ with (.Summary | plainify | htmlUnescape) }}: {{ . | replaceRE "\\s+" " " | truncate 180 }}{{ end }}
+{{- end }}
+
+## Videos & Screencasts
+{{- range .Site.Data.videos.videos }}
+- [{{ .title }}]({{ .url }}) ({{ .date }}{{ with .duration }} · {{ . }}{{ end }}{{ with (.event | default .channelName) }} · {{ . }}{{ end }}){{ with .summary }}: {{ . | replaceRE "\\s+" " " | truncate 180 }}{{ end }}
 {{- end }}
 
 ## Talks & Conference Events

@@ -6,17 +6,19 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 2
-summary: Na Parte 2 de Gemini para Desenvolvedores Go, exploramos a afinidade agentiva do Go, as superfícies do Antigravity e como configurar um fluxo prático de desenvolvimento nativo de IA em Go.
+summary: "Por que a escolha da linguagem ainda importa na era da IA? Explore a alta afinidade agentiva do Go e aprenda a configurar o Antigravity, servidores MCP e skills para Go."
 tags:
+  - agent-skills
   - antigravity
   - gemini
+  - godoctor
   - golang
   - mcp
-title: "Gemini para Desenvolvedores Go: Programando com o Gemini"
+title: "Por Que Go Foi Feito para Agentes de Código (E Como Ajustar o Seu)"
 slug: "gemini-for-go-developers-part-2-coding-with-gemini"
 aliases:
   - "/pt-br/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"
-description: "Parte 2 de Gemini para Go: maximize a afinidade agentiva do Go, explore as superfícies do Antigravity, configure servidores MCP e monte seu kit de IA para Go."
+description: "Maximize a afinidade agentiva do Go com harnesses de programação por IA. Configure o Antigravity, servidores MCP, Agent Skills e o godoctor para fluxos em Go."
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -24,9 +26,9 @@ dependencies:
   - "godoctor"
 ---
 
-Boas-vindas de volta à série **Gemini para Desenvolvedores Go**! Na [Parte 1: A Família de Modelos Gemini]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), exploramos os diferentes modelos Gemini para casos de uso específicos, analisamos as superfícies de API para consumir os modelos e escrevemos nosso primeiro código em Go com o [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) oficial.
+Como obter os melhores resultados ao combinar agentes de programação por IA com Go? Neste artigo, vamos explorar como configurar um ambiente eficiente e de alto sinal para programação agentiva em Go.
 
-Agora, na Parte 2, vamos explorar como usar o Gemini para programar em Go. Começaremos com uma breve discussão sobre escolhas de linguagem na Era da IA, depois exploraremos o ecossistema de harnesses e padrões para agentes, finalizando com a configuração recomendada para aumentar a afinidade agentiva do Go no seu ambiente de desenvolvimento.
+Começaremos analisando por que a escolha da linguagem de programação ainda importa na era da IA, exploraremos o ecossistema de harnesses de agentes e padrões abertos de customização (regras, MCP, skills, hooks, subagentes e plugins) e finalizaremos com uma configuração prática para maximizar a afinidade agentiva do Go no seu fluxo de trabalho diário.
 
 ## Por que usar Go na era da IA?
 
@@ -208,8 +210,11 @@ Se você deseja uma configuração opinativa para começar a trabalhar com o Gem
    Oriente seu agente a executar uma passada de verificação autônoma:
    > Run a smart build on this package with godoctor, address any findings, and evaluate the test suite with selene.
 
-## O que vem a seguir?
+## Conclusão
 
-Neste capítulo, cobrimos o panorama de harnesses de agentes, padrões de customização (regras, MCP, skills, hooks, subagentes e plugins) e como configurar um ambiente prático para programar em Go com o Gemini.
+Neste artigo, vimos por que o compilador rápido e o ferramental rigoroso do Go garantem alta afinidade agentiva, como as primitivas de customização (regras, MCP, skills, hooks, subagentes e plugins) se encaixam e como configurar um ambiente prático para Go no Antigravity.
 
-Na [**Parte 3: Construindo Agentes em Go**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}), vamos atravessar para o outro lado da mesa: construir runtimes de agentes autônomos em Go. Vamos explorar loops de chamada de ferramentas (*tool calling*), engenharia de contexto e frameworks de agentes de nível superior como o **Genkit Go** e o **Agent Development Kit (ADK)**. Até lá!
+Depois que o seu fluxo de trabalho estiver ajustado, você pode atravessar para o outro lado da mesa e construir seus próprios agentes autônomos em Go:
+
+* Leia [**Construindo Agentes de IA em Go: GenAI SDK, Genkit e ADK**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}) para uma comparação lado a lado das três principais arquiteturas de agentes em Go.
+* Leia [**Por Que Reescrevi Meu Agente RAG em Python Usando Go e Genkit**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}) para ver como Agent Skills e delegação multiagente funcionam dentro de um binário Go compilado.

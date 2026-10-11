@@ -14,6 +14,7 @@ aliases:
   - "/ja/posts/20250817-hello-mcp-world/"
 description: "GopherCon UK 2025 の登壇に基づく Model Context Protocol（MCP）の入門解説。Host、Client、Server のアーキテクチャと Tool/Resource/Prompt を解説。"
 proficiencyLevel: "Beginner"
+video: "https://www.youtube.com/watch?v=WzfYd6cV4gE"
 dependencies:
   - "Go 1.24+"
   - "MCP Go SDK"

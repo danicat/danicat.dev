@@ -6,24 +6,27 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 1
-summary: "Geminiファミリーの各種モデル、その能力、そしてそれらをプログラムから利用する方法について学びます。"
+summary: "すべてのタスクに最先端の推論モデルが必要なわけではありません。Geminiのモデルカタログを整理し、レイテンシとコストのバランスを取りながら、Goから最初のモデルを呼び出す方法を学びます。"
 tags:
   - gemini
+  - genai-sdk
   - golang
-title: "Go開発者のためのGemini：モデルファミリー"
+  - llm
+  - multimodal
+title: "Geminiモデルファミリー：Gopherのための実践ガイド"
 slug: "gemini-for-go-developers-part-1-model-family"
 aliases:
   - "/ja/posts/20260808-gemini-for-go-developers-part-1-model-family/"
-description: "Go開発者のためのGemini第1部：Gemini 3.x、Flash、Pro、Nano Bananaの比較から各種API、公式Go GenAI SDKでの実装までを徹底解説。"
+description: "Gemini 3.x Pro、Flash、Flash-Lite、Nano Bananaモデルの比較から思考レベル（thinking levels）の調整、公式Go GenAI SDKによるマルチモーダル実装までを解説します。"
 proficiencyLevel: "Beginner"
 dependencies:
   - "Go 1.24+"
   - "google.golang.org/genai"
 ---
 
-**Go開発者のためのGemini** へようこそ！このシリーズは、GoでAIを活用したソフトウェアを構築するための完全ガイドです。実践的な各章のチュートリアルを通じて、エージェンティック・コーディングから、**Genkit** や **ADK** を使用した自律型エージェントの構築、ゲーム開発、そして **G3 Stack**（Go、Gemini、GCP）を活用したクラウドへのアプリケーションのデプロイまでを網羅します。
+Goで信頼性の高いAIソフトウェアを構築する第一歩は、土台となるモデルの特性を正しく理解することです。高レベルなエージェントフレームワークを導入したり複数ステップのワークフローを組んだりする前に、どのモデルがワークロードに適しているか、推論バジェットをどう調整するか、そしてどのAPIサーフェスがアーキテクチャに合っているかを見極める必要があります。
 
-第1章では、Geminiモデルファミリーの構成やモデル設定を探り、公式の [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) を使って最初のコードを書きながら基礎を固めていきます。
+本ガイドでは、Geminiモデルファミリーの全体像を探り、思考レベル（thinking levels）をはじめとする主要な設定パラメータを紐解きながら、公式の [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai) を使って最初のマルチモーダルアプリケーションを作成します。
 
 ## Geminiモデルファミリー
 
@@ -274,8 +277,11 @@ go run main.go
 
 ![Goターミナルで生成された魔法使いの猫の画像出力](image.png "AIの真の目的：無限の猫画像生成")
 
-これはSDKの使い方を示すシンプルな例にすぎませんが、本シリーズを通じて、Go GenAI SDKと [Genkit](https://genkit.dev/) や [Agent Development Kit (ADK)](https://adk.dev/) などの高レベルフレームワークの両方の例をさらに見ていきます。
+これは低レベルSDKの仕組みを示すシンプルな例ですが、ローカルのCLIツールから本番環境のエージェントランタイムまで、すべて同じ基本プリミティブの上で動いています。
 
-## 次のステップ
+## 次に読むべきガイド
 
-**Go開発者のためのGemini** シリーズの [**パート2: Geminiでコーディングする**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}}) では、コーディングエージェントと、Goコードベースで作業するための環境を準備する方法について深く掘り下げます。お楽しみに！
+GeminiのモデルカタログとGo GenAI SDKの基本を押さえたら、目的に合わせて次の2つのステップに進むことができます。
+
+* Geminiを活用してGoコードの作成・検証・リファクタリングを高速化したい場合は、[**なぜGoはコーディングエージェントに最適なのか（そしてそのチューニング方法）**]({{< ref "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini" >}})をご覧ください。
+* ツール呼び出しを行う自律型エージェントを構築し、Go GenAI SDKと [Genkit](https://genkit.dev/) や [ADK](https://adk.dev/) といった高レベルフレームワークを比較したい場合は、[**GoでAIエージェントを構築する：GenAI SDK、Genkit、ADKの徹底比較**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}})に進んでください。

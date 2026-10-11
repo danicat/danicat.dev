@@ -67,7 +67,7 @@ title = "danicat.dev"
 #     { twitter = "https://twitter.com/username" },
     { x-twitter = "https://x.com/danicat83" },
 #     { whatsapp = "https://wa.me/phone-number" },
-#     { youtube = "https://youtube.com/username" },
+    { youtube = "https://www.youtube.com/@danikopaizen" },
 #     { ko-fi = "https://ko-fi.com/username" },
 #     { codeberg = "https://codeberg.org/username"},
   ]

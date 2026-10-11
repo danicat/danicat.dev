@@ -6,18 +6,19 @@ heroStyle: big
 series:
 - Gemini for Go Developers
 series_order: 2
-summary: In Part 2 of Gemini for Go Developers, we explore Go's agentic affinity,
-  Antigravity surfaces, and how to configure a practical AI-native workflow in Go.
+summary: "Why does language choice still matter in the age of AI? Explore Go's high agentic affinity and learn how to configure Antigravity, MCP servers, and skills for Go."
 tags:
+  - agent-skills
   - antigravity
   - gemini
+  - godoctor
   - golang
   - mcp
-title: "Gemini for Go Developers: Coding with Gemini"
+title: "Why Go Is Built for Coding Agents (And How to Tune Yours)"
 slug: "gemini-for-go-developers-part-2-coding-with-gemini"
 aliases:
   - "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini/"
-description: "Part 2 of Gemini for Go: maximize Go's agentic affinity, explore Antigravity surfaces, configure MCP servers, and build an AI-native Go toolkit."
+description: "Maximize Go's agentic affinity with AI coding harnesses. Configure Antigravity, MCP servers, Agent Skills, and godoctor for compiler-verified Go workflows."
 proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
@@ -25,9 +26,9 @@ dependencies:
   - "godoctor"
 ---
 
-Welcome back to **Gemini for Go Developers**! In [Part 1: The Gemini Model Family]({{< ref "/posts/20260808-gemini-for-go-developers-part-1-model-family" >}}), we explored the different Gemini models for specific use cases, looked at API surfaces to consume models, and wrote our first Go code with the official [Go GenAI SDK](https://pkg.go.dev/google.golang.org/genai).
+How do you get the best results when pairing AI coding agents with Go? In this article, we are going to explore how to configure an effective, high-signal environment for agentic coding in Go.
 
-Now, in Part 2, we are going to explore how to use Gemini for coding in Go. We will start with a brief discussion on language choices in the Age of AI, then explore the landscape of agent harnesses and agent standards, finishing with the recommended setup to increase the agentic affinity of Go in your development environment.
+We will start with a look at why programming language choices still matter in the age of AI, explore the landscape of agent harnesses and open customization standards (rules, MCP, skills, hooks, subagents, and plugins), and finish with a practical setup to maximize Go's agentic affinity in your daily workflow.
 
 ## Why use Go in the age of AI?
 
@@ -210,8 +211,11 @@ If you want an opinionated setup to start working with Gemini today, here is the
    Prompt your agent to run an autonomous verification pass:
    > Run a smart build on this package with godoctor, address any findings, and evaluate the test suite with selene.
 
-## What's next?
+## Wrapping up
 
-In this chapter, we covered the landscape of agent harnesses, customisation standards (rules, MCP, skills, hooks, subagents, and plugins), and how to configure a practical environment for coding in Go with Gemini.
+In this article, we covered why Go's fast compiler and strict toolchain give it high agentic affinity, how customization primitives (rules, MCP, skills, hooks, subagents, and plugins) fit together, and how to configure a practical Go environment in Antigravity.
 
-In [**Part 3: Building Agents in Go**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}), we will cross over to the other side of the table: building autonomous agent runtimes in Go. We will explore tool-calling loops, context engineering, and higher-level agent frameworks like **Genkit Go** and the **Agent Development Kit (ADK)**. See you there!
+Once your development workflow is dialed in, you might want to cross over to the other side of the table and build your own autonomous agents in Go:
+
+* Read [**Building AI Agents in Go: GenAI SDK, Genkit, and ADK**]({{< ref "/posts/20260825-gemini-for-go-developers-part-3-building-agents" >}}) for a side-by-side comparison of the three main agent architectures in Go.
+* Read [**Why I Rebuilt My Python RAG Agent in Go with Genkit**]({{< ref "/posts/20261006-building-agentic-backends-with-genkit-go" >}}) to see how Agent Skills and multi-agent delegation work inside a compiled Go binary.

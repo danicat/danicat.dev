@@ -21,6 +21,11 @@
   weight = 15
 
 [[main]]
+  name = "動画"
+  pageRef = "videos"
+  weight = 16
+
+[[main]]
   name = "コードラボ"
   pageRef = "codelabs"
   weight = 18

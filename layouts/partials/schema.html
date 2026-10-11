@@ -232,6 +232,65 @@
     {{- end }}
   ]
   </script>
+{{ else if eq .Section "videos" }}
+  <script type="application/ld+json">
+  [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": {{ printf "%s#collectionpage" .Permalink | safeURL }},
+      "name": "{{ .Title | safeJS }}",
+      {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
+      "url": {{ .Permalink | safeURL }},
+      {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "{{ $websiteID | safeJS }}"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": {{ site.Home.Permalink }}
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{ .Title | safeJS }}",
+          "item": {{ .Permalink }}
+        }
+      ]
+    }
+    {{- range site.Data.videos.videos -}}
+      {{- $vUrl := .url -}}
+      {{- $vEmbed := $vUrl -}}
+      {{- if strings.Contains $vUrl "watch?v=" -}}
+        {{- $vid := index (split (index (split $vUrl "watch?v=") 1) "&") 0 -}}
+        {{- $vEmbed = printf "https://www.youtube.com/embed/%s" $vid -}}
+      {{- end -}}
+      ,{
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        "name": "{{ .title | safeJS }}",
+        "description": "{{ .summary | default .title | plainify | htmlUnescape | safeJS }}",
+        "thumbnailUrl": "{{ .thumbnail | safeURL }}",
+        "uploadDate": "{{ .date }}T00:00:00Z",
+        "contentUrl": "{{ $vUrl | safeURL }}",
+        "embedUrl": "{{ $vEmbed | safeURL }}",
+        "author": {
+          "@type": "Person",
+          "@id": "{{ $personID | safeJS }}",
+          "name": "{{ $author.name | safeJS }}"
+        }
+      }
+    {{- end }}
+  ]
+  </script>
 {{ else if .IsPage }}
   {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
   {{- $images := .Resources.ByType "image" -}}
