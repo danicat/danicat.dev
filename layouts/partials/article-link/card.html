@@ -24,11 +24,21 @@
         </div>
         {{ end }}
       {{ else }}
-        {{ with .Resize "600x" }}
+        {{ $img400 := .Resize "400x webp q80" }}
+        {{ $img500 := .Resize "500x webp q80" }}
+        {{ $img720 := .Resize "720x webp q80" }}
         <div class="w-full aspect-video thumbnail_card nozoom overflow-hidden bg-neutral-100 dark:bg-neutral-900 border-b border-neutral-200/60 dark:border-neutral-700/60">
-          <img src="{{ .RelPermalink }}" loading="lazy" decoding="async" alt="{{ $.Title }}" class="not-prose w-full h-full object-cover nozoom">
+          <img
+            src="{{ $img500.RelPermalink }}"
+            srcset="{{ $img400.RelPermalink }} 400w, {{ $img500.RelPermalink }} 500w, {{ $img720.RelPermalink }} 720w"
+            sizes="(min-width: 1280px) 500px, (min-width: 640px) 44vw, 90vw"
+            width="{{ $img500.Width }}"
+            height="{{ $img500.Height }}"
+            loading="lazy"
+            decoding="async"
+            alt="{{ $.Title }}"
+            class="not-prose w-full h-full object-cover nozoom">
         </div>
-        {{ end }}
       {{ end }}
       {{- end -}}
 

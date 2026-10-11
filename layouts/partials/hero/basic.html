@@ -1,0 +1,69 @@
+{{ $disableImageOptimization := site.Store.Get "disableImageOptimization" }}
+
+{{ $useDefault := false }}
+{{ $featured := "" }}
+{{ $featuredURL := "" }}
+{{ $featuredWidth := 0 }}
+{{ $featuredHeight := 0 }}
+{{ with .Params.featureimage }}
+  {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+    {{ if site.Params.hotlinkFeatureImage }}
+      {{ $featuredURL = . }}
+    {{ else }}
+      {{ $featured = resources.GetRemote . }}
+    {{ end }}
+  {{ else }}
+    {{ $featured = resources.Get . }}
+  {{ end }}
+{{ end }}
+
+{{ if not (or $featured $featuredURL) }}
+  {{ $images := .Resources.ByType "image" }}
+  {{ range slice "*background*" "*feature*" "*cover*" "*thumbnail*" }}
+    {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if not (or $featured $featuredURL) }}
+  {{ $default := site.Store.Get "defaultBackgroundImage" }}
+  {{ if $default.url }}
+    {{ $featuredURL = $default.url }}
+    {{ $useDefault = true }}
+  {{ else if $default.obj }}
+    {{ $featured = $default.obj }}
+    {{ $useDefault = true }}
+  {{ end }}
+{{ end }}
+
+{{ if not $featuredURL }}
+  {{ with $featured }}
+    {{ $featuredURL = .RelPermalink }}
+    {{ $featuredWidth = .Width }}
+    {{ $featuredHeight = .Height }}
+    {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
+      {{ $size := site.Store.Get "backgroundImageWidth" }}
+      {{ $resized := .Resize (printf "%s webp q82" $size) }}
+      {{ $featuredURL = $resized.RelPermalink }}
+      {{ $featuredWidth = $resized.Width }}
+      {{ $featuredHeight = $resized.Height }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ with $featuredURL }}
+  {{ $style := "" }}
+  {{ $defaultPosition := cond $useDefault site.Params.imagePosition false }}
+  {{ with $.Params.imagePosition | default $defaultPosition }}
+    {{ $style = printf "object-position: %s;" . }}
+  {{ end }}
+  <div class="overflow-hidden h-36 md:h-56 lg:h-72">
+    <img
+      src="{{ . }}"
+      {{ if gt $featuredWidth 0 }}width="{{ $featuredWidth }}" height="{{ $featuredHeight }}"{{ end }}
+      role="presentation"
+      decoding="async"
+      fetchpriority="high"
+      class="w-full h-full nozoom object-cover"
+      {{ if $style }}style="{{ $style | safeCSS }}"{{ end }}>
+  </div>
+{{ end }}

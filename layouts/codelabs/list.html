@@ -26,6 +26,7 @@
   {{ range .Pages.ByDate.Reverse }}
     {{ $href := .Params.externalUrl | default .RelPermalink }}
     {{ $featured := "" }}
+    {{ $featuredObj := "" }}
     {{ if .Params.featureimage }}
       {{ $featured = .Params.featureimage }}
     {{ else }}
@@ -34,7 +35,12 @@
       {{ if not $match }}{{ $match = $images.GetMatch "*cover*" }}{{ end }}
       {{ if not $match }}{{ $match = $images.GetMatch "*thumbnail*" }}{{ end }}
       {{ if $match }}
-        {{ $featured = $match.RelPermalink }}
+        {{ if not (eq $match.MediaType.SubType "svg") }}
+          {{ $featuredObj = $match.Resize "576x webp q80" }}
+          {{ $featured = $featuredObj.RelPermalink }}
+        {{ else }}
+          {{ $featured = $match.RelPermalink }}
+        {{ end }}
       {{ else }}
         {{ $featured = "/images/codelabs/placeholder.png" }}
       {{ end }}
@@ -42,7 +48,7 @@
 
     <article class="article-link--simple danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative">
       <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }} class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block" tabindex="-1" aria-hidden="true">
-        <img src="{{ $featured }}" alt="{{ .Title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+        <img src="{{ $featured }}" {{ with $featuredObj }}width="{{ .Width }}" height="{{ .Height }}"{{ end }} alt="{{ .Title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
       </a>
 
       <div class="flex flex-col justify-between grow min-w-0">

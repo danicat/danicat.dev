@@ -1,0 +1,146 @@
+{{ $disableImageOptimization := site.Store.Get "disableImageOptimization" }}
+
+{{ $useDefault := false }}
+{{ $images := .Resources.ByType "image" }}
+{{ $background := $images.GetMatch "*background*" }}
+{{ $backgroundURL := "" }}
+{{ $bgWidth := 0 }}
+{{ $bgHeight := 0 }}
+
+{{ if not (or $background $backgroundURL) }}
+  {{ $default := site.Store.Get "defaultBackgroundImage" }}
+  {{ if $default.url }}
+    {{ $backgroundURL = $default.url }}
+    {{ $useDefault = true }}
+  {{ else if $default.obj }}
+    {{ $background = $default.obj }}
+    {{ $useDefault = true }}
+  {{ end }}
+{{ end }}
+
+{{ if not (or $background $backgroundURL) }}
+  {{ range slice "*cover*" "*thumbnail*" "*feature*" }}
+    {{ if not $background }}{{ $background = $images.GetMatch . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if not $backgroundURL }}
+  {{ with $background }}
+    {{ $backgroundURL = .RelPermalink }}
+    {{ $bgWidth = .Width }}
+    {{ $bgHeight = .Height }}
+    {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
+      {{ $size := site.Store.Get "backgroundImageWidth" }}
+      {{ $resizedBg := .Resize (printf "%s webp q82" $size) }}
+      {{ $backgroundURL = $resizedBg.RelPermalink }}
+      {{ $bgWidth = $resizedBg.Width }}
+      {{ $bgHeight = $resizedBg.Height }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $featured := "" }}
+{{ $featuredURL := "" }}
+{{ $featuredWidth := 0 }}
+{{ $featuredHeight := 0 }}
+{{ with .Params.featureimage }}
+  {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+    {{ if site.Params.hotlinkFeatureImage }}
+      {{ $featuredURL = . }}
+    {{ else }}
+      {{ $featured = resources.GetRemote . }}
+    {{ end }}
+  {{ else }}
+    {{ $featured = resources.Get . }}
+  {{ end }}
+{{ end }}
+
+{{ if not (or $featured $featuredURL) }}
+  {{ $images := $.Resources.ByType "image" }}
+  {{ range slice "*feature*" "*cover*" "*thumbnail*" "*background*" }}
+    {{ if not $featured }}{{ $featured = $images.GetMatch . }}{{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if not (or $featured $featuredURL) }}
+  {{ $default := site.Store.Get "defaultFeaturedImage" }}
+  {{ if $default.url }}
+    {{ $featuredURL = $default.url }}
+  {{ else if $default.obj }}
+    {{ $featured = $default.obj }}
+  {{ end }}
+{{ end }}
+
+{{ if not $featuredURL }}
+  {{ with $featured }}
+    {{ $featuredURL = .RelPermalink }}
+    {{ $featuredWidth = .Width }}
+    {{ $featuredHeight = .Height }}
+    {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
+      {{ $size := site.Store.Get "backgroundImageWidth" }}
+      {{ $resizedFeat := .Resize (printf "%s webp q82" $size) }}
+      {{ $featuredURL = $resizedFeat.RelPermalink }}
+      {{ $featuredWidth = $resizedFeat.Width }}
+      {{ $featuredHeight = $resizedFeat.Height }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ $isParentList := eq (.Scratch.Get "scope") "list" }}
+{{ $shouldBlur := $.Params.layoutBackgroundBlur | default (or
+  (and ($.Site.Params.article.layoutBackgroundBlur | default true) (not $isParentList))
+  (and ($.Site.Params.list.layoutBackgroundBlur | default true) ($isParentList))
+  )
+}}
+
+{{ with $featuredURL }}
+  <div class="overflow-hidden rounded-md h-36 md:h-56 lg:h-72 nozoom">
+    <img
+      src="{{ . }}"
+      {{ if gt $featuredWidth 0 }}width="{{ $featuredWidth }}" height="{{ $featuredHeight }}"{{ end }}
+      role="presentation"
+      decoding="async"
+      fetchpriority="high"
+      class="w-full h-full nozoom object-cover"
+      {{ with $.Params.imagePositionFeature }}style="object-position: {{ . }};"{{ end }}>
+  </div>
+{{ end }}
+
+<div class="single_hero_background nozoom fixed inset-x-0 top-0 h-[800px]">
+  {{ with $backgroundURL }}
+    {{ $style := "" }}
+    {{ $defaultPosition := cond $useDefault site.Params.imagePosition false }}
+    {{ with $.Params.imagePosition | default $defaultPosition }}
+      {{ $style = printf "object-position: %s;" . }}
+    {{ end }}
+    <img
+      id="background-image-main"
+      src="{{ . }}"
+      {{ if gt $bgWidth 0 }}width="{{ $bgWidth }}" height="{{ $bgHeight }}"{{ end }}
+      role="presentation"
+      decoding="async"
+      fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover"
+      {{ if $style }}style="{{ $style | safeCSS }}"{{ end }}>
+  {{ end }}
+  <div
+    class="from-neutral absolute inset-0 bg-gradient-to-t to-transparent mix-blend-normal dark:from-neutral-800"></div>
+  <div
+    class="from-neutral to-neutral absolute inset-0 bg-gradient-to-t opacity-30 mix-blend-normal dark:from-neutral-800 dark:to-neutral-800 dark:opacity-60"></div>
+</div>
+
+{{ if $shouldBlur | default false }}
+  <div
+    id="background-blur"
+    class="fixed opacity-0 inset-x-0 top-0 h-full single_hero_background nozoom backdrop-blur-xl bg-neutral-100/75 dark:bg-neutral-800/60"></div>
+  {{ $backgroundBlur := resources.Get "js/background-blur.js" }}
+  {{ $backgroundBlur = $backgroundBlur | resources.Minify | resources.Fingerprint (.Site.Params.fingerprintAlgorithm | default "sha512") }}
+  <script
+    defer
+    type="text/javascript"
+    src="{{ $backgroundBlur.RelPermalink }}"
+    integrity="{{ $backgroundBlur.Data.Integrity }}"
+    data-blur-id="background-blur"
+    data-image-id="background-image-main"
+    {{ with $backgroundURL }}data-image-url="{{ . }}"{{ end }}></script>
+{{ end }}

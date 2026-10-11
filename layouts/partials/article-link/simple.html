@@ -46,7 +46,8 @@
       {{ with $featured }}
         {{ $featuredURL = .RelPermalink }}
         {{ if not (or $disableImageOptimization (eq .MediaType.SubType "svg")) }}
-          {{ $featuredURL = (.Resize "600x").RelPermalink }}
+          {{ $featured = .Resize "576x webp q80" }}
+          {{ $featuredURL = $featured.RelPermalink }}
         {{ end }}
       {{ end }}
     {{ end }}
@@ -58,6 +59,10 @@
     <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900">
       <img
         src="{{ . }}"
+        {{ with $featured }}
+          {{ with .Width }}width="{{ . }}"{{ end }}
+          {{ with .Height }}height="{{ . }}"{{ end }}
+        {{ end }}
         alt="{{ $.Title }}"
         loading="lazy"
         decoding="async"

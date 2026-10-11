@@ -1,0 +1,58 @@
+{{ $disableImageOptimization := .Site.Params.disableImageOptimization | default false }}
+{{ if .Get "default" }}
+  {{ partial "hugo-embedded/shortcodes/figure-default.html" . }}
+{{ else }}
+  {{- $url := urls.Parse (.Get "src") }}
+  {{- $altText := .Get "alt" }}
+  {{- $caption := .Get "caption" }}
+  {{- $href := .Get "href" }}
+  {{- $class := .Get "class" }}
+  {{- $target := .Get "target" | default "_blank" }}
+  {{- $nozoom := .Get "nozoom" | default false -}}
+
+  <figure>
+  {{- with $href }}<a href="{{ . }}" {{ with $target }}target="{{ . }}"{{ end }} class="inline-block">{{ end -}}
+  {{- if findRE "^https?" $url.Scheme }}
+      <img class="my-0 rounded-md{{ with $nozoom }} nozoom{{ end }}{{ with $class }} {{ . }}{{ end }}" src="{{ $url.String }}" alt="{{ $altText }}" loading="lazy" decoding="async" />
+  {{- else }}
+    {{- $resource := "" }}
+    {{- if $.Page.Resources.GetMatch ($url.String) }}
+      {{- $resource = $.Page.Resources.GetMatch ($url.String) }}
+    {{- else if resources.GetMatch ($url.String) }}
+      {{- $resource = resources.Get ($url.String) }}
+    {{- end }}
+    {{- with $resource }}
+      {{- if or $disableImageOptimization (eq .MediaType.SubType "svg")}}
+        <img
+          {{ if ne .MediaType.SubType "svg" }}width="{{ .Width }}" height="{{ .Height }}" style="aspect-ratio: {{ .Width }} / {{ .Height }};"{{ end }}
+          class="my-0 rounded-md{{ with $nozoom }} nozoom{{ end }}{{ with $class }} {{ . }}{{ end }}"
+          src="{{ .RelPermalink }}"
+          alt="{{ $altText }}"
+          loading="lazy"
+          decoding="async"
+        />
+      {{- else }}
+        {{- $img800 := .Resize "800x webp q82" -}}
+        {{- $img1280 := .Resize "1280x webp q82" -}}
+        <img
+          width="{{ $img800.Width }}"
+          height="{{ $img800.Height }}"
+          style="aspect-ratio: {{ $img800.Width }} / {{ $img800.Height }};"
+          class="my-0 rounded-md{{ with $nozoom }} nozoom{{ end }}{{ with $class }} {{ . }}{{ end }}"
+          alt="{{ $altText }}"
+          src="{{ $img800.RelPermalink }}"
+          srcset="{{ $img800.RelPermalink }} 800w, {{ $img1280.RelPermalink }} 1280w"
+          sizes="(min-width: 768px) 655px, 92vw"
+          loading="lazy"
+          decoding="async"
+          data-zoom-src="{{ $img1280.RelPermalink }}"
+        />
+      {{- end }}
+    {{- else }}
+      <img class="my-0 rounded-md{{ with $nozoom }} nozoom{{ end }}{{ with $class }} {{ . }}{{ end }}" src="{{ $url.String }}" alt="{{ $altText }}" loading="lazy" decoding="async" />
+    {{- end }}
+  {{- end }}
+  {{ if $href }}</a>{{ end }}
+  {{ with $caption }}<figcaption>{{ . | markdownify }}</figcaption>{{ end }}
+  </figure>
+{{- end -}}
