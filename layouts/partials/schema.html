@@ -204,7 +204,8 @@
         "performer": {
           "@type": "Person",
           "@id": "{{ $personID | safeJS }}",
-          "name": "{{ $author.name | safeJS }}"
+          "name": "{{ $author.name | safeJS }}",
+          "url": {{ "about/" | absURL | safeURL }}
         },
         "organizer": {
           "@type": "Organization",
@@ -222,9 +223,15 @@
           "name": "{{ $tTitle | safeJS }}",
           "description": "{{ $tSummary | default $tTitle | plainify | htmlUnescape | safeJS }}",
           "thumbnailUrl": "{{ $videoThumb | safeURL }}",
-          "uploadDate": "{{ $tDate }}",
+          "uploadDate": "{{ $tDate }}T00:00:00Z",
           "contentUrl": "{{ . | safeURL }}",
-          "embedUrl": "{{ $embedUrl | safeURL }}"
+          "embedUrl": "{{ $embedUrl | safeURL }}",
+          "author": {
+            "@type": "Person",
+            "@id": "{{ $personID | safeJS }}",
+            "name": "{{ $author.name | safeJS }}",
+            "url": {{ "about/" | absURL | safeURL }}
+          }
         }
         {{- end }}
       }
@@ -273,6 +280,15 @@
         {{- $vid := index (split (index (split $vUrl "watch?v=") 1) "&") 0 -}}
         {{- $vEmbed = printf "https://www.youtube.com/embed/%s" $vid -}}
       {{- end -}}
+      {{- $isoDur := "" -}}
+      {{- with .duration -}}
+        {{- $parts := split . ":" -}}
+        {{- if eq (len $parts) 2 -}}
+          {{- $isoDur = printf "PT%sM%sS" (index $parts 0) (strings.TrimLeft "0" (index $parts 1) | default "0") -}}
+        {{- else if eq (len $parts) 3 -}}
+          {{- $isoDur = printf "PT%sH%sM%sS" (index $parts 0) (strings.TrimLeft "0" (index $parts 1) | default "0") (strings.TrimLeft "0" (index $parts 2) | default "0") -}}
+        {{- end -}}
+      {{- end -}}
       ,{
         "@context": "https://schema.org",
         "@type": "VideoObject",
@@ -280,12 +296,14 @@
         "description": "{{ .summary | default .title | plainify | htmlUnescape | safeJS }}",
         "thumbnailUrl": "{{ .thumbnail | safeURL }}",
         "uploadDate": "{{ .date }}T00:00:00Z",
+        {{ with $isoDur }}"duration": "{{ . }}",{{ end }}
         "contentUrl": "{{ $vUrl | safeURL }}",
         "embedUrl": "{{ $vEmbed | safeURL }}",
         "author": {
           "@type": "Person",
           "@id": "{{ $personID | safeJS }}",
-          "name": "{{ $author.name | safeJS }}"
+          "name": "{{ $author.name | safeJS }}",
+          "url": {{ "about/" | absURL | safeURL }}
         }
       }
     {{- end }}
@@ -385,7 +403,9 @@
     "thumbnailUrl": "{{ $imageUrl }}",
     "author": {
       "@type": "Person",
-      "@id": "{{ $personID | safeJS }}"
+      "@id": "{{ $personID | safeJS }}",
+      "name": "{{ $author.name | safeJS }}",
+      "url": {{ "about/" | absURL | safeURL }}
     }
   }
   {{- end }}
