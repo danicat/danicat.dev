@@ -7,6 +7,10 @@ on:
     branches:
       - main
 
+  # Refresh YouTube videos and view counts daily at 06:00 UTC
+  schedule:
+    - cron: '0 6 * * *'
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -63,12 +67,8 @@ jobs:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-        with:
-          enable-cache: true
       - name: Sync YouTube videos and view counts
-        run: uv run scripts/videos.py
+        run: python3 scripts/videos.py
       - name: Build with Hugo
         run: |
           hugo \
