@@ -19,3 +19,21 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+-------------------------------------------------------------------------------
+CONTENT & MEDIA COPYRIGHT NOTICE
+-------------------------------------------------------------------------------
+
+The MIT License above applies strictly to the software, source code, Hugo
+templates (`layouts/`), stylesheets (`assets/css/`), and automation scripts
+(`scripts/`) in this repository.
+
+All original written articles, tutorials, codelabs, and slide decks located in
+`content/`, as well as all personal photographs, custom illustrations, avatars,
+and brand assets in `static/` and `assets/`, are:
+
+Copyright (c) 2025-2026 Daniela Petruzalek. All Rights Reserved.
+
+They may not be reproduced, republished, redistributed, or used for commercial
+purposes without prior written permission from the author, except for brief
+quotations with attribution and a canonical link back to https://danicat.dev.

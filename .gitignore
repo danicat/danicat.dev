@@ -1,12 +1,38 @@
+# OS & Hugo build artifacts
 .DS_Store
 .hugo_build.lock
 public/*
 resources/*
 
-# Gemini CLI temporary files
+# Drafts & editorial planning (never commit unreviewed drafts to public repo)
+DRAFT.md
+*DRAFT*.md
+drafts/
+content/drafts/
+CONTENT_PLAN.md
+
+# AI Agent & IDE workspace directories
+.gemini/
+.agents/
+.claude/
 .issue/
 nanobanana-output/
 .playwright-mcp/
-.gemini
-CONTENT_PLAN.md
+
+# Python environments & bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local databases, credentials & environment secrets
 *.db
+*.sqlite
+*.sqlite3
+.env
+.env.*
+*.pem
+*.key
+*credentials*.json
+*secret*.json

@@ -51,3 +51,21 @@ To work with this project, you need to have Hugo installed.
 *   **Authentic "Cozy Web" Tone:** Preserve the author's conversational, first-person ("I", "we"), pragmatic developer perspective. Never sterilize human writing into dry corporate, marketing, or academic textbook summaries.
 *   **Explicit Rewrite Mandate:** An agent must **ONLY** rewrite or rephrase human-drafted paragraphs when the user explicitly requests it (e.g. "rewrite this paragraph" or "rephrase this section"). When asked to "polish" or "check", perform copyediting only.
 *   **Fearless Macro-Structural Feedback:** While sentence-level prose is inviolable, reviewing agents **must** proactively diagnose and flag macro-structural issues: narrative redundancies, sections that reopen resolved arguments, stalled pacing between theory and practice, and inconsistent hyperlink hygiene.
+
+# Public Repository Security & Git Hygiene (MANDATORY FOR ALL AGENTS)
+
+`danicat/danicat.dev` is a **PUBLIC** GitHub repository. Everything committed to Git — including files with `draft: true` or files later deleted in subsequent commits — becomes permanently visible in the public commit history.
+
+*   **Never Commit Unapproved Drafts or Under-Review Posts:**
+    *   Hugo's `draft: true` hides posts from `danicat.dev`, **NOT** from the public GitHub repository.
+    *   **NEVER** stage (`git add`) or commit any file with `draft: true` or any new article directory under `content/posts/` or `content/codelabs/` unless the user **explicitly** instructs you to publish and commit that specific article.
+    *   Keep work-in-progress drafts in gitignored locations (`DRAFT.md` or `content/drafts/`) until cleared for publication.
+*   **Forbidden Git Staging Commands:**
+    *   **NEVER** run `git add .`, `git add -A`, or `git commit -a`.
+    *   Always stage explicit, named file paths (`git add <specific-file>`) and inspect `git status` and `git diff --staged` before committing.
+*   **Mandatory Pre-Commit Sanitization:**
+    *   **No Internal Hostnames or User Paths:** Never commit terminal outputs, logs, or code snippets containing internal corporate hostnames (`*.roam.internal`, `*.corp.google.com`, `petruzalek-mac`) or local user home paths (`/Users/petruzalek/...`). Replace with generic placeholders (`workstation.localdomain`, `/opt/homebrew/...`, `~/projects/...`).
+    *   **No Unannounced / Embargoed Identifiers:** Never commit references to unannounced Google models, internal codenames, or embargoed product versions in posts or helper scripts before public launch.
+    *   **No Secrets or Ephemeral Agent Artifacts:** Never commit API keys, tokens, `.env` files, SQLite databases (`*.db`), Python virtualenvs/bytecode (`__pycache__`, `*.pyc`), or agent workspace configs (`.gemini/`, `.agents/`).
+*   **Never Bypass Pre-Commit Hooks:**
+    *   The repository enforces these invariants via `.git/hooks/pre-commit` (`scripts/pre-commit`). **NEVER** use `git commit --no-verify` (`-n`). If the pre-commit hook fails, fix the underlying leak immediately.
