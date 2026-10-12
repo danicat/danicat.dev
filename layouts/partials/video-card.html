@@ -58,6 +58,13 @@
         {{ if and $v.date (ne $v.date "-") }}
           {{ partial "meta/date.html" $videoTime }}
         {{ end }}
+        {{ if ne $v.views nil }}
+          <span class="px-2 text-primary-500">&middot;</span>
+          <span class="inline-flex items-center gap-1" title="views">
+            <span>{{ lang.FormatNumber 0 $v.views }}</span>
+            <span class="inline-block align-text-bottom">{{ partial "icon.html" "eye" }}</span>
+          </span>
+        {{ end }}
         {{ with ($v.event | default $v.channelName) }}
           <span class="px-2 text-primary-500">&middot;</span>
           <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ . }}</span>

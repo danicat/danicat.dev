@@ -63,6 +63,12 @@ jobs:
             hugo-
       - name: Configure Git
         run: git config core.quotepath false
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Sync YouTube videos and view counts
+        run: uv run scripts/videos.py
       - name: Build with Hugo
         run: |
           hugo \

@@ -297,6 +297,11 @@
         "thumbnailUrl": "{{ .thumbnail | safeURL }}",
         "uploadDate": "{{ .date }}T00:00:00Z",
         {{ with $isoDur }}"duration": "{{ . }}",{{ end }}
+        {{ if ne .views nil }}"interactionStatistic": {
+          "@type": "InteractionCounter",
+          "interactionType": { "@type": "WatchAction" },
+          "userInteractionCount": {{ .views }}
+        },{{ end }}
         "contentUrl": "{{ $vUrl | safeURL }}",
         "embedUrl": "{{ $vEmbed | safeURL }}",
         "author": {

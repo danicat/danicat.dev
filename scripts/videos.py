@@ -18,6 +18,7 @@ import json
 import re
 import sys
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -80,7 +81,7 @@ def fetch_channel_videos() -> List[Dict[str, Any]]:
 def fetch_playlist_items() -> List[Dict[str, Any]]:
     resp = requests.get(PLAYLIST_URL, headers=HEADERS, timeout=15)
     resp.raise_for_status()
-    match = re.search(r"var ytInitialData = (\{.*?\});</script>", resp.text)
+    match = re.search(r"var ytInitialData = (\{.*?\});</script>", resp.text, re.DOTALL)
     if not match:
         raise RuntimeError(f"Failed to locate ytInitialData on playlist page {PLAYLIST_URL}")
     data = json.loads(match.group(1))
@@ -124,7 +125,7 @@ def fetch_playlist_items() -> List[Dict[str, Any]]:
     return discovered
 
 
-def fetch_video_watch_metadata(vid: str) -> Dict[str, str]:
+def fetch_video_watch_metadata(vid: str) -> Dict[str, Any]:
     url = f"https://www.youtube.com/watch?v={vid}"
     resp = requests.get(url, headers=HEADERS, timeout=15)
     resp.raise_for_status()
@@ -132,6 +133,9 @@ def fetch_video_watch_metadata(vid: str) -> Dict[str, str]:
     pub_m = re.search(r'"publishDate":"([^"]+)"', html)
     dur_m = re.search(r'"lengthSeconds":"(\d+)"', html)
     desc_m = re.search(r'"shortDescription":"((?:\\.|[^"\\])*)"', html)
+    view_m = re.search(r'"viewCount":"(\d+)"', html)
+    if not view_m:
+        raise RuntimeError(f"Failed to extract viewCount from YouTube watch page for video '{vid}' ({url})")
     duration = ""
     if dur_m:
         secs = int(dur_m.group(1))
@@ -146,6 +150,7 @@ def fetch_video_watch_metadata(vid: str) -> Dict[str, str]:
         "date": pub_m.group(1)[:10] if pub_m else "",
         "duration": duration,
         "summary": summary,
+        "views": int(view_m.group(1)),
     }
 
 
@@ -203,6 +208,7 @@ def main() -> None:
             "title": talk_match.get("title") or src["title"],
             "date": talk_match.get("date") or src.get("date") or watch_meta["date"],
             "duration": src.get("duration") or watch_meta["duration"],
+            "views": watch_meta["views"],
             "kind": src["kind"],
             "channelName": src.get("channelName") or "YouTube",
             "event": talk_match.get("event"),
@@ -219,21 +225,42 @@ def main() -> None:
         existing_by_id[vid] = record
         added_count += 1
 
+    yt_video_ids = [
+        vid
+        for vid, rec in existing_by_id.items()
+        if extract_youtube_id(rec.get("url", ""))
+    ]
+    console.print(f"[bold cyan]Syncing live YouTube view counts for {len(yt_video_ids)} videos...[/bold cyan]")
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        watch_metas = dict(zip(yt_video_ids, pool.map(fetch_video_watch_metadata, yt_video_ids)))
+
+    for vid, rec in existing_by_id.items():
+        if vid in watch_metas:
+            live_views = watch_metas[vid]["views"]
+            if rec.get("views") != live_views:
+                rec["views"] = live_views
+                updated_count += 1
+        elif "views" not in rec:
+            rec["views"] = None
+
     sorted_videos = sorted(existing_by_id.values(), key=lambda x: x.get("date") or "", reverse=True)
     videos_doc["videos"] = sorted_videos
 
     table = Table(title=f"Videos Catalog ({len(sorted_videos)} total, {added_count} added, {updated_count} updated)")
     table.add_column("Date", style="cyan", no_wrap=True)
     table.add_column("Kind", style="magenta", no_wrap=True)
+    table.add_column("Views", justify="right", style="yellow", no_wrap=True)
     table.add_column("ID", style="dim", no_wrap=True)
     table.add_column("Title", style="bold")
     table.add_column("Channel / Event", style="green")
     for v in sorted_videos:
+        views_str = f"{v['views']:,}" if v.get("views") is not None else "-"
         table.add_row(
             v.get("date") or "-",
             v.get("kind") or "talk",
+            views_str,
             v["id"],
-            v["title"][:55],
+            v["title"][:50],
             v.get("event") or v.get("channelName") or "-",
         )
     console.print(table)
