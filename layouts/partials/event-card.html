@@ -133,37 +133,57 @@
           <span class="px-2 text-primary-500">&middot;</span>
           <span class="font-semibold text-primary-600 dark:text-primary-400">Upcoming</span>
         {{ end }}
-        {{ if $e.slides }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ i18n "event_decks_label" | default "Slides" }} &#8599;
-          </a>
-        {{ end }}
-        {{ if or $e.codelab $e.materials }}
-          {{ $matUrl := $e.codelab | default $e.materials }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ if $e.codelab }}Codelab{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }} &#8599;
-          </a>
-        {{ end }}
-        {{ if $e.source_code }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ i18n "event_source_code_label" | default "Source Code" }} &#8599;
-          </a>
-        {{ end }}
-        {{ if $e.recording }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn font-medium text-primary-600 dark:text-primary-400 hover:underline cursor-pointer bg-transparent border-0 p-0 inline" data-target="{{ $thumbTarget }}" data-video-url="{{ $e.recording }}">
-            <span class="btn-label">{{ i18n "event_recording_label" | default "Recording" }}</span> &#9654;
-          </button>
-        {{ end }}
       </div>
     </div>
 
     {{ with $e.summary }}
     <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
       {{ . | plainify }}
+    </div>
+    {{ end }}
+
+    {{ if or $e.recording $e.slides $e.codelab $e.materials $e.source_code }}
+    <div class="card-action-row">
+      {{ if $e.recording }}
+        <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn card-action-btn card-action-btn--primary" data-target="{{ $thumbTarget }}" data-video-url="{{ $e.recording }}">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M8 5v14l11-7z"/>
+          </svg>
+          <span class="btn-label">{{ i18n "event_recording_label" | default "Recording" }}</span>
+        </button>
+      {{ end }}
+      {{ if $e.slides }}
+        <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+          </svg>
+          <span>{{ i18n "event_decks_label" | default "Slides" }}</span>
+          <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {{ end }}
+      {{ if or $e.codelab $e.materials }}
+        {{ $matUrl := $e.codelab | default $e.materials }}
+        <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="4 17 10 11 4 5"/>
+            <line x1="12" y1="19" x2="20" y2="19"/>
+          </svg>
+          <span>{{ if $e.codelab }}Codelab{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }}</span>
+          <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {{ end }}
+      {{ if $e.source_code }}
+        <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <span>{{ i18n "event_source_code_label" | default "Source Code" }}</span>
+          <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {{ end }}
     </div>
     {{ end }}
 

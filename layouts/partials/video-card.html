@@ -81,35 +81,6 @@
           <span class="px-2 text-primary-500">&middot;</span>
           <span title="Delivered in Japanese">🇯🇵 JA</span>
         {{ end }}
-        {{ with $v.post }}
-          {{ $targetUrl := . }}
-          {{ $localizedCandidate := printf "%s%s" $langPrefix . }}
-          {{ range site.RegularPages }}
-            {{ if eq .RelPermalink $localizedCandidate }}
-              {{ $targetUrl = $localizedCandidate }}
-            {{ end }}
-          {{ end }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ $targetUrl }}" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ i18n "videos_article_label" | default "Article" }} &rarr;
-          </a>
-        {{ end }}
-        {{ with $v.slides }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ i18n "event_decks_label" | default "Slides" }} &#8599;
-          </a>
-        {{ end }}
-        {{ with $v.source_code }}
-          <span class="px-2 text-primary-500">&middot;</span>
-          <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="font-medium text-primary-600 dark:text-primary-400 hover:underline">
-            {{ i18n "event_source_code_label" | default "Source Code" }} &#8599;
-          </a>
-        {{ end }}
-        <span class="px-2 text-primary-500">&middot;</span>
-        <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn font-medium text-primary-600 dark:text-primary-400 hover:underline cursor-pointer bg-transparent border-0 p-0 inline" data-target="{{ $thumbTarget }}" data-video-url="{{ $v.url }}">
-          <span class="btn-label">{{ i18n "videos_watch_label" | default "Watch" }}</span> &#9654;
-        </button>
       </div>
     </div>
 
@@ -118,6 +89,54 @@
       {{ . | plainify }}
     </div>
     {{ end }}
+
+    <div class="card-action-row">
+      <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn card-action-btn card-action-btn--primary" data-target="{{ $thumbTarget }}" data-video-url="{{ $v.url }}">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+        <span class="btn-label">{{ i18n "videos_watch_label" | default "Watch" }}</span>
+      </button>
+      {{ with $v.post }}
+        {{ $targetUrl := . }}
+        {{ $localizedCandidate := printf "%s%s" $langPrefix . }}
+        {{ range site.RegularPages }}
+          {{ if eq .RelPermalink $localizedCandidate }}
+            {{ $targetUrl = $localizedCandidate }}
+          {{ end }}
+        {{ end }}
+        <a href="{{ $targetUrl }}" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+          <span>{{ i18n "videos_article_label" | default "Article" }}</span>
+        </a>
+      {{ end }}
+      {{ with $v.slides }}
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="2" y="3" width="20" height="14" rx="2"/>
+            <path d="M8 21h8"/>
+            <path d="M12 17v4"/>
+          </svg>
+          <span>{{ i18n "event_decks_label" | default "Slides" }}</span>
+          <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {{ end }}
+      {{ with $v.source_code }}
+        <a href="{{ . }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="16 18 22 12 16 6"/>
+            <polyline points="8 6 2 12 8 18"/>
+          </svg>
+          <span>{{ i18n "event_source_code_label" | default "Source Code" }}</span>
+          <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {{ end }}
+    </div>
 
     <div id="{{ $thumbTarget }}" class="video-player-container hidden mt-4 w-full aspect-video rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md">
       <!-- lazy loaded on button click -->
