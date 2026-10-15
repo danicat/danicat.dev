@@ -26,6 +26,20 @@
     if (!id || localStorage.getItem(id)) return;
     if (!window.danicatFirebase) return;
 
+    // Ignore headless automation (Lighthouse, PageSpeed Insights, Puppeteer, scrapers)
+    if (navigator.webdriver) return;
+
+    // Ignore background tabs until the user actually views the page
+    if (document.visibilityState !== "visible") {
+      document.addEventListener("visibilitychange", function onVisible() {
+        if (document.visibilityState === "visible") {
+          document.removeEventListener("visibilitychange", onVisible);
+          scheduleViewIncrement();
+        }
+      });
+      return;
+    }
+
     localStorage.setItem(id, "true");
     window.danicatFirebase
       .commitIncrement("views", id, 1, oid)
@@ -36,11 +50,24 @@
   }
 
   function scheduleViewIncrement() {
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setTimeout(recordViewIfNeeded, 300);
-      });
-    });
+    let recorded = false;
+    const trigger = () => {
+      if (recorded) return;
+      recorded = true;
+      cleanup();
+      recordViewIfNeeded();
+    };
+
+    const cleanup = () => {
+      window.removeEventListener("scroll", trigger);
+      window.removeEventListener("touchstart", trigger);
+      clearTimeout(timer);
+    };
+
+    // Count view after 3s visible dwell OR upon first scroll/touch
+    const timer = setTimeout(trigger, 3000);
+    window.addEventListener("scroll", trigger, { once: true, passive: true });
+    window.addEventListener("touchstart", trigger, { once: true, passive: true });
   }
 
   if (document.readyState === "complete") {

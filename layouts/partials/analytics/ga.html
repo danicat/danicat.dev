@@ -17,5 +17,6 @@
     ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(function(evt) {
       window.addEventListener(evt, loadGtag, { once: true, passive: true });
     });
+    setTimeout(loadGtag, 3500);
   })();
 </script>
