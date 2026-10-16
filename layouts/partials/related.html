@@ -1,0 +1,41 @@
+{{ if .Params.showRelatedContent | default (.Site.Params.article.showRelatedContent | default false) }}
+  {{ $currentPage := . }}
+  {{ $limit := .Site.Params.article.relatedContentLimit | default 3 }}
+  {{ $finalRelated := slice }}
+  {{ $seen := dict .RelPermalink true }}
+
+  {{/* 1. Manual Frontmatter Pinning (`related: ["/posts/..."]`) */}}
+  {{ range .Params.related }}
+    {{ with $currentPage.Site.GetPage . }}
+      {{ if and (not (index $seen .RelPermalink)) (not .Params.deprecated) }}
+        {{ $finalRelated = $finalRelated | append . }}
+        {{ $seen = merge $seen (dict .RelPermalink true) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{/* 2. Hugo Related Content with `superseded_by` replacement & `deprecated` filtering */}}
+  {{ range (.Site.RegularPages.Related .) }}
+    {{ if lt (len $finalRelated) $limit }}
+      {{ $candidate := . }}
+      {{ with .Params.superseded_by }}
+        {{ with $currentPage.Site.GetPage . }}
+          {{ $candidate = . }}
+        {{ end }}
+      {{ end }}
+      {{ if and (not $candidate.Params.deprecated) (not (index $seen $candidate.RelPermalink)) }}
+        {{ $finalRelated = $finalRelated | append $candidate }}
+        {{ $seen = merge $seen (dict $candidate.RelPermalink true) }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+
+  {{ with $finalRelated }}
+    <h2 class="mt-8 text-2xl font-extrabold mb-10">{{ i18n "article.related_articles" | emojify }}</h2>
+    <section class="w-full grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {{ range . }}
+        {{ partial "article-link/card-related.html" . }}
+      {{ end }}
+    </section>
+  {{ end }}
+{{ end }}

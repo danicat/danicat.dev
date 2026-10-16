@@ -18,6 +18,8 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI"
   - "Terminal"
+deprecated: true
+superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
 ---
 
 {{< alert "circle-info" >}}

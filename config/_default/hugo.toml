@@ -64,14 +64,26 @@ googleAnalytics = "G-8RHDQGEGZ2"
   toLower = false
 
     [[related.indices]]
+      name = "series"
+      weight = 100
+
+    [[related.indices]]
+      name = "tags"
+      weight = 80
+
+    [[related.indices]]
+      name = "categories"
+      weight = 40
+
+    [[related.indices]]
       name = "date"
-      weight = 10
+      weight = 30
 
     [[related.indices]]
       applyFilter = false
       name = 'fragmentrefs'
       type = 'fragments'
-      weight = 10
+      weight = 5
 
 [caches]
   [caches.images]

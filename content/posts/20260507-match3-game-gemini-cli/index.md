@@ -22,6 +22,8 @@ dependencies:
   - "Ebitengine v2"
   - "Gemini CLI / Antigravity CLI"
   - "Google Cloud Run"
+deprecated: true
+superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
 ---
 
 {{< alert "circle-info" >}}

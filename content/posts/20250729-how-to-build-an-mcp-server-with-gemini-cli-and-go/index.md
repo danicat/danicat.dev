@@ -22,6 +22,8 @@ dependencies:
   - "Go 1.24+"
   - "Gemini CLI / Antigravity CLI"
   - "MCP Go SDK"
+deprecated: true
+superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
 ---
 
 {{< alert "circle-info" >}}

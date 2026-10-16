@@ -21,6 +21,8 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
   - "Python 3.10+"
+deprecated: true
+superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
 ---
 
 {{< alert "circle-info" >}}
