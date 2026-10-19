@@ -2,6 +2,14 @@
    Global Content Styling
    ========================================================================== */
 
+html {
+  scrollbar-gutter: stable;
+}
+
+h1, h2, h3, h4 {
+  text-wrap: balance;
+}
+
 .article-content img,
 .article-content .github-snippet,
 .article-content .gist {

@@ -7,6 +7,7 @@
   const projectId = window.firebaseConfig.projectId;
   const baseDocPath = `projects/${projectId}/databases/(default)/documents`;
   const TOKEN_KEY = "danicat_fb_id_token";
+  const REFRESH_TOKEN_KEY = "danicat_fb_refresh_token";
   const TOKEN_EXP_KEY = "danicat_fb_id_token_exp";
 
   let authPromise = null;
@@ -25,48 +26,84 @@
     }
   }
 
-  async function getToken() {
+  async function getFirebaseIdToken() {
+    let refreshToken = null;
     try {
-      const cachedToken = sessionStorage.getItem(TOKEN_KEY);
-      const cachedExp = Number(sessionStorage.getItem(TOKEN_EXP_KEY) || 0);
+      const cachedToken = localStorage.getItem(TOKEN_KEY);
+      const cachedExp = Number(localStorage.getItem(TOKEN_EXP_KEY) || 0);
       if (cachedToken && Date.now() < cachedExp) {
         return cachedToken;
       }
+      refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
     } catch (_) {
-      // sessionStorage unavailable in restricted contexts
+      // localStorage unavailable in restricted contexts
     }
 
     if (!authPromise) {
-      // Omit Content-Type: application/json header so fetch uses text/plain (CORS simple request)
-      // and avoids an extra OPTIONS preflight round-trip on identitytoolkit.googleapis.com.
-      authPromise = fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${apiKey}`, {
-        method: "POST",
-        body: JSON.stringify({ returnSecureToken: true }),
-      })
-        .then(async (res) => {
-          if (!res.ok) {
-            const errText = await res.text();
-            throw new Error(`Firebase anonymous auth failed (${res.status}): ${errText}`);
-          }
-          const data = await res.json();
-          try {
-            sessionStorage.setItem(TOKEN_KEY, data.idToken);
-            sessionStorage.setItem(TOKEN_EXP_KEY, String(Date.now() + 3000 * 1000));
-          } catch (_) {}
-          return data.idToken;
+      if (refreshToken) {
+        authPromise = fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `grant_type=refresh_token&refresh_token=${encodeURIComponent(refreshToken)}`,
         })
-        .finally(() => {
-          authPromise = null;
-        });
+          .then(async (res) => {
+            if (!res.ok) {
+              try {
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(REFRESH_TOKEN_KEY);
+                localStorage.removeItem(TOKEN_EXP_KEY);
+              } catch (_) {}
+              const errText = await res.text();
+              throw new Error(`Firebase token refresh failed (${res.status}): ${errText}`);
+            }
+            const data = await res.json();
+            const ttlSeconds = Math.max(60, Number(data.expires_in || 3600) - 300);
+            try {
+              localStorage.setItem(TOKEN_KEY, data.id_token);
+              localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
+              localStorage.setItem(TOKEN_EXP_KEY, String(Date.now() + ttlSeconds * 1000));
+            } catch (_) {}
+            return data.id_token;
+          })
+          .finally(() => {
+            authPromise = null;
+          });
+      } else {
+        // Omit Content-Type: application/json header so fetch uses text/plain (CORS simple request)
+        // and avoids an extra OPTIONS preflight round-trip on identitytoolkit.googleapis.com.
+        authPromise = fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(apiKey)}`, {
+          method: "POST",
+          body: JSON.stringify({ returnSecureToken: true }),
+        })
+          .then(async (res) => {
+            if (!res.ok) {
+              const errText = await res.text();
+              throw new Error(`Firebase anonymous auth failed (${res.status}): ${errText}`);
+            }
+            const data = await res.json();
+            const ttlSeconds = Math.max(60, Number(data.expiresIn || 3600) - 300);
+            try {
+              localStorage.setItem(TOKEN_KEY, data.idToken);
+              localStorage.setItem(REFRESH_TOKEN_KEY, data.refreshToken);
+              localStorage.setItem(TOKEN_EXP_KEY, String(Date.now() + ttlSeconds * 1000));
+            } catch (_) {}
+            return data.idToken;
+          })
+          .finally(() => {
+            authPromise = null;
+          });
+      }
     }
 
     return authPromise;
   }
 
   async function commitIncrement(collection, docId, delta, rawNodeId) {
-    const token = await getToken();
+    const token = await getFirebaseIdToken();
     const docName = `${baseDocPath}/${collection}/${docId}`;
-    const res = await fetch(`https://firestore.googleapis.com/v1/${baseDocPath}:commit`, {
+    const res = await fetch(`https://firestore.googleapis.com/v1/${baseDocPath}:commit?key=${encodeURIComponent(apiKey)}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +143,8 @@
   }
 
   window.danicatFirebase = {
-    getToken,
+    getToken: getFirebaseIdToken,
+    getFirebaseIdToken,
     commitIncrement,
     setCounterNode,
   };
@@ -150,12 +188,10 @@
     if (documents.length === 0) return;
 
     try {
-      const token = await getToken();
-      const res = await fetch(`https://firestore.googleapis.com/v1/${baseDocPath}:batchGet`, {
+      const res = await fetch(`https://firestore.googleapis.com/v1/${baseDocPath}:batchGet?key=${encodeURIComponent(apiKey)}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ documents }),
       });

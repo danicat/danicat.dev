@@ -85,7 +85,7 @@
   <div class="flex flex-col justify-between grow min-w-0">
     <div>
       <header class="items-center text-start">
-        <h3>
+        <h2>
           {{ if $thumbUrl }}
             <a href="{{ $thumbUrl }}" target="_blank" rel="external noopener"
                class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
@@ -100,7 +100,7 @@
               {{ $e.title | emojify }}
             </span>
           {{ end }}
-        </h3>
+        </h2>
       </header>
 
       <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400 flex flex-row flex-wrap items-center">
@@ -131,7 +131,7 @@
         {{ end }}
         {{ if $isUpcoming }}
           <span class="px-2 text-primary-500">&middot;</span>
-          <span class="font-semibold text-primary-600 dark:text-primary-400">Upcoming</span>
+          <span class="font-semibold text-primary-600 dark:text-primary-400">{{ i18n "event_upcoming_label" | default "Upcoming" }}</span>
         {{ end }}
       </div>
     </div>
@@ -170,7 +170,7 @@
             <polyline points="4 17 10 11 4 5"/>
             <line x1="12" y1="19" x2="20" y2="19"/>
           </svg>
-          <span>{{ if $e.codelab }}Codelab{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }}</span>
+          <span>{{ if $e.codelab }}{{ i18n "event_codelab_label" | default "Codelab" }}{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }}</span>
           <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
         </a>
       {{ end }}

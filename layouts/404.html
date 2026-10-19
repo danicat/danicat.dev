@@ -1,0 +1,33 @@
+{{ define "main" }}
+  <h1 class="mb-3 text-4xl font-extrabold">{{ i18n "error.404_title" | emojify }}</h1>
+  <p class="mt-8 mb-12 text-neutral-400 dark:text-neutral-500">
+    {{ i18n "error.404_error" | emojify }}
+  </p>
+  <div class="prose dark:prose-invert">
+    <p>{{ i18n "error.404_description" | emojify }}</p>
+    <nav aria-label="404 navigation" class="mt-8 not-prose">
+      <ul class="flex flex-wrap gap-3 list-none p-0 m-0">
+        <li>
+          <a href="{{ "/" | relLangURL }}" class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 dark:bg-primary-500 dark:hover:bg-primary-400 transition-colors">
+            Home
+          </a>
+        </li>
+        <li>
+          <a href="{{ "posts/" | relLangURL }}" class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+            Blog Posts
+          </a>
+        </li>
+        <li>
+          <a href="{{ "codelabs/" | relLangURL }}" class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+            Codelabs
+          </a>
+        </li>
+        <li>
+          <a href="{{ "events/" | relLangURL }}" class="inline-flex items-center px-4 py-2 rounded-md text-sm font-medium bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:bg-neutral-800 dark:text-neutral-200 dark:hover:bg-neutral-700 transition-colors">
+            Talks
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+{{ end }}

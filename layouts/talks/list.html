@@ -1,0 +1,226 @@
+{{ define "main" }}
+{{ .Scratch.Set "scope" "list" }}
+
+<header class="mt-5 mb-8">
+  {{ if .Params.showBreadcrumbs | default (.Site.Params.list.showBreadcrumbs | default false) }}
+    {{ partial "breadcrumbs.html" . }}
+  {{ end }}
+  <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+  {{ with (.Params.Summary | default .Params.Description | default (i18n "past_and_upcoming_events")) }}
+    <div class="mt-2 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+      {{ . }}
+    </div>
+  {{ end }}
+</header>
+
+{{ if .Content }}
+<section class="mt-6 mb-8 prose flex max-w-full flex-col dark:prose-invert lg:flex-row">
+  <div class="min-w-0 min-h-0 max-w-prose">
+    {{ .Content }}
+  </div>
+</section>
+{{ end }}
+
+{{/* Collect valid dated events */}}
+{{ $allEvents := slice }}
+{{ range .Site.Data.talks.talks }}
+  {{ if .date }}
+    {{ $allEvents = $allEvents | append . }}
+  {{ end }}
+{{ end }}
+
+{{/* Sort all events by date descending */}}
+{{ $sortedEvents := sort $allEvents "date" "desc" }}
+{{ $now := now.Format "2006-01-02" }}
+
+{{ if gt (len $sortedEvents) 0 }}
+<section class="space-y-6 w-full mt-0 flex flex-col" id="events-list">
+  {{ range $e := $sortedEvents }}
+    {{ $isUpcoming := ge $e.date $now }}
+    {{ $eventTime := time.AsTime $e.date }}
+    {{ $cardId := $e.id | default (printf "%s-%s" ($e.date | default "talk") ($e.title | urlize)) }}
+    {{ $thumbTarget := printf "video-%s" ($cardId | urlize) }}
+    {{ $resolvedThumbnail := $e.image | default "/images/talks/placeholder.png" }}
+    {{ if $e.recording }}
+      {{ if (strings.Contains $e.recording "youtu.be/") }}
+        {{ $videoId := index (split (index (split $e.recording "youtu.be/") 1) "?") 0 }}
+        {{ if $videoId }}
+          {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+        {{ end }}
+      {{ else if (strings.Contains $e.recording "watch?v=") }}
+        {{ $videoId := index (split (index (split $e.recording "watch?v=") 1) "&") 0 }}
+        {{ if $videoId }}
+          {{ $resolvedThumbnail = printf "https://img.youtube.com/vi/%s/hqdefault.jpg" $videoId }}
+        {{ end }}
+      {{ end }}
+    {{ end }}
+    {{ $thumbUrl := $e.recording | default ($e.slides | default ($e.codelab | default ($e.materials | default ($e.source_code | default $e.url)))) }}
+
+    <article class="article-link--simple event-card danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative" data-year="{{ $eventTime.Year }}">
+      {{ if $e.recording }}
+      <div class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block thumb-action-video group/thumb cursor-pointer"
+           role="button" tabindex="0" aria-label="{{ i18n "event_video_label" }}: {{ $e.title }}"
+           data-target="{{ $thumbTarget }}" data-video-url="{{ $e.recording }}">
+        <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+      </div>
+      {{ else if $thumbUrl }}
+      <a href="{{ $thumbUrl }}" target="_blank" rel="noopener noreferrer"
+         class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block group/thumb cursor-pointer"
+         tabindex="-1" aria-hidden="true">
+        <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
+      </a>
+      {{ end }}
+
+      <div class="flex flex-col justify-between grow min-w-0">
+        <div>
+          <header class="items-center text-start">
+            <h3>
+              {{ if $thumbUrl }}
+                <a href="{{ $thumbUrl }}" target="_blank" rel="external noopener"
+                   class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+                  {{ $e.title | emojify }}
+                </a>
+              {{ else }}
+                <span class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral">
+                  {{ $e.title | emojify }}
+                </span>
+              {{ end }}
+            </h3>
+          </header>
+
+          <div class="mt-1.5 text-sm text-neutral-500 dark:text-neutral-400 flex flex-row flex-wrap items-center">
+            <time datetime="{{ $eventTime.Format "2006-01-02" }}">{{ $eventTime | time.Format ":date_medium" }}</time>
+            {{ if $e.event }}
+              <span class="px-2 text-primary-500">&middot;</span>
+              <span class="font-medium text-neutral-700 dark:text-neutral-300">{{ $e.event }}</span>
+            {{ end }}
+            {{ if and $e.location (ne $e.location "-") }}
+              <span class="px-2 text-primary-500">&middot;</span>
+              <span>{{ $e.location }}</span>
+            {{ end }}
+            <span class="px-2 text-primary-500">&middot;</span>
+            {{ if $isUpcoming }}
+              <span class="font-semibold text-primary-600 dark:text-primary-400">{{ i18n "event_upcoming_label" }}</span>
+            {{ else }}
+              <span>{{ i18n "event_attended_label" }}</span>
+            {{ end }}
+          </div>
+        </div>
+
+        {{ with $e.summary }}
+        <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+          {{ . | plainify }}
+        </div>
+        {{ end }}
+
+        {{ if or $e.recording $e.slides $e.codelab $e.materials $e.source_code }}
+        <div class="card-action-row">
+          {{ if $e.recording }}
+            <button type="button" aria-expanded="false" aria-controls="{{ $thumbTarget }}" class="video-toggle-btn card-action-btn card-action-btn--primary" data-target="{{ $thumbTarget }}" data-video-url="{{ $e.recording }}">
+              <span class="btn-label">{{ i18n "event_recording_label" }}</span>
+            </button>
+          {{ end }}
+          {{ if $e.slides }}
+            <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+              <span>{{ i18n "event_decks_label" }}</span>
+            </a>
+          {{ end }}
+          {{ if or $e.codelab $e.materials }}
+            {{ $matUrl := $e.codelab | default $e.materials }}
+            <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+              <span>{{ if $e.codelab }}{{ i18n "event_codelab_label" }}{{ else }}{{ i18n "event_materials_label" }}{{ end }}</span>
+            </a>
+          {{ end }}
+          {{ if $e.source_code }}
+            <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+              <span>{{ i18n "event_source_code_label" }}</span>
+            </a>
+          {{ end }}
+        </div>
+        {{ end }}
+
+        {{ if $e.recording }}
+        <div id="{{ $thumbTarget }}" class="video-player-container hidden mt-4 w-full aspect-video rounded-xl overflow-hidden border border-neutral-200 dark:border-neutral-800 shadow-md"></div>
+        {{ end }}
+      </div>
+    </article>
+  {{ end }}
+</section>
+
+<script>
+function initEventsPage() {
+  const hideLabel = '{{ i18n "videos_hide_label" }}';
+  const recordingLabel = '{{ i18n "event_recording_label" }}';
+
+  document.querySelectorAll('.thumb-action-video').forEach(thumb => {
+    const triggerVideo = () => {
+      const targetId = thumb.getAttribute('data-target');
+      const toggleBtn = document.querySelector(`.video-toggle-btn[data-target="${targetId}"]`);
+      if (toggleBtn) {
+        toggleBtn.click();
+        const container = document.getElementById(targetId);
+        if (container && !container.classList.contains('hidden')) {
+          container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+      }
+    };
+    thumb.addEventListener('click', triggerVideo);
+    thumb.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        triggerVideo();
+      }
+    });
+  });
+
+  document.querySelectorAll('.video-toggle-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.getAttribute('data-target');
+      const videoUrl = btn.getAttribute('data-video-url');
+      const container = document.getElementById(targetId);
+      const labelSpan = btn.querySelector('.btn-label');
+      if (!container) return;
+
+      if (container.classList.contains('hidden')) {
+        container.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+        if (labelSpan) labelSpan.textContent = hideLabel;
+
+        if (!container.hasChildNodes() || container.innerHTML.trim() === '') {
+          let embedHtml = '';
+          if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
+            let videoId = '';
+            if (videoUrl.includes('youtu.be/')) {
+              videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
+            } else if (videoUrl.includes('watch?v=')) {
+              videoId = videoUrl.split('watch?v=')[1].split('&')[0];
+            }
+            embedHtml = `<iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          } else if (videoUrl.endsWith('.webm') || videoUrl.endsWith('.mp4')) {
+            embedHtml = `<video class="w-full h-full bg-black" controls autoplay><source src="${videoUrl}" type="video/${videoUrl.endsWith('.webm') ? 'webm' : 'mp4'}"></video>`;
+          } else {
+            embedHtml = `<iframe class="w-full h-full" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
+          }
+          container.innerHTML = embedHtml;
+        }
+      } else {
+        container.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.classList.remove('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
+        if (labelSpan) labelSpan.textContent = recordingLabel;
+        container.innerHTML = '';
+      }
+    });
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initEventsPage);
+} else {
+  initEventsPage();
+}
+</script>
+{{ end }}
+
+{{ end }}

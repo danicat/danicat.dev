@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="theme-color" content="rgb(255, 255, 255)">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   {{/* Title */}}
   {{ if .IsHome }}
@@ -23,18 +25,24 @@
   {{ with .Params.Tags | default .Site.Params.keywords }}
     <meta name="keywords" content="{{ range . }}{{ . }},{{ end }}">
   {{ end }}
-  {{ with .Site.Params.robots }}
-    <meta name="robots" content="{{ . }}">
-  {{ end }}
-  {{ with .Params.robots }}
-    <meta name="robots" content="{{ . }}">
+  {{ if eq .Kind "404" }}
+    <meta name="robots" content="noindex">
+  {{ else }}
+    {{ with .Site.Params.robots }}
+      <meta name="robots" content="{{ . }}">
+    {{ end }}
+    {{ with .Params.robots }}
+      <meta name="robots" content="{{ . }}">
+    {{ end }}
   {{ end }}
   <link rel="canonical" href="{{ .Permalink }}">
   {{ range .AlternativeOutputFormats }}
-    {{ printf `
-      <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink ($.Site.Title | emojify) |
-      safeHTML
-    }}
+    {{ if ne .MediaType.Type "text/markdown" }}
+      {{ printf `
+        <link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .RelPermalink ($.Site.Title | emojify) |
+        safeHTML
+      }}
+    {{ end }}
   {{ end }}
 
   {{/* Preload Homepage LCP Hero Image */}}
@@ -81,30 +89,85 @@
     {{ end }}
   {{ end }}
 
-  {{/* Social */}}
-  {{ template "_internal/opengraph.html" . }}
-  {{ template "_internal/twitter_cards.html" . }}
-  {{/* Use defaultSocialImage if feature image does not exist */}}
+  {{/* Social (OpenGraph & Twitter Cards with resized <300KB JPEG images) */}}
+  {{ $ogTitle := .Title | default .Site.Title | plainify }}
+  {{ $ogDesc := (.Description | default .Summary | default .Site.Params.description) | plainify }}
+  <meta property="og:url" content="{{ .Permalink }}">
+  {{ with .Site.Title }}
+    <meta property="og:site_name" content="{{ . | plainify }}">
+  {{ end }}
+  <meta property="og:title" content="{{ $ogTitle }}">
+  {{ with $ogDesc }}
+    <meta property="og:description" content="{{ . }}">
+  {{ end }}
+  {{ with .Language.LanguageCode | default .Site.LanguageCode }}
+    <meta property="og:locale" content="{{ replace . "-" "_" }}">
+  {{ end }}
+  {{ if .IsPage }}
+    <meta property="og:type" content="article">
+    {{ with .Section }}
+      <meta property="article:section" content="{{ . }}">
+    {{ end }}
+    {{ if not .PublishDate.IsZero }}
+      <meta property="article:published_time" content="{{ .PublishDate.Format "2006-01-02T15:04:05-07:00" | safeHTML }}">
+    {{ else if not .Date.IsZero }}
+      <meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05-07:00" | safeHTML }}">
+    {{ end }}
+    {{ if not .Lastmod.IsZero }}
+      <meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05-07:00" | safeHTML }}">
+    {{ end }}
+    {{ range .GetTerms "tags" | first 6 }}
+      <meta property="article:tag" content="{{ .Page.Title | plainify }}">
+    {{ end }}
+  {{ else }}
+    <meta property="og:type" content="website">
+  {{ end }}
   {{ $featureImage := "" }}
   {{ $pageImages := .Resources.ByType "image" }}
-  {{ range slice "*featured*" "*cover*" "*thumbnail*" }}
+  {{ range slice "*feature*" "*cover*" "*thumbnail*" }}
     {{ if not $featureImage }}
       {{ $featureImage = $pageImages.GetMatch . }}
     {{ end }}
   {{ end }}
-  {{ if not $featureImage }}
-    {{ with .Site.Params.defaultSocialImage }}
-      {{ $socialImage := "" }}
-      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
-        {{ $socialImage = resources.GetRemote . }}
+  {{ if and (not $featureImage) .Params.featureimage }}
+    {{ $url := .Params.featureimage }}
+    {{ $featureImage = .Resources.GetMatch $url }}
+    {{ if not $featureImage }}
+      {{ if or (strings.HasPrefix $url "http:") (strings.HasPrefix $url "https:") }}
+        {{ $featureImage = resources.GetRemote $url }}
       {{ else }}
-        {{ $socialImage = resources.Get . }}
-      {{ end }}
-      {{ with $socialImage }}
-        <meta name="twitter:image" content="{{ .RelPermalink | absURL }}">
-        <meta property="og:image" content="{{ .RelPermalink | absURL }}">
+        {{ $featureImage = resources.Get $url }}
       {{ end }}
     {{ end }}
+  {{ end }}
+  {{ if not $featureImage }}
+    {{ with .Site.Params.defaultSocialImage }}
+      {{ if or (strings.HasPrefix . "http:") (strings.HasPrefix . "https:") }}
+        {{ $featureImage = resources.GetRemote . }}
+      {{ else }}
+        {{ $featureImage = resources.Get . }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+  {{ with $featureImage }}
+    {{ $ogImg := . }}
+    {{ if not (eq .MediaType.SubType "svg") }}
+      {{ $ogImg = .Fill "1200x630 center q82 jpg" }}
+    {{ end }}
+    <meta property="og:image" content="{{ $ogImg.Permalink }}">
+    {{ if not (eq .MediaType.SubType "svg") }}
+      <meta property="og:image:width" content="{{ $ogImg.Width }}">
+      <meta property="og:image:height" content="{{ $ogImg.Height }}">
+    {{ end }}
+    <meta property="og:image:alt" content="{{ $.Params.featureimagealt | default $ogTitle }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ $ogImg.Permalink }}">
+  {{ else }}
+    <meta name="twitter:card" content="summary">
+  {{ end }}
+  <meta name="twitter:title" content="{{ $ogTitle }}">
+  {{ with $ogDesc }}
+    <meta name="twitter:description" content="{{ . }}">
   {{ end }}
 
   {{/* Site Verification */}}
@@ -126,7 +189,7 @@
 
   {{ $alg := .Site.Params.fingerprintAlgorithm | default "sha512" }}
 
-  {{/* CSS inlined to eliminate render-blocking stylesheet request and critical path chain */}}
+  {{/* CSS externalized and fingerprinted for HTTP/2 caching */}}
   {{ $cssResources := slice }}
   {{ $schemeName := .Site.Params.colorScheme | default "blowfish" }}
   {{ $cssScheme := resources.Get (printf "css/schemes/%s.css" (lower $schemeName)) | default (resources.Get "css/schemes/blowfish.css") }}
@@ -138,8 +201,12 @@
   {{ if and .IsPage (not (.Site.Params.disableImageZoom | default true)) }}
     {{ $cssResources = $cssResources | append (resources.Get "lib/zoom/style.css") }}
   {{ end }}
-  {{ $bundleCSS := $cssResources | resources.Concat "css/main.bundle.css" | resources.Minify }}
-  <style>{{ $bundleCSS.Content | safeCSS }}</style>
+  {{ $bundleCSS := $cssResources | resources.Concat "css/main.bundle.css" | resources.Minify | resources.Fingerprint $alg }}
+  <link
+    rel="stylesheet"
+    href="{{ $bundleCSS.RelPermalink }}"
+    integrity="{{ $bundleCSS.Data.Integrity }}"
+    crossorigin="anonymous">
 
   {{/* Appearance JS inlined to prevent FOUC and avoid a render-blocking network request */}}
   {{ $jsAppearance := resources.Get "js/appearance.js" | resources.ExecuteAsTemplate "js/appearance.js" . | resources.Minify }}

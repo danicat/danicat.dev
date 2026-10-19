@@ -1,14 +1,14 @@
 disabled = false
-languageCode = "pt-br"
+languageCode = "pt-BR"
 languageName = "Português"
 weight = 2
 title = "danicat.dev"
 
 [params]
   displayName = "🇧🇷 Português"
-  isoCode = "pt-br"
+  isoCode = "pt-BR"
   rtl = false
-  dateFormat = "2 January 2006"
+  dateFormat = ":date_long"
   # logo = "img/logo.png"
   # secondaryLogo = "img/secondary-logo.png"
   description = "Blog pessoal de Daniela Petruzalek"

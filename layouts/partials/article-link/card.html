@@ -52,16 +52,16 @@
 
         {{ with .Params.externalUrl }}
         <div>
-          <h3 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
+          <h2 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
             {{ $.Title | emojify }}
             <span class="text-xs align-top cursor-default text-neutral-400 dark:text-neutral-500">
               <span class="rtl:hidden">&#8599;</span>
               <span class="ltr:hidden">&#8598;</span>
             </span>
-          </h3>
+          </h2>
         </div>
         {{ else }}
-        <h3 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">{{ .Title | emojify }}</h3>
+        <h2 class="font-bold text-xl text-neutral-800 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">{{ .Title | emojify }}</h2>
         {{ end }}
 
         <div class="mt-1 text-sm text-neutral-500 dark:text-neutral-400">

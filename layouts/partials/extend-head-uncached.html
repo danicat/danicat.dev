@@ -6,7 +6,8 @@
 <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
 {{ end }}
 {{ end }}
-<link rel="describedby" href="{{ "llms.txt" | absURL }}" />
+<link rel="describedby" href="{{ absLangURL "llms.txt" }}" />
+<link rel="agent-skills" type="application/json" href="https://skills.danicat.dev/.well-known/agent-skills/index.json">
 {{- if and .IsPage (eq .Section "posts") (not .Params.externalURL) }}
 <link rel="alternate" type="text/markdown" href="{{ .Permalink }}index.md" title="{{ .Title }} (Markdown)" />
 {{- end }}

@@ -74,7 +74,7 @@ function initEventsPage() {
         container.classList.remove('hidden');
         btn.setAttribute('aria-expanded', 'true');
         btn.classList.add('border-primary-500', 'text-primary-600', 'dark:text-primary-400');
-        if (labelSpan) labelSpan.textContent = 'Hide Video';
+        if (labelSpan) labelSpan.textContent = '{{ i18n "videos_hide_label" | default "Hide Video" }}';
 
         if (!container.hasChildNodes() || container.innerHTML.trim() === '') {
           let embedHtml = '';

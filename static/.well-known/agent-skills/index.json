@@ -1,0 +1,13 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "catalog": "https://skills.danicat.dev/catalog.json",
+  "skills": [
+    {
+      "name": "kungfu",
+      "type": "skill-md",
+      "description": "High-performance CLI gateway that streams specialized Agent Skills, companion reference guides, and executable automation directly into agent context on demand from https://skills.danicat.dev.",
+      "url": "https://skills.danicat.dev/agents/kungfu/SKILL.md",
+      "digest": "sha256:30be2b1dac1384fb621be243359fce375713a60c8a5108fd591eeb352d0f6bb3"
+    }
+  ]
+}

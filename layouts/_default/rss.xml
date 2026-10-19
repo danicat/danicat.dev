@@ -11,11 +11,11 @@
 {{- $pages = $pages | first $limit -}}
 {{- end -}}
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
   <channel>
-    <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
+    <title>{{ if eq .Title .Site.Title }}{{ .Site.Title | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}{{ else }}{{ with .Title }}{{ . | plainify | htmlUnescape | transform.XMLEscape | safeHTML }} on {{ end }}{{ .Site.Title | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}{{ end }}</title>
     <link>{{ .Permalink }}</link>
-    <description>Recent content {{ if ne  .Title  .Site.Title }}{{ with .Title }}in {{.}} {{ end }}{{ end }}on {{ .Site.Title }}</description>
+    <description>Recent content {{ if ne .Title .Site.Title }}{{ with .Title }}in {{ . | plainify | htmlUnescape | transform.XMLEscape | safeHTML }} {{ end }}{{ end }}on {{ .Site.Title | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>{{ site.LanguageCode }}</language>{{ with .Site.Params.Author.email }}
     <managingEditor>{{.}}{{ with $.Site.Params.Author.name }} ({{.}}){{end}}</managingEditor>{{end}}{{ with .Site.Params.Author.email }}
@@ -23,6 +23,8 @@
     {{ if .Site.Params.footer.showCopyright | default true -}}
     <copyright>{{ with replace .Site.Params.copyright "{ year }" now.Year }}{{.}}{{ else }}© {{ now.Format "2006" }} {{ .Site.Params.Author.name }}{{- end }}</copyright>
     {{- end }}
+    <sy:updatePeriod>weekly</sy:updatePeriod>
+    <sy:updateFrequency>1</sy:updateFrequency>
     {{ if not .Date.IsZero }}<lastBuildDate>{{ (index $pages.ByLastmod.Reverse 0).Lastmod.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
     {{- with .OutputFormats.Get "RSS" -}}
     {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
@@ -35,18 +37,18 @@
     {{ end }}
     {{ range $pages }}
     <item>
-      <title>{{ .Title }}</title>
-      <link>{{ .Permalink }}?utm_source=rss&amp;utm_medium=feed&amp;utm_campaign=rss_reader</link>
+      <title>{{ .Title | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}</title>
+      <link>{{ .Permalink }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{ with .Site.Params.Author.email }}<author>{{.}}{{ with $.Site.Params.Author.name }} ({{.}}){{end}}</author>{{end}}
-      <guid isPermaLink="false">{{ .Permalink }}</guid>
-      <description>{{ .Summary | transform.XMLEscape | safeHTML }}</description>
+      <guid isPermaLink="true">{{ .Permalink }}</guid>
+      <description>{{ (.Params.description | default .Summary) | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}</description>
       {{ range ( where .Site.RegularPages ".RelPermalink" .RelPermalink | first 1 ) }}
         {{- $images := .Resources.ByType "image" -}}
         {{- $featured := $images.GetMatch "*feature*" -}}
         {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
         {{- with $featured -}}
-        <media:content xmlns:media="http://search.yahoo.com/mrss/" url="{{ $featured.Permalink  }}" />
+        <media:content url="{{ $featured.Permalink }}" medium="image" />
         {{- end -}}
       {{ end }}
     </item>
