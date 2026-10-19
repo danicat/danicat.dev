@@ -40,6 +40,7 @@ videos_filter_interviews: "Interviews & Panels"
 videos_watch_label: "Watch"
 videos_hide_label: "Hide Video"
 videos_article_label: "Article"
+videos_podcast_label: "Podcast"
 past_and_upcoming_events: "Past & Upcoming Events"
 talks_label: "talks"
 talks_count:

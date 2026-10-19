@@ -12,6 +12,34 @@
   },
   "videos": [
     {
+      "id": "83_ihwjuzuE",
+      "title": "A profile of profile proposals, and Daniela Petruzalek talks about devrel, podcasts, and building agents with Go",
+      "date": "2026-10-17",
+      "duration": "42:57",
+      "kind": "interview",
+      "channelName": "Cup o' Go",
+      "event": "Cup o' Go #177",
+      "url": "https://www.youtube.com/watch?v=83_ihwjuzuE",
+      "episode_url": "https://cupogo.dev/episodes/a-profile-of-profile-proposals-and-daniela-petruzalek-talks-about-devrel-podcasts-and-building-agents-with-go",
+      "thumbnail": "https://img.youtube.com/vi/83_ihwjuzuE/hqdefault.jpg",
+      "summary": "Conversation with Jonathan Hall and Shay Nehmad on Cup o' Go #177 about Developer Relations at Google Cloud, building AI agents and MCP servers in Go, 2D game development with Ebitengine, and upcoming Go conferences.",
+      "language": "en",
+      "slides": null,
+      "source_code": null,
+      "post": null,
+      "tags": [
+        "ai-agents",
+        "career",
+        "community",
+        "ebitengine",
+        "golang"
+      ],
+      "categories": [
+        "Perspectives"
+      ],
+      "views": 57
+    },
+    {
       "id": "A2zOv5Xoh0M",
       "title": "Add Custom UI Extensions to Antigravity to Enrich your Developer Experience!",
       "date": "2026-10-10",
@@ -36,7 +64,7 @@
       "categories": [
         "Agentic Coding"
       ],
-      "views": 269
+      "views": 343
     },
     {
       "id": "nHRSwiFNQ9E",
@@ -63,7 +91,7 @@
       "categories": [
         "Agentic Coding"
       ],
-      "views": 2919
+      "views": 3311
     },
     {
       "id": "i_5uKHL7sR4",
@@ -91,7 +119,7 @@
       "categories": [
         "Agentic Coding"
       ],
-      "views": 1762
+      "views": 1804
     },
     {
       "id": "-BGxpt0vdBo",
@@ -117,7 +145,7 @@
       "categories": [
         "Agentic Coding"
       ],
-      "views": 270
+      "views": 272
     },
     {
       "id": "Pi_J0hYpq8M",
@@ -192,7 +220,7 @@
       "categories": [
         "Applied GenAI"
       ],
-      "views": 11293
+      "views": 11350
     },
     {
       "id": "RtVauMye7vk",
@@ -218,7 +246,7 @@
       "categories": [
         "Agent Development"
       ],
-      "views": 156
+      "views": 157
     },
     {
       "id": "jv_qWM5BqJg",
@@ -270,7 +298,7 @@
       "categories": [
         "Agentic Coding"
       ],
-      "views": 1619
+      "views": 1635
     },
     {
       "id": "WzfYd6cV4gE",
@@ -295,7 +323,7 @@
       "categories": [
         "Agent Development"
       ],
-      "views": 1961
+      "views": 1978
     },
     {
       "id": "Lw4CVypP7jI",
@@ -320,7 +348,7 @@
       "categories": [
         "Software Engineering"
       ],
-      "views": 1868
+      "views": 1869
     },
     {
       "id": "av2f2okDOyk",
@@ -345,7 +373,7 @@
       "categories": [
         "Software Engineering"
       ],
-      "views": 1092
+      "views": 1093
     },
     {
       "id": "jPaIiEioYXQ",
@@ -393,7 +421,7 @@
       "categories": [
         "Software Engineering"
       ],
-      "views": 1408
+      "views": 1409
     },
     {
       "id": "Oce77qCXu7I",
@@ -442,7 +470,7 @@
       "categories": [
         "Software Engineering"
       ],
-      "views": 5559
+      "views": 5561
     },
     {
       "id": "0qvW4kIlS8I",

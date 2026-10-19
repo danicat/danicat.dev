@@ -40,6 +40,7 @@ videos_filter_interviews: "Entrevistas e Painéis"
 videos_watch_label: "Assistir"
 videos_hide_label: "Ocultar Vídeo"
 videos_article_label: "Artigo"
+videos_podcast_label: "Podcast"
 past_and_upcoming_events: "Eventos Passados e Futuros"
 talks_label: "palestras"
 talks_count:

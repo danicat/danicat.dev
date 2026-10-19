@@ -40,6 +40,7 @@ videos_filter_interviews: "インタビュー・対談"
 videos_watch_label: "再生"
 videos_hide_label: "動画を閉じる"
 videos_article_label: "解説記事"
+videos_podcast_label: "ポッドキャスト"
 past_and_upcoming_events: "過去および今後のイベント"
 talks_label: "件の講演"
 talks_count:
