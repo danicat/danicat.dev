@@ -78,8 +78,8 @@
       "thumbnail": "https://img.youtube.com/vi/nHRSwiFNQ9E/hqdefault.jpg",
       "summary": "An exploration of the current landscape and future directions of AI agents in software engineering, covering planning systems, Agent Skills, deterministic hooks, and subagent orchestration.",
       "language": "en",
-      "slides": "https://speakerdeck.com/danicat/state-of-agentic-coding",
-      "source_code": "https://github.com/danicat/state-of-agentic-coding",
+      "slides": "https://speakerdeck.com/danicat/devoxx-2026-state-of-agentic-coding",
+      "source_code": "https://github.com/danicat/devoxx2026",
       "post": null,
       "tags": [
         "agent-skills",

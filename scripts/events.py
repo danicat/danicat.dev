@@ -442,12 +442,15 @@ def process_discovery_pipeline(
         thumb = extract_thumbnail_url(deck)
 
         if d_slug in remote_candidates:
-            # Match existing Sessionize session: attach slides & image, keep Sessionize description!
+            # Match existing Sessionize session (or newer deck): only attach slides & image if not already set by a newer deck
             cand = remote_candidates[d_slug]
-            cand["slides"] = d_url
-            cand["image"] = thumb
+            if not cand.get("slides"):
+                cand["slides"] = d_url
+            if not cand.get("image") and thumb:
+                cand["image"] = thumb
             cand["sources"].add("speakerdeck")
-            cand["raw_deck"] = deck
+            if not cand.get("raw_deck"):
+                cand["raw_deck"] = deck
             # Only use Speaker Deck description if Sessionize was empty
             if not cand["description"] and raw_desc:
                 cand["description"] = raw_desc
