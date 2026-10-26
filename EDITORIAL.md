@@ -7,6 +7,7 @@ This document outlines the editorial philosophy for `danicat.dev`. Our goal is t
 *   **Authenticity:** We value authenticity over polish. The site is a personal space, not a content farm. We value human insight over polished marketing copy.
 *   **Competent Peer Audience:** Assume the reader is smart but lacks specific context. They don't need "Hello World" explained, but they do need clear reasoning for architectural choices or new patterns.
 *   **Narrative First:** Every article needs a narrative thread. We avoid purely functional, context-free tutorials. We want to know *why* you built this, what hurt along the way, and what you learned.
+*   **Intent, Harness, and Verification:** In modern software engineering, the primary value has shifted from typing boilerplate syntax to defining intent, configuring the environment, steering execution, and rigorously validating the outcome.
 
 ## Tone of voice
 
@@ -23,6 +24,7 @@ The structure should serve the story.
 
 Consider these models as inspiration, not rigid templates:
 
+*   **The Blueprint & Verification Walkthrough:** Focuses on how to achieve a complex engineering outcome by detailing the conceptual mental model, the environment and agent harness setup, the prompts used to steer implementation, and the validation gates used to prove correctness.
 *   **The Debugging Mystery:** A detective story starting with a baffling error and tracing the clues to a solution.
 *   **The Personal Experience Report:** A chronological journey of building or learning something new, focusing on the breakthroughs and the dead ends.
 *   **The Deep-Dive Exploration:** A thorough, curiosity-driven examination of a specific technology's internals.
@@ -99,8 +101,15 @@ To maintain a consistent, modern, and conversational feel, we adhere to the foll
 
 ## Technical standards
 
-*   **Code with Context:** Code snippets must be accurate and idiomatic. Crucially, explain *why* the code does what it does, not just *what* it does. Comments should focus on non-obvious logic.
-*   **Runnable Examples:** Whenever possible, snippets should be copy-paste runnable.
+*   **Reproducible Outcomes over Full Code Listings:** Modern readers rarely copy-paste full source files from blog posts — they need to know how to achieve the same result in their own environment. Instead of pasting walls of boilerplate code, prioritise:
+    *   **Conceptual Architecture & Mental Models:** Explain *why* the system is designed this way, the trade-offs considered, and how components interact.
+    *   **Environment, Harness & Setup:** Detail the exact prerequisites, tools, configurations, MCP servers, `AGENTS.md` rules, or skills required before writing or generating code.
+    *   **Prompts, Context & Steering:** Share the actual prompts, system instructions, or iterative steering turns used to guide the agent or model toward the solution — including where initial prompts fell short and how you refined them.
+    *   **Surgical Code Excerpts:** Include code snippets only when they illustrate a non-obvious pattern, a critical interface contract, or a subtle bug. Link to a companion GitHub repository or file for the complete runnable implementation.
+*   **Outcome Validation & Verification:** Generating code or output is only half the story; proving that it is correct, resilient, and production-ready is where engineering happens. Technical articles must highlight *how* the outcome is validated:
+    *   **Verification Signals:** Show the tests, compiler gates, linters, traces, benchmarks, or evaluation criteria used to confirm the solution works as intended.
+    *   **Failure Modes & Edge Cases:** Document what broke during validation (e.g., hallucinations, subtle race conditions, silent fallbacks, or failing edge cases) and how your validation harness caught it.
+    *   **Observable Evidence:** Back up claims with concrete terminal output, test runs, telemetry traces, or before/after comparisons rather than asserting that "it worked on the first try."
 *   **Visuals:** Use Mermaid.js for flowcharts and sequence diagrams, or high-quality screenshots for UI elements. Visuals should clarify complex concepts, not just break up text.
 *   **Citations:** Always link to official documentation, specifications, or source code when referenced.
 *   **Technical Term Formatting:**
@@ -178,14 +187,5 @@ To ensure that AI assistants collaborate effectively without compromising the au
 *   **Metrics are Advisory Only:** Metric scores from tools like `slop`, `fog`, or `vale` are advisory heuristics designed to prompt reflection, **never** automated rewrite triggers. Human warmth, conversational humor, personal vulnerability, and peer-to-peer storytelling always supersede automated linter scores.
 *   **Preserve the Authentic Voice:** Never convert conversational first-person narrative ("I", "we", "in my experience") into sterile, impersonal, academic, or corporate summaries.
 *   **Fearless Macro-Structural Feedback:** While sentence-level prose is inviolable, AI reviewers **must** proactively diagnose and flag macro-structural issues: narrative redundancies, sections that reopen resolved arguments, stalled pacing between theory and practice, and inconsistent hyperlink hygiene.
-
-## Current taxonomy
-
-| Category | Associated Tags |
-| :--- | :--- |
-| **AI & Development** | `adk`, `agent`, `ai`, `cloud-assist`, `codelab`, `frontend`, `gemini`, `gemini-cli`, `genai`, `golang`, `keynote`, `mcp`, `python`, `rag`, `terraform`, `tutorial`, `vertex-ai` |
-| **Workflow & Best Practices** | `gemini-cli`, `jules`, `opinion`, `tutorial`, `vibe-coding` |
-| **Career & Personal** | `community`, `devrel`, `google`, `mental-health`, `mental-models`, `milestone`, `psychology`, `time-perception` |
-| **Meta** | `blogging`, `hugo` |
 
 
