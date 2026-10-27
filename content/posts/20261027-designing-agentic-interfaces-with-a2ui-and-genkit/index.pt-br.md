@@ -52,7 +52,7 @@ Queremos migrar de uma interface hardcoded para algo que o agente possa definir 
 
 Aqui está o novo cockpit de diagnóstico em ação. Em tempo de execução, a AIDA monta um grafo de processos em 3D, medidores estilo heads-up display (HUD) e uma tabela dinâmica de processos do `osquery`:
 
-![AIDA renderizando uma superfície de diagnóstico A2UI v0.9 em tempo real com grafo de processos 3D, medidores HUD e uma matriz interativa de processos do osquery](aida-diagnostic-surface.png)
+![AIDA renderizando uma superfície de diagnóstico A2UI v0.9 em tempo real com grafo de processos 3D, medidores HUD e uma matriz interativa de processos do osquery](aida-diagnostic-surface.png "Superfície de diagnóstico da AIDA renderizada com componentes A2UI customizados: grafo de processos em 3D, medidores HUD e tabela de processos do osquery em tempo real.")
 
 O prompt a seguir traduz essa intenção em uma especificação:
 
@@ -214,7 +214,7 @@ const processor = new MessageProcessor([aidaCatalog], async (action) => {
 
 Quando o cockpit é aberto pela primeira vez, a barra lateral esquerda consulta `/api/system-status` para exibir dados vitais do `osquery` em tempo real, enquanto a área principal apresenta atalhos rápidos de diagnóstico:
 
-![Tela inicial do cockpit de diagnóstico da AIDA com avatar em pixel art estilo PC-98, barra lateral de status do sistema via osquery em tempo real e cards de atalho para diagnósticos rápidos](aida-cockpit-landing.png)
+![Tela inicial do cockpit de diagnóstico da AIDA com avatar em pixel art estilo PC-98, barra lateral de status do sistema via osquery em tempo real e cards de atalho para diagnósticos rápidos](aida-cockpit-landing.png "Tela inicial do cockpit da AIDA com sinais vitais do sistema em tempo real na barra lateral e cards de diagnóstico rápido.")
 
 Clicar em um atalho ou digitar uma pergunta envia o prompt para `/agents/aida`. Conforme a AIDA transmite os resultados do `osquery`, o `MessageProcessor` substitui a tela de atalhos pela superfície de diagnóstico interativa que vimos antes.
 
@@ -274,11 +274,11 @@ Como `tool.Interrupt` serializa a struct `CommandInterrupt` (`Command`, `Reason`
 
 Quando o `runCommand` dispara uma interrupção, o turno em streaming é pausado e o navegador recebe o payload de interrupção no objeto de resposta. O cockpit altera o badge de status da AIDA para `APPROVAL REQUIRED` e exibe um card de aprovação embutido. Esse card apresenta o comando exato, o motivo e o nível de risco, além de um campo opcional de feedback e os botões de **Aprovar (Approve)** / **Negar (Deny)**:
 
-![Cockpit da AIDA pausado em uma interrupção human-in-the-loop do runCommand exibindo o comando shell proposto, badge de risco, campo de feedback e botões de aprovar ou negar](aida-hitl-interrupt.png)
+![Cockpit da AIDA pausado em uma interrupção human-in-the-loop do runCommand exibindo o comando shell proposto, badge de risco, campo de feedback e botões de aprovar ou negar](aida-hitl-interrupt.png "Cockpit pausado em uma interrupção de ferramenta do Genkit, aguardando confirmação do usuário antes de executar o comando shell.")
 
 Clicar em qualquer um dos botões vincula sua decisão à requisição da ferramenta interrompida e chama `chat.resumeStream(...)` no cliente Genkit. O backend em Go então conclui a execução (ou o cancelamento) do comando e transmite o painel de verificação da AIDA — com medidores atualizados e a saída do comando — diretamente para a superfície:
 
-![Cockpit da AIDA após a aprovação da interrupção do runCommand, exibindo a superfície de verificação A2UI com medidores de capacidade de disco e saída do comando shell](aida-hitl-resumed.png)
+![Cockpit da AIDA após a aprovação da interrupção do runCommand, exibindo a superfície de verificação A2UI com medidores de capacidade de disco e saída do comando shell](aida-hitl-resumed.png "Execução retomada após a aprovação: a AIDA executa o comando e renderiza o painel de verificação na superfície.")
 
 ## Conclusões
 

@@ -52,7 +52,7 @@ We want to move from a hardcoded UI to something that the agent can freely defin
 
 Here is the new diagnostic cockpit in action. On the fly, AIDA assembles a 3D process graph, heads-up display (HUD) gauges, and a live `osquery` process table:
 
-![AIDA rendering a live A2UI v0.9 diagnostic surface with a 3D process graph, HUD gauges, and an interactive osquery process matrix](aida-diagnostic-surface.png)
+![AIDA rendering a live A2UI v0.9 diagnostic surface with a 3D process graph, HUD gauges, and an interactive osquery process matrix](aida-diagnostic-surface.png "AIDA diagnostic surface rendered with custom A2UI components: 3D process graph, HUD gauges, and live osquery process table.")
 
 The prompt below roughly translates this intent to a specification:
 
@@ -214,7 +214,7 @@ const processor = new MessageProcessor([aidaCatalog], async (action) => {
 
 When the cockpit first opens, the left sidebar polls `/api/system-status` for live `osquery` vitals while the main viewport presents quick diagnostic launchers:
 
-![AIDA diagnostic cockpit landing screen with PC-98 pixel avatar, live osquery host status sidebar, and quick diagnostic launcher cards](aida-cockpit-landing.png)
+![AIDA diagnostic cockpit landing screen with PC-98 pixel avatar, live osquery host status sidebar, and quick diagnostic launcher cards](aida-cockpit-landing.png "AIDA diagnostic cockpit landing screen with live system vitals in the sidebar and quick diagnostic launcher cards.")
 
 Clicking a launcher or typing a question sends the prompt to `/agents/aida`. As AIDA streams back `osquery` results, the `MessageProcessor` replaces the launcher view with the live diagnostic surface we saw earlier.
 
@@ -274,11 +274,11 @@ Because `tool.Interrupt` serializes the `CommandInterrupt` struct (`Command`, `R
 
 When `runCommand` triggers an interrupt, the streaming turn pauses and the browser receives the interrupt payload on the response object. The cockpit switches AIDA's status badge to `APPROVAL REQUIRED` and renders an inline approval card. That card shows the exact command, reason, and risk level alongside an optional feedback field and **Approve** / **Deny** buttons:
 
-![AIDA cockpit paused on a human-in-the-loop runCommand interrupt showing the proposed shell command, risk badge, feedback input, and approve or deny buttons](aida-hitl-interrupt.png)
+![AIDA cockpit paused on a human-in-the-loop runCommand interrupt showing the proposed shell command, risk badge, feedback input, and approve or deny buttons](aida-hitl-interrupt.png "Cockpit paused on a Genkit tool interrupt, requesting user confirmation before running a shell command.")
 
 Clicking either button attaches your decision to the interrupted tool request and calls `chat.resumeStream(...)` on the Genkit client. The Go backend then finishes running (or skipping) the command and streams AIDA's verification dashboard — complete with updated gauges and the command output — straight back into the surface:
 
-![AIDA cockpit after approving the runCommand interrupt, rendering the verification A2UI surface with disk capacity gauges and shell command output](aida-hitl-resumed.png)
+![AIDA cockpit after approving the runCommand interrupt, rendering the verification A2UI surface with disk capacity gauges and shell command output](aida-hitl-resumed.png "Resumed execution after approval: AIDA executes the command and streams the verification dashboard into the surface.")
 
 ## Conclusions
 
