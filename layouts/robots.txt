@@ -34,4 +34,4 @@ Disallow: /
 {{- end }}
 
 Sitemap: {{ "sitemap.xml" | absURL }}
-Sitemap: {{ "llms.txt" | absURL }}
+# LLMs Index (llms.txt): {{ "llms.txt" | absURL }}

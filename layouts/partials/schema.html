@@ -342,7 +342,7 @@
   [{
     "@context": "https://schema.org",
     "@type": "{{ $schemaType }}",
-    "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
+    "articleSection": "{{ if .Params.categories }}{{ index .Params.categories 0 | safeJS }}{{ else }}{{ (site.GetPage .Section).Title | safeJS }}{{ end }}",
     "headline": "{{ .Title | safeJS }}",
     {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
     "image": "{{ $imageUrl }}",
@@ -370,9 +370,12 @@
       }
     },
     {{ with .Params.series }}
+    {{- $seriesName := index . 0 -}}
+    {{- $seriesPage := site.GetPage (printf "/series/%s" ($seriesName | urlize)) -}}
     "isPartOf": {
       "@type": "CreativeWorkSeries",
-      "name": "{{ index . 0 | safeJS }}"
+      "name": "{{ $seriesName | safeJS }}"{{ with $seriesPage }}{{ with .Permalink }},
+      "url": {{ . }}{{ end }}{{ end }}
     },
     {{ end }}
     {{ with .Params.series_order }}"position": {{ . }},{{ end }}
@@ -384,6 +387,26 @@
     {{ with or .Keywords .Params.tags }}"keywords": {{ . | jsonify | safeJS }},{{ end }}
     {{ with .Params.dependencies }}"dependencies": "{{ if reflect.IsSlice . }}{{ delimit . ", " | safeJS }}{{ else }}{{ . | safeJS }}{{ end }}",{{ end }}
     {{ with .Params.proficiencyLevel }}"proficiencyLevel": "{{ . | safeJS }}",{{ end }}
+    {{ with .Translations }}
+    "workTranslation": [
+      {{- range $i, $e := . -}}
+      {{- if $i }},{{ end }}
+      {
+        "@type": "{{ $schemaType }}",
+        "headline": "{{ .Title | safeJS }}",
+        "inLanguage": "{{ .Language.LanguageCode }}",
+        "url": {{ .Permalink }}
+      }
+      {{- end }}
+    ],
+    {{ end }}
+    {{ if and (eq .Section "posts") (not .Params.externalURL) }}
+    "encoding": {
+      "@type": "MediaObject",
+      "encodingFormat": "text/markdown",
+      "contentUrl": {{ printf "%sindex.md" .Permalink }}
+    },
+    {{ end }}
     "wordCount": {{ .WordCount }}
   }
   {{- with or .Params.recording .Params.video -}}

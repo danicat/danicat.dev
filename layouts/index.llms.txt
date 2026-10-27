@@ -4,15 +4,26 @@
 > {{ .Site.Params.Author.headline | default "Hands-on software engineering, AI agents, and cloud architecture" | plainify | htmlUnescape }} — {{ .Site.Params.Author.bio | default "Senior Developer Relations Engineer at Google" | plainify | htmlUnescape }}
 
 - Website: {{ .Site.BaseURL }}
+- Language Editions: {{ range $i, $t := .AllTranslations }}{{ if $i }} | {{ end }}[{{ $t.Language.LanguageName | default $t.Language.LanguageCode }}]({{ $t.Permalink }}llms.txt){{ end }}
 - Agent Skills Catalog: https://skills.danicat.dev/ (LLMs index: https://skills.danicat.dev/llms.txt | JSON manifest: https://skills.danicat.dev/catalog.json)
 - GitHub: https://github.com/danicat
 - LinkedIn: https://linkedin.com/in/petruzalek
 - YouTube: https://www.youtube.com/@danikopaizen
 - X / Twitter: https://x.com/danicat83
 
+## Core Categories & Series
+{{- range $name, $taxonomy := .Site.Taxonomies.categories }}
+- Category: [{{ $taxonomy.Page.Title | default ($name | humanize | title) | plainify | htmlUnescape }}]({{ $taxonomy.Page.Permalink }}) ({{ $taxonomy.Count }} {{ if eq $taxonomy.Count 1 }}post{{ else }}posts{{ end }})
+{{- end }}
+{{- range $name, $taxonomy := .Site.Taxonomies.series }}
+{{- $parts := $taxonomy.Pages.ByParam "series_order" }}
+- Series: **{{ $taxonomy.Page.Title | default ($name | humanize | title) | plainify | htmlUnescape }}** ({{ $taxonomy.Count }} {{ if eq $taxonomy.Count 1 }}part{{ else }}parts{{ end }}: {{ range $i, $p := $parts }}{{ if $i }}, {{ end }}[Part {{ $p.Params.series_order | default (add $i 1) }}]({{ $p.Permalink }}index.md){{ end }})
+{{- end }}
+
 ## Articles & Deep Dives
 {{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
-- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}) ([Markdown]({{ .Permalink }}index.md) · {{ .Date.Format "2006-01-02" }}){{ with (.Params.description | default (.Summary | plainify | htmlUnescape)) }}: {{ . | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}{{ end }}
+{{- $seriesOrder := .Params.series_order }}
+- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}) ([Markdown]({{ .Permalink }}index.md) · {{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}){{ with (.Params.description | default (.Summary | plainify | htmlUnescape)) }}: {{ . | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}{{ end }}
 {{- end }}
 
 ## Interactive Codelabs & Workshops
