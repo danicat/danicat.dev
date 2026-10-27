@@ -296,7 +296,7 @@ g := genkit.Init(ctx,
 
 ミドルウェアという概念はほとんどのGo開発者にとっておなじみのはずですが、このプラグインはフォールバック、リトライ、そしてAgent Skillsといった重要な機能への入り口となるため、特筆しておく価値があります。次に、これを詳しく見ていきましょう。
 
-### SQLite RAGをAgent Skillsミドルウェアに置き換える
+## SQLite RAGをAgent Skillsミドルウェアに置き換える
 
 AIDAは先ほど定義した `runOsquery` ツールを通じてすでに `osquery` コマンドを実行できますが、各オペレーティングシステム（`darwin`、`linux`、`windows`）にどのテーブルやカラムが存在するかについては、依然としてモデルの一般的な学習データに頼って推測しています。
 
@@ -348,7 +348,7 @@ use:
 
 さらに高度なユースケースでは、`ai.Middleware` インターフェースを実装してカスタムミドルウェアを作成し、生成、モデル、またはツール呼び出しを独自のロジックでインターセプトしてラップすることもできます。
 
-### Developer UIでの確認
+## Developer UIでの確認
 
 ここまでの完全なコードは、コンパニオンリポジトリの [`github.com/danicat/gemini-for-go-developers/part-4/01-flow`](https://github.com/danicat/gemini-for-go-developers/tree/main/part-4/01-flow) にあります。
 

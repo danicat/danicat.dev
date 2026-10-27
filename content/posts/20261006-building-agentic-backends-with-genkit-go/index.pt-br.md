@@ -296,7 +296,7 @@ g := genkit.Init(ctx,
 
 O conceito de middleware deve ser familiar para a maioria dos desenvolvedores Go, mas é importante destacar esse plugin, pois ele é a porta de entrada para recursos críticos como fallbacks, novas tentativas (*retries*) e Agent Skills. Vamos analisá-lo mais de perto a seguir.
 
-### Substituindo o SQLite RAG pelo middleware de Agent Skills
+## Substituindo o SQLite RAG pelo middleware de Agent Skills
 
 A AIDA já consegue executar comandos `osquery` por meio da ferramenta `runOsquery` que definimos antes, mas ela ainda depende dos pesos gerais de treinamento do modelo para adivinhar quais tabelas e colunas existem em cada sistema operacional (`darwin`, `linux` e `windows`).
 
@@ -348,7 +348,7 @@ use:
 
 Para casos de uso avançados, você também pode escrever middlewares customizados implementando a interface `ai.Middleware` para interceptar e encapsular chamadas de geração, modelo ou ferramenta com a sua própria lógica.
 
-### A Developer UI
+## A Developer UI
 
 Você encontra o código completo até este ponto no repositório complementar em [`github.com/danicat/gemini-for-go-developers/part-4/01-flow`](https://github.com/danicat/gemini-for-go-developers/tree/main/part-4/01-flow).
 
