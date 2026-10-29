@@ -91,4 +91,14 @@ This is an unlisted directory of profile photos, avatars, and campaign media ass
 
 ![Broken Windows in the Age of AI Coding Agents](/images/socials/2026-08-broken-windows.png)
 
+---
+
+### Beyond Writing Code: SICP Wizard Book (October 2026)
+- **Campaign:** *Beyond Writing Code: Taste, Skills, and Tech Leads*
+- **Direct URL:** [`https://danicat.dev/images/socials/2026-10-beyond-writing-code-sicp.jpg`](https://danicat.dev/images/socials/2026-10-beyond-writing-code-sicp.jpg)
+- **Format:** JPEG (768×1024 px, ~200 KB)
+- **Alt Text:** `A selfie of Daniela Petruzalek holding a copy of the book Structure and Interpretation of Computer Programs (Second Edition) by Harold Abelson and Gerald Jay Sussman with Julie Sussman, with a framed Go Gopher 'Talladega Nights: The Ballad of Gopher Bobby' poster in the background.`
+
+![Beyond Writing Code: SICP Wizard Book](/images/socials/2026-10-beyond-writing-code-sicp.jpg)
+
 
