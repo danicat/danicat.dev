@@ -13,7 +13,6 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/hugomods/bootstrap v0.24.2 // indirect
 	github.com/hugomods/icons v0.6.6 // indirect
-	github.com/hugomods/utterances v0.1.0 // indirect
 	github.com/twbs/icons v1.13.1 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	golang.org/x/crypto v0.36.0 // indirect

@@ -48,8 +48,6 @@ github.com/hugomods/bootstrap v0.24.2 h1:OGJmqzQMlEstObnaKIpvwh4l4F2Ot7UdxTNyxTO
 github.com/hugomods/bootstrap v0.24.2/go.mod h1:GKP0KV5Yc0d1JmdKjKHL6SpvWml/hk3Pxnq6Trh1JYQ=
 github.com/hugomods/icons v0.6.6 h1:gGlafcBDRP7sSID+tgLcWdog+s/QBj8DIfU+h9tZj1U=
 github.com/hugomods/icons v0.6.6/go.mod h1:cIkSvK6W0q6N4U6n9KGz+QfRWQXAW0INd+1P31gPNGg=
-github.com/hugomods/utterances v0.1.0 h1:0mEKjG4eke/jdTPIxL2qfdm9W9TFpqgWh1x6d1n7Xg8=
-github.com/hugomods/utterances v0.1.0/go.mod h1:p6YjYb9iUozzKTP6V6Rhw3DCaZeXv+qonNVl+UZE0A8=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:xMI15A0UPsDsEKsMN9yxemIoYk6Tm2C1GtYGdfGttqA=
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=

@@ -89,7 +89,7 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   showWordCount = false
   sharingLinks = [ "linkedin", "twitter", "bluesky", "email", "whatsapp"]
   showZenMode = false
-  showComments = true
+  showComments = false
 
 [list]
   showHero = false
