@@ -22,7 +22,7 @@ Quando os modelos de fundação trazem todo o conhecimento do mundo embutido em 
 
 Por décadas, nossa identidade como engenheiros de software esteve atrelada à arte de escrever código: dominar sintaxes, memorizar bibliotecas padrão e nos orgulhar dos sistemas que construíamos com nossas próprias mãos. Disseram-nos que a IA simplesmente cuidaria do boilerplate chato e nos devolveria horas livres toda semana. Em vez disso, ver um modelo gerar em segundos o que levamos anos para aprender desencadeou uma verdadeira crise de identidade no setor. Se a máquina pode escrever o código, qual é o nosso lugar?
 
-Os humanos devem ser o farol. Justamente porque os modelos sabem *tudo*, qualquer caminho parece igualmente plausível para eles; eles não conseguem priorizar e encadear informações para criar com **bom gosto**. É aqui que entra o nosso novo trabalho: como se estivéssemos explorando uma caverna escura, nós seguramos a lanterna, apontando para o caminho e decidindo onde o modelo deve focar a seguir.
+Os humanos devem ser o farol. Justamente porque os modelos sabem *tudo*, qualquer caminho parece igualmente plausível. Eles não conseguem priorizar e encadear informações para criar com **bom gosto**. É aqui que entra o nosso novo trabalho: como se estivéssemos explorando uma caverna escura, nós seguramos a lanterna, apontando para o caminho e decidindo onde o modelo deve focar a seguir.
 
 Nosso papel evoluiu da escrita de código para a orquestração. Para muitos de nós, isso não é novidade, mesmo antes da codificação com IA: é a progressão natural da carreira de engenharia de software. Conforme você sobe na carreira, você põe menos a mão na massa e veste o chapéu de mentor cada vez mais. Você se torna responsável pelas entregas da sua equipe, para de ler cada linha de código para focar nas partes críticas, aprende a delegar e a lidar com as vantagens e desvantagens dessa escolha. Você se torna um tech lead.
 
@@ -36,7 +36,7 @@ Agora, todo mundo tem sua equipe virtual de agentes de código. Portanto, até o
 
 "Guiar para fazer o quê?" é a pergunta mais importante. Ainda estamos construindo programas, mas a forma como os descrevemos mudou.
 
-Existem poucos livros que li na vida que considero verdadeiramente atemporais. Um deles é *Structure and Interpretation of Computer Programs* (conhecido como SICP). Por que esse livro é relevante agora? Pela maneira como ele descreve programas e como nós, engenheiros, conjuramos feitiços para construí-los:
+Existem poucos livros que li na vida que considero verdadeiramente atemporais. Um deles é *Structure and Interpretation of Computer Programs* (aka SICP). Por que esse livro é relevante agora? Pela maneira como ele descreve programas e como nós, engenheiros, "conjuramos feitiços" para construí-los:
 
 > *"Os processos computacionais são seres abstratos que habitam os computadores. À medida que evoluem, os processos manipulam outras coisas abstratas chamadas **dados**. A evolução de um processo é dirigida por um padrão de regras chamado **programa**. As pessoas criam programas para dirigir processos. Na prática, conjuramos os espíritos do computador com nossos feitiços."*
 >
@@ -44,7 +44,7 @@ Existem poucos livros que li na vida que considero verdadeiramente atemporais. U
 >
 > — Harold Abelson e Gerald Jay Sussman, *Structure and Interpretation of Computer Programs* (1985)
 
-Ainda conjuramos processos para prescrever as tarefas que queremos que o computador execute; apenas a linguagem na qual criamos nossos feitiços mudou. Agora que escrevemos esses feitiços em linguagem natural em vez de expressões simbólicas arcanas, orquestrar agentes e garantir que eles estejam no caminho certo é a parte mais importante do trabalho. Isso implica escrever menos código e ler muito mais. Você também escreve mais especificações (prompts) do que nunca. Se você já foi tech lead antes da IA, tudo isso vai soar como o dia a dia de sempre.
+Ainda estamos no negócio de conjurar processos para instruir os computadores. Apenas a linguagem na qual criamos nossos feitiços mudou. Agora que escrevemos esses feitiços em linguagem natural em vez de expressões simbólicas arcanas, orquestrar agentes e garantir que eles estejam no caminho certo é a parte mais importante do trabalho. Isso implica escrever menos código e ler muito mais. Você também escreve mais especificações (prompts) do que nunca. Se você já foi tech lead antes da IA, tudo isso vai soar como o dia a dia de sempre.
 
 Como ficar bom nisso? No mundo antigo, os bons tech leads e gerentes passavam muito tempo treinando e mentorando suas equipes para que desenvolvessem o mesmo pensamento crítico e bom gosto adquiridos ao longo de suas carreiras. Eles transferiam gradualmente o conhecimento de processos, comportamentos e técnicas, muitas vezes desenvolvidos à base de muitas cicatrizes de batalha. Aquele code review detalhista que acabei de fazer? Foi porque minha própria falta de atenção aos detalhes me fez derrubar a produção muitos anos atrás.
 
@@ -92,7 +92,7 @@ Aqui estão alguns exemplos de skills que utilizo ativamente no meu dia a dia:
 >
 > — Harold Abelson e Gerald Jay Sussman, *Structure and Interpretation of Computer Programs* (1985)
 
-Assim como o aprendiz de feiticeiro, se não anteciparmos as consequências do que conjuramos, um agente sem orientação executará instruções em velocidade absurda, multiplicando pequenas falhas estruturais antes mesmo de nos darmos conta. Esse problema não é novo; na verdade, sempre aconteceu mesmo com código escrito por humanos, mas não percebíamos tanto porque era um processo bem mais lento. Alguns tentavam impedir isso e eram sempre tachados de revisores de código pedantes, amados por poucos escolhidos, mas incompreendidos pela maioria.
+Se não anteciparmos as consequências do que conjuramos, um agente sem orientação multiplicará pequenas falhas estruturais mais rápido do que podemos nos dar conta. Esse problema não é novo; na verdade, sempre aconteceu mesmo com código escrito por humanos, mas não percebíamos tanto porque era um processo bem mais lento. Alguns tentavam impedir isso e eram sempre tachados de revisores de código pedantes, amados por poucos escolhidos, mas incompreendidos pela maioria.
 
 Na psicologia, esse fenômeno é conhecido como a Teoria das Janelas Quebradas, baseada em um experimento de 1969. Pesquisadores deixaram um carro abandonado em um bairro nobre por uma semana. Nada aconteceu com ele. Na segunda semana, um dos pesquisadores usou uma marreta para quebrar uma das janelas. Em poucas horas, o carro foi completamente depenado.
 

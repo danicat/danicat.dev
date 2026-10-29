@@ -22,7 +22,7 @@ When foundation models have all the knowledge of the world baked into their weig
 
 For decades, our identity as software engineers was tied to the craft of writing code: mastering syntax, memorising standard libraries, and taking pride in the systems we built with our own hands. We were told AI would simply take care of the boring boilerplate and hand us back hours of free time every week. Instead, watching a model generate in seconds what took us years to learn has triggered an identity crisis across the industry. If the machine can write the code, where do we fit in?
 
-Humans should be the beacon. Exactly because models know *all*, every path looks equally plausible to them; they cannot prioritise and sequence information to create with **taste**. This is where our new job kicks in: as if we were spelunking in a dark cave, we hold the flashlight, pointing at the path and deciding where the model should focus next.
+Humans should be the beacon. Exactly because models know *all*, every path looks equally plausible. They cannot prioritise and sequence information to create with **taste**. This is where our new job kicks in: as if we were spelunking in a dark cave, we hold the flashlight, pointing at the path and deciding where the model should focus next.
 
 Our role evolved from writing code to orchestration. This is actually not new for many of us, even before AI coding: it is the natural progression of the software engineering career. When you move up the ladder, you get less hands-on and start wearing the coach hat more and more. You become responsible for the output of your team, you stop reading all lines of code and focus on the critical parts, you learn to delegate and to deal with the pros and cons of that. You become a tech lead.
 
@@ -36,7 +36,7 @@ Now everyone has their virtual team of coding agents, so even the most junior en
 
 "Guide to do what?" is the most important question. We are still building programs, but the way we describe them has changed.
 
-There are few books that I've read in my life that I consider to be evergreen. One of those is called *Structure and Interpretation of Computer Programs* (also known as SICP). Why is this book relevant now? Because of the way it describes programs and how we as engineers conjure spells to build them:
+There are few books that I've read in my life that I consider to be evergreen. One of those is *Structure and Interpretation of Computer Programs* (aka SICP). Why is this book relevant now? Because of the way it describes programs and how we as engineers "conjure spells" to build them:
 
 > *"Computational processes are abstract beings that inhabit computers. As they evolve, processes manipulate other abstract things called **data**. The evolution of a process is directed by a pattern of rules called a **program**. People create programs to direct processes. In effect, we conjure the spirits of the computer with our spells."*
 >
@@ -44,7 +44,7 @@ There are few books that I've read in my life that I consider to be evergreen. O
 >
 > — Harold Abelson and Gerald Jay Sussman, *Structure and Interpretation of Computer Programs* (1985)
 
-We still conjure processes to prescribe the tasks we want the computer to perform; only the language in which we craft our spells has changed. Now that we write those spells in plain English instead of arcane symbolic expressions, orchestrating agents and ensuring they are on the right track is the most important part of the job, which implies less writing code and a lot more reading. You are also writing more specifications (prompts) than ever. If you have been a tech lead before AI, all of this will simply sound like business as usual.
+We are still in the business of conjuring processes to instruct the computers. Only the language in which we craft our spells has changed. Now that we write those spells in plain English instead of arcane symbolic expressions, orchestrating agents and ensuring they are on the right track is the most important part of the job, which implies less writing code and a lot more reading. You are also writing more specifications (prompts) than ever. If you have been a tech lead before AI, all of this will simply sound like business as usual.
 
 How do you get good at this? In the old world, the good tech leads and managers would spend a lot of time coaching and mentoring their teams so they would develop the same critical thinking and taste that they developed during their careers. They would gradually transfer the knowledge of processes, behaviours and techniques often developed at the cost of many battle scars. That pedantic code review I just did? It was because my own lack of attention to details made me crash production many years ago.
 
@@ -91,7 +91,7 @@ Here are a few examples of skills I actively use on a daily basis:
 >
 > — Harold Abelson and Gerald Jay Sussman, *Structure and Interpretation of Computer Programs* (1985)
 
-Like the sorcerer's apprentice, if we don't anticipate the consequences of what we conjure, an unguided agent will execute instructions at high speed, multiplying small structural flaws before we even realise it. This problem is not new; it actually always happened even with human-written code, but we didn't notice it that much because it was a much slower process. Some people tried to stop it and were always deemed pedantic code reviewers, loved by a selected few but hated by most.
+If we don't anticipate the consequences of what we conjure, an unguided agent will multiply small structural flaws faster than we can even realise them. This problem is not new; it actually always happened even with human-written code, but we didn't notice it that much because it was a much slower process. Some people tried to stop it and were always deemed pedantic code reviewers, loved by a selected few but hated by most.
 
 In psychology, it is a phenomenon known as the Broken Window Theory based on an experiment dating back to 1969. Researchers left an abandoned car in a good neighbourhood for a week. Nothing happened to it. On week two, one of the researchers used a sledgehammer to break a window. Within hours, the car was stripped bare.
 
