@@ -16,6 +16,9 @@ async function copyCodeToClipboard(button, highlightWrapper) {
   const codeToCopy = getCodeText(highlightWrapper);
   try {
     await navigator.clipboard.writeText(codeToCopy);
+    if (typeof window.gtag === "function" && !navigator.webdriver) {
+      window.gtag("event", "code_copy");
+    }
     button.blur();
     button.innerText = copiedText;
     setTimeout(function () {
@@ -70,6 +73,9 @@ async function copyPageMarkdown(button) {
     }
 
     await navigator.clipboard.writeText(markdown);
+    if (typeof window.gtag === "function" && !navigator.webdriver) {
+      window.gtag("event", "copy_markdown");
+    }
 
     if (labelEl) {
       labelEl.textContent = "✓ " + copiedLabel;

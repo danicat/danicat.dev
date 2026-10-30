@@ -70,10 +70,48 @@
     window.addEventListener("touchstart", trigger, { once: true, passive: true });
   }
 
-  if (document.readyState === "complete") {
+  function initScrollDepthMilestones() {
+    if (navigator.webdriver || typeof IntersectionObserver !== "function") return;
+    const container = document.querySelector(".article-content");
+    if (!container) return;
+
+    container.style.position = "relative";
+
+    const milestones = [25, 50, 75];
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          obs.unobserve(entry.target);
+          const eventName = entry.target.getAttribute("data-scroll-milestone");
+          if (eventName && typeof window.gtag === "function") {
+            window.gtag("event", eventName);
+          }
+        }
+      },
+      { threshold: 0 }
+    );
+
+    for (const pct of milestones) {
+      const sentinel = document.createElement("span");
+      sentinel.setAttribute("aria-hidden", "true");
+      sentinel.setAttribute("data-scroll-milestone", `scroll_${pct}`);
+      sentinel.style.cssText = `position:absolute;top:${pct}%;left:0;width:1px;height:1px;pointer-events:none;opacity:0;`;
+      container.appendChild(sentinel);
+      observer.observe(sentinel);
+    }
+  }
+
+  function onPageReady() {
     scheduleViewIncrement();
+    const scheduleIdle = window.requestIdleCallback || ((cb) => setTimeout(cb, 200));
+    scheduleIdle(initScrollDepthMilestones);
+  }
+
+  if (document.readyState === "complete") {
+    onPageReady();
   } else {
-    window.addEventListener("load", scheduleViewIncrement, { once: true });
+    window.addEventListener("load", onPageReady, { once: true });
   }
 
   window.process_article = function () {
