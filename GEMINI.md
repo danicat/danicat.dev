@@ -44,9 +44,9 @@ To work with this project, you need to have Hugo installed.
 *   **Customization:** Custom CSS styles are located in `assets/css/custom.css`.
 *   **Analytics & Telemetry Events:**
     *   GA4 (`gtag.js`) loads lazily after first user interaction or a 3.5s idle timeout (`layouts/partials/analytics/ga.html`).
-    *   **Article Scroll Funnel (`assets/js/page.js`):** An `IntersectionObserver` initialized via `requestIdleCallback` observes invisible sentinels inside `.article-content` at `25%`, `50%`, and `75%` vertical depth, dispatching flat GA4 events (`scroll_25`, `scroll_50`, `scroll_75`) alongside GA4 Enhanced Measurement's native `scroll` (`90%`) event.
+    *   **Article Scroll Funnel (`assets/js/page.js`):** An `IntersectionObserver` initialized via `requestIdleCallback` observes invisible sentinels inside `.article-content` at `25%`, `50%`, `75%`, and `100%` vertical depth, dispatching flat GA4 events (`scroll_25`, `scroll_50`, `scroll_75`, `scroll_100`) alongside GA4 Enhanced Measurement's native `scroll` (`90%` full-document depth) event.
     *   **Code & Markdown Copy (`assets/js/code.js`):** Clicking a code block copy button dispatches `code_copy`, and clicking the article "Copy Markdown" button dispatches `copy_markdown`.
-    *   All custom events use flat `event_name` identifiers (`scroll_25`, `scroll_50`, `scroll_75`, `code_copy`, `copy_markdown`) so `google_analytics.py sync` ingests them directly into the `daily_events` SQLite table without custom dimension configuration.
+    *   All custom events use flat `event_name` identifiers (`scroll_25`, `scroll_50`, `scroll_75`, `scroll_100`, `code_copy`, `copy_markdown`) so `google_analytics.py sync` ingests them directly into the `daily_events` SQLite table without custom dimension configuration.
 *   **Dependencies:** The project uses Hugo Modules, and dependencies are managed in the `go.mod` file.
 
 # Editorial Invariants & Voice Preservation (MANDATORY FOR ALL AGENTS)

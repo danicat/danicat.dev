@@ -77,7 +77,7 @@
 
     container.style.position = "relative";
 
-    const milestones = [25, 50, 75];
+    const milestones = [25, 50, 75, 100];
     const observer = new IntersectionObserver(
       (entries, obs) => {
         for (const entry of entries) {
