@@ -13,6 +13,8 @@ tags:
   - vibe-coding
 heroStyle: big
 slug: "beyond-writing-code"
+aliases:
+  - "/pt-br/posts/20261028-beyond-writing-code/"
 summary: "Quando modelos têm todo o conhecimento do mundo, o que resta para nós? Se tudo é conhecido, tudo parece prioritário. Nosso papel mudou da execução para a direção."
 description: "Por que a engenharia de software na era dos agentes de código migra da sintaxe para o bom gosto arquitetural, subagentes, agent skills e a postura de tech lead."
 proficiencyLevel: "Intermediate"

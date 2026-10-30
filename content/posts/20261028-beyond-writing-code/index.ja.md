@@ -13,6 +13,8 @@ tags:
   - vibe-coding
 heroStyle: big
 slug: "beyond-writing-code"
+aliases:
+  - "/ja/posts/20261028-beyond-writing-code/"
 summary: "基底モデルが世界中の全知識を備えたとき、人間に残されるものとは何か？すべてを知っているなら、すべてが同等に重要に見えてしまう。私たちの役割は実行から指示・誘導へと進化しました。"
 description: "コーディングエージェント全盛期において、ソフトウェアエンジニアの役割が文法の記述からアーキテクチャの審美眼、サブエージェント、Agent Skills、そしてテックリードとしての振る舞いへとどう変化するかを解説します。"
 proficiencyLevel: "Intermediate"
