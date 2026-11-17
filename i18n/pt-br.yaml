@@ -40,6 +40,8 @@ videos_watch_label: "Assistir"
 videos_hide_label: "Ocultar Vídeo"
 videos_article_label: "Artigo"
 videos_podcast_label: "Podcast"
+videos_show_more_label: "Mostrar mais"
+videos_show_less_label: "Mostrar menos"
 past_and_upcoming_events: "Eventos Passados e Futuros"
 talks_label: "palestras"
 talks_count:

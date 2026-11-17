@@ -40,6 +40,8 @@ videos_watch_label: "Watch"
 videos_hide_label: "Hide Video"
 videos_article_label: "Article"
 videos_podcast_label: "Podcast"
+videos_show_more_label: "Show more"
+videos_show_less_label: "Show less"
 past_and_upcoming_events: "Past & Upcoming Events"
 talks_label: "talks"
 talks_count:

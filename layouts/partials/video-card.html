@@ -10,7 +10,11 @@
 {{ end }}
 
 {{ $cardId := $v.id | default ($v.title | urlize) }}
-{{ $thumbTarget := printf "video-player-%s" ($cardId | urlize) }}
+{{ $cardSlug := $cardId | urlize }}
+{{ $thumbTarget := printf "video-player-%s" $cardSlug }}
+{{ $titleId := printf "video-title-%s" $cardSlug }}
+{{ $summaryId := printf "video-summary-%s" $cardSlug }}
+{{ $summaryBtnLabelId := printf "video-summary-btn-label-%s" $cardSlug }}
 {{ $resolvedThumbnail := $v.thumbnail | default "/images/talks/placeholder.png" }}
 {{ $kind := $v.kind | default "talk" }}
 
@@ -42,7 +46,7 @@
   <div class="flex flex-col justify-between grow min-w-0">
     <div>
       <header class="items-center text-start">
-        <h2>
+        <h2 id="{{ $titleId }}">
           <a href="{{ $v.url }}" target="_blank" rel="external noopener"
              class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
             {{ $v.title | emojify }}
@@ -85,8 +89,21 @@
     </div>
 
     {{ with $v.summary }}
-    <div class="article-link__summary prose dark:prose-invert max-w-none mt-2 text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
-      {{ . | plainify }}
+    <div class="video-summary-wrap mt-2">
+      <div id="{{ $summaryId }}" class="article-link__summary video-summary-text prose dark:prose-invert max-w-none text-base text-neutral-600 dark:text-neutral-300 line-clamp-2">
+        {{ . | plainify }}
+      </div>
+      <button type="button"
+              class="video-summary-toggle"
+              hidden
+              aria-expanded="false"
+              aria-controls="{{ $summaryId }}"
+              aria-labelledby="{{ $summaryBtnLabelId }} {{ $titleId }}">
+        <span id="{{ $summaryBtnLabelId }}" class="video-summary-toggle__label">{{ i18n "videos_show_more_label" | default "Show more" }}</span>
+        <svg class="video-summary-toggle__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 12 15 18 9"/>
+        </svg>
+      </button>
     </div>
     {{ end }}
 

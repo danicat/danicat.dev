@@ -58,10 +58,85 @@
   {{ end }}
 </section>
 
+<noscript>
+  <style>.video-summary-text.line-clamp-2 { display: block; -webkit-line-clamp: unset; overflow: visible; }</style>
+</noscript>
+
 <script>
 function initVideosPage() {
   const watchLabel = '{{ i18n "videos_watch_label" | default "Watch" }}';
   const hideLabel = '{{ i18n "videos_hide_label" | default "Hide Video" }}';
+  const showMoreLabel = '{{ i18n "videos_show_more_label" | default "Show more" }}';
+  const showLessLabel = '{{ i18n "videos_show_less_label" | default "Show less" }}';
+
+  // Expandable video descriptions (show toggle only when text overflows 2 lines)
+  const summaryStates = [];
+  const syncOverflow = (state) => {
+    if (state.expanded) return;
+    const isOverflowing = (state.summaryEl.scrollHeight - state.summaryEl.clientHeight) > 1;
+    state.toggleBtn.hidden = !isOverflowing;
+    state.summaryEl.classList.toggle('is-collapsible', isOverflowing);
+  };
+  const syncAllOverflows = () => {
+    summaryStates.forEach(syncOverflow);
+  };
+  const setExpanded = (state, expanded) => {
+    state.expanded = expanded;
+    state.toggleBtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (state.labelSpan) {
+      state.labelSpan.textContent = expanded ? showLessLabel : showMoreLabel;
+    }
+    if (expanded) {
+      state.summaryEl.classList.remove('line-clamp-2', 'is-collapsible');
+      state.toggleBtn.hidden = false;
+    } else {
+      state.summaryEl.classList.add('line-clamp-2');
+      syncOverflow(state);
+    }
+  };
+
+  document.querySelectorAll('#videos-list .video-summary-wrap').forEach(wrap => {
+    const summaryEl = wrap.querySelector('.video-summary-text');
+    const toggleBtn = wrap.querySelector('.video-summary-toggle');
+    const labelSpan = wrap.querySelector('.video-summary-toggle__label');
+    if (!summaryEl || !toggleBtn) return;
+
+    const state = { summaryEl, toggleBtn, labelSpan, expanded: false };
+    summaryStates.push(state);
+
+    toggleBtn.addEventListener('click', () => {
+      setExpanded(state, !state.expanded);
+    });
+
+    summaryEl.addEventListener('click', () => {
+      if (!state.expanded && !toggleBtn.hidden && !window.getSelection()?.toString()) {
+        setExpanded(state, true);
+      }
+    });
+  });
+
+  if (summaryStates.length > 0) {
+    syncAllOverflows();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncAllOverflows);
+    }
+    const listEl = document.getElementById('videos-list');
+    if (typeof ResizeObserver !== 'undefined' && listEl) {
+      let lastWidth = Math.round(listEl.getBoundingClientRect().width);
+      const observer = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          const width = Math.round(entry.contentRect.width);
+          if (width !== lastWidth) {
+            lastWidth = width;
+            syncAllOverflows();
+          }
+        }
+      });
+      observer.observe(listEl);
+    } else {
+      window.addEventListener('resize', syncAllOverflows);
+    }
+  }
 
   // Thumbnail click-to-play facade
   document.querySelectorAll('.thumb-action-video').forEach(thumb => {
