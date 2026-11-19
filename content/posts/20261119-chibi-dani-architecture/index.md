@@ -28,9 +28,7 @@ dependencies:
 
 The biggest challenge in publishing AI agents on the internet is how to do it safely without breaking the bank. A few months ago a post went viral showing the screenshot of a user asking the McDonald's chatbot to reverse a linked list in Python. The punchline: "stop paying Claude code. McDonald's support bot is free."
 
-![Screenshot of the viral hoax post claiming a McDonald's support chatbot reversed a linked list in Python](mcdonalds-chatbot-hoax.jpg)
-
-Source: https://x.com/MattPaige32/status/2046247602266546462?a=l6RxByNyUQp0qkmyw6U&s=20
+{{< figure src="mcdonalds-chatbot-hoax.jpg" alt="Screenshot of the viral hoax post claiming a McDonald's support chatbot reversed a linked list in Python" caption="Source: [X (@MattPaige32)](https://x.com/MattPaige32/status/2046247602266546462)" class="w-80 mx-auto" >}}
 
 The screenshot [turned out to be a hoax](https://www.fastcompany.com/91532091/mcdonalds-ai-bot-didnt-go-rogue), as McDonald's doesn't even run an AI support bot in its app. Still, the joke landed because the underlying risk is real. Given the gold rush for free tokens, whenever you are considering publishing an agent out in the open, whether as an app or as part of your website, you need to be extra careful.
 
@@ -48,6 +46,8 @@ Before diving into the code, let's have a look at how the stack fits together. F
 - [**Cloud Run**](https://docs.cloud.google.com/run/docs/overview/what-is-cloud-run) hosts the service as a single static Go binary, giving us a small container footprint with minimal operational overhead and scale-to-zero compute when the chat is idle.
 - [**Gemini 3.5 Flash Lite**](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite) (`gemini-3.5-flash-lite`) handles inference for grounded blog Q&A, delivering fast responses tuned for lightweight retrieval tasks.
 - [**Google Cloud Model Armor**](https://docs.cloud.google.com/model-armor/overview) screens user prompts and model responses as a non-negotiable safety layer, stopping prompt injections and jailbreak attempts before they reach the model or the browser.
+
+{{< figure src="architecture.png" alt="Architecture diagram of Chibi Dani showing the request path from the danicat.dev blog UI through the Cloud Run Go HTTP perimeter and Genkit Go runner to Google Cloud Model Armor, Gemini 3.5 Flash Lite, an in-memory blog corpus, and Cloud Firestore and Cloud Trace" caption="Chibi Dani request path across Cloud Run, Model Armor, and Gemini 3.5 Flash Lite." >}}
 
 Let's walk through how each of these works together to build a resilient and secure agent.
 

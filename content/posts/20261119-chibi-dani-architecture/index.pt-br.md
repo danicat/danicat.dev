@@ -28,9 +28,7 @@ dependencies:
 
 O maior desafio ao publicar agentes de IA na internet é fazer isso com segurança e sem estourar o orçamento. Alguns meses atrás, um post viralizou mostrando o print de um usuário pedindo ao chatbot do McDonald's para inverter uma lista ligada em Python. A piada dizia: "parem de pagar pelo Claude Code, o bot de suporte do McDonald's é de graça."
 
-![Captura de tela do post viral falso alegando que um chatbot de suporte do McDonald's inverteu uma lista ligada em Python](mcdonalds-chatbot-hoax.jpg)
-
-Fonte: https://x.com/MattPaige32/status/2046247602266546462?a=l6RxByNyUQp0qkmyw6U&s=20
+{{< figure src="mcdonalds-chatbot-hoax.jpg" alt="Captura de tela do post viral falso alegando que um chatbot de suporte do McDonald's inverteu uma lista ligada em Python" caption="Fonte: [X (@MattPaige32)](https://x.com/MattPaige32/status/2046247602266546462)" class="w-80 mx-auto" >}}
 
 O print [acabou se revelando uma farsa](https://www.fastcompany.com/91532091/mcdonalds-ai-bot-didnt-go-rogue), já que o McDonald's nem sequer roda um bot de suporte com IA no aplicativo. Ainda assim, a piada funcionou porque o risco por trás dela é real. Com a corrida do ouro por tokens gratuitos, sempre que você pensa em publicar um agente aberto na internet, seja como app ou parte do seu site, precisa redobrar o cuidado.
 
@@ -48,6 +46,8 @@ Antes de mergulhar no código, vamos ver como a stack se encaixa. Para a Chibi D
 - [**Cloud Run**](https://docs.cloud.google.com/run/docs/overview/what-is-cloud-run) hospeda o serviço como um único binário Go estático, oferecendo um container enxuto, quase zero sobrecarga operacional e escala para zero quando o chat está ocioso.
 - [**Gemini 3.5 Flash Lite**](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite) (`gemini-3.5-flash-lite`) faz a inferência para perguntas baseadas no blog, entregando respostas rápidas pensadas para tarefas leves de consulta.
 - [**Google Cloud Model Armor**](https://docs.cloud.google.com/model-armor/overview) analisa prompts dos usuários e respostas do modelo como uma camada de segurança inegociável, barrando injeções de prompt e tentativas de jailbreak antes que cheguem ao modelo ou ao navegador.
+
+{{< figure src="architecture.png" alt="Diagrama de arquitetura da Chibi Dani mostrando o fluxo de requisições da interface do blog danicat.dev pelo perímetro HTTP em Go e runner Genkit no Cloud Run até o Google Cloud Model Armor, Gemini 3.5 Flash Lite, acervo em memória, Cloud Firestore e Cloud Trace" caption="Fluxo de requisições da Chibi Dani entre Cloud Run, Model Armor e Gemini 3.5 Flash Lite." >}}
 
 Vamos percorrer como cada peça trabalha em conjunto para formar um agente resiliente e seguro.
 

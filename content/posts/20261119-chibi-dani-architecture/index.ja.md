@@ -28,9 +28,7 @@ dependencies:
 
 AIエージェントをインターネット上に公開するときの最大の課題は、予算を吹き飛ばさずに安全に運用することです。数か月前、マクドナルドのサポートチャットボットにPythonで連結リストを反転させるスクリーンショットがSNSで拡散されました。オチは「Claude Codeにお金を払うのはやめよう、マクドナルドのサポートボットは無料だ」というものでした。
 
-![マクドナルドのサポートチャットボットがPythonで連結リストを反転させたとする拡散フェイク投稿のスクリーンショット](mcdonalds-chatbot-hoax.jpg)
-
-出典: https://x.com/MattPaige32/status/2046247602266546462?a=l6RxByNyUQp0qkmyw6U&s=20
+{{< figure src="mcdonalds-chatbot-hoax.jpg" alt="マクドナルドのサポートチャットボットがPythonで連結リストを反転させたとする拡散フェイク投稿のスクリーンショット" caption="出典: [X (@MattPaige32)](https://x.com/MattPaige32/status/2046247602266546462)" class="w-80 mx-auto" >}}
 
 このスクリーンショットは[デマだったことが判明](https://www.fastcompany.com/91532091/mcdonalds-ai-bot-didnt-go-rogue)しました。マクドナルドはそもそもアプリ内でAIサポートボットを動かしていなかったのです。それでもこのジョークがウケたのは、背景にあるリスクが現実だからです。無料トークンを狙う動きが活発な今、アプリとしてであれ自分のウェブサイトの一部としてであれ、エージェントを一般公開するなら細心の注意が必要です。
 
@@ -48,6 +46,8 @@ AIエージェントをインターネット上に公開するときの最大の
 - [**Cloud Run**](https://docs.cloud.google.com/run/docs/overview/what-is-cloud-run) はサービスを単一の静的Goバイナリとしてホストします。コンテナを小さく保ち、運用負荷を抑えつつ、チャットがアイドル状態のときはゼロへスケールダウンします。
 - [**Gemini 3.5 Flash Lite**](https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite) (`gemini-3.5-flash-lite`) はブログ記事に基づくQ&Aの推論を担当します。軽量な検索タスク向けに高速な応答を返します。
 - [**Google Cloud Model Armor**](https://docs.cloud.google.com/model-armor/overview) は譲れない安全層としてユーザープロンプトとモデル応答を検査し、プロンプトインジェクションやジェイルブレイクの試みがモデルやブラウザに届く前に止めます。
+
+{{< figure src="architecture.png" alt="danicat.devのブログUIからCloud Run上のGo HTTP境界とGenkit Goランナーを経由し、Google Cloud Model Armor、Gemini 3.5 Flash Lite、メモリ内コーパス、Cloud FirestoreおよびCloud Traceへ至るChibi Daniのアーキテクチャ図" caption="Cloud Run、Model Armor、Gemini 3.5 Flash LiteをまたぐChibi Daniのリクエスト経路。" >}}
 
 それぞれの要素がどう連携して堅牢で安全なエージェントを形作るのか、順番に見ていきましょう。
 
