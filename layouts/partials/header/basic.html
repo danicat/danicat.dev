@@ -75,7 +75,8 @@
         {{ end }}
       </nav>
 
-      {{/* Tier 2: Upsized Social Icons + Language Switcher + Appearance Switcher */}}
+      {{ $chibiLabel := i18n "chibi_nav_pill" | default "Ask Chibi" }}
+      {{/* Tier 2: Social Icons + Language Switcher + Appearance Switcher + Ask Chibi Icon */}}
       <div class="home-nav-utilities">
         {{ with .Site.Params.Author.links }}
           <div class="home-social-icons">
@@ -114,11 +115,38 @@
               </div>
             </button>
           {{ end }}
+
+          <a
+            href="{{ "chibi/" | relLangURL }}"
+            class="chibi-header-icon-btn"
+            aria-label="{{ $chibiLabel }}"
+            title="{{ $chibiLabel }}">
+            <img
+              src="/images/persona/chibi-icon.webp"
+              alt=""
+              width="48"
+              height="48"
+              decoding="async"
+              class="chibi-header-icon-img nozoom" />
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="flex md:hidden">
+    <div class="flex items-center gap-3.5 md:hidden">
+      <a
+        href="{{ "chibi/" | relLangURL }}"
+        class="chibi-header-icon-btn"
+        aria-label="{{ $chibiLabel }}"
+        title="{{ $chibiLabel }}">
+        <img
+          src="/images/persona/chibi-icon.webp"
+          alt=""
+          width="48"
+          height="48"
+          decoding="async"
+          class="chibi-header-icon-img nozoom" />
+      </a>
       {{ partial "header/components/mobile-menu.html" . }}
     </div>
   </div>

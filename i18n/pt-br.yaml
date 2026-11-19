@@ -69,3 +69,14 @@ article:
   part: "Parte"
   this_article: "Este Artigo"
 
+chibi_nav_pill: "Pergunte à Chibi"
+chibi_stage_title: "Chibi Dani"
+chibi_scope_note: "Baseada nos artigos, codelabs, palestras e projetos open source da Daniela · Desenvolvida com <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener noreferrer\">Gemini 3.5 Flash Lite</a>, publicada no <a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener noreferrer\">Cloud Run</a> e protegida pelo <a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener noreferrer\">Google Cloud Model Armor</a>."
+chibi_new_chat: "Nova conversa"
+chibi_input_label: "Faça uma pergunta para a Chibi Dani"
+chibi_input_placeholder: "Pergunte sobre um artigo, palestra, codelab ou ferramenta Go..."
+chibi_send_label: "Enviar"
+chibi_send_hint: "Enter para enviar · Shift+Enter para nova linha"
+chibi_welcome: "Oi! Eu sou a Chibi Dani, companheira virtual da Daniela. Antes de mergulhar em um artigo, me peça para resumir um post, comparar temas como Agent Skills e MCP, achar palestras ou explorar os projetos open source em Go."
+
+

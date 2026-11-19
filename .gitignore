@@ -36,3 +36,6 @@ __pycache__/
 *.key
 *credentials*.json
 *secret*.json
+
+# Private deployment scripts
+cmd/chibi-dani/deploy.sh

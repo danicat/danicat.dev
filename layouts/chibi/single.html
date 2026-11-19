@@ -1,0 +1,95 @@
+{{ define "main" }}
+  {{ $endpoint := .Params.chibiEndpoint | default "" }}
+
+  <section
+    id="chibi-stage-root"
+    class="chibi-stage-shell"
+    data-chibi-endpoint="{{ $endpoint }}">
+
+    <div class="chibi-layout-grid">
+      {{/* Left Column: Cozy Visual-Novel Character Stage */}}
+      <aside class="chibi-character-card" aria-label="{{ i18n "chibi_stage_title" | default "Chibi Dani" }}">
+        <div class="chibi-character-header">
+          <h1 class="chibi-stage-title">{{ i18n "chibi_stage_title" | default "Chibi Dani" }}</h1>
+          <button type="button" id="chibi-clear" class="chibi-clear-btn">
+            <span>↺</span>
+            <span>{{ i18n "chibi_new_chat" | default "New chat" }}</span>
+          </button>
+        </div>
+
+        <div id="chibi-portrait-frame" class="chibi-portrait-frame" data-mood="idle">
+          <div class="chibi-portrait-stage">
+            <img
+              id="chibi-sprite"
+              src="/images/persona/cel/dani-idle.webp"
+              alt="Chibi Dani"
+              width="280"
+              height="280"
+              fetchpriority="high"
+              decoding="sync"
+              class="chibi-portrait-img nozoom" />
+            <img src="/images/persona/cel/dani-talk.webp" alt="" aria-hidden="true" width="280" height="280" decoding="async" data-expr="talk" class="chibi-portrait-layer nozoom" />
+            <img src="/images/persona/cel/dani-thinking.webp" alt="" aria-hidden="true" width="280" height="280" decoding="async" data-expr="thinking" class="chibi-portrait-layer nozoom" />
+            <img src="/images/persona/cel/dani-happy.webp" alt="" aria-hidden="true" width="280" height="280" decoding="async" data-expr="happy" class="chibi-portrait-layer nozoom" />
+            <img src="/images/persona/cel/dani-error.webp" alt="" aria-hidden="true" width="280" height="280" decoding="async" data-expr="error" class="chibi-portrait-layer nozoom" />
+          </div>
+        </div>
+
+        <p class="chibi-scope-note">
+          {{ i18n "chibi_scope_note" | safeHTML }}
+        </p>
+      </aside>
+
+      {{/* Right Column: Visual-Novel Dialogue Box & IME-Safe Composer */}}
+      <div class="chibi-dialogue-card">
+        <div
+          id="chibi-messages"
+          class="chibi-messages"
+          role="log"
+          aria-live="polite"
+          aria-relevant="additions">
+          <div class="chibi-msg chibi-msg--assistant" data-welcome="true">
+            <img
+              src="/images/persona/chibi-icon.webp"
+              alt=""
+              width="40"
+              height="40"
+              decoding="async"
+              class="chibi-msg-avatar nozoom" />
+            <div class="chibi-bubble chibi-bubble--assistant">
+              <p class="m-0">{{ i18n "chibi_welcome" }}</p>
+            </div>
+          </div>
+        </div>
+
+        <form id="chibi-form" class="chibi-composer" novalidate>
+          <label for="chibi-input" class="sr-only">
+            {{ i18n "chibi_input_label" | default "Ask Chibi Dani a question" }}
+          </label>
+          <div class="chibi-composer-row">
+            <textarea
+              id="chibi-input"
+              name="prompt"
+              rows="1"
+              maxlength="1200"
+              placeholder="{{ i18n "chibi_input_placeholder" }}"></textarea>
+            <button type="submit" id="chibi-send" class="chibi-send-btn">
+              <span>{{ i18n "chibi_send_label" | default "Send" }}</span>
+              <span aria-hidden="true">↗</span>
+            </button>
+          </div>
+          <div class="chibi-composer-meta">
+            <span>{{ i18n "chibi_send_hint" }}</span>
+            <span id="chibi-char-counter">0 / 1200</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  {{ $js := resources.Get "js/chibi.js" }}
+  {{ if $js }}
+    {{ $bundle := $js | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>
+  {{ end }}
+{{ end }}

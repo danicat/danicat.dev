@@ -69,3 +69,14 @@ article:
   part: "パート"
   this_article: "この記事"
 
+chibi_nav_pill: "ちびダニに聞く"
+chibi_stage_title: "ちびダニ"
+chibi_scope_note: "ダニエラの記事・コードラボ・講演・オープンソースに基づく回答 · <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener noreferrer\">Gemini 3.5 Flash Lite</a> を搭載し、<a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener noreferrer\">Cloud Run</a> にデプロイされ、<a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener noreferrer\">Google Cloud Model Armor</a> で保護されています。"
+chibi_new_chat: "新しい会話"
+chibi_input_label: "ちびダニに質問する"
+chibi_input_placeholder: "記事、講演、コードラボ、Goツールについて質問してください..."
+chibi_send_label: "送信"
+chibi_send_hint: "Enterで送信 · Shift+Enterで改行"
+chibi_welcome: "こんにちは！案内役の「ちびダニ」です。記事を読む前に気になるテーマの要約を聞いたり、Agent Skills と MCP の違い、講演スライドや録画、Go製のオープンソースツールを探したりできます。"
+
+
