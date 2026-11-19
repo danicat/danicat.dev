@@ -14,13 +14,13 @@ import (
 	"cloud.google.com/go/firestore"
 	"github.com/firebase/genkit/go/ai"
 	aix "github.com/firebase/genkit/go/ai/exp"
-	"github.com/firebase/genkit/go/ai/exp/localstore"
 	"github.com/firebase/genkit/go/genkit"
 	genkitx "github.com/firebase/genkit/go/genkit/exp"
 	"github.com/firebase/genkit/go/plugins/googlecloud"
 	"github.com/firebase/genkit/go/plugins/googlegenai"
 	mwexp "github.com/firebase/genkit/go/plugins/middleware/exp"
 	"github.com/firebase/genkit/go/plugins/server"
+	"google.golang.org/genai"
 )
 
 //go:embed system_prompt.md
@@ -95,10 +95,11 @@ func run() error {
 		},
 	)
 
-	sessions := localstore.NewInMemorySessionStore[any]()
+	sessions := newBoundedSessionStore[any](defaultMaxSessions, defaultSessionTTL)
 	chibi := genkitx.DefineAgent(g, "chibi-dani",
 		aix.InlinePrompt{
 			ai.WithModelName("vertexai/gemini-3.5-flash-lite"),
+			ai.WithConfig(&genai.GenerateContentConfig{MaxOutputTokens: 1500}),
 			ai.WithSystem(strings.TrimSpace(baseSystemPrompt) + "\n" + corpus.PromptIndex),
 			ai.WithMaxTurns(5),
 			ai.WithTools(readCorpus),
@@ -107,11 +108,11 @@ func run() error {
 				armorMW,
 				&mwexp.Budget{
 					Scope: mwexp.BudgetScopeRun,
-					Limit: ai.GenerationUsage{InputTokens: 160_000, OutputTokens: 4_000, ThoughtsTokens: 16_000},
+					Limit: ai.GenerationUsage{InputTokens: 160_000, OutputTokens: 1_500, ThoughtsTokens: 16_000},
 				},
 				&mwexp.Budget{
 					Scope: mwexp.BudgetScopeSession,
-					Limit: ai.GenerationUsage{InputTokens: 500_000, OutputTokens: 20_000, ThoughtsTokens: 64_000},
+					Limit: ai.GenerationUsage{InputTokens: 500_000, OutputTokens: 12_000, ThoughtsTokens: 64_000},
 				},
 			),
 		},
@@ -119,13 +120,15 @@ func run() error {
 		aix.WithDescription[any]("Chibi Dani, grounded companion agent for danicat.dev"),
 	)
 
+	allowLocalhost := strings.EqualFold(strings.TrimSpace(os.Getenv("CHIBI_ALLOW_LOCALHOST")), "true")
 	slog.Info("Chibi Dani ready",
 		"project", projectID,
 		"posts", corpus.PostCount,
 		"codelabs", corpus.CodelabCount,
 		"port", port,
+		"allow_localhost", allowLocalhost,
 	)
 
-	mux := newHTTPMux(chibi.Name(), sessions, genkit.Handler(chibi))
+	mux := newHTTPMux(chibi.Name(), sessions, genkit.Handler(chibi), allowLocalhost)
 	return server.Start(ctx, ":"+port, mux)
 }

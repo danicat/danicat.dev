@@ -2,10 +2,12 @@ package main
 
 import (
 	"bytes"
+	"container/list"
 	"context"
 	"encoding/json"
 	"fmt"
 	"io"
+	"log/slog"
 	"net"
 	"net/http"
 	"slices"
@@ -19,32 +21,53 @@ import (
 )
 
 const (
-	maxBodyBytes   = 8192
-	maxPromptRunes = 1200
-	rateInterval   = 10 * time.Second // 6 requests/min steady state
-	rateBurst      = 4
-	rateEntryTTL   = 15 * time.Minute
+	maxBodyBytes      = 8192
+	maxPromptRunes    = 1200
+	ipRateInterval    = 10 * time.Second // 6 requests/min per IP steady state
+	ipRateBurst       = 4
+	maxTrackedIPs     = 4096
+	globalRateEvery   = 3 * time.Second // 20 requests/min across all IPs combined
+	globalRateBurst   = 10
+	globalDailyMax    = 1500
+	globalDailyWindow = 24 * time.Hour
 )
 
-var allowedOrigins = map[string]struct{}{
-	"https://danicat.dev":     {},
-	"https://www.danicat.dev": {},
-	"http://localhost:1313":   {},
-	"http://127.0.0.1:1313":   {},
+func buildAllowedOrigins(allowLocalhost bool) map[string]struct{} {
+	origins := map[string]struct{}{
+		"https://danicat.dev":     {},
+		"https://www.danicat.dev": {},
+	}
+	if allowLocalhost {
+		origins["http://localhost:1313"] = struct{}{}
+		origins["http://127.0.0.1:1313"] = struct{}{}
+	}
+	return origins
 }
 
 type visitorBucket struct {
-	limiter  *rate.Limiter
-	lastSeen time.Time
+	ip      string
+	limiter *rate.Limiter
 }
 
+// ipRateLimiter tracks per-IP token buckets in an O(1) LRU bounded at maxEntries
+// so rotating-IP botnets cannot grow memory unboundedly or stall the mutex.
 type ipRateLimiter struct {
-	mu       sync.Mutex
-	visitors map[string]*visitorBucket
+	mu         sync.Mutex
+	maxEntries int
+	interval   time.Duration
+	burst      int
+	order      *list.List
+	visitors   map[string]*list.Element
 }
 
-func newIPRateLimiter() *ipRateLimiter {
-	return &ipRateLimiter{visitors: make(map[string]*visitorBucket)}
+func newIPRateLimiter(maxEntries int, interval time.Duration, burst int) *ipRateLimiter {
+	return &ipRateLimiter{
+		maxEntries: maxEntries,
+		interval:   interval,
+		burst:      burst,
+		order:      list.New(),
+		visitors:   make(map[string]*list.Element, min(maxEntries, 256)),
+	}
 }
 
 func (l *ipRateLimiter) Allow(ip string) bool {
@@ -54,49 +77,120 @@ func (l *ipRateLimiter) Allow(ip string) bool {
 	l.mu.Lock()
 	defer l.mu.Unlock()
 
-	now := time.Now()
-	if len(l.visitors) > 2048 {
-		for k, v := range l.visitors {
-			if now.Sub(v.lastSeen) > rateEntryTTL {
-				delete(l.visitors, k)
-			}
+	if elem, ok := l.visitors[ip]; ok {
+		l.order.MoveToFront(elem)
+		return elem.Value.(*visitorBucket).limiter.Allow()
+	}
+	if l.order.Len() >= l.maxEntries {
+		if tail := l.order.Back(); tail != nil {
+			evicted := tail.Value.(*visitorBucket)
+			delete(l.visitors, evicted.ip)
+			l.order.Remove(tail)
 		}
 	}
-
-	v, ok := l.visitors[ip]
-	if !ok {
-		v = &visitorBucket{limiter: rate.NewLimiter(rate.Every(rateInterval), rateBurst)}
-		l.visitors[ip] = v
+	b := &visitorBucket{
+		ip:      ip,
+		limiter: rate.NewLimiter(rate.Every(l.interval), l.burst),
 	}
-	v.lastSeen = now
-	return v.limiter.Allow()
+	l.visitors[ip] = l.order.PushFront(b)
+	return b.limiter.Allow()
 }
 
-func newHTTPMux(agentName string, sessions aix.SnapshotMetadataReader[any], agentHandler http.HandlerFunc) *http.ServeMux {
+// globalGuard enforces container-wide throughput and rolling 24h request ceilings
+// so a distributed rotating-IP botnet cannot bypass per-IP rate limits.
+type globalGuard struct {
+	mu        sync.Mutex
+	limiter   *rate.Limiter
+	dailyMax  int
+	window    time.Duration
+	now       func() time.Time
+	ring      []time.Time
+	head      int
+	count     int
+}
+
+func newGlobalGuard(interval time.Duration, burst int, dailyMax int, window time.Duration, now func() time.Time) *globalGuard {
+	if now == nil {
+		now = time.Now
+	}
+	return &globalGuard{
+		limiter:  rate.NewLimiter(rate.Every(interval), burst),
+		dailyMax: dailyMax,
+		window:   window,
+		now:      now,
+		ring:     make([]time.Time, dailyMax),
+	}
+}
+
+func (g *globalGuard) Allow() (bool, string) {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	now := g.now()
+	cutoff := now.Add(-g.window)
+	for g.count > 0 && !g.ring[g.head].After(cutoff) {
+		g.head = (g.head + 1) % g.dailyMax
+		g.count--
+	}
+	if g.count >= g.dailyMax {
+		return false, "global_daily_limit"
+	}
+	if !g.limiter.AllowN(now, 1) {
+		return false, "global_rate_limit"
+	}
+	tail := (g.head + g.count) % g.dailyMax
+	g.ring[tail] = now
+	g.count++
+	return true, ""
+}
+
+func newHTTPMux(
+	agentName string,
+	sessions aix.SnapshotMetadataReader[any],
+	agentHandler http.HandlerFunc,
+	allowLocalhost bool,
+) *http.ServeMux {
+	return newHTTPMuxWithLimiters(
+		agentName,
+		sessions,
+		agentHandler,
+		buildAllowedOrigins(allowLocalhost),
+		newIPRateLimiter(maxTrackedIPs, ipRateInterval, ipRateBurst),
+		newGlobalGuard(globalRateEvery, globalRateBurst, globalDailyMax, globalDailyWindow, time.Now),
+	)
+}
+
+func newHTTPMuxWithLimiters(
+	agentName string,
+	sessions aix.SnapshotMetadataReader[any],
+	agentHandler http.HandlerFunc,
+	origins map[string]struct{},
+	ipLimiter *ipRateLimiter,
+	global *globalGuard,
+) *http.ServeMux {
 	cop := http.NewCrossOriginProtection()
-	for origin := range allowedOrigins {
+	for origin := range origins {
 		if err := cop.AddTrustedOrigin(origin); err != nil {
 			panic(fmt.Sprintf("invalid trusted origin %q: %v", origin, err))
 		}
 	}
-	limiter := newIPRateLimiter()
 	agentPath := "/agents/" + agentName
 
 	mux := http.NewServeMux()
-	mux.Handle("POST "+agentPath, cop.Handler(withCORSHeaders(
-		withRateLimit(limiter, withStrictAgentInput(sessions, agentHandler)),
+	mux.Handle("POST "+agentPath, cop.Handler(withStrictCORS(origins,
+		withRateLimits(ipLimiter, global, withStrictAgentInput(sessions, agentHandler)),
 	)))
-	mux.HandleFunc("OPTIONS "+agentPath, withCORSHeaders(func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("OPTIONS "+agentPath, withCORSHeaders(origins, func(w http.ResponseWriter, _ *http.Request) {
 		w.WriteHeader(http.StatusNoContent)
 	}))
 	return mux
 }
 
-func withCORSHeaders(next http.HandlerFunc) http.HandlerFunc {
+func withCORSHeaders(origins map[string]struct{}, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("Vary", "Origin")
 		if origin := strings.TrimSpace(r.Header.Get("Origin")); origin != "" {
-			if _, ok := allowedOrigins[origin]; ok {
+			if _, ok := origins[origin]; ok {
 				w.Header().Set("Access-Control-Allow-Origin", origin)
 				w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 				w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Accept")
@@ -106,11 +200,36 @@ func withCORSHeaders(next http.HandlerFunc) http.HandlerFunc {
 	}
 }
 
-func withRateLimit(limiter *ipRateLimiter, next http.HandlerFunc) http.HandlerFunc {
+// withStrictCORS adds CORS headers and rejects POST requests with a missing or
+// unlisted Origin header so non-browser callers cannot silently bypass Origin checks.
+func withStrictCORS(origins map[string]struct{}, next http.HandlerFunc) http.HandlerFunc {
+	return withCORSHeaders(origins, func(w http.ResponseWriter, r *http.Request) {
+		origin := strings.TrimSpace(r.Header.Get("Origin"))
+		if _, ok := origins[origin]; !ok {
+			slog.Warn("origin_rejected", "origin", origin, "ip", clientIP(r))
+			writeJSON(w, http.StatusForbidden, map[string]string{
+				"error": "forbidden_origin: request origin is not allowed",
+			})
+			return
+		}
+		next(w, r)
+	})
+}
+
+func withRateLimits(ipLimiter *ipRateLimiter, global *globalGuard, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if !limiter.Allow(clientIP(r)) {
+		ip := clientIP(r)
+		if !ipLimiter.Allow(ip) {
+			slog.Warn("ip_rate_limited", "ip", ip)
 			writeJSON(w, http.StatusTooManyRequests, map[string]string{
 				"error": "rate_limited: too many requests, please wait a moment",
+			})
+			return
+		}
+		if ok, reason := global.Allow(); !ok {
+			slog.Warn(reason, "ip", ip)
+			writeJSON(w, http.StatusTooManyRequests, map[string]string{
+				"error": "rate_limited: service is busy, please try again later",
 			})
 			return
 		}

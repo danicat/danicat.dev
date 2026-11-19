@@ -31,29 +31,47 @@ type turnRecord struct {
 	outcome    string
 }
 
+const maxLoggedQuestionRunes = 300
+
 // NewTelemetryMiddleware records PII-redacted questions, cited links, latency,
 // and outcomes per turn into Cloud Firestore without interfering with SSE streams.
+// Individual turns are written to a subcollection so long sessions never hit Firestore's 1 MiB doc limit.
 func NewTelemetryMiddleware(fs *firestore.Client, collection string) ai.Middleware {
 	return newTelemetryMiddleware(func(ctx context.Context, t turnRecord) error {
 		writeCtx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 2*time.Second)
 		defer cancel()
 
-		_, err := fs.Collection(collection).Doc(t.sessionID).Set(writeCtx, map[string]any{
+		sessionRef := fs.Collection(collection).Doc(t.sessionID)
+		turnRef := sessionRef.Collection("turns").Doc(t.turnID)
+
+		batch := fs.BulkWriter(writeCtx)
+		summaryJob, err := batch.Set(sessionRef, map[string]any{
 			"session_id":    t.sessionID,
 			"updated_at":    t.occurredAt,
 			"turn_count":    firestore.Increment(1),
 			"last_question": t.question,
 			"last_outcome":  t.outcome,
-			"turns": firestore.ArrayUnion(map[string]any{
-				"turn_id":       t.turnID,
-				"occurred_at":   t.occurredAt,
-				"question":      t.question,
-				"cited_urls":    t.citedURLs,
-				"has_citations": len(t.citedURLs) > 0,
-				"latency_ms":    t.latencyMs,
-				"outcome":       t.outcome,
-			}),
 		}, firestore.MergeAll)
+		if err != nil {
+			return err
+		}
+		turnJob, err := batch.Set(turnRef, map[string]any{
+			"turn_id":       t.turnID,
+			"occurred_at":   t.occurredAt,
+			"question":      t.question,
+			"cited_urls":    t.citedURLs,
+			"has_citations": len(t.citedURLs) > 0,
+			"latency_ms":    t.latencyMs,
+			"outcome":       t.outcome,
+		})
+		if err != nil {
+			return err
+		}
+		batch.End()
+		if _, err := summaryJob.Results(); err != nil {
+			return err
+		}
+		_, err = turnJob.Results()
 		return err
 	})
 }
@@ -69,7 +87,7 @@ func newTelemetryMiddleware(save func(context.Context, turnRecord) error) ai.Mid
 				start := time.Now()
 				var question string
 				if params.Request != nil {
-					question = RedactPII(latestUserPromptText(params.Request.Messages))
+					question = truncateRunes(RedactPII(latestUserPromptText(params.Request.Messages)), maxLoggedQuestionRunes)
 				}
 
 				resp, err := next(ctx, params)
@@ -118,6 +136,20 @@ func RedactPII(text string) string {
 	out = reSecret.ReplaceAllString(out, "[SECRET_REDACTED]")
 	out = rePhone.ReplaceAllString(out, "[PHONE_REDACTED]")
 	return out
+}
+
+func truncateRunes(s string, maxRunes int) string {
+	if maxRunes <= 0 {
+		return ""
+	}
+	n := 0
+	for i := range s {
+		if n == maxRunes {
+			return s[:i]
+		}
+		n++
+	}
+	return s
 }
 
 func extractMarkdownLinks(rawText string) []string {

@@ -29,6 +29,9 @@ func TestRedactPII(t *testing.T) {
 			t.Fatalf("expected %q to remain in %q", preserved, got)
 		}
 	}
+	if trunc := truncateRunes(strings.Repeat("あ", 400), maxLoggedQuestionRunes); len([]rune(trunc)) != maxLoggedQuestionRunes {
+		t.Fatalf("expected truncated rune count %d, got %d", maxLoggedQuestionRunes, len([]rune(trunc)))
+	}
 }
 
 func TestTelemetryMiddlewareMultiTurn(t *testing.T) {
