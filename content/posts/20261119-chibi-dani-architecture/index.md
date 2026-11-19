@@ -95,7 +95,7 @@ We apply the same minimal approach to content retrieval. My entire published arc
 
 On Cloud Run, the service runs on a single small container (`1` vCPU and `512 MiB` of memory) with `--max-instances=1`, scaling down to zero when the chat is idle. Keeping traffic on one instance lets us hold conversation history and rate-limit counters in process memory.
 
-Running two or more instances would require moving both out of RAM. Without shared state, a follow-up turn could land on a fresh container with no memory of earlier messages. We would need to swap `NewInMemorySessionStore` for a shared store like Cloud Firestore or Memorystore, but this is overkill for my tiny blog assistant.
+Running two or more instances would require moving both out of RAM. Without shared state, a follow-up turn could land on a fresh container with no memory of earlier messages. We would need to swap `newBoundedSessionStore` for a shared store like Cloud Firestore or Memorystore, but this is overkill for my tiny blog assistant.
 
 We also lower Cloud Run's default concurrency of `80` down to `--concurrency=20` so at most twenty active requests share that `512 MiB` container. If a traffic spike fills all twenty slots while `--max-instances=1` holds scaling to one instance, Cloud Run rejects extra requests at the edge with `429 Too Many Requests`.
 
@@ -279,7 +279,7 @@ func clientIP(r *http.Request) string {
 
 ### Gate 2: semantic screening in Model Armor
 
-Once a request clears the HTTP checks, we still need to inspect what the prompt asks the model to do. [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) provides that safety boundary. It screens user prompts before they reach Gemini and checks the completed model response before finishing the turn.
+Once a request clears the HTTP checks, we still need to inspect what the prompt asks the model to do. [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) provides that safety boundary. It screens user prompts before they reach Gemini and checks model responses in real time before tokens reach the browser.
 
 Because the Go SDK defaults to the [global endpoint](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint) (which only manages floor settings), [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) points the client at the template's regional endpoint (`modelarmor.us-central1.rep.googleapis.com:443`). It uses a [Model Armor template](https://docs.cloud.google.com/model-armor/manage-templates) configured for `HIGH` confidence, `inspect-and-block` enforcement, and multi-language detection. Following Model Armor's [conversational AI guidelines](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization), `SanitizeUserPrompt` evaluates only the latest `RoleUser` message without resending the system prompt or prior chat history:
 
@@ -310,7 +310,7 @@ sanitizeInput := func(ctx context.Context, userPrompt string) error {
 }
 ```
 
-Both checks sit inside a Genkit `WrapGenerate` hook so `SanitizeUserPrompt` runs once per user turn (`params.Iteration == 0`) instead of repeating on every `read_corpus` tool iteration. For non-streaming requests, `SanitizeModelResponse` screens the complete reply before returning it. For Server-Sent Events (`?stream=true`), screening only after generation finishes would leak raw chunks to the browser first, so [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) opens Model Armor's bidirectional [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) gRPC stream in `STREAMING_MODE_REALTIME`:
+Prompt and response screening both sit inside a Genkit `WrapGenerate` hook so `SanitizeUserPrompt` runs once per user turn (`params.Iteration == 0`) instead of repeating on every `read_corpus` tool iteration. For non-streaming requests, `SanitizeModelResponse` screens the complete reply before returning it. For Server-Sent Events (`?stream=true`), screening only after generation finishes would leak raw chunks to the browser first, so [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) opens Model Armor's bidirectional [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) gRPC stream in `STREAMING_MODE_REALTIME`:
 
 ```go
 // On each streamed Gemini text chunk, send to Model Armor first:
@@ -399,6 +399,6 @@ Cloud Billing supports monthly [Spend Cap Budgets](https://docs.cloud.google.com
 
 ## Conclusions
 
-Shipping a public AI agent safely comes down to layering clear boundaries. Right-sizing with Gemini 3.5 Flash Lite, token budgets, and a single Cloud Run container keeps hosting predictable. Scoping prompts, tools, and Cloud Run permissions limits what the agent can touch, while Go checks and Model Armor block floods and prompt attacks at the front door. Adding OpenTelemetry traces, session logs, and a Gemini Enterprise Spend Cap Budget gives you clear insight and a final billing kill switch if traffic spikes.
+Shipping a public AI agent safely comes down to layering clear boundaries. Right-sizing with Gemini 3.5 Flash Lite, token budgets, and a single Cloud Run container keeps hosting predictable. Scoping prompts, tools, and Cloud Run permissions limits what the agent can touch, while Go checks and Model Armor block floods and prompt attacks at the front door. Adding OpenTelemetry traces, Cloud Monitoring alerts, session logs, and a Gemini Enterprise Spend Cap Budget gives you clear insight and a final billing kill switch if traffic spikes.
 
 These guardrails are running live on `danicat.dev` today, and the complete source code is in [`danicat/gemini-for-go-developers/part-6`](https://github.com/danicat/gemini-for-go-developers/tree/main/part-6). You can click Chibi Dani's avatar in the top-right corner to ask about Go, Genkit, or past talks, or put the defences from this article to the test yourself.

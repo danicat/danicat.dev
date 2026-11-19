@@ -95,7 +95,7 @@ chibi := genkitx.DefineAgent(g, "chibi-dani",
 
 Cloud Runでは `--max-instances=1` を指定した小さな単一コンテナ（`1` vCPU、`512 MiB` メモリ）で動かし、アイドル時はゼロへスケールダウンさせます。トラフィックを1インスタンスに絞ることで、会話履歴とレートリミットのカウンタをプロセスメモリ内に保持できます。
 
-2インスタンス以上で動かすには、両方をRAMの外へ移す必要があります。共有状態がなければ、次のターンが履歴を持たない別コンテナへ飛ぶ可能性があるからです。その場合は `NewInMemorySessionStore` をCloud FirestoreやMemorystoreのような共有ストアへ置き換える必要がありますが、小さなブログ用アシスタントには過剰です。
+2インスタンス以上で動かすには、両方をRAMの外へ移す必要があります。共有状態がなければ、次のターンが履歴を持たない別コンテナへ飛ぶ可能性があるからです。その場合は `newBoundedSessionStore` をCloud FirestoreやMemorystoreのような共有ストアへ置き換える必要がありますが、小さなブログ用アシスタントには過剰です。
 
 さらにCloud Runのデフォルト同時実行数 `80` を `--concurrency=20` へ引き下げ、その `512 MiB` コンテナを同時に共有するリクエストを最大20件に抑えています。トラフィックスパイクで20枠が埋まり、`--max-instances=1` で1インスタンスに制限されている場合、Cloud Runはエッジで余剰リクエストを `429 Too Many Requests` として拒否します。
 
@@ -279,7 +279,7 @@ func clientIP(r *http.Request) string {
 
 ### 関門2: Model Armorによる意味的な検査
 
-HTTPチェックを通過したリクエストでも、プロンプトがモデルに何を求めているのかを検査する必要があります。[Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) がその安全境界を担います。ユーザープロンプトをGeminiに送る前に検査し、ターンを終える前に完成したモデル応答も確認します。
+HTTPチェックを通過したリクエストでも、プロンプトがモデルに何を求めているのかを検査する必要があります。[Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) がその安全境界を担います。ユーザープロンプトをGeminiに送る前に検査し、モデル応答もトークンがブラウザへ届く前にリアルタイムでチェックします。
 
 Go SDKのデフォルトは[グローバルエンドポイント](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint)（フロア設定の管理のみ対応）なので、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) ではクライアントをテンプレートのリージョンエンドポイント（`modelarmor.us-central1.rep.googleapis.com:443`）へ向けます。使用する[Model Armorテンプレート](https://docs.cloud.google.com/model-armor/manage-templates)は信頼度 `HIGH`、`inspect-and-block` 適用、多言語検出を有効にしています。Model Armorの[対話型AIガイドライン](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization)に従い、`SanitizeUserPrompt` はシステムプロンプトや過去の会話履歴を再送せず、最新の `RoleUser` メッセージだけを評価します。
 
@@ -310,7 +310,7 @@ sanitizeInput := func(ctx context.Context, userPrompt string) error {
 }
 ```
 
-両方のチェックはGenkitの `WrapGenerate` フックに配置し、`SanitizeUserPrompt` が `read_corpus` の各イテレーションで重複実行されないようユーザーターンごとに1回（`params.Iteration == 0`）だけ呼び出します。非ストリーミングでは `SanitizeModelResponse` が回答全体を検証して返します。一方、Server-Sent Events（`?stream=true`）で生成完了後にだけ検査すると未検証のチャンクが先にブラウザへ届いてしまうため、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) はModel Armorの双方向gRPCストリーム [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) を `STREAMING_MODE_REALTIME` で開きます。
+プロンプト検査と応答検査はいずれもGenkitの `WrapGenerate` フックに配置し、`SanitizeUserPrompt` が `read_corpus` の各イテレーションで重複実行されないようユーザーターンごとに1回（`params.Iteration == 0`）だけ呼び出します。非ストリーミングでは `SanitizeModelResponse` が回答全体を検証して返します。一方、Server-Sent Events（`?stream=true`）で生成完了後にだけ検査すると未検証のチャンクが先にブラウザへ届いてしまうため、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) はModel Armorの双方向gRPCストリーム [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) を `STREAMING_MODE_REALTIME` で開きます。
 
 ```go
 // Geminiからの各テキストチャンクを先にModel Armorへ送る
@@ -399,6 +399,6 @@ Cloud BillingはGemini Enterprise（旧Vertex AI、`aiplatform.googleapis.com`�
 
 ## まとめ
 
-公開AIエージェントを安全に運用する鍵は、明確な境界を何重にも重ねることです。Gemini 3.5 Flash Lite、トークン予算、単一のCloud Runコンテナによる適正サイズ化でホスティングを予測可能に保ちます。プロンプト、ツール、Cloud Runの権限を絞ることでエージェントが触れられる範囲を限定し、GoのチェックとModel Armorで大量アクセスやプロンプト攻撃を玄関口で止めます。そこにOpenTelemetryトレース、セッションログ、Gemini EnterpriseのSpend Cap Budgetを加えれば、明確な可視性とトラフィック急増時の最終的な課金キルスイッチが揃います。
+公開AIエージェントを安全に運用する鍵は、明確な境界を何重にも重ねることです。Gemini 3.5 Flash Lite、トークン予算、単一のCloud Runコンテナによる適正サイズ化でホスティングを予測可能に保ちます。プロンプト、ツール、Cloud Runの権限を絞ることでエージェントが触れられる範囲を限定し、GoのチェックとModel Armorで大量アクセスやプロンプト攻撃を玄関口で止めます。そこにOpenTelemetryトレース、Cloud Monitoringのアラート、セッションログ、Gemini EnterpriseのSpend Cap Budgetを加えれば、明確な可視性とトラフィック急増時の最終的な課金キルスイッチが揃います。
 
 これらのガードレールは今まさに `danicat.dev` で稼働しており、完全なソースコードは [`danicat/gemini-for-go-developers/part-6`](https://github.com/danicat/gemini-for-go-developers/tree/main/part-6) で公開しています。画面右上のChibi DaniのアバターをクリックしてGoやGenkit、過去の登壇について質問したり、この記事で紹介した防御を実際に試したりしてみてください。

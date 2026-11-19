@@ -95,7 +95,7 @@ Aplicamos a mesma abordagem minimalista na busca de conteúdo. Todo o meu acervo
 
 No Cloud Run, o serviço roda em um único container pequeno (`1` vCPU e `512 MiB` de memória) com `--max-instances=1`, escalando para zero quando o chat fica ocioso. Manter o tráfego em uma única instância nos permite manter histórico de conversa e contadores de rate limit na memória do processo.
 
-Rodar duas ou mais instâncias exigiria tirar ambos da RAM. Sem estado compartilhado, um turno seguinte poderia cair em um container novo sem memória das mensagens anteriores. Teríamos que trocar `NewInMemorySessionStore` por um armazenamento compartilhado como Cloud Firestore ou Memorystore, o que seria exagero para minha pequena assistente de blog.
+Rodar duas ou mais instâncias exigiria tirar ambos da RAM. Sem estado compartilhado, um turno seguinte poderia cair em um container novo sem memória das mensagens anteriores. Teríamos que trocar `newBoundedSessionStore` por um armazenamento compartilhado como Cloud Firestore ou Memorystore, o que seria exagero para minha pequena assistente de blog.
 
 Também reduzimos a concorrência padrão do Cloud Run de `80` para `--concurrency=20`, assim no máximo vinte requisições ativas dividem esse container de `512 MiB`. Se um pico de tráfego preencher todas as vinte vagas enquanto `--max-instances=1` segura a escala em uma instância, o Cloud Run rejeita as requisições extras na borda com `429 Too Many Requests`.
 
@@ -279,7 +279,7 @@ func clientIP(r *http.Request) string {
 
 ### Barreira 2: triagem semântica no Model Armor
 
-Depois que uma requisição passa pelas checagens HTTP, ainda precisamos inspecionar o que o prompt pede ao modelo. O [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) oferece essa fronteira de segurança. Ele analisa prompts de usuários antes que cheguem ao Gemini e verifica a resposta pronta do modelo antes de encerrar o turno.
+Depois que uma requisição passa pelas checagens HTTP, ainda precisamos inspecionar o que o prompt pede ao modelo. O [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) oferece essa fronteira de segurança. Ele analisa prompts de usuários antes que cheguem ao Gemini e verifica as respostas do modelo em tempo real antes que os tokens cheguem ao navegador.
 
 Como o SDK Go usa por padrão o [endpoint global](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint) (que gerencia apenas floor settings), [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) aponta o cliente para o endpoint regional do template (`modelarmor.us-central1.rep.googleapis.com:443`). Ele usa um [template do Model Armor](https://docs.cloud.google.com/model-armor/manage-templates) configurado para confiança `HIGH`, modo `inspect-and-block` e detecção multilíngue. Seguindo as [diretrizes de IA conversacional](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization) do Model Armor, `SanitizeUserPrompt` avalia apenas a mensagem `RoleUser` mais recente, sem reenviar o prompt de sistema nem o histórico anterior:
 
@@ -310,7 +310,7 @@ sanitizeInput := func(ctx context.Context, userPrompt string) error {
 }
 ```
 
-As duas checagens ficam dentro de um hook `WrapGenerate` do Genkit para que `SanitizeUserPrompt` rode apenas uma vez por turno do usuário (`params.Iteration == 0`), em vez de repetir a chamada a cada iteração de `read_corpus`. Em requisições sem streaming, `SanitizeModelResponse` verifica a resposta completa antes de devolvê-la. Já em Server-Sent Events (`?stream=true`), validar só no final deixaria trechos não verificados chegarem ao navegador antes, então [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) abre o stream gRPC bidirecional [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) do Model Armor em modo `STREAMING_MODE_REALTIME`:
+Tanto a triagem de prompt quanto a de resposta ficam dentro de um hook `WrapGenerate` do Genkit para que `SanitizeUserPrompt` rode apenas uma vez por turno do usuário (`params.Iteration == 0`), em vez de repetir a chamada a cada iteração de `read_corpus`. Em requisições sem streaming, `SanitizeModelResponse` verifica a resposta completa antes de devolvê-la. Já em Server-Sent Events (`?stream=true`), validar só no final deixaria trechos não verificados chegarem ao navegador antes, então [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) abre o stream gRPC bidirecional [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) do Model Armor em modo `STREAMING_MODE_REALTIME`:
 
 ```go
 // A cada chunk de texto enviado pelo Gemini, mandamos primeiro para o Model Armor:
@@ -399,6 +399,6 @@ O Cloud Billing oferece suporte a [Spend Cap Budgets](https://docs.cloud.google.
 
 ## Conclusões
 
-Publicar um agente de IA com segurança depende de empilhar limites claros. Dimensionar na medida certa com Gemini 3.5 Flash Lite, orçamentos de token e um único container do Cloud Run mantém a hospedagem previsível. Restringir prompts, ferramentas e permissões do Cloud Run limita o que o agente pode alcançar, enquanto checagens em Go e Model Armor barram enxurradas e ataques de prompt já na porta de entrada. Somar traces do OpenTelemetry, logs de sessão e um Spend Cap Budget do Gemini Enterprise traz visibilidade clara e um disjuntor final de cobrança caso o tráfego dispare.
+Publicar um agente de IA com segurança depende de empilhar limites claros. Dimensionar na medida certa com Gemini 3.5 Flash Lite, orçamentos de token e um único container do Cloud Run mantém a hospedagem previsível. Restringir prompts, ferramentas e permissões do Cloud Run limita o que o agente pode alcançar, enquanto checagens em Go e Model Armor barram enxurradas e ataques de prompt já na porta de entrada. Somar traces do OpenTelemetry, alertas do Cloud Monitoring, logs de sessão e um Spend Cap Budget do Gemini Enterprise traz visibilidade clara e um disjuntor final de cobrança caso o tráfego dispare.
 
 Esses guardrails estão rodando ao vivo no `danicat.dev` hoje, e o código-fonte completo está em [`danicat/gemini-for-go-developers/part-6`](https://github.com/danicat/gemini-for-go-developers/tree/main/part-6). Você pode clicar no avatar da Chibi Dani no canto superior direito para perguntar sobre Go, Genkit ou palestras anteriores, ou colocar as defesas deste artigo à prova por conta própria.
