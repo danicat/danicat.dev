@@ -111,5 +111,15 @@ This is an unlisted directory of profile photos, avatars, and campaign media ass
 
 ![LLM Tiers: Flash vs. Argon](/images/socials/2026-11-llm-tiers-flash-vs-argon.png)
 
+---
+
+### Chibi Dani Live on danicat.dev (November 2026)
+- **Campaign:** *How to Ship a Public AI Agent Without Breaking the Budget*
+- **Direct URL:** [`https://danicat.dev/images/socials/2026-11-chibi-dani-architecture-hero.jpg`](https://danicat.dev/images/socials/2026-11-chibi-dani-architecture-hero.jpg)
+- **Format:** JPEG (1024×760 px, ~119 KB)
+- **Alt Text:** `Screenshot of Chibi Dani live on danicat.dev answering a reader's question about How to Ship a Public AI Agent Without Breaking the Budget, showing her chibi portrait card powered by Gemini 3.5 Flash Lite, Cloud Run, and Google Cloud Model Armor`
+
+![Chibi Dani Live on danicat.dev](/images/socials/2026-11-chibi-dani-architecture-hero.jpg)
+
 
 
