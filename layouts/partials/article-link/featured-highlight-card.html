@@ -71,7 +71,7 @@
 
       {{ $show_summary := $page_context.Params.showSummary | default ($page_context.Site.Params.list.showSummary | default false) }}
       {{ if $show_summary }}
-        <p class="mt-3 text-base text-neutral-600 dark:text-neutral-300 leading-relaxed line-clamp-3">{{ $page_context.Summary | plainify }}</p>
+        <p class="mt-3 text-base text-neutral-600 dark:text-neutral-300 leading-relaxed line-clamp-5">{{ $page_context.Summary | plainify }}</p>
       {{ end }}
     </div>
 
