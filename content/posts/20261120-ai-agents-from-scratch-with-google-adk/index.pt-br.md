@@ -45,7 +45,7 @@ Esse ciclo (prompt, pedido de ferramenta, execução local do código e resposta
 
 O [**Google ADK**](https://adk.dev) é um kit de ferramentas open source para criar, testar e executar agentes em Python, TypeScript/JavaScript, Java e Kotlin. Ele funciona nativamente com o Gemini via Gemini API ou Vertex AI, além de oferecer suporte a modelos de outros provedores.
 
-Você pode inicializar e rodar seu primeiro agente em quatro comandos usando Python 3.13+ e [**`uv`**](https://docs.astral.sh/uv/), um gerenciador rápido de pacotes Python. Instale `google-adk[gcp]` para já deixar no lugar as bibliotecas de cliente do Google Cloud que usaremos depois com o Model Armor:
+Você pode inicializar e rodar seu primeiro agente em quatro comandos usando Python 3.13+ e [**`uv`**](https://docs.astral.sh/uv/), um gerenciador rápido de pacotes Python:
 
 ```bash
 mkdir demo && cd demo
@@ -181,7 +181,7 @@ gcloud run services proxy council-of-ancients \
 
 Isso expõe seu serviço ativo no Cloud Run com segurança em `http://localhost:8080`.
 
-Sessões em memória com `--session-affinity` atendem bem durante a prototipagem, mas qualquer reinício de container ou aumento de escala apaga conversas ativas. Antes de colocar um agente para usuários reais, mova o estado para um backend durável, seja usando Sessions e Memory Bank gerenciados no Gemini Enterprise Agent Platform ou conectando um banco de dados como a [**MongoDB Google ADK Integration**](https://goo.gle/google-adk-mongodb).
+Nota: sessões em memória com `--session-affinity` atendem bem durante a prototipagem, mas qualquer reinício de container ou aumento de escala apaga conversas ativas. Antes de colocar um agente para usuários reais, mova o estado para um backend durável. Você pode usar Sessions e Memory Bank gerenciados no Gemini Enterprise Agent Platform ou conectar um banco de dados como [Google Cloud SQL](https://docs.cloud.google.com/sql) ou [MongoDB](https://goo.gle/google-adk-mongodb).
 
 ## Protegendo agentes com Model Armor
 
@@ -251,6 +251,6 @@ Teste também respostas reais dos seus agentes antes de afrouxar qualquer filtro
 
 ## Próximos passos
 
-Você não precisa de uma base de código gigante para criar um agente que se sustenta fora do seu notebook. Comece pequeno com `uv run adk create`, use subagentes `mode="single_turn"` antes de escrever código próprio de orquestração, faça deploy privado e filtre prompts e respostas a partir de um único plugin no `App`.
+Você não precisa de muito para criar um agente que se sustenta fora do seu notebook. Comece pequeno com `uv run adk create`, use subagentes antes de escrever código próprio de orquestração e experimente o Cloud Run para deploys na nuvem, lembrando de reforçar a segurança primeiro se pretende publicá-lo na internet aberta.
 
 Para continuar explorando, clone o exemplo completo em [**`danicat/council`**](https://github.com/danicat/council), consulte a documentação do SDK em [**adk.dev**](https://adk.dev), explore skills oficiais de agentes em [**google/skills**](https://github.com/google/skills) ou encontre workshops práticos em [**builders.google**](https://builders.google).

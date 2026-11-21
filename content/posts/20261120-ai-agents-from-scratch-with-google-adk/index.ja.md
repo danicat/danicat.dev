@@ -45,7 +45,7 @@ AI エージェントの本質は、言語モデルと外部から呼び出せ�
 
 [**Google ADK**](https://adk.dev) は、Python、TypeScript/JavaScript、Java、Kotlin でエージェントを構築・テスト・実行するためのオープンソースのツールキットです。Gemini API または Vertex AI を通じて Gemini モデルとネイティブに連携するほか、他社プロバイダーのモデルもサポートしています。
 
-Python 3.13+ と高速なパッケージマネージャー [**`uv`**](https://docs.astral.sh/uv/) があれば、4つのコマンドだけで最初のエージェントを作成して動かせます。後半で Model Armor 用のクライアントライブラリを使うため、`google-adk[gcp]` を指定してインストールしましょう。
+Python 3.13+ と高速なパッケージマネージャー [**`uv`**](https://docs.astral.sh/uv/) があれば、4つのコマンドだけで最初のエージェントを作成して動かせます。
 
 ```bash
 mkdir demo && cd demo
@@ -181,7 +181,7 @@ gcloud run services proxy council-of-ancients \
 
 これで稼働中の Cloud Run サービスへ `http://localhost:8080` から安全にアクセスできます。
 
-`--session-affinity` とインメモリセッションの組み合わせは試作には便利ですが、コンテナの再起動やスケールアウトが起きると進行中の会話履歴が消えます。実ユーザーに公開する段階になったら、Gemini Enterprise Agent Platform のマネージド Sessions / Memory Bank を使うか、[**MongoDB Google ADK Integration**](https://goo.gle/google-adk-mongodb) のような永続データベース連携へ切り替えましょう。
+注: `--session-affinity` とインメモリセッションの組み合わせは試作には便利ですが、コンテナの再起動やスケールアウトが起きると進行中の会話履歴が消えます。実ユーザーに公開する段階になったら、状態を永続バックエンドへ移しましょう。Gemini Enterprise Agent Platform のマネージド Sessions / Memory Bank を使うか、[Google Cloud SQL](https://docs.cloud.google.com/sql) や [MongoDB](https://goo.gle/google-adk-mongodb) のようなデータベースバックエンドを接続できます。
 
 ## Model Armor でエージェントを守る
 
@@ -251,6 +251,6 @@ app = App(
 
 ## 次のステップ
 
-ローカル環境の外でもしっかり動くエージェントを作るのに、巨大なコードベースは不要です。まずは `uv run adk create` で小さく始め、自前のオーケストレーションを書く前に `mode="single_turn"` のサブエージェントを試し、非公開設定でデプロイし、1つの `App` プラグインで入力と出力の両方を検査してみてください。
+ローカル環境の外でもしっかり動くエージェントを作るのに、大掛かりな準備は不要です。まずは `uv run adk create` で小さく始め、自前のオーケストレーションを書く前にサブエージェントを活用し、クラウドへのデプロイには Cloud Run を試してみてください。ただし、インターネットへ一般公開する予定があるなら、先にセキュリティを固めることを忘れないようにしましょう。
 
 さらに学びたい場合は、[**`danicat/council`**](https://github.com/danicat/council) からコード一式をクローンして動かすか、[**adk.dev**](https://adk.dev) の SDK ドキュメント、[**google/skills**](https://github.com/google/skills) の公式エージェントスキル、[**builders.google**](https://builders.google) のハンズオンワークショップをご覧ください。

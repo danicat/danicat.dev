@@ -45,7 +45,7 @@ That loop (prompt, tool request, local code execution, grounded reply) is the en
 
 [**Google ADK**](https://adk.dev) is an open-source toolkit for building, testing, and running agents in Python, TypeScript/JavaScript, Java, and Kotlin. It works natively with Gemini via the Gemini API or Vertex AI, and it supports models from other providers as well.
 
-You can bootstrap and run your first agent in four commands using Python 3.13+ and [**`uv`**](https://docs.astral.sh/uv/), a fast Python package manager. Install `google-adk[gcp]` so the Google Cloud client libraries we'll use later for Model Armor are already in place:
+You can bootstrap and run your first agent in four commands using Python 3.13+ and [**`uv`**](https://docs.astral.sh/uv/), a fast Python package manager:
 
 ```bash
 mkdir demo && cd demo
@@ -181,7 +181,7 @@ gcloud run services proxy council-of-ancients \
 
 That exposes your live Cloud Run service safely at `http://localhost:8080`.
 
-In-memory sessions with `--session-affinity` are fine while prototyping, but any container restart or scale-out wipes active chats. Before putting an agent in front of real users, move state to a durable backend. You can use managed Sessions and Memory Bank on Gemini Enterprise Agent Platform, or wire up a database backend like the [**MongoDB Google ADK Integration**](https://goo.gle/google-adk-mongodb).
+Note: in-memory sessions with `--session-affinity` are fine while prototyping, but any container restart or scale-out wipes active chats. Before putting an agent in front of real users, move state to a durable backend. You can use managed Sessions and Memory Bank on Gemini Enterprise Agent Platform, or wire up a database backend like [Google Cloud SQL](https://docs.cloud.google.com/sql) or [MongoDB](https://goo.gle/google-adk-mongodb).
 
 ## Securing agents with Model Armor
 
@@ -251,6 +251,6 @@ Test real agent outputs before loosening any filter, too. You might expect Machi
 
 ## Where to go next
 
-You don't need a sprawling codebase to build an agent that holds up outside your laptop. Start small with `uv run adk create`, use `mode="single_turn"` sub-agents before reaching for custom orchestration code, deploy privately, and screen both prompts and replies from one `App` plugin.
+You don't need a lot to build an agent that holds up outside your laptop. Start small with `uv run adk create`, use sub-agents before reaching for custom orchestration code, and experiment with Cloud Run for cloud deployments, keeping in mind to harden it first if you are planning to publish it in the open internet.
 
 To keep exploring, clone the full example from [**`danicat/council`**](https://github.com/danicat/council), check the SDK docs at [**adk.dev**](https://adk.dev), browse official agent skills at [**google/skills**](https://github.com/google/skills), or find hands-on workshops at [**builders.google**](https://builders.google).
