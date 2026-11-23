@@ -28,6 +28,12 @@ proficiencyLevel: {{ . | jsonify }}
 {{- with .Params.dependencies }}
 dependencies: {{ . | jsonify }}
 {{- end }}
+{{- if .Params.deprecated }}
+deprecated: true
+{{- end }}
+{{- with .Params.superseded_by }}
+superseded_by: {{ . | jsonify }}
+{{- end }}
 language: {{ .Language.LanguageCode | jsonify }}
 {{- with .Translations }}
 translations:

@@ -10,6 +10,7 @@ import (
 	"os/signal"
 	"strings"
 	"syscall"
+	"time"
 
 	"cloud.google.com/go/firestore"
 	"github.com/firebase/genkit/go/ai"
@@ -27,7 +28,7 @@ import (
 var baseSystemPrompt string
 
 type readCorpusInput struct {
-	Path string `json:"path" jsonschema_description:"Exact file path from the Master Content Index"`
+	Path string `json:"path" jsonschema_description:"Canonical danicat.dev URL or relative path from the Master Content Index (for example https://danicat.dev/posts/<slug>/, https://danicat.dev/about/, https://danicat.dev/events/, or https://danicat.dev/videos/)"`
 }
 
 func main() {
@@ -47,14 +48,22 @@ func run() error {
 		return fmt.Errorf("GOOGLE_CLOUD_PROJECT and MODEL_ARMOR_TEMPLATE are required")
 	}
 	port := cmp.Or(strings.TrimSpace(os.Getenv("PORT")), "8080")
-	corpusDir := cmp.Or(strings.TrimSpace(os.Getenv("CORPUS_DIR")), ".")
+	corpusBaseURL := cmp.Or(strings.TrimSpace(os.Getenv("CORPUS_BASE_URL")), defaultCorpusBaseURL)
+	refreshInterval := defaultCorpusRefreshInterval
+	if rawRefresh := strings.TrimSpace(os.Getenv("CORPUS_REFRESH_INTERVAL")); rawRefresh != "" {
+		parsed, err := time.ParseDuration(rawRefresh)
+		if err != nil || parsed <= 0 {
+			return fmt.Errorf("invalid CORPUS_REFRESH_INTERVAL %q: must be a positive duration", rawRefresh)
+		}
+		refreshInterval = parsed
+	}
 
 	googlecloud.EnableGoogleCloudTelemetry(&googlecloud.GoogleCloudTelemetryOptions{
 		ProjectID:                    projectID,
 		DisableLoggingInputAndOutput: true,
 	})
 
-	corpus, err := LoadCorpus(corpusDir)
+	corpusStore, err := NewRemoteCorpusStore(ctx, corpusBaseURL, WithRefreshInterval(refreshInterval))
 	if err != nil {
 		return fmt.Errorf("load corpus: %w", err)
 	}
@@ -85,11 +94,11 @@ func run() error {
 	)
 
 	readCorpus := genkit.DefineTool(g, "read_corpus",
-		"Read the full markdown or JSON source of a published danicat.dev file listed in the Master Content Index.",
+		"Read the full markdown source of a published danicat.dev page listed in the Master Content Index.",
 		func(_ *ai.ToolContext, in readCorpusInput) (string, error) {
-			text, ok := corpus.Files[strings.TrimPrefix(strings.TrimSpace(in.Path), "/")]
+			text, ok := corpusStore.Snapshot().Lookup(in.Path)
 			if !ok {
-				return fmt.Sprintf("file %q not found in published corpus", in.Path), nil
+				return fmt.Sprintf("page %q not found in published corpus", in.Path), nil
 			}
 			return text, nil
 		},
@@ -100,7 +109,10 @@ func run() error {
 		aix.InlinePrompt{
 			ai.WithModelName("vertexai/gemini-3.5-flash-lite"),
 			ai.WithConfig(&genai.GenerateContentConfig{MaxOutputTokens: 1500}),
-			ai.WithSystem(strings.TrimSpace(baseSystemPrompt) + "\n" + corpus.PromptIndex),
+			ai.WithSystemFn(func(ctx context.Context, _ any) (string, error) {
+				c := corpusStore.Current(ctx)
+				return strings.TrimSpace(baseSystemPrompt) + "\n" + c.PromptIndex, nil
+			}),
 			ai.WithMaxTurns(5),
 			ai.WithTools(readCorpus),
 			ai.WithUse(
@@ -121,10 +133,13 @@ func run() error {
 	)
 
 	allowLocalhost := strings.EqualFold(strings.TrimSpace(os.Getenv("CHIBI_ALLOW_LOCALHOST")), "true")
+	snap := corpusStore.Snapshot()
 	slog.Info("Chibi Dani ready",
 		"project", projectID,
-		"posts", corpus.PostCount,
-		"codelabs", corpus.CodelabCount,
+		"corpus_base_url", corpusBaseURL,
+		"refresh_interval", refreshInterval.String(),
+		"posts", snap.PostCount,
+		"sections", snap.SectionCount,
 		"port", port,
 		"allow_localhost", allowLocalhost,
 	)

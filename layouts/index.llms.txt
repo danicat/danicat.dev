@@ -25,10 +25,19 @@
 {{- end }}
 
 ## Articles & Deep Dives
+{{- $site := .Site }}
 {{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
 {{- $seriesOrder := .Params.series_order }}
 {{- $desc := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}
-- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}index.md): {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }})
+{{- $supersededNote := "" }}
+{{- with .Params.superseded_by }}
+  {{- with $site.GetPage . }}
+    {{- $supersededNote = printf " · Superseded by: [%s](%sindex.md)" (.Title | plainify | htmlUnescape) .Permalink }}
+  {{- else }}
+    {{- $supersededNote = printf " · Superseded by: %s" . }}
+  {{- end }}
+{{- end }}
+- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}index.md){{ if .Params.deprecated }} [DEPRECATED]{{ end }}: {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ $supersededNote }})
 {{- end }}
 
 ## Interactive Codelabs & Workshops

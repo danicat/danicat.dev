@@ -9,7 +9,6 @@ require (
 	golang.org/x/time v0.16.0
 	google.golang.org/api v0.304.0
 	google.golang.org/genai v1.57.0
-	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -42,7 +41,6 @@ require (
 	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/invopop/jsonschema v0.14.0 // indirect
 	github.com/jba/slog v0.2.0 // indirect
-	github.com/kr/text v0.2.0 // indirect
 	github.com/mbleigh/raymond v0.0.0-20250414171441-6b3a58ab9e0a // indirect
 	github.com/pb33f/ordered-map/v2 v2.3.1 // indirect
 	github.com/xeipuuv/gojsonpointer v0.0.0-20190905194746-02993c407bfb // indirect

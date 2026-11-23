@@ -11,15 +11,81 @@
 - Agent Skills Catalog: https://skills.danicat.dev/ (LLMs index: https://skills.danicat.dev/llms.txt | Discovery index: https://skills.danicat.dev/.well-known/agent-skills/index.json)
 
 ---
-
-{{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
-{{- $summary := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " }}
+{{- with .Site.GetPage "/about" }}
 
 # {{ .Title | plainify | htmlUnescape }}
 
 - **Markdown URL**: {{ .Permalink }}index.md
 - **HTML URL**: {{ .Permalink }}
+{{- with .Params.role }}
+- **Role**: {{ . | plainify | htmlUnescape }}
+{{- end }}
+{{- with .Params.badges }}
+- **Highlights**: {{ delimit . " · " }}
+{{- end }}
+
+{{ .RawContent }}
+{{- with .Params.projects }}
+
+## {{ .heading | default "Open Source & Developer Tools" | plainify | htmlUnescape }}
+{{- with .subtitle }}
+{{ . | plainify | htmlUnescape }}
+{{- end }}
+{{- range .items }}
+- **{{ .name | plainify | htmlUnescape }}**{{ with .badge }} ({{ . }}){{ end }}: {{ .description | plainify | htmlUnescape }} — {{ if hasPrefix .url "http" }}{{ .url }}{{ else }}https://danicat.dev{{ .url }}{{ end }}
+{{- end }}
+{{- end }}
+
+---
+{{- end }}
+
+# Interactive Codelabs & Workshops
+
+- **HTML URL**: {{ "codelabs/" | absLangURL }}
+{{- range (where .Site.RegularPages "Section" "codelabs").ByDate.Reverse }}
+{{- $desc := (.Params.description | default (.Params.summary | default "")) | replaceRE "\\s+" " " | plainify | htmlUnescape }}
+- **{{ .Title | plainify | htmlUnescape }}** ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ with .Params.externalUrl }} · Workshop URL: {{ . }}{{ end }}): {{ $desc }}
+{{- end }}
+
+---
+
+# Talks & Conference Events
+
+- **HTML URL**: {{ "events/" | absLangURL }}
+{{- range .Site.Data.talks.talks }}
+- **{{ .title | plainify | htmlUnescape }}** — {{ .event | plainify | htmlUnescape }} ({{ .date }}{{ with .location }}, {{ . }}{{ end }}){{ with .recording }} · Recording: {{ . }}{{ end }}{{ with .slides }} · Slides: {{ . }}{{ end }}{{ with .codelab }} · Codelab: {{ . }}{{ end }}{{ with .materials }} · Materials: {{ . }}{{ end }}{{ with .source_code }} · Source: {{ . }}{{ end }}{{ with .summary }}: {{ . | replaceRE "\\s+" " " | plainify | htmlUnescape }}{{ end }}
+{{- end }}
+
+---
+
+# Videos & Screencasts
+
+- **HTML URL**: {{ "videos/" | absLangURL }}
+{{- range .Site.Data.videos.videos }}
+- **{{ .title | plainify | htmlUnescape }}** ({{ .date }}{{ with .duration }} · {{ . }}{{ end }}{{ with (.event | default .channelName) }} · {{ . }}{{ end }} · Video: {{ .url }}){{ with .summary }}: {{ . | replaceRE "\\s+" " " | plainify | htmlUnescape }}{{ end }}
+{{- end }}
+
+---
+
+{{- $site := .Site }}
+{{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
+{{- $summary := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " }}
+
+# {{ .Title | plainify | htmlUnescape }}{{ if .Params.deprecated }} [DEPRECATED]{{ end }}
+
+- **Markdown URL**: {{ .Permalink }}index.md
+- **HTML URL**: {{ .Permalink }}
 - **Date**: {{ .Date.Format "2006-01-02" }}
+{{- if .Params.deprecated }}
+- **Status**: DEPRECATED
+{{- end }}
+{{- with .Params.superseded_by }}
+  {{- with $site.GetPage . }}
+- **Superseded by**: [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}) ({{ .Permalink }}index.md)
+  {{- else }}
+- **Superseded by**: {{ . }}
+  {{- end }}
+{{- end }}
 {{- with .Params.categories }}
 - **Categories**: {{ delimit . ", " }}
 {{- end }}
