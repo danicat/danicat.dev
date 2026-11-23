@@ -27,6 +27,11 @@ dependencies:
   - "Qwen 2.5"
   - "SQLite"
   - "sqlite-rag"
+status: "superseded"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "ローカルモデルへのオフライン切替（Ollama と LiteLLM）、量子化 SQLite ベクトル、小型モデル向けプロンプト最適化の概念は今も有用ですが、Python 3.14 向け回避策、初期 Python ADK コード、AIDA の SQLite RAG スキーマ検索は Genkit Go と Agent Skills による再構築で置き換わりました。"
 ---
 
 [本シリーズのパート5]({{< ref "/posts/20251031-building-aida" >}}) では、エージェント用のカスタムクライアントインターフェースの構築に焦点を当てました。エージェントの使い勝手を高める大きな一歩となりましたが、まだ重要な機能が1つ欠けていました。「ネットワークがダウンしたときにどうするか」という問題です。

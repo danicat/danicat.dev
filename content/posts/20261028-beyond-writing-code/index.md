@@ -18,6 +18,7 @@ aliases:
 summary: "When models have all the knowledge of the world, what is left for the humans? If you know it all, everything seems equally important. Our role has evolved from execution to guidance."
 description: "Why software engineering in the age of coding agents shifts from writing syntax to architectural taste, subagents, agent skills, and acting as tech leads."
 proficiencyLevel: "Intermediate"
+status: "evergreen"
 ---
 
 When foundation models have all the knowledge of the world baked into their weights, what's left for the humans?

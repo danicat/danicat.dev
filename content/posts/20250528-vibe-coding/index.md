@@ -12,6 +12,8 @@ aliases:
   - "/posts/20250528-vibe-coding/"
 description: "Can anyone vibe code? An essay on why AI lowers the barrier to entry while making core software engineering discipline and orchestration more valuable."
 proficiencyLevel: "Beginner"
+status: "evergreen"
+status_note: "Core career philosophy thesis remains evergreen and is deepened further in Beyond Writing Code."
 ---
 ## Introduction
 

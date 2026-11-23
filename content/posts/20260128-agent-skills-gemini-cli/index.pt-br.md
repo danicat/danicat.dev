@@ -22,8 +22,9 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
   - "Python 3.10+"
-deprecated: true
+status: "deprecated"
 superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "A estrutura de pastas do SKILL.md, o modelo de progressive disclosure e a combinação de agentes com scripts determinísticos em Python continuam fundamentais, mas a configuração da Gemini CLI e os caminhos .gemini/skills foram descontinuados."
 ---
 
 {{< alert "circle-info" >}}

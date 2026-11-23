@@ -16,6 +16,8 @@ proficiencyLevel: "Beginner"
 dependencies:
   - "Google Cloud Platform"
   - "Terraform"
+status: "historical"
+status_note: "2025年7月の Gemini Cloud Assist と Application Design Center パブリックプレビュー版の解説です。生成された Terraform を監査する習慣は今も有効ですが、UI や機能は進化しています。"
 ---
 
 ## はじめに

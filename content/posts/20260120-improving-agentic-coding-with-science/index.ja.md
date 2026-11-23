@@ -22,6 +22,8 @@ dependencies:
   - "Go 1.24+"
   - "Gemini CLI"
   - "Tenkai Framework"
+status: "evergreen"
+status_note: "統計的評価手法と Tenkai の原則は普遍的ですが、初期のベンチマーク実行には Gemini CLI とプレビュー版モデルが使用されています。"
 ---
 
 ソフトウェア開発における[決定論から非決定論への移行](https://newsletter.pragmaticengineer.com/p/martin-fowler)は、現在私たちが業界全体として直面している最大の課題の一つです。

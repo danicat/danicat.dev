@@ -12,6 +12,8 @@ aliases:
   - "/pt-br/posts/20250528-vibe-coding/"
 description: "Qualquer um pode programar no vibe code? Uma reflexão sobre como a IA reduz barreiras enquanto torna a disciplina de engenharia e orquestração ainda mais valiosas."
 proficiencyLevel: "Beginner"
+status: "evergreen"
+status_note: "A tese central sobre carreira continua atual e é aprofundada em Além de Escrever Código."
 ---
 
 ## Introdução

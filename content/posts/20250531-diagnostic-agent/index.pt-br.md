@@ -21,6 +21,11 @@ dependencies:
   - "Python 3.10+"
   - "google-cloud-aiplatform"
   - "osquery"
+status: "deprecated"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "Combinar um LLM com tabelas virtuais SQL do osquery por meio de funções de ferramenta bem documentadas continua sendo um padrão sólido, mas o SDK legado vertexai com LangChain e o código com gemini-2.0-flash estão obsoletos."
 ---
 _Espaço: a fronteira final. Estas são as viagens da nave estelar Enterprise. Em sua missão de cinco anos: para explorar novos mundos; para pesquisar novas vidas e novas civilizações; para audaciosamente ir onde nenhum homem jamais esteve._
 

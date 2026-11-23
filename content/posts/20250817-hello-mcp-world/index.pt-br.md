@@ -21,6 +21,8 @@ video: "https://www.youtube.com/watch?v=WzfYd6cV4gE"
 dependencies:
   - "Go 1.24+"
   - "MCP Go SDK"
+status: "evergreen"
+status_note: "Os conceitos centrais da arquitetura MCP continuam canônicos, mas versões de SDK, referências a demos no Gemini CLI e a orientação sobre MCP Prompts versus Agent Skills evoluíram."
 ---
 ## Introdução
 

@@ -21,8 +21,11 @@ dependencies:
   - "Ebitengine v2"
   - "Gemini CLI / Antigravity CLI"
   - "Google Cloud Run"
-deprecated: true
-superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260722-the-rise-of-the-subagents"
+status_note: "Go と Ebitengine の技術選定、ドメイン言語を活かすソフトウェアアナリストの視点、プランモードやセキュリティ監査パターンは今も有効ですが、Gemini CLI の @browser_agent 設定、.gemini/agents/ 構文、プレビューモデル、旧コードラボのリンクは非推奨です。代わりに更新版の Antigravity マッチ3 コードラボ（CloudCrush）をご利用ください。"
 ---
 
 {{< alert "circle-info" >}}

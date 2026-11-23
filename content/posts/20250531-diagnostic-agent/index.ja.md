@@ -21,6 +21,11 @@ dependencies:
   - "Python 3.10+"
   - "google-cloud-aiplatform"
   - "osquery"
+status: "deprecated"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "適切にドキュメント化されたツール関数を通じて LLM と osquery の SQL 仮想テーブルを組み合わせるパターンは現在も有効ですが、レガシーな vertexai LangChain SDK および gemini-2.0-flash を使ったコードは旧式化しています。"
 ---
 _宇宙、それは人類に残された最後の開拓地である。そこには人類の想像を絶する新しい文明、新しい生命が待ち受けているに違いない。これは人類初の試みとして5年間の調査飛行に飛び立った宇宙探査船USSエンタープライズ号の驚異に満ちた物語である。_
 

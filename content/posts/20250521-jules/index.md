@@ -12,6 +12,8 @@ aliases:
   - "/posts/20250521-jules/"
 description: "First look at Google Jules, the asynchronous autonomous coding agent. Explore GitHub issue resolution, automated PR generation, and developer workflows."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Day-1 Google I/O 2025 public-beta impressions of Jules; capabilities and availability have evolved since publication."
 ---
 Alright everyone, let's talk about Jules! Hot from the ovens of Google I/O, this is what Google is calling an autonomous coding agent… but what is an autonomous coding agent? Think about [NotebookLM](https://notebooklm.google/), but for coding - a specialised AI to help you with coding tasks. The main difference from the traditional “vibe coding” approach is that with Jules you can import your whole project as context for the AI, so all the responses are grounded on the code you are actually working on!
 

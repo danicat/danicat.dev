@@ -18,4 +18,9 @@ dependencies:
   - Go 1.24+
   - Gemini CLI / Antigravity CLI
   - MCP Go SDK
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini"
+status_note: "Construir um servidor MCP em Go com modelcontextprotocol/go-sdk continua válido, mas os passos de instalação e configuração da Gemini CLI foram descontinuados em favor da Antigravity CLI."
 ---

@@ -21,8 +21,9 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI >= 0.1.0"
   - "Python 3.10+"
-deprecated: true
+status: "deprecated"
 superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "SKILL.md のフォルダ構造、段階的開示モデル、決定論的な Python スクリプトとエージェントの組み合わせは現在も基礎として有効ですが、Gemini CLI のセットアップや .gemini/skills パスは非推奨となりました。"
 ---
 
 {{< alert "circle-info" >}}

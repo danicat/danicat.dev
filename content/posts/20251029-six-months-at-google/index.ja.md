@@ -14,6 +14,8 @@ aliases:
   - "/ja/posts/20251029-six-months-at-google/"
 description: "Google Developer Relations Engineer としての最初の 6 か月間の振り返り。5 か国 15 イベント登壇、MCP や AI エージェントのリスキリング、個人マイルストーンを総括。"
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Google DevRel での最初の6か月間を振り返る、2025年10月時点のキャリアマイルストーン記事です。"
 ---
 
 今日は私にとって、とても特別な節目です。Google に入社して正式に 6 か月が経ちました！

@@ -14,6 +14,8 @@ aliases:
   - "/posts/20250520-hello-world/"
 description: "Welcome to danicat.dev: exploring technical narratives in software engineering, Google Cloud, AI agents, and career reflections by Daniela Petruzalek."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Point-in-time inaugural launch post from May 2025 introducing the blog and author bio."
 ---
 
 After more than 20 years in the technology industry, I've found that the most effective way to solidify my own understanding of a topic is to share it with others. This blog, `danicat.dev`, is a dedicated space for that purpose.

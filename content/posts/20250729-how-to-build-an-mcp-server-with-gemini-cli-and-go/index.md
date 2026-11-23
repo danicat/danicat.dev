@@ -22,8 +22,11 @@ dependencies:
   - "Go 1.24+"
   - "Gemini CLI / Antigravity CLI"
   - "MCP Go SDK"
-deprecated: true
-superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260817-gemini-for-go-developers-part-2-coding-with-gemini"
+status_note: "The MCP stdio 3-step JSON-RPC handshake, Cloud Run auth warning, and prompt reading-list advice remain evergreen, while Gemini CLI .gemini/settings.json configuration and the early GoDoctor v0.2.0 design are deprecated."
 ---
 
 {{< alert "circle-info" >}}

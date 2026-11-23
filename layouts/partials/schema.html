@@ -338,10 +338,38 @@
   {{- if not (or (eq .Section "posts") (eq .Section "codelabs")) -}}
     {{- $schemaType = "Article" -}}
   {{- end -}}
+  {{- $statusMap := dict "evergreen" "Evergreen" "historical" "Historical" "superseded" "Superseded" "deprecated" "Deprecated" -}}
+  {{- $creativeWorkStatus := index $statusMap (lower (.Params.status | default "")) | default "Published" -}}
+  {{- $currentPage := . -}}
+  {{- $predecessors := slice -}}
+  {{- $seenPred := dict -}}
+  {{- if $currentPage.Permalink -}}
+    {{- range $currentPage.Site.RegularPages.ByDate -}}
+      {{- $p := . -}}
+      {{- if ne $p.Permalink $currentPage.Permalink -}}
+        {{- with $p.Params.superseded_by -}}
+          {{- $refs := slice -}}
+          {{- if reflect.IsSlice . -}}{{- $refs = . -}}{{- else -}}{{- $refs = slice . -}}{{- end -}}
+          {{- range $refs -}}
+            {{- with $currentPage.Site.GetPage . -}}
+              {{- if eq .Permalink $currentPage.Permalink -}}
+                {{- $pUrl := $p.Permalink | default $p.Params.externalUrl -}}
+                {{- if and $pUrl (not (index $seenPred $pUrl)) -}}
+                  {{- $predecessors = $predecessors | append $p -}}
+                  {{- $seenPred = merge $seenPred (dict $pUrl true) -}}
+                {{- end -}}
+              {{- end -}}
+            {{- end -}}
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
   <script type="application/ld+json">
   [{
     "@context": "https://schema.org",
     "@type": "{{ $schemaType }}",
+    "creativeWorkStatus": "{{ $creativeWorkStatus }}",
     "articleSection": "{{ if .Params.categories }}{{ index .Params.categories 0 | safeJS }}{{ else }}{{ (site.GetPage .Section).Title | safeJS }}{{ end }}",
     "headline": "{{ .Title | safeJS }}",
     {{ with or .Description .Summary }}"description": "{{ . | plainify | htmlUnescape | safeJS }}",{{ end }}
@@ -406,6 +434,23 @@
       "encodingFormat": "text/markdown",
       "contentUrl": {{ printf "%sindex.md" .Permalink }}
     },
+    {{ end }}
+    {{ with $predecessors }}
+    "isBasedOn": [
+      {{- range $i, $p := . -}}
+      {{- if $i }},{{ end }}
+      {{- $pType := "TechArticle" -}}
+      {{- if not (or (eq $p.Section "posts") (eq $p.Section "codelabs")) -}}
+        {{- $pType = "Article" -}}
+      {{- end -}}
+      {{- $pUrl := $p.Permalink | default $p.Params.externalUrl }}
+      {
+        "@type": "{{ $pType }}",
+        "headline": {{ $p.Title | plainify | htmlUnescape | jsonify (dict "noHTMLEscape" true) | safeJS }},
+        "url": {{ $pUrl | jsonify (dict "noHTMLEscape" true) | safeJS }}
+      }
+      {{- end }}
+    ],
     {{ end }}
     "wordCount": {{ .WordCount }}
   }

@@ -21,29 +21,53 @@
 ## Multi-Part Series
 {{- range $name, $taxonomy := .Site.Taxonomies.series }}
 {{- $parts := $taxonomy.Pages.ByParam "series_order" }}
-- **{{ $taxonomy.Page.Title | default ($name | humanize | title) | plainify | htmlUnescape }}** ({{ $taxonomy.Count }} {{ if eq $taxonomy.Count 1 }}part{{ else }}parts{{ end }}): {{ range $i, $p := $parts }}{{ if $i }} · {{ end }}[Part {{ $p.Params.series_order | default (add $i 1) }}: {{ $p.Title | plainify | htmlUnescape }}]({{ $p.Permalink }}index.md){{ end }}
+{{- $retiredCount := 0 }}
+{{- range $parts }}
+  {{- if in (slice "deprecated" "superseded") (lower (.Params.status | default "")) }}
+    {{- $retiredCount = add $retiredCount 1 }}
+  {{- end }}
+{{- end }}
+{{- $allRetired := and (gt (len $parts) 0) (eq $retiredCount (len $parts)) }}
+- **{{ $taxonomy.Page.Title | default ($name | humanize | title) | plainify | htmlUnescape }}** ({{ $taxonomy.Count }} {{ if eq $taxonomy.Count 1 }}part{{ else }}parts{{ end }}){{ if $allRetired }} (Retired / Superseded){{ end }}: {{ range $i, $p := $parts }}{{ if $i }} · {{ end }}[Part {{ $p.Params.series_order | default (add $i 1) }}: {{ $p.Title | plainify | htmlUnescape }}]({{ $p.Permalink }}index.md){{ $pStatus := lower ($p.Params.status | default "") }}{{ if eq $pStatus "deprecated" }} [DEPRECATED]{{ else if eq $pStatus "superseded" }} [SUPERSEDED]{{ end }}{{ end }}
 {{- end }}
 
 ## Articles & Deep Dives
 {{- $site := .Site }}
+{{- $retiredStatuses := slice "deprecated" "superseded" }}
 {{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
+{{- $status := lower (.Params.status | default "") }}
+{{- if not (in $retiredStatuses $status) }}
 {{- $seriesOrder := .Params.series_order }}
 {{- $desc := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}
-{{- $supersededNote := "" }}
-{{- with .Params.superseded_by }}
-  {{- with $site.GetPage . }}
-    {{- $supersededNote = printf " · Superseded by: [%s](%sindex.md)" (.Title | plainify | htmlUnescape) .Permalink }}
-  {{- else }}
-    {{- $supersededNote = printf " · Superseded by: %s" . }}
-  {{- end }}
+{{- $statusMeta := "" }}
+{{- if eq $status "evergreen" }}
+  {{- $statusMeta = " · Status: Evergreen" }}
+{{- else if eq $status "historical" }}
+  {{- $statusMeta = " · Status: Historical" }}
 {{- end }}
-- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}index.md){{ if .Params.deprecated }} [DEPRECATED]{{ end }}: {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ $supersededNote }})
+{{- with .Params.status_note }}
+  {{- $statusMeta = printf "%s · Note: %s" $statusMeta (. | replaceRE "\\s+" " " | strings.TrimSpace) }}
+{{- end }}
+- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}index.md): {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ $statusMeta }})
+{{- end }}
 {{- end }}
 
 ## Interactive Codelabs & Workshops
 {{- range (where .Site.RegularPages "Section" "codelabs").ByDate.Reverse }}
+{{- $status := lower (.Params.status | default "") }}
+{{- if not (in $retiredStatuses $status) }}
 {{- $desc := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}
-- **{{ .Title | plainify | htmlUnescape }}** ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ with .Params.externalUrl }} · Workshop URL: {{ . }}{{ end }}): {{ $desc }}
+{{- $statusMeta := "" }}
+{{- if eq $status "evergreen" }}
+  {{- $statusMeta = " · Status: Evergreen" }}
+{{- else if eq $status "historical" }}
+  {{- $statusMeta = " · Status: Historical" }}
+{{- end }}
+{{- with .Params.status_note }}
+  {{- $statusMeta = printf "%s · Note: %s" $statusMeta (. | replaceRE "\\s+" " " | strings.TrimSpace) }}
+{{- end }}
+- **{{ .Title | plainify | htmlUnescape }}** ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ with .Params.externalUrl }} · Workshop URL: {{ . }}{{ end }}{{ $statusMeta }}): {{ $desc }}
+{{- end }}
 {{- end }}
 
 ## Videos & Screencasts
@@ -54,4 +78,56 @@
 ## Talks & Conference Events
 {{- range .Site.Data.talks.talks }}
 - **{{ .title | plainify | htmlUnescape }}** — {{ .event | plainify | htmlUnescape }} ({{ .date }}{{ with .location }}, {{ . }}{{ end }}){{ with .recording }} · Recording: {{ . }}{{ end }}{{ with .slides }} · Slides: {{ . }}{{ end }}{{ with .codelab }} · Codelab: {{ . }}{{ end }}
+{{- end }}
+{{- $optionalPages := slice }}
+{{- range (where .Site.RegularPages "Section" "in" (slice "posts" "codelabs")).ByDate.Reverse }}
+  {{- if in $retiredStatuses (lower (.Params.status | default "")) }}
+    {{- $optionalPages = $optionalPages | append . }}
+  {{- end }}
+{{- end }}
+{{- if gt (len $optionalPages) 0 }}
+
+## Optional
+
+> Deprecated and superseded articles and codelabs kept for historical reference. Prefer the linked replacements for current guidance; see each item's note for concepts that remain evergreen.
+{{ range $optionalPages }}
+{{- $status := lower (.Params.status | default "") }}
+{{- $badge := cond (eq $status "deprecated") "[DEPRECATED]" "[SUPERSEDED]" }}
+{{- $seriesOrder := .Params.series_order }}
+{{- $desc := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " | plainify | htmlUnescape | truncate 180 | htmlUnescape }}
+{{- $supersededNote := "" }}
+{{- with .Params.superseded_by }}
+  {{- $refs := slice }}
+  {{- if reflect.IsSlice . }}{{- $refs = . }}{{- else }}{{- $refs = slice . }}{{- end }}
+  {{- $resolved := slice }}
+  {{- range $refs }}
+    {{- $ref := . }}
+    {{- with $site.GetPage $ref }}
+      {{- if .Permalink }}
+        {{- $resolved = $resolved | append (printf "[%s](%sindex.md)" (.Title | plainify | htmlUnescape) .Permalink) }}
+      {{- else if .Params.externalUrl }}
+        {{- $resolved = $resolved | append (printf "[%s](%s)" (.Title | plainify | htmlUnescape) .Params.externalUrl) }}
+      {{- else }}
+        {{- $resolved = $resolved | append (.Title | plainify | htmlUnescape) }}
+      {{- end }}
+    {{- else }}
+      {{- $resolved = $resolved | append $ref }}
+    {{- end }}
+  {{- end }}
+  {{- if gt (len $resolved) 0 }}
+    {{- $supersededNote = printf " · Superseded by: %s" (delimit $resolved ", ") }}
+  {{- end }}
+{{- end }}
+{{- $noteMeta := "" }}
+{{- with .Params.status_note }}
+  {{- $noteMeta = printf " · Note: %s" (. | replaceRE "\\s+" " " | strings.TrimSpace) }}
+{{- end }}
+{{- if .Permalink }}
+- [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}index.md) {{ $badge }}: {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ with .Params.series }} · Series: {{ if reflect.IsSlice . }}{{ index . 0 | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ with $seriesOrder }} #{{ . }}{{ end }}{{ end }}{{ with .Params.tags }} · Tags: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ $supersededNote }}{{ $noteMeta }})
+{{- else if .Params.externalUrl }}
+- [{{ .Title | plainify | htmlUnescape }}]({{ .Params.externalUrl }}) {{ $badge }}: {{ $desc }} ({{ .Date.Format "2006-01-02" }} · Codelab{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ $supersededNote }}{{ $noteMeta }})
+{{- else }}
+- **{{ .Title | plainify | htmlUnescape }}** {{ $badge }}: {{ $desc }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.categories }} · Category: {{ if reflect.IsSlice . }}{{ delimit . ", " | plainify | htmlUnescape }}{{ else }}{{ . | plainify | htmlUnescape }}{{ end }}{{ end }}{{ $supersededNote }}{{ $noteMeta }})
+{{- end }}
+{{- end }}
 {{- end }}

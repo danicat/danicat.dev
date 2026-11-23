@@ -20,6 +20,11 @@ dependencies:
   - "Gemini CLI"
   - "Antigravity CLI"
   - "Go / Python"
+status: "superseded"
+superseded_by:
+  - "/posts/20260615-state-of-agentic-coding"
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "チケット形式の構造化仕様、スケッチ駆動プロンプト、2x2ツール選定マトリクス、適応型 TDD レビューループ、コンテキスト劣化のリセット手法は現在も有効ですが、Gemini CLI の例や dotgemini による上書き、肥大化した AGENTS.md の運用はプランモード、Agent Skills、フック、サブエージェントへと進化しました。"
 ---
 
 一年の終わりは、自分が成し遂げたこと、そしてやっておけばよかったと悔やまれることを振り返る絶好の時期です。今年（2025年）は私にとって極めて密度の濃い一年でした。4月に Google に入社し、AI の新時代に向けて自分自身を「リファクタリング」するノンストップの挑戦が始まったのです。一年を締めくくろうとしている今、その努力は十分に報われたと胸を張って言えます — 私は確実に、より良いエンジニアへと成長しました。

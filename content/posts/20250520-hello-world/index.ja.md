@@ -13,6 +13,8 @@ aliases:
   - "/ja/posts/20250520-hello-world/"
 description: "danicat.devへようこそ：ソフトウェアエンジニアリング、Google Cloud、AIエージェント、キャリアの軌跡を発信するダニエラ・ペトルザレクの公式技術ブログ。"
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "2025年5月のブログ開設当時の紹介記事および著者プロフィールです。"
 ---
 
 テクノロジー業界で20年以上を過ごす中で、あるトピックに対する自身の理解を深める最も効果的な方法は「他の人と共有すること」だと実感してきました。このブログ `danicat.dev` は、まさにそのための専用の場所です。

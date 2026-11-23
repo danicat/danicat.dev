@@ -23,6 +23,8 @@ dependencies:
   - "Go 1.24+"
   - "Gemini CLI"
   - "Tenkai Framework"
+status: "evergreen"
+status_note: "Statistical evaluation methodology and Tenkai principles remain timeless, while the early benchmark runs used Gemini CLI and preview models."
 ---
 
 The shift from [determinism to non-determinism](https://newsletter.pragmaticengineer.com/p/martin-fowler) in software development is one of the biggest challenges we are facing as an industry right now.

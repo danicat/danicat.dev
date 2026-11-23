@@ -18,6 +18,8 @@ video: "https://www.youtube.com/watch?v=WzfYd6cV4gE"
 dependencies:
   - "Go 1.24+"
   - "MCP Go SDK"
+status: "evergreen"
+status_note: "MCP の中核アーキテクチャの解説は今も標準的ですが、SDK のバージョン、Gemini CLI デモへの言及、MCP Prompts と Agent Skills の使い分けはその後進化しています。"
 ---
 ## はじめに
 

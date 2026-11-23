@@ -16,6 +16,7 @@ aliases:
   - "/pt-br/posts/20260727-genai-and-art-is-it-really-just-slop/"
 description: "Um ensaio sobre a arte gerada por IA: é realmente apenas slop? Uma análise sobre gatekeeping, paralelos históricos, linguagem de domínio e intenção."
 proficiencyLevel: "Beginner"
+status: "evergreen"
 ---
 
 "Slop" é o insulto que define o atual ciclo da tecnologia. É uma palavra útil. Ela descreve o cansaço de abrir um feed lotado de conteúdo preguiçoso, gerado ao digitar três palavras numa caixa de prompt e publicar o resultado sem nenhum tipo de revisão. Mas será que ela deveria ser usada para rotular toda uma nova categoria de arte sem critério algum?

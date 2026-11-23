@@ -15,6 +15,8 @@ aliases:
   - "/ja/posts/20260113-my-year-in-review/"
 description: "2025年の振り返り：Google DevRelへの参加、規律あるバイブコーディングの確立、GoDoctorやSpeedgrapherなどMCPサーバーの開発、そして2026年への展望。"
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "2025年のマイルストーン、プロジェクト、目標を振り返る2026年1月時点の年次総括記事です。"
 ---
 
 2025 年がバックミラーの向こうへと去りゆく中、私は（当然のように）コーヒーを片手に腰を下ろし、この 1 年に起きた目まぐるしい出来事を整理しようとしています。今年を表す言葉を 1 つ選ぶとしたら、それは **加速（acceleration）** でしょう。

@@ -15,6 +15,8 @@ aliases:
   - "/pt-br/posts/20260113-my-year-in-review/"
 description: "Retrospectiva de 2025: entrada no Google DevRel, domínio do vibe coding com disciplina, lançamento dos servidores MCP GoDoctor e Speedgrapher e planos para 2026."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Retrospectiva pontual de janeiro de 2026 sobre os marcos, projetos e metas de 2025."
 ---
 
 À medida que 2025 desaparece pelo retrovisor, me vejo sentada com uma xícara de café (naturalmente), tentando processar tudo o que acabou de acontecer. Se eu tivesse que escolher uma única palavra para este ano, seria **aceleração**.

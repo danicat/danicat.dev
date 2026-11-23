@@ -19,6 +19,8 @@ dependencies:
   - "Hugo"
   - "Tailwind CSS"
   - "Jules AI Agent"
+status: "historical"
+status_note: "July 2025 early-beta Jules case study; lessons on clear specifications still apply, while the beta UX and latency details are dated."
 ---
 
 > *Author's note:* about 90% of this blog post is written by AI, but I proofread and edited it to ensure the post read nicely. It was funny how Jules had the tendency to brag about itself. I had to guide it with many prompts to get to this final result, but the last edit was easier to do manually. You can see the full edit history on the [PR commit history](https://github.com/danicat/danicat.dev/pull/6). A notable mention is that it completely refused to translate this post to Portuguese (Brazil) stating that it doesn't have translation capabilities, but the entirety of this blog was translated using Jules in a previous interaction. I guess it was not in the mood. :)

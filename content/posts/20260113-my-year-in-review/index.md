@@ -16,6 +16,8 @@ aliases:
   - "/posts/20260113-my-year-in-review/"
 description: "Retrospective on 2025: joining Google DevRel, embracing disciplined vibe coding, releasing GoDoctor and Speedgrapher MCP servers, and key lessons for 2026."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Point-in-time retrospective from January 2026 covering 2025 milestones, projects, and goals."
 ---
 
 As 2025 fades into the rearview mirror, I find myself sitting with a cup of coffee (naturally), trying to process what just happened. If I had to pick a single word for this year, it would be **acceleration**.

@@ -1,31 +1,44 @@
 {{ if .Params.showRelatedContent | default (.Site.Params.article.showRelatedContent | default false) }}
   {{ $currentPage := . }}
   {{ $limit := .Site.Params.article.relatedContentLimit | default 3 }}
+  {{ $retiredStatuses := slice "deprecated" "superseded" }}
   {{ $finalRelated := slice }}
-  {{ $seen := dict .RelPermalink true }}
+  {{ $seen := dict (.RelPermalink | default .Params.externalUrl) true }}
 
   {{/* 1. Manual Frontmatter Pinning (`related: ["/posts/..."]`) */}}
   {{ range .Params.related }}
     {{ with $currentPage.Site.GetPage . }}
-      {{ if and (not (index $seen .RelPermalink)) (not .Params.deprecated) }}
+      {{ $key := .RelPermalink | default .Params.externalUrl }}
+      {{ if and $key (not (index $seen $key)) (not (in $retiredStatuses (lower (.Params.status | default "")))) }}
         {{ $finalRelated = $finalRelated | append . }}
-        {{ $seen = merge $seen (dict .RelPermalink true) }}
+        {{ $seen = merge $seen (dict $key true) }}
       {{ end }}
     {{ end }}
   {{ end }}
 
-  {{/* 2. Hugo Related Content with `superseded_by` replacement & `deprecated` filtering */}}
+  {{/* 2. Hugo Related Content with `superseded_by` replacement & retired status filtering */}}
   {{ range (.Site.RegularPages.Related .) }}
     {{ if lt (len $finalRelated) $limit }}
-      {{ $candidate := . }}
       {{ with .Params.superseded_by }}
-        {{ with $currentPage.Site.GetPage . }}
-          {{ $candidate = . }}
+        {{ $refs := slice }}
+        {{ if reflect.IsSlice . }}{{ $refs = . }}{{ else }}{{ $refs = slice . }}{{ end }}
+        {{ range $refs }}
+          {{ if lt (len $finalRelated) $limit }}
+            {{ with $currentPage.Site.GetPage . }}
+              {{ $key := .RelPermalink | default .Params.externalUrl }}
+              {{ if and $key (not (in $retiredStatuses (lower (.Params.status | default "")))) (not (index $seen $key)) }}
+                {{ $finalRelated = $finalRelated | append . }}
+                {{ $seen = merge $seen (dict $key true) }}
+              {{ end }}
+            {{ end }}
+          {{ end }}
         {{ end }}
-      {{ end }}
-      {{ if and (not $candidate.Params.deprecated) (not (index $seen $candidate.RelPermalink)) }}
-        {{ $finalRelated = $finalRelated | append $candidate }}
-        {{ $seen = merge $seen (dict $candidate.RelPermalink true) }}
+      {{ else }}
+        {{ $key := .RelPermalink | default .Params.externalUrl }}
+        {{ if and $key (not (in $retiredStatuses (lower (.Params.status | default "")))) (not (index $seen $key)) }}
+          {{ $finalRelated = $finalRelated | append . }}
+          {{ $seen = merge $seen (dict $key true) }}
+        {{ end }}
       {{ end }}
     {{ end }}
   {{ end }}

@@ -26,6 +26,11 @@ dependencies:
   - "google-adk"
   - "osquery"
   - "Vertex AI"
+status: "deprecated"
+superseded_by:
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+status_note: "The 3-level diagnostic prompt structure and basic adk create and adk web mental model still hold, while the vertexai.preview.rag SDK code, gemini-2.5-flash, and RAG-for-osquery setup are obsolete."
 ---
 ## Introduction
 

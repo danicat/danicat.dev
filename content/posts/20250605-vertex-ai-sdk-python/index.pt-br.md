@@ -21,6 +21,11 @@ dependencies:
   - "Python 3.10+"
   - "google-genai"
   - "Google Cloud Vertex AI"
+status: "superseded"
+superseded_by:
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+  - "/posts/20260808-gemini-for-go-developers-part-1-model-family"
+status_note: "A explicação sobre payloads Content/Part sem estado em múltiplos turnos e function calling manual usa o SDK unificado google-genai e continua tecnicamente precisa, mas o gemini-2.0-flash, a nomenclatura Vertex AI SDK e a abordagem anterior à Interactions API estão datados."
 ---
 ## Introdução
 

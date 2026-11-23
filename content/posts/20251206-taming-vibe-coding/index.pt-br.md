@@ -21,6 +21,11 @@ dependencies:
   - "Gemini CLI"
   - "Antigravity CLI"
   - "Go / Python"
+status: "superseded"
+superseded_by:
+  - "/posts/20260615-state-of-agentic-coding"
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "Especificações estruturadas em estilo de ticket, prompting guiado por esboços, a matriz 2x2 de ferramentas, ciclos de revisão com TDD adaptado e o reset de context rot continuam atuais, mas os exemplos de Gemini CLI, os overrides dotgemini e o uso pesado de AGENTS.md evoluíram para plan mode, Agent Skills, hooks e subagentes."
 ---
 
 Chegou aquela época do ano de refletir sobre o que fizemos e o que gostaríamos de ter feito. Este ano foi intenso para mim: entrei no Google em abril e encarei uma corrida sem trégua para me refatorar e me adaptar ao mundo da IA. Com o ano chegando ao fim, posso dizer com total segurança que o esforço valeu a pena: tornei-me uma engenheira melhor.

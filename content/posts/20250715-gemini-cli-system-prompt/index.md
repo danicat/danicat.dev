@@ -18,8 +18,11 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI"
   - "Terminal"
-deprecated: true
-superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "The insight that built-in system prompts can clash with user context files like AGENTS.md and that sessions can distill rules remains valid, while Gemini CLI, its TypeScript prompt file, and GEMINI_SYSTEM_MD overrides are deprecated."
 ---
 
 {{< alert "circle-info" >}}

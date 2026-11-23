@@ -19,6 +19,11 @@ dependencies:
   - "Gemini CLI"
   - "Jules AI Agent"
   - "Git"
+status: "superseded"
+superseded_by:
+  - "/posts/20260615-state-of-agentic-coding"
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status_note: "The 2x2 Technical Certainty vs. Business Value framework for sync vs. async delegation remains evergreen, while its Gemini CLI recommendation and pre-skills, pre-subagent tooling map are outdated."
 ---
 ## Introduction
 

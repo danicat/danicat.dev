@@ -22,6 +22,11 @@ dependencies:
   - "google-cloud-aiplatform"
   - "osquery"
   - "LangChain"
+status: "deprecated"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "O template de prompt Role/Tools/Context/Task, a ferramenta de depuração auto-ativável e a recuperação de schema com PRAGMA table_info continuam úteis, mas o código legado de vertexai com LangChain e o ID de modelo preview estão obsoletos."
 ---
 ## Introdução
 

@@ -19,6 +19,11 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
   - "Gemini CLI / Antigravity CLI"
+status: "superseded"
+superseded_by:
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+  - "/posts/20260615-state-of-agentic-coding"
+status_note: "コードとしての編集ガイドライン、カスタム Gunning Fog 可読性スコア、多段階の執筆パイプラインは現在も有効ですが、Gemini CLI の MCP スラッシュコマンドでプロンプトテンプレートを提供する手法は Agent Skills に置き換わりました。"
 ---
 
 ## はじめに

@@ -25,6 +25,11 @@ dependencies:
   - "FastAPI"
   - "Uvicorn"
   - "Gemini CLI"
+status: "superseded"
+superseded_by:
+  - "/posts/20261027-designing-agentic-interfaces-with-a2ui-and-genkit"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "The retro streaming-avatar animation technique and multimodal screenshot-to-UI prompting remain useful concepts, while the Gemini CLI nanobanana workflow is deprecated and AIDA's UI moved to Genkit Go with A2UI (and Python ADK now provides get_fast_api_app)."
 ---
 
 For the past six months I have been exploring GenAI, vibe coding, agents and everything in between as part of my DevRel role at Google. Whenever I want to learn a new technology I find that the best way is to build something with it. One of my passion projects during this time has been the diagnostic agent: a software that could help people diagnose their computer problems using natural language.

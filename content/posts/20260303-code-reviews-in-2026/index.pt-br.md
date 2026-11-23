@@ -18,6 +18,7 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "golangci-lint"
   - "Ruff"
+status: "evergreen"
 ---
 
 Em 2025, vimos a ascensão do agentic coding (aparentemente o termo "vibe coding" já ficou obsoleto). Entre assistentes de IA e fluxos de trabalho agênticos, funcionalidades estão saindo do forno em um ritmo nunca antes visto. Não é raro ver empresas se gabando da porcentagem de sua base de código escrita inteiramente por IA.

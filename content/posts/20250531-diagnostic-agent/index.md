@@ -22,6 +22,11 @@ dependencies:
   - "Python 3.10+"
   - "google-cloud-aiplatform"
   - "osquery"
+status: "deprecated"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "Pairing an LLM with osquery SQL virtual tables via well-documented tool functions remains a sound pattern, while the legacy vertexai LangChain SDK and gemini-2.0-flash code are obsolete."
 ---
 _Space: the final frontier. These are the voyages of the starship Enterprise. Its 5-year mission: to explore strange new worlds; to seek out new life and new civilizations; to boldly go where no man has gone before._
 

@@ -21,6 +21,11 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Go 1.24+"
   - "Gemini CLI / Antigravity CLI"
+status: "superseded"
+superseded_by:
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+  - "/posts/20260615-state-of-agentic-coding"
+status_note: "Editorial guidelines as code, custom Gunning Fog readability scoring, and the multi-stage writing pipeline remain evergreen, while hosting prompt templates via Gemini CLI MCP slash commands has been superseded by Agent Skills."
 ---
 
 ## Introduction

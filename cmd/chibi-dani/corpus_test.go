@@ -36,10 +36,19 @@ func makeFixtures(suffix, extraPostSlug, extraPostTitle string) corpusFixtures {
 		"## Site Sections & Overview\n\n" +
 		"- [Homepage — danicat.dev](https://danicat.dev/index.md): Overview.\n" +
 		"- [About](https://danicat.dev/about/index.md): Bio and open-source tools.\n\n" +
+		"## Multi-Part Series\n" +
+		"- **Legacy Agent Series** (1 part) (Retired / Superseded): [Part 1: Early Prototype Agent](https://danicat.dev/posts/early-prototype-agent/index.md) [SUPERSEDED]\n\n" +
 		"## Articles & Deep Dives\n" +
 		extraLLMS +
 		"- [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md): Current skills guide. (2026-08-29 · Category: Agentic Coding)\n" +
-		"- [Mastering Agent Skills in Gemini CLI](https://danicat.dev/posts/agent-skills-gemini-cli/index.md) [DEPRECATED]: Old CLI skills guide. (2026-01-29 · Category: Agentic Coding · Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md))\n"
+		"- [Evergreen Architecture Essay](https://danicat.dev/posts/evergreen-architecture-essay/index.md): Timeless design lessons. (2025-08-11 · Category: Perspectives · Status: Evergreen)\n" +
+		"- [Early Beta Snapshot](https://danicat.dev/posts/early-beta-snapshot/index.md): Point-in-time preview notes. (2025-05-21 · Category: Agentic Coding · Status: Historical · Note: Early beta impressions; product capabilities have evolved.)\n\n" +
+		"## Interactive Codelabs & Workshops\n" +
+		"- **Build an Agent Codelab** (2026-08-29 · Intermediate · Workshop URL: https://danicat.dev/codelabs/): Hands-on agent workshop.\n\n" +
+		"## Optional\n" +
+		"> Deprecated and superseded articles and codelabs kept for historical reference. Prefer the linked replacements for current guidance; see each item's note for concepts that remain evergreen.\n" +
+		"- [Mastering Agent Skills in Gemini CLI](https://danicat.dev/posts/agent-skills-gemini-cli/index.md) [DEPRECATED]: Old CLI skills guide. (2026-01-29 · Category: Agentic Coding · Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md) · Note: Core skill structure remains valid; Gemini CLI is deprecated.)\n" +
+		"- [Early Prototype Agent](https://danicat.dev/posts/early-prototype-agent/index.md) [SUPERSEDED]: Early prototype walkthrough. (2025-10-31 · Category: Agent Development · Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md), [Modern Go Agent](https://danicat.dev/posts/modern-go-agent/index.md) · Note: Retro UI ideas remain evergreen; 2025 SDK code is obsolete.)\n"
 
 	enFull := "# danicat.dev — Daniela Petruzalek (Full Corpus)\n\n---\n\n" +
 		"# About\n\n- **Markdown URL**: https://danicat.dev/about/index.md\n- **HTML URL**: https://danicat.dev/about/\n\nGo and AI engineer.\n\n---\n\n" +
@@ -48,7 +57,10 @@ func makeFixtures(suffix, extraPostSlug, extraPostTitle string) corpusFixtures {
 		"# Videos & Screencasts\n\n- **HTML URL**: https://danicat.dev/videos/\n- **Demo Video**: Chibi Dani walkthrough.\n\n---" +
 		extraEN +
 		"\n# Pragmatic Guide to Agent Skills\n\n- **Markdown URL**: https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md\n- **HTML URL**: https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/\n- **Date**: 2026-08-29\n\nFull guide text.\n\n---\n\n" +
-		"# Mastering Agent Skills in Gemini CLI [DEPRECATED]\n\n- **Markdown URL**: https://danicat.dev/posts/agent-skills-gemini-cli/index.md\n- **HTML URL**: https://danicat.dev/posts/agent-skills-gemini-cli/\n- **Date**: 2026-01-29\n\nLegacy CLI text.\n\n---\n"
+		"# Evergreen Architecture Essay\n\n- **Markdown URL**: https://danicat.dev/posts/evergreen-architecture-essay/index.md\n- **HTML URL**: https://danicat.dev/posts/evergreen-architecture-essay/\n- **Date**: 2025-08-11\n- **Status**: Evergreen\n\nEvergreen essay body.\n\n---\n\n" +
+		"# Early Beta Snapshot\n\n- **Markdown URL**: https://danicat.dev/posts/early-beta-snapshot/index.md\n- **HTML URL**: https://danicat.dev/posts/early-beta-snapshot/\n- **Date**: 2025-05-21\n- **Status**: Historical\n- **Status Note**: Early beta impressions; product capabilities have evolved.\n\nHistorical snapshot text.\n\n---\n\n" +
+		"# Mastering Agent Skills in Gemini CLI [DEPRECATED]\n\n- **Markdown URL**: https://danicat.dev/posts/agent-skills-gemini-cli/index.md\n- **HTML URL**: https://danicat.dev/posts/agent-skills-gemini-cli/\n- **Date**: 2026-01-29\n- **Status**: Deprecated\n- **Superseded by**: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/) (https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md)\n- **Status Note**: Core skill structure remains valid; Gemini CLI is deprecated.\n\nLegacy CLI text.\n\n---\n\n" +
+		"# Early Prototype Agent [SUPERSEDED]\n\n- **Markdown URL**: https://danicat.dev/posts/early-prototype-agent/index.md\n- **HTML URL**: https://danicat.dev/posts/early-prototype-agent/\n- **Date**: 2025-10-31\n- **Status**: Superseded\n- **Superseded by**: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/) (https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md), [Modern Go Agent](https://danicat.dev/posts/modern-go-agent/) (https://danicat.dev/posts/modern-go-agent/index.md)\n- **Status Note**: Retro UI ideas remain evergreen; 2025 SDK code is obsolete.\n\nLegacy prototype text.\n\n---\n"
 
 	ptbrFull := "# danicat.dev — PT-BR\n\n---\n\n" +
 		"# Sobre\n\n- **Markdown URL**: https://danicat.dev/pt-br/about/index.md\n- **HTML URL**: https://danicat.dev/pt-br/about/\n\nEngenheira de Go e IA.\n\n---\n\n" +
@@ -101,24 +113,36 @@ func TestRemoteCorpusStorePreloadAndLookup(t *testing.T) {
 	}
 
 	snap := store.Snapshot()
-	if snap.PostCount != 2 {
-		t.Fatalf("expected 2 English posts, got %d", snap.PostCount)
+	if snap.PostCount != 5 {
+		t.Fatalf("expected 5 English posts, got %d", snap.PostCount)
 	}
-	if snap.SectionCount != 16 {
-		t.Fatalf("expected 16 total sections (6 en + 5 pt-br + 5 ja), got %d", snap.SectionCount)
+	if snap.SectionCount != 19 {
+		t.Fatalf("expected 19 total sections (9 en + 5 pt-br + 5 ja), got %d", snap.SectionCount)
 	}
 
 	if strings.Contains(snap.PromptIndex, "/index.md)") {
 		t.Fatalf("expected PromptIndex to rewrite /index.md) links to HTML URLs, got:\n%s", snap.PromptIndex)
 	}
-	if !strings.Contains(snap.PromptIndex, "[Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/)") {
-		t.Fatalf("expected canonical HTML post link in PromptIndex, got:\n%s", snap.PromptIndex)
+	wantPromptSubstrings := []string{
+		"[Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/)",
+		"## Multi-Part Series",
+		"[Part 1: Early Prototype Agent](https://danicat.dev/posts/early-prototype-agent/) [SUPERSEDED]",
+		"(Retired / Superseded)",
+		"Status: Evergreen",
+		"Status: Historical",
+		"Note: Early beta impressions; product capabilities have evolved.",
+		"## Optional",
+		"[Mastering Agent Skills in Gemini CLI](https://danicat.dev/posts/agent-skills-gemini-cli/) [DEPRECATED]",
+		"Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/)",
+		"Note: Core skill structure remains valid; Gemini CLI is deprecated.",
+		"[Early Prototype Agent](https://danicat.dev/posts/early-prototype-agent/) [SUPERSEDED]",
+		"Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/), [Modern Go Agent](https://danicat.dev/posts/modern-go-agent/)",
+		"Note: Retro UI ideas remain evergreen; 2025 SDK code is obsolete.",
 	}
-	if !strings.Contains(snap.PromptIndex, "[DEPRECATED]") {
-		t.Fatalf("expected [DEPRECATED] marker preserved in PromptIndex")
-	}
-	if !strings.Contains(snap.PromptIndex, "Superseded by: [Pragmatic Guide to Agent Skills](https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/)") {
-		t.Fatalf("expected Superseded by HTML link preserved in PromptIndex")
+	for _, want := range wantPromptSubstrings {
+		if !strings.Contains(snap.PromptIndex, want) {
+			t.Fatalf("expected PromptIndex to contain %q, got:\n%s", want, snap.PromptIndex)
+		}
 	}
 
 	lookupCases := []struct {
@@ -129,6 +153,12 @@ func TestRemoteCorpusStorePreloadAndLookup(t *testing.T) {
 		{"https://danicat.dev/posts/the-pragmatic-guide-to-agent-skills/index.md", "Full guide text."},
 		{"/posts/the-pragmatic-guide-to-agent-skills/", "Full guide text."},
 		{"posts/the-pragmatic-guide-to-agent-skills", "Full guide text."},
+		{"https://danicat.dev/posts/evergreen-architecture-essay/", "Evergreen essay body."},
+		{"https://danicat.dev/posts/early-beta-snapshot/", "Historical snapshot text."},
+		{"https://danicat.dev/posts/agent-skills-gemini-cli/", "Legacy CLI text."},
+		{"https://danicat.dev/posts/early-prototype-agent/", "Legacy prototype text."},
+		{"https://danicat.dev/posts/early-prototype-agent/index.md", "# Early Prototype Agent [SUPERSEDED]"},
+		{"posts/early-prototype-agent", "- **Status**: Superseded"},
 		{"https://danicat.dev/pt-br/posts/the-pragmatic-guide-to-agent-skills/", "Texto completo em portugues."},
 		{"pt-br/posts/the-pragmatic-guide-to-agent-skills", "Texto completo em portugues."},
 		{"https://danicat.dev/ja/posts/the-pragmatic-guide-to-agent-skills/", "日本語の全文。"},
@@ -293,8 +323,8 @@ func TestRemoteCorpusStoreDailyRefreshAndETag(t *testing.T) {
 	if snap2 == snap1 {
 		t.Fatalf("expected new snapshot pointer after 200 OK corpus update")
 	}
-	if snap2.PostCount != 3 {
-		t.Fatalf("expected 3 English posts after v2 refresh, got %d", snap2.PostCount)
+	if snap2.PostCount != 6 {
+		t.Fatalf("expected 6 English posts after v2 refresh, got %d", snap2.PostCount)
 	}
 	if !strings.Contains(snap2.PromptIndex, "Brand New Go Article") {
 		t.Fatalf("expected PromptIndex to include v2 article")
@@ -438,6 +468,39 @@ func TestSystemPromptHygiene(t *testing.T) {
 	for _, stale := range []string{"data/talks.json", "data/videos.json", "Files:"} {
 		if strings.Contains(baseSystemPrompt, stale) {
 			t.Fatalf("system_prompt.md contains stale local-file reference %q", stale)
+		}
+	}
+	hardcodedRefs := []string{
+		"Boldly Prompting",
+		"Building the Diagnostic Agent",
+		"Hitchhiker's Guide",
+		"AIDA v2",
+		"Beyond Dev-UI",
+		"GoDoctor",
+		"Gemini for Go Developers",
+		"Taming Vibe Coding",
+		"Pragmatic Guide to Agent Skills",
+	}
+	for _, ref := range hardcodedRefs {
+		if strings.Contains(baseSystemPrompt, ref) {
+			t.Fatalf("system_prompt.md must not hardcode article or series reference %q", ref)
+		}
+	}
+	requiredMarkers := []string{
+		"## Articles & Deep Dives",
+		"## Interactive Codelabs & Workshops",
+		"## Optional",
+		"[DEPRECATED]",
+		"[SUPERSEDED]",
+		"Superseded by:",
+		"Status: Evergreen",
+		"Status: Historical",
+		"Note:",
+		"## Multi-Part Series",
+	}
+	for _, marker := range requiredMarkers {
+		if !strings.Contains(baseSystemPrompt, marker) {
+			t.Fatalf("system_prompt.md must reference metadata marker %q", marker)
 		}
 	}
 }

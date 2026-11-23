@@ -19,6 +19,7 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI / Antigravity CLI"
   - "Model Context Protocol"
+status: "evergreen"
 ---
 
 If you have spent any significant amount of time in the software industry over the last decade, you have probably lived through an Agile transformation. You have sat through endless sprint plannings, shared your updates in daily standups, and maybe even questioned if the whole thing made any sense.

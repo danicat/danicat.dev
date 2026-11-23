@@ -21,8 +21,11 @@ dependencies:
   - "Ebitengine v2"
   - "Gemini CLI / Antigravity CLI"
   - "Google Cloud Run"
-deprecated: true
-superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260722-the-rise-of-the-subagents"
+status_note: "A escolha da stack Go com Ebitengine, o papel de Analista de Software orientado à linguagem de domínio e os padrões de plan mode e auditor de segurança continuam atuais, mas a configuração @browser_agent do Gemini CLI, a sintaxe .gemini/agents/, os modelos preview e o codelab antigo foram descontinuados; use o codelab atualizado de Match-3 para Antigravity (CloudCrush)."
 ---
 
 {{< alert "circle-info" >}}

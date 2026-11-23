@@ -18,6 +18,8 @@ dependencies:
   - "Hugo"
   - "Tailwind CSS"
   - "Jules AI Agent"
+status: "historical"
+status_note: "Estudo de caso de julho de 2025 com o Jules em beta inicial; as lições sobre clareza nas especificações continuam válidas, enquanto a UX e a latência do beta ficaram datadas."
 ---
 
 > *Nota da autora:* cerca de 90% deste post foi escrito por IA, mas revisei e editei o texto para garantir uma leitura agradável e fluida. Foi engraçado notar a tendência do Jules de se autoelogiar. Precisei guiá-lo com vários prompts até chegar a este resultado final, embora a última edição tenha sido mais fácil de fazer manualmente. Você pode conferir todo o histórico de edições no [histórico de commits do PR](https://github.com/danicat/danicat.dev/pull/6). Vale mencionar que ele se recusou terminantemente a traduzir este post para o português (Brasil), alegando que não tinha capacidades de tradução — mesmo com a totalidade deste blog tendo sido traduzida usando o Jules em uma interação anterior. Acho que ele só não estava no clima mesmo. :)

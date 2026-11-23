@@ -15,6 +15,7 @@ dependencies:
   - "Python 3"
   - "NumPy"
   - "Matplotlib"
+status: "evergreen"
 ---
 
 ## Introdução

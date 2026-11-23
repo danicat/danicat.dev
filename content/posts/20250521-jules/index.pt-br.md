@@ -12,6 +12,8 @@ aliases:
   - "/pt-br/posts/20250521-jules/"
 description: "Primeiras impressões sobre o Google Jules, o agente autônomo e assíncrono de programação. Veja a resolução de issues no GitHub, geração automatizada de PRs e o fluxo de trabalho."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Primeiras impressões do beta público do Jules no primeiro dia do Google I/O 2025; os recursos e a disponibilidade evoluíram desde a publicação."
 ---
 Olá, pessoal! Vamos falar sobre o Jules! Recém-saído do forno do Google I/O, este é o que o Google está chamando de agente autônomo de programação… mas o que é um agente autônomo de programação? Pense no [NotebookLM](https://notebooklm.google/), só que para código, uma IA especializada para te ajudar em tarefas de programação. A principal diferença em relação à abordagem tradicional de “vibe coding” é que, com o Jules, você pode importar seu projeto inteiro como contexto para a IA, de modo que todas as respostas ficam ancoradas no código real em que você está trabalhando!
 

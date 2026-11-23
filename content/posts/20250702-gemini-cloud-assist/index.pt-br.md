@@ -16,6 +16,8 @@ proficiencyLevel: "Beginner"
 dependencies:
   - "Google Cloud Platform"
   - "Terraform"
+status: "historical"
+status_note: "Passo a passo de julho de 2025 do preview público do Gemini Cloud Assist e do Application Design Center; auditar o Terraform gerado continua sendo um bom hábito, mas a interface e os recursos evoluíram."
 ---
 ## Introdução
 

@@ -12,6 +12,8 @@ aliases:
   - "/ja/posts/20250521-jules/"
 description: "Googleの非同期自律型コーディングエージェント「Jules」のファーストインプレッション。GitHub連携、自動PR生成、開発ワークフローの変化を解説。"
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Google I/O 2025 初日の Jules パブリックベータ版に関するファーストインプレッションです。機能や提供状況は公開当時から進化しています。"
 ---
 さあ皆さん、Julesについて語りましょう！Google I/Oからできたてホヤホヤで登場した、Googleが「自律型コーディングエージェント（autonomous coding agent）」と呼ぶ注目のツールです。……ところで、自律型コーディングエージェントとは一体何なのでしょうか？「コーディング版[NotebookLM](https://notebooklm.google/)」を想像してみてください。コーディング作業を支援するために特化したAIです。従来の「バイブコーディング（vibe coding）」アプローチとの大きな違いは、Julesではプロジェクト全体を丸ごとAIのコンテキストとしてインポートできる点です。そのため、すべての回答が実際に作業しているコードベースにしっかりと基づいたものになります！
 

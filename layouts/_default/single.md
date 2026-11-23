@@ -1,4 +1,37 @@
 {{- $summary := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " -}}
+{{- $site := .Site -}}
+{{- $statusLabels := dict "evergreen" "Evergreen" "historical" "Historical" "superseded" "Superseded" "deprecated" "Deprecated" -}}
+{{- $status := lower (.Params.status | default "") -}}
+{{- $supersededUrls := slice -}}
+{{- $supersededLinks := slice -}}
+{{- $supersededIsSlice := false -}}
+{{- with .Params.superseded_by -}}
+  {{- $refs := slice -}}
+  {{- if reflect.IsSlice . -}}
+    {{- $supersededIsSlice = true -}}
+    {{- $refs = . -}}
+  {{- else -}}
+    {{- $refs = slice . -}}
+  {{- end -}}
+  {{- range $refs -}}
+    {{- $ref := . -}}
+    {{- with $site.GetPage $ref -}}
+      {{- if .Permalink -}}
+        {{- $supersededUrls = $supersededUrls | append .Permalink -}}
+        {{- $supersededLinks = $supersededLinks | append (printf "[%s](%sindex.md) ([HTML](%s))" (.Title | plainify | htmlUnescape) .Permalink .Permalink) -}}
+      {{- else if .Params.externalUrl -}}
+        {{- $supersededUrls = $supersededUrls | append .Params.externalUrl -}}
+        {{- $supersededLinks = $supersededLinks | append (printf "[%s](%s)" (.Title | plainify | htmlUnescape) .Params.externalUrl) -}}
+      {{- else -}}
+        {{- $supersededUrls = $supersededUrls | append $ref -}}
+        {{- $supersededLinks = $supersededLinks | append (.Title | plainify | htmlUnescape) -}}
+      {{- end -}}
+    {{- else -}}
+      {{- $supersededUrls = $supersededUrls | append $ref -}}
+      {{- $supersededLinks = $supersededLinks | append $ref -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
 ---
 title: {{ .Title | plainify | htmlUnescape | jsonify }}
 {{- if not .Date.IsZero }}
@@ -28,11 +61,14 @@ proficiencyLevel: {{ . | jsonify }}
 {{- with .Params.dependencies }}
 dependencies: {{ . | jsonify }}
 {{- end }}
-{{- if .Params.deprecated }}
-deprecated: true
+{{- with $status }}
+status: {{ . | jsonify }}
 {{- end }}
-{{- with .Params.superseded_by }}
-superseded_by: {{ . | jsonify }}
+{{- if gt (len $supersededUrls) 0 }}
+superseded_by: {{ if $supersededIsSlice }}{{ $supersededUrls | jsonify (dict "noHTMLEscape" true) }}{{ else }}{{ index $supersededUrls 0 | jsonify (dict "noHTMLEscape" true) }}{{ end }}
+{{- end }}
+{{- with .Params.status_note }}
+status_note: {{ . | replaceRE "\\s+" " " | strings.TrimSpace | jsonify (dict "noHTMLEscape" true) }}
 {{- end }}
 language: {{ .Language.LanguageCode | jsonify }}
 {{- with .Translations }}
@@ -46,7 +82,7 @@ translations:
 url: {{ .Permalink }}
 ---
 
-# {{ .Title | plainify | htmlUnescape }}
+# {{ .Title | plainify | htmlUnescape }}{{ if eq $status "deprecated" }} [DEPRECATED]{{ else if eq $status "superseded" }} [SUPERSEDED]{{ end }}
 
 > For the complete documentation index, see [llms.txt]({{ "llms.txt" | absLangURL }}) or the full site corpus at [llms-full.txt]({{ "llms-full.txt" | absLangURL }}).
 
@@ -61,6 +97,15 @@ url: {{ .Permalink }}
 {{- end }}
 {{- if not .Date.IsZero }}
 - **Date**: {{ .Date.Format "2006-01-02" }}
+{{- end }}
+{{- with index $statusLabels $status }}
+- **Status**: {{ . }}
+{{- end }}
+{{- if gt (len $supersededLinks) 0 }}
+- **Superseded by**: {{ delimit $supersededLinks ", " }}
+{{- end }}
+{{- with .Params.status_note }}
+- **Status Note**: {{ . | replaceRE "\\s+" " " | strings.TrimSpace }}
 {{- end }}
 {{- with .Params.categories }}
 - **Categories**: {{ delimit . ", " }}

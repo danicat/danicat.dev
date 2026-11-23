@@ -39,12 +39,47 @@
 ---
 {{- end }}
 
+{{- $site := .Site }}
+{{- $statusLabels := dict "evergreen" "Evergreen" "historical" "Historical" "superseded" "Superseded" "deprecated" "Deprecated" }}
+
 # Interactive Codelabs & Workshops
 
 - **HTML URL**: {{ "codelabs/" | absLangURL }}
 {{- range (where .Site.RegularPages "Section" "codelabs").ByDate.Reverse }}
 {{- $desc := (.Params.description | default (.Params.summary | default "")) | replaceRE "\\s+" " " | plainify | htmlUnescape }}
-- **{{ .Title | plainify | htmlUnescape }}** ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ with .Params.externalUrl }} · Workshop URL: {{ . }}{{ end }}): {{ $desc }}
+{{- $cStatus := lower (.Params.status | default "") }}
+{{- $cBadge := "" }}
+{{- if eq $cStatus "deprecated" }}{{- $cBadge = " [DEPRECATED]" }}{{- else if eq $cStatus "superseded" }}{{- $cBadge = " [SUPERSEDED]" }}{{- end }}
+{{- $cStatusMeta := "" }}
+{{- if eq $cStatus "evergreen" }}{{- $cStatusMeta = " · Status: Evergreen" }}{{- else if eq $cStatus "historical" }}{{- $cStatusMeta = " · Status: Historical" }}{{- end }}
+{{- $cSuperseded := "" }}
+{{- with .Params.superseded_by }}
+  {{- $refs := slice }}
+  {{- if reflect.IsSlice . }}{{- $refs = . }}{{- else }}{{- $refs = slice . }}{{- end }}
+  {{- $resolved := slice }}
+  {{- range $refs }}
+    {{- $ref := . }}
+    {{- with $site.GetPage $ref }}
+      {{- if .Permalink }}
+        {{- $resolved = $resolved | append (printf "[%s](%s) (%sindex.md)" (.Title | plainify | htmlUnescape) .Permalink .Permalink) }}
+      {{- else if .Params.externalUrl }}
+        {{- $resolved = $resolved | append (printf "[%s](%s)" (.Title | plainify | htmlUnescape) .Params.externalUrl) }}
+      {{- else }}
+        {{- $resolved = $resolved | append (.Title | plainify | htmlUnescape) }}
+      {{- end }}
+    {{- else }}
+      {{- $resolved = $resolved | append $ref }}
+    {{- end }}
+  {{- end }}
+  {{- if gt (len $resolved) 0 }}
+    {{- $cSuperseded = printf " · Superseded by: %s" (delimit $resolved ", ") }}
+  {{- end }}
+{{- end }}
+{{- $cNote := "" }}
+{{- with .Params.status_note }}
+  {{- $cNote = printf " · Note: %s" (. | replaceRE "\\s+" " " | strings.TrimSpace) }}
+{{- end }}
+- **{{ .Title | plainify | htmlUnescape }}**{{ $cBadge }} ({{ .Date.Format "2006-01-02" }}{{ with .Params.proficiencyLevel }} · {{ . }}{{ end }}{{ with .Params.dependencies }} · Stack: {{ delimit . ", " }}{{ end }}{{ with .Params.externalUrl }} · Workshop URL: {{ . }}{{ end }}{{ $cStatusMeta }}{{ $cSuperseded }}{{ $cNote }}): {{ $desc }}
 {{- end }}
 
 ---
@@ -67,24 +102,43 @@
 
 ---
 
-{{- $site := .Site }}
 {{- range (where .Site.RegularPages "Section" "posts").ByDate.Reverse }}
 {{- $summary := (.Params.description | default (.Summary | plainify | htmlUnescape)) | replaceRE "\\s+" " " }}
+{{- $status := lower (.Params.status | default "") }}
+{{- $seriesOrder := .Params.series_order }}
 
-# {{ .Title | plainify | htmlUnescape }}{{ if .Params.deprecated }} [DEPRECATED]{{ end }}
+# {{ .Title | plainify | htmlUnescape }}{{ if eq $status "deprecated" }} [DEPRECATED]{{ else if eq $status "superseded" }} [SUPERSEDED]{{ end }}
 
 - **Markdown URL**: {{ .Permalink }}index.md
 - **HTML URL**: {{ .Permalink }}
 - **Date**: {{ .Date.Format "2006-01-02" }}
-{{- if .Params.deprecated }}
-- **Status**: DEPRECATED
+{{- with index $statusLabels $status }}
+- **Status**: {{ . }}
 {{- end }}
 {{- with .Params.superseded_by }}
-  {{- with $site.GetPage . }}
-- **Superseded by**: [{{ .Title | plainify | htmlUnescape }}]({{ .Permalink }}) ({{ .Permalink }}index.md)
-  {{- else }}
-- **Superseded by**: {{ . }}
+  {{- $refs := slice }}
+  {{- if reflect.IsSlice . }}{{- $refs = . }}{{- else }}{{- $refs = slice . }}{{- end }}
+  {{- $resolved := slice }}
+  {{- range $refs }}
+    {{- $ref := . }}
+    {{- with $site.GetPage $ref }}
+      {{- if .Permalink }}
+        {{- $resolved = $resolved | append (printf "[%s](%s) (%sindex.md)" (.Title | plainify | htmlUnescape) .Permalink .Permalink) }}
+      {{- else if .Params.externalUrl }}
+        {{- $resolved = $resolved | append (printf "[%s](%s)" (.Title | plainify | htmlUnescape) .Params.externalUrl) }}
+      {{- else }}
+        {{- $resolved = $resolved | append (.Title | plainify | htmlUnescape) }}
+      {{- end }}
+    {{- else }}
+      {{- $resolved = $resolved | append $ref }}
+    {{- end }}
   {{- end }}
+  {{- if gt (len $resolved) 0 }}
+- **Superseded by**: {{ delimit $resolved ", " }}
+  {{- end }}
+{{- end }}
+{{- with .Params.status_note }}
+- **Status Note**: {{ . | replaceRE "\\s+" " " | strings.TrimSpace }}
 {{- end }}
 {{- with .Params.categories }}
 - **Categories**: {{ delimit . ", " }}
@@ -93,7 +147,7 @@
 - **Tags**: {{ delimit . ", " }}
 {{- end }}
 {{- with .Params.series }}
-- **Series**: {{ index . 0 }}{{ with $.Params.series_order }} (Part {{ . }}){{ end }}
+- **Series**: {{ index . 0 }}{{ with $seriesOrder }} (Part {{ . }}){{ end }}
 {{- end }}
 {{- with $summary }}
 - **Summary**: {{ . }}

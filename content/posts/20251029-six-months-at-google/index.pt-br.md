@@ -14,6 +14,8 @@ aliases:
   - "/pt-br/posts/20251029-six-months-at-google/"
 description: "Retrospectiva dos meus primeiros seis meses como Engenheira de DevRel no Google. Abrange 15 eventos globais, reskilling no ecossistema de IA (MCP, Agents) e conquistas pessoais."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Reflexão pontual de outubro de 2025 sobre o marco dos primeiros seis meses de carreira em DevRel no Google."
 ---
 
 Hoje chego a um marco muito especial: completei oficialmente meus primeiros seis meses no Google!

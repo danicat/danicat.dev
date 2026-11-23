@@ -27,6 +27,11 @@ dependencies:
   - "Qwen 2.5"
   - "SQLite"
   - "sqlite-rag"
+status: "superseded"
+superseded_by:
+  - "/posts/20261006-building-agentic-backends-with-genkit-go"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "Offline local-model fallback (Ollama with LiteLLM), quantized SQLite vectors, and slimming prompts for small models remain useful concepts, while the Python 3.14 workaround, early Python ADK code, and SQLite RAG schema lookup for AIDA were replaced by the Genkit Go and Agent Skills rewrite."
 ---
 
 In [Part 5 of this series]({{< ref "/posts/20251031-building-aida" >}}), we focused on building a custom client interface for our agent. It was a great step in making the agent more usable, but it was still lacking a key feature: what happens when the network is down?

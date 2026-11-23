@@ -16,6 +16,7 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "golangci-lint"
   - "Ruff"
+status: "evergreen"
 ---
 
 2025年はエージェンティック・コーディング（agentic coding）が台頭した年でした（どうやら「バイブコーディング（vibe coding）」という言葉はもう廃れつつあるようです）。AIアシスタントや自律型エージェントワークフローの普及により、かつてないペースで新機能が次々と世に送り出されています。自社のコードベースの何十パーセントがAIによって完全に書かれているかを企業が誇らしげに語るのも、今や日常茶飯事です。

@@ -12,6 +12,8 @@ aliases:
   - "/ja/posts/20250528-vibe-coding/"
 description: "誰でもバイブコーディングできるのか？AIが参入障壁を下げる一方で、古典的なソフトウェアエンジニアリングの規律とオーケストレーションが重要になる理由を考察。"
 proficiencyLevel: "Beginner"
+status: "evergreen"
+status_note: "キャリア観に関する中核的な議論は普遍的であり、「コードを書くことの先へ」でさらに掘り下げられています。"
 ---
 
 ## はじめに

@@ -22,8 +22,9 @@ dependencies:
   - "Gemini CLI >= 0.1.0"
   - "Node.js >= 18"
   - "Python 3.10+"
-deprecated: true
+status: "deprecated"
 superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "The triggers for authoring skills and concrete patterns (latest-version, pyhd, find-examples, de-sloppify) remain useful inspiration, while Gemini CLI's skill-creator flow is deprecated and superseded by /skill-optimizer, /learn, and kungfu."
 ---
 
 {{< alert "circle-info" >}}

@@ -18,6 +18,7 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI / Antigravity CLI"
   - "Model Context Protocol"
+status: "evergreen"
 ---
 
 過去10年ほどの間にソフトウェア業界で過ごした経験がある方なら、おそらく一度は「アジャイル変革（アジャイルトランスフォーメーション）」を経験したことがあるでしょう。終わりの見えないスプリントプランニングに同席し、デイリースタンドアップで進捗を共有しながら、「これらに本当に意味があるのだろうか？」と疑問を抱いたことさえあるかもしれません。

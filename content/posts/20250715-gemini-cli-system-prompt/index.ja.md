@@ -17,8 +17,11 @@ proficiencyLevel: "Intermediate"
 dependencies:
   - "Gemini CLI"
   - "Terminal"
-deprecated: true
-superseded_by: "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status: "deprecated"
+superseded_by:
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+  - "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "組み込みシステムプロンプトが AGENTS.md などのユーザーコンテキストファイルと衝突し得ることや、セッションからルールを抽出する考え方は今も有効ですが、Gemini CLI 本体、TypeScript 製プロンプトファイル、GEMINI_SYSTEM_MD 環境変数による上書きは非推奨となりました。"
 ---
 
 {{< alert "circle-info" >}}

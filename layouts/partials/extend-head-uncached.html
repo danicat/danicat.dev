@@ -6,7 +6,87 @@
 <link rel="alternate" hreflang="x-default" href="{{ .Permalink }}" />
 {{ end }}
 {{ end }}
-<link rel="describedby" href="{{ absLangURL "llms.txt" }}" />
 {{- if and .IsPage (eq .Section "posts") (not .Params.externalURL) }}
 <link rel="alternate" type="text/markdown" href="{{ .Permalink }}index.md" title="{{ .Title }} (Markdown)" />
+{{- end }}
+{{- if .IsPage }}
+{{- $current := . }}
+{{- $site := .Site }}
+{{- $retiredStatuses := slice "deprecated" "superseded" }}
+{{- with .Params.superseded_by }}
+  {{- $refs := slice }}
+  {{- if reflect.IsSlice . }}{{- $refs = . }}{{- else }}{{- $refs = slice . }}{{- end }}
+  {{- $targets := slice }}
+  {{- $seenSucc := dict }}
+  {{- range $refs }}
+    {{- $ref := . }}
+    {{- with $site.GetPage $ref }}
+      {{- $targetUrl := .Permalink | default .Params.externalUrl }}
+      {{- if and $targetUrl (ne $targetUrl $current.Permalink) (not (index $seenSucc $targetUrl)) }}
+        {{- $seenSucc = merge $seenSucc (dict $targetUrl true) }}
+        {{- $targets = $targets | append . }}
+<link rel="successor-version" href="{{ $targetUrl }}" title="{{ .Title | plainify | htmlUnescape }}" />
+      {{- end }}
+    {{- else }}
+      {{- if and (hasPrefix $ref "http") (not (index $seenSucc $ref)) }}
+        {{- $seenSucc = merge $seenSucc (dict $ref true) }}
+<link rel="successor-version" href="{{ $ref }}" />
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- $latest := false }}
+  {{- range $targets }}
+    {{- if not $latest }}
+      {{- $cur := . }}
+      {{- $visited := dict ($cur.Permalink | default $cur.Params.externalUrl) true }}
+      {{- range seq 5 }}
+        {{- with $cur.Params.superseded_by }}
+          {{- $nextRefs := slice }}
+          {{- if reflect.IsSlice . }}{{- $nextRefs = . }}{{- else }}{{- $nextRefs = slice . }}{{- end }}
+          {{- if gt (len $nextRefs) 0 }}
+            {{- with $site.GetPage (index $nextRefs 0) }}
+              {{- $nextKey := .Permalink | default .Params.externalUrl }}
+              {{- if and $nextKey (not (index $visited $nextKey)) }}
+                {{- $cur = . }}
+                {{- $visited = merge $visited (dict $nextKey true) }}
+              {{- end }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+      {{- if not (in $retiredStatuses (lower ($cur.Params.status | default ""))) }}
+        {{- $latest = $cur }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+  {{- with $latest }}
+    {{- $latestUrl := .Permalink | default .Params.externalUrl }}
+    {{- if $latestUrl }}
+<link rel="latest-version" href="{{ $latestUrl }}" title="{{ .Title | plainify | htmlUnescape }}" />
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- if $current.Permalink }}
+  {{- $seenPred := dict }}
+  {{- range $site.RegularPages.ByDate }}
+    {{- $p := . }}
+    {{- if ne $p.Permalink $current.Permalink }}
+      {{- with $p.Params.superseded_by }}
+        {{- $refs := slice }}
+        {{- if reflect.IsSlice . }}{{- $refs = . }}{{- else }}{{- $refs = slice . }}{{- end }}
+        {{- range $refs }}
+          {{- with $site.GetPage . }}
+            {{- if eq .Permalink $current.Permalink }}
+              {{- $pUrl := $p.Permalink | default $p.Params.externalUrl }}
+              {{- if and $pUrl (not (index $seenPred $pUrl)) }}
+                {{- $seenPred = merge $seenPred (dict $pUrl true) }}
+<link rel="predecessor-version" href="{{ $pUrl }}" title="{{ $p.Title | plainify | htmlUnescape }}" />
+              {{- end }}
+            {{- end }}
+          {{- end }}
+        {{- end }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+{{- end }}
 {{- end }}

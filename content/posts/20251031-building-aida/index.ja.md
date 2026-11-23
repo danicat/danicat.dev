@@ -25,6 +25,11 @@ dependencies:
   - "FastAPI"
   - "Uvicorn"
   - "Gemini CLI"
+status: "superseded"
+superseded_by:
+  - "/posts/20261027-designing-agentic-interfaces-with-a2ui-and-genkit"
+  - "/posts/20261120-ai-agents-from-scratch-with-google-adk"
+status_note: "リアルタイムストリーミング同期のレトロアバター表現やスクリーンショットからのマルチモーダル UI 生成の考え方は今も有用ですが、Gemini CLI と nanobanana の手順は非推奨となり、AIDA の UI は Genkit Go と A2UI に移行しました（Python ADK も現在は get_fast_api_app を提供しています）。"
 ---
 
 この半年間、Google での DevRel 業務の一環として、GenAI、バイブコーディング、エージェント開発、そしてその間にあるあらゆる領域を探求してきました。新しい技術を学ぶときは、実際に何かを作ってみるのが一番の近道だといつも感じています。この期間に私が情熱を注いできたプロジェクトのひとつが「診断エージェント」でした。これは、自然言語を使ってコンピューターのトラブルを診断できるソフトウェアです。

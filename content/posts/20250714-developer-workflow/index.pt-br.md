@@ -18,6 +18,11 @@ dependencies:
   - "Gemini CLI"
   - "Jules AI Agent"
   - "Git"
+status: "superseded"
+superseded_by:
+  - "/posts/20260615-state-of-agentic-coding"
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status_note: "O framework 2x2 de Certeza Técnica vs. Valor de Negócio para delegação síncrona e assíncrona continua atual, mas a recomendação da Gemini CLI e o mapa de ferramentas anterior a skills e subagentes estão desatualizados."
 ---
 ## Introdução
 

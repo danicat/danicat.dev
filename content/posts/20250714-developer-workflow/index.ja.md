@@ -18,6 +18,11 @@ dependencies:
   - "Gemini CLI"
   - "Jules AI Agent"
   - "Git"
+status: "superseded"
+superseded_by:
+  - "/posts/20260615-state-of-agentic-coding"
+  - "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0"
+status_note: "技術的確実性とビジネス価値の2x2マトリクスによる同期・非同期の使い分けフレームワークは今も有効ですが、Gemini CLI の推奨や Agent Skills・サブエージェント登場以前のツール選定マップは古くなっています。"
 ---
 
 ## はじめに

@@ -21,8 +21,9 @@ dependencies:
   - "Gemini CLI >= 0.1.0"
   - "Node.js >= 18"
   - "Python 3.10+"
-deprecated: true
+status: "deprecated"
 superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
+status_note: "スキル作成の判断基準や具体例（latest-version、pyhd、find-examples、de-sloppify）は現在も参考になりますが、Gemini CLI の skill-creator フローは非推奨となり、/skill-optimizer・/learn・kungfu に置き換わりました。"
 ---
 
 {{< alert "circle-info" >}}

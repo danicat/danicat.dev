@@ -16,6 +16,8 @@ aliases:
   - "/posts/20251029-six-months-at-google/"
 description: "Retrospective on my first six months as a Google DevRel Engineer. Covers 15 global events, AI ecosystem reskilling (MCP, Agents), and personal milestones."
 proficiencyLevel: "Beginner"
+status: "historical"
+status_note: "Point-in-time career milestone reflection from October 2025 covering the first six months in Google DevRel."
 ---
 
 Today marks a very special milestone for me: I have officially completed my first six months at Google!
