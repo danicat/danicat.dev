@@ -22,7 +22,7 @@
       "recording": null,
       "source_code": null,
       "codelab": null,
-      "materials": "/posts/state-of-agentic-coding/",
+      "materials": null,
       "language": "en",
       "tags": [
         "agent-skills",
@@ -47,7 +47,7 @@
       "recording": null,
       "source_code": null,
       "codelab": null,
-      "materials": "/posts/state-of-agentic-coding/",
+      "materials": null,
       "language": "en",
       "tags": [
         "agent-skills",
@@ -70,9 +70,9 @@
       "image": null,
       "slides": null,
       "recording": null,
-      "source_code": "https://github.com/danicat/kungfu",
+      "source_code": null,
       "codelab": null,
-      "materials": "/posts/the-pragmatic-guide-to-agent-skills/",
+      "materials": null,
       "language": "en",
       "tags": [
         "agent-skills",
@@ -97,7 +97,7 @@
       "recording": null,
       "source_code": null,
       "codelab": null,
-      "materials": "/posts/ai-agents-from-scratch-with-google-adk/",
+      "materials": null,
       "language": "en",
       "tags": [
         "adk",
@@ -122,7 +122,7 @@
       "recording": null,
       "source_code": null,
       "codelab": null,
-      "materials": "/posts/ai-agents-from-scratch-with-google-adk/",
+      "materials": null,
       "language": "en",
       "tags": [
         "adk",
@@ -146,7 +146,7 @@
       "slides": "https://speakerdeck.com/danicat/cloud-day-athens-build-a-2d-game-with-gemini-1",
       "recording": null,
       "source_code": null,
-      "codelab": "https://codelabs.developers.google.com/gemini-match3-golang#0",
+      "codelab": null,
       "materials": null,
       "language": "en",
       "tags": [
@@ -173,7 +173,7 @@
       "recording": null,
       "source_code": null,
       "codelab": null,
-      "materials": "/posts/gemini-for-go-developers-part-1-model-family/",
+      "materials": null,
       "language": "en",
       "tags": [
         "gemini",

@@ -54,7 +54,12 @@
         {{ end }}
       {{ end }}
     {{ end }}
-    {{ $thumbUrl := $e.recording | default ($e.slides | default ($e.codelab | default ($e.materials | default ($e.source_code | default $e.url)))) }}
+    {{ $thumbUrl := "" }}
+    {{ if and $isUpcoming $e.url }}
+      {{ $thumbUrl = $e.url }}
+    {{ else }}
+      {{ $thumbUrl = $e.recording | default ($e.slides | default ($e.codelab | default ($e.materials | default ($e.source_code | default $e.url)))) }}
+    {{ end }}
 
     <article class="article-link--simple event-card danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative" data-year="{{ $eventTime.Year }}">
       {{ if $e.recording }}

@@ -34,10 +34,13 @@
   {{ $resolvedThumbnail = "/images/talks/placeholder.png" }}
 {{ end }}
 
-{{/* Priority Thumbnail Action: 1. Video -> 2. Slides -> 3. Codelab/Materials -> 4. Source Code -> 5. Event URL */}}
+{{/* Priority Thumbnail Action: Upcoming events always link to the event page first; past events: Video -> Slides -> Codelab/Article -> Source Code -> Event URL */}}
 {{ $thumbAction := "" }}
 {{ $thumbUrl := "" }}
-{{ if $e.recording }}
+{{ if and $isUpcoming $e.url }}
+  {{ $thumbAction = "link" }}
+  {{ $thumbUrl = $e.url }}
+{{ else if $e.recording }}
   {{ $thumbAction = "video" }}
   {{ $thumbUrl = $e.recording }}
 {{ else if $e.slides }}
@@ -170,7 +173,7 @@
             <polyline points="4 17 10 11 4 5"/>
             <line x1="12" y1="19" x2="20" y2="19"/>
           </svg>
-          <span>{{ if $e.codelab }}{{ i18n "event_codelab_label" | default "Codelab" }}{{ else }}{{ i18n "event_materials_label" | default "Materials" }}{{ end }}</span>
+          <span>{{ if $e.codelab }}{{ i18n "event_codelab_label" | default "Codelab" }}{{ else }}{{ i18n "event_materials_label" | default "Article" }}{{ end }}</span>
           <span class="card-action-arrow" aria-hidden="true">&#8599;</span>
         </a>
       {{ end }}
