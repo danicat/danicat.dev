@@ -1,25 +1,42 @@
 (function () {
   "use strict";
 
+  function detectPageLang() {
+    var path = window.location.pathname || "/";
+    if (path === "/pt-br" || path.indexOf("/pt-br/") === 0) return "pt-br";
+    if (path === "/ja" || path.indexOf("/ja/") === 0) return "ja";
+    var docLang = (document.documentElement.lang || "").toLowerCase();
+    if (docLang.indexOf("pt") === 0) return "pt-br";
+    if (docLang.indexOf("ja") === 0) return "ja";
+    return "en";
+  }
+
+  function langPrefix(lang) {
+    if (lang === "pt-br" || lang === "ja") return "/" + lang;
+    return "";
+  }
+
   function registerWebMCPTools() {
     var ctx = document.modelContext || navigator.modelContext;
     if (!ctx || typeof ctx.registerTool !== "function") {
       return;
     }
 
-    var cachedIndex = null;
-    async function loadSearchIndex() {
-      if (cachedIndex) {
-        return cachedIndex;
+    var cachedByLang = {};
+    async function loadSearchIndex(lang) {
+      var targetLang = lang === "pt-br" || lang === "ja" || lang === "en" ? lang : detectPageLang();
+      if (cachedByLang[targetLang]) {
+        return cachedByLang[targetLang];
       }
-      var res = await fetch("/index.json", {
+      var indexUrl = langPrefix(targetLang) + "/index.json";
+      var res = await fetch(indexUrl, {
         headers: { Accept: "application/json" },
       });
       if (!res.ok) {
-        throw new Error("Failed to fetch /index.json: HTTP " + res.status);
+        throw new Error("Failed to fetch " + indexUrl + ": HTTP " + res.status);
       }
-      cachedIndex = await res.json();
-      return cachedIndex;
+      cachedByLang[targetLang] = await res.json();
+      return cachedByLang[targetLang];
     }
 
     ctx.registerTool({
@@ -47,7 +64,7 @@
           lang: {
             type: "string",
             description:
-              "Optional language code filter ('en', 'pt-br', 'ja'). Defaults to all languages.",
+              "Optional language code filter ('en', 'pt-br', 'ja'). Defaults to the active page language.",
           },
           limit: {
             type: "number",
@@ -60,13 +77,13 @@
         readOnlyHint: true,
       },
       execute: async function (args) {
-        var items = await loadSearchIndex();
+        var langFilter = args && args.lang ? String(args.lang).toLowerCase() : "";
+        var items = await loadSearchIndex(langFilter || detectPageLang());
         var q = String((args && args.query) || "")
           .toLowerCase()
           .trim();
         var catFilter = args && args.category ? String(args.category).toLowerCase() : "";
         var secFilter = args && args.section ? String(args.section).toLowerCase() : "";
-        var langFilter = args && args.lang ? String(args.lang).toLowerCase() : "";
         var limit = args && args.limit ? Number(args.limit) : 10;
 
         var matches = items.filter(function (item) {
@@ -131,6 +148,8 @@
         readOnlyHint: true,
       },
       execute: async function () {
+        var activeLang = detectPageLang();
+        var prefix = langPrefix(activeLang);
         var mdLink = document.querySelector('link[rel="alternate"][type="text/markdown"]');
         return {
           content: [
@@ -138,12 +157,13 @@
               type: "text",
               text: JSON.stringify(
                 {
+                  lang: activeLang,
                   currentPageMarkdown: mdLink ? mdLink.href : window.location.pathname.replace(/\/?$/, "/index.md"),
-                  llmsTxt: "/llms.txt",
-                  llmsFullTxt: "/llms-full.txt",
+                  llmsTxt: prefix + "/llms.txt",
+                  llmsFullTxt: prefix + "/llms-full.txt",
                   aiCatalog: "/.well-known/ai-catalog.json",
                   apiCatalog: "/.well-known/api-catalog",
-                  searchIndex: "/index.json",
+                  searchIndex: prefix + "/index.json",
                 },
                 null,
                 2

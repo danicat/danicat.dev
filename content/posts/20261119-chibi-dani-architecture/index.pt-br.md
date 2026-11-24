@@ -37,7 +37,7 @@ No artigo de hoje, vamos explorar como proteger seus agentes usando uma abordage
 - Princípio do menor privilégio: o agente deve ter acesso apenas ao conjunto mínimo de permissões, ferramentas e informações necessárias para o seu trabalho.
 - Zero trust: faça triagem de todos os prompts com Model Armor para garantir que nenhuma tentativa maliciosa chegue ao backend.
 
-Para demonstrar esses conceitos, estou usando minha própria assistente, a "Chibi Dani": uma agente companheira do `danicat.dev` que responde perguntas com base no meu conteúdo publicado. Você pode brincar com a Chibi clicando no avatar dela no canto superior direito da tela. Normalmente eu não incentivaria esse comportamento mas, excepcionalmente hoje, você pode tentar explorá-la para testar os recursos de segurança e as restrições deste artigo. Eu não vou julgar, prometo.
+Para demonstrar esses conceitos, estou usando minha própria assistente, a ["Chibi Dani"](/pt-br/chibi/): uma agente companheira do `danicat.dev` que responde perguntas com base no meu conteúdo publicado. Você pode brincar com a Chibi clicando no avatar dela no canto superior direito da tela. Normalmente eu não incentivaria esse comportamento mas, excepcionalmente hoje, você pode tentar explorá-la para testar os recursos de segurança e as restrições deste artigo. Eu não vou julgar, prometo.
 
 ## Visão geral da arquitetura
 

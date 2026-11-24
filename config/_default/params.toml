@@ -14,7 +14,7 @@ autoSwitchAppearance = true
 # For example, if you have `assets/css/custom.css`, the value should be `css/custom.css`.
 customCSS = ["css/custom.css"]
 
-enableSearch = false
+enableSearch = true
 enableCodeCopy = true
 
 replyByEmail = false
@@ -139,7 +139,6 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   storageBucket = "danicat-dev.firebasestorage.app"
   messagingSenderId = "1014224596022"
   appId = "1:1014224596022:web:05c63cd335f5c0d34c3c97"
-  measurementId = "G-97TXNTPG93"
 
 [fathomAnalytics]
   # site = "ABC12345"

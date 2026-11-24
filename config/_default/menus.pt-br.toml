@@ -95,3 +95,33 @@
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before
 # the copyright notice. Configure as per the main menu above.
+
+[[footer]]
+  name = "Posts"
+  pageRef = "posts"
+  weight = 10
+
+[[footer]]
+  name = "Vídeos"
+  pageRef = "videos"
+  weight = 20
+
+[[footer]]
+  name = "Codelabs"
+  pageRef = "codelabs"
+  weight = 30
+
+[[footer]]
+  name = "Skills"
+  url = "https://skills.danicat.dev/pt-br/"
+  weight = 40
+
+[[footer]]
+  name = "Chibi Dani"
+  pageRef = "chibi"
+  weight = 50
+
+[[footer]]
+  name = "RSS"
+  url = "/pt-br/index.xml"
+  weight = 60

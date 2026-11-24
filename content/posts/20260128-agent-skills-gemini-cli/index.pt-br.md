@@ -27,9 +27,6 @@ superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
 status_note: "A estrutura de pastas do SKILL.md, o modelo de progressive disclosure e a combinação de agentes com scripts determinísticos em Python continuam fundamentais, mas a configuração da Gemini CLI e os caminhos .gemini/skills foram descontinuados."
 ---
 
-{{< alert "circle-info" >}}
-**Atualização (2026):** A Gemini CLI evoluiu para o **Google Antigravity 2.0**. Embora os conceitos fundamentais e a estrutura de Agent Skills abordados neste artigo continuem sendo a base, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) para uma visão geral da plataforma, e leia [O Guia Pragmático para Agent Skills]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}}) para padrões modernos de produção, catálogos de skills e otimização de tokens.
-{{< /alert >}}
 
 Quando escrevi sobre o [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science" >}}) na semana passada, deixei de abordar um aspecto importante na análise de experimentos: como extrair insights deles. Embora eu tenha uma interface agradável com resumos, métricas estatísticas e testes, é muito difícil capturar as nuances de cada configuração apenas a partir de um resumo.
 

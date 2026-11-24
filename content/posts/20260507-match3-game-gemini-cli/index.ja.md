@@ -28,9 +28,6 @@ superseded_by:
 status_note: "Go と Ebitengine の技術選定、ドメイン言語を活かすソフトウェアアナリストの視点、プランモードやセキュリティ監査パターンは今も有効ですが、Gemini CLI の @browser_agent 設定、.gemini/agents/ 構文、プレビューモデル、旧コードラボのリンクは非推奨です。代わりに更新版の Antigravity マッチ3 コードラボ（CloudCrush）をご利用ください。"
 ---
 
-{{< alert "circle-info" >}}
-**注記:** この記事は Gemini CLI を対象に書かれたものですが、Gemini CLI は非推奨となり **Google Antigravity 2.0** へと移行しました。新しい Antigravity CLI（`agy`）、SDK、および最新エコシステムの詳細については、[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
-{{< /alert >}}
 
 {{< alert "circle-info" >}}
 **最新コードラボ:** Antigravity 向けにアップデートされた本チュートリアルの最新バージョンは [goo.gle/cloud-crush-agy](https://goo.gle/cloud-crush-agy) をご覧ください。

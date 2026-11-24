@@ -1,0 +1,35 @@
+{{/* Based on Hugo & Blowfish render-link.html (Apache v2 license),
+  updated to preserve HTTP Referer (rel="noopener", no noreferrer)
+  and treat same-host links (danicat.dev) as internal.
+*/}}
+{{- $u := urls.Parse .Destination -}}
+{{- $href := $u.String -}}
+{{- if strings.HasPrefix $u.String "#" -}}
+  {{- $href = printf "%s#%s" .PageInner.RelPermalink $u.Fragment -}}
+{{- else if and $href (not $u.IsAbs) -}}
+  {{- $path := strings.TrimPrefix "./" $u.Path -}}
+  {{- with or
+    ($.PageInner.GetPage $path)
+    ($.PageInner.Resources.Get $path)
+    (resources.Get $path)
+  -}}
+    {{- $href = .RelPermalink -}}
+    {{- with $u.RawQuery -}}
+      {{- $href = printf "%s?%s" $href . -}}
+    {{- end -}}
+    {{- with $u.Fragment -}}
+      {{- $href = printf "%s#%s" $href . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $forceNewTab := .Page.Params.externalLinkForceNewTab | default (.Page.Site.Params.article.externalLinkForceNewTab | default true) -}}
+{{- $siteHost := (urls.Parse .Page.Site.BaseURL).Host -}}
+{{- $isExternal := and (or (eq $u.Scheme "http") (eq $u.Scheme "https")) (ne $u.Host $siteHost) -}}
+{{- $newTab := and $forceNewTab $isExternal -}}
+
+<a href="{{ $href }}" {{ with .Title }}title="{{ . }}"{{ end }}
+  {{- if $newTab }} target="_blank" rel="noopener"{{ end }}>
+  {{- .Text | safeHTML -}}
+</a>
+{{- /* Trim EOF */ -}}

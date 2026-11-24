@@ -16,10 +16,12 @@ import (
 
 const (
 	defaultCorpusBaseURL         = "https://danicat.dev"
+	defaultSkillsLLMSURL         = "https://skills.danicat.dev/llms.txt"
 	defaultCorpusRefreshInterval = 24 * time.Hour
 	defaultCorpusRetryBackoff    = 5 * time.Minute
 	defaultCorpusFetchTimeout    = 20 * time.Second
 	maxCorpusFileBytes           = 16 << 20
+	skillsCorpusCacheKey         = "__skills_llms__"
 )
 
 var (
@@ -106,9 +108,17 @@ func WithNow(now func() time.Time) CorpusOption {
 	}
 }
 
+// WithSkillsLLMSURL configures an external skills catalog llms.txt URL to ingest alongside danicat.dev.
+func WithSkillsLLMSURL(rawURL string) CorpusOption {
+	return func(s *CorpusStore) {
+		s.skillsLLMSURL = strings.TrimSpace(rawURL)
+	}
+}
+
 // CorpusStore maintains a concurrency-safe, ETag-cached in-memory Corpus loaded from danicat.dev.
 type CorpusStore struct {
 	baseURL           string
+	skillsLLMSURL     string
 	client            *http.Client
 	refreshInterval   time.Duration
 	retryBackoff      time.Duration
@@ -143,8 +153,18 @@ func NewRemoteCorpusStore(ctx context.Context, baseURL string, opts ...CorpusOpt
 			opt(s)
 		}
 	}
+	allowedOrigins := map[string]string{
+		strings.ToLower(parsed.Host): strings.ToLower(parsed.Scheme),
+	}
+	if s.skillsLLMSURL != "" {
+		skillsParsed, err := url.Parse(s.skillsLLMSURL)
+		if err != nil || (skillsParsed.Scheme != "http" && skillsParsed.Scheme != "https") || skillsParsed.Host == "" {
+			return nil, fmt.Errorf("invalid skills llms URL %q", s.skillsLLMSURL)
+		}
+		allowedOrigins[strings.ToLower(skillsParsed.Host)] = strings.ToLower(skillsParsed.Scheme)
+	}
 	clientCopy := *s.client
-	clientCopy.CheckRedirect = sameOriginCheckRedirect(parsed.Scheme, parsed.Host)
+	clientCopy.CheckRedirect = allowedOriginsCheckRedirect(allowedOrigins)
 	s.client = &clientCopy
 
 	initCtx, cancel := context.WithTimeout(ctx, defaultCorpusFetchTimeout)
@@ -156,12 +176,13 @@ func NewRemoteCorpusStore(ctx context.Context, baseURL string, opts ...CorpusOpt
 	return s, nil
 }
 
-func sameOriginCheckRedirect(allowedScheme, allowedHost string) func(*http.Request, []*http.Request) error {
+func allowedOriginsCheckRedirect(allowed map[string]string) func(*http.Request, []*http.Request) error {
 	return func(req *http.Request, via []*http.Request) error {
 		if len(via) >= 5 {
 			return fmt.Errorf("stopped after 5 redirects")
 		}
-		if !strings.EqualFold(req.URL.Scheme, allowedScheme) || !strings.EqualFold(req.URL.Host, allowedHost) {
+		expectedScheme, ok := allowed[strings.ToLower(req.URL.Host)]
+		if !ok || !strings.EqualFold(req.URL.Scheme, expectedScheme) {
 			return fmt.Errorf("refused redirect to disallowed target %s", req.URL.Redacted())
 		}
 		return nil
@@ -216,20 +237,32 @@ func (s *CorpusStore) RefreshIfStale(ctx context.Context) {
 
 // refresh fetches all corpus paths concurrently. Caller must hold s.mu (or be in construction).
 func (s *CorpusStore) refresh(ctx context.Context) (bool, error) {
-	results := make([]fetchResult, len(corpusPaths))
+	type target struct {
+		key string
+		url string
+	}
+	targets := make([]target, 0, len(corpusPaths)+1)
+	for _, path := range corpusPaths {
+		targets = append(targets, target{key: path, url: s.baseURL + path})
+	}
+	if s.skillsLLMSURL != "" {
+		targets = append(targets, target{key: skillsCorpusCacheKey, url: s.skillsLLMSURL})
+	}
+
+	results := make([]fetchResult, len(targets))
 	var wg sync.WaitGroup
-	for i, path := range corpusPaths {
-		prev, hasPrev := s.cached[path]
+	for i, t := range targets {
+		prev, hasPrev := s.cached[t.key]
 		wg.Add(1)
-		go func(idx int, p string, cached cachedResource, ok bool) {
+		go func(idx int, key, rawURL string, cached cachedResource, ok bool) {
 			defer wg.Done()
-			results[idx] = s.fetchPath(ctx, p, cached, ok)
-		}(i, path, prev, hasPrev)
+			results[idx] = s.fetchURL(ctx, key, rawURL, cached, ok)
+		}(i, t.key, t.url, prev, hasPrev)
 	}
 	wg.Wait()
 
 	allNotModified := true
-	updatedCache := make(map[string]cachedResource, len(corpusPaths))
+	updatedCache := make(map[string]cachedResource, len(targets))
 	for _, res := range results {
 		if res.err != nil {
 			return false, res.err
@@ -253,10 +286,10 @@ func (s *CorpusStore) refresh(ctx context.Context) (bool, error) {
 	return true, nil
 }
 
-func (s *CorpusStore) fetchPath(ctx context.Context, path string, prev cachedResource, hasPrev bool) fetchResult {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, s.baseURL+path, nil)
+func (s *CorpusStore) fetchURL(ctx context.Context, key, rawURL string, prev cachedResource, hasPrev bool) fetchResult {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, rawURL, nil)
 	if err != nil {
-		return fetchResult{path: path, err: fmt.Errorf("build request for %s: %w", path, err)}
+		return fetchResult{path: key, err: fmt.Errorf("build request for %s: %w", rawURL, err)}
 	}
 	if hasPrev && prev.body != "" {
 		if prev.etag != "" {
@@ -268,26 +301,26 @@ func (s *CorpusStore) fetchPath(ctx context.Context, path string, prev cachedRes
 
 	resp, err := s.client.Do(req)
 	if err != nil {
-		return fetchResult{path: path, err: fmt.Errorf("fetch %s: %w", path, err)}
+		return fetchResult{path: key, err: fmt.Errorf("fetch %s: %w", rawURL, err)}
 	}
 	defer resp.Body.Close()
 
 	switch resp.StatusCode {
 	case http.StatusNotModified:
 		if !hasPrev || prev.body == "" {
-			return fetchResult{path: path, err: fmt.Errorf("unexpected 304 Not Modified without cached body for %s", path)}
+			return fetchResult{path: key, err: fmt.Errorf("unexpected 304 Not Modified without cached body for %s", rawURL)}
 		}
-		return fetchResult{path: path, notModified: true, entry: prev}
+		return fetchResult{path: key, notModified: true, entry: prev}
 	case http.StatusOK:
 		data, err := io.ReadAll(io.LimitReader(resp.Body, maxCorpusFileBytes+1))
 		if err != nil {
-			return fetchResult{path: path, err: fmt.Errorf("read %s: %w", path, err)}
+			return fetchResult{path: key, err: fmt.Errorf("read %s: %w", rawURL, err)}
 		}
 		if len(data) > maxCorpusFileBytes {
-			return fetchResult{path: path, err: fmt.Errorf("response for %s exceeds %d byte limit", path, maxCorpusFileBytes)}
+			return fetchResult{path: key, err: fmt.Errorf("response for %s exceeds %d byte limit", rawURL, maxCorpusFileBytes)}
 		}
 		return fetchResult{
-			path: path,
+			path: key,
 			entry: cachedResource{
 				etag:         strings.TrimSpace(resp.Header.Get("ETag")),
 				lastModified: strings.TrimSpace(resp.Header.Get("Last-Modified")),
@@ -295,7 +328,7 @@ func (s *CorpusStore) fetchPath(ctx context.Context, path string, prev cachedRes
 			},
 		}
 	default:
-		return fetchResult{path: path, err: fmt.Errorf("unexpected status %d fetching %s", resp.StatusCode, path)}
+		return fetchResult{path: key, err: fmt.Errorf("unexpected status %d fetching %s", resp.StatusCode, rawURL)}
 	}
 }
 
@@ -323,9 +356,14 @@ func (s *CorpusStore) buildCorpus(resources map[string]cachedResource) (*Corpus,
 		}
 	}
 
+	skillsLLMS := strings.TrimSpace(resources[skillsCorpusCacheKey].body)
+	if skillsLLMS != "" {
+		files["skills"] = skillsLLMS
+	}
+
 	return &Corpus{
 		Files:        files,
-		PromptIndex:  formatPromptIndexFromLLMS(llmsTxt),
+		PromptIndex:  formatPromptIndexFromLLMS(llmsTxt, skillsLLMS),
 		PostCount:    postCount,
 		SectionCount: len(files),
 		LoadedAt:     s.now(),
@@ -349,12 +387,16 @@ func normalizeCorpusKey(raw string) string {
 	return s
 }
 
-func formatPromptIndexFromLLMS(llmsTxt string) string {
+func formatPromptIndexFromLLMS(llmsTxt, skillsLLMS string) string {
 	cleaned := strings.ReplaceAll(strings.TrimSpace(llmsTxt), "/index.md)", "/)")
 	var b strings.Builder
 	b.WriteString("\n## Master Content Index (Synced From danicat.dev/llms.txt)\n")
 	b.WriteString("Call `read_corpus` with any listed URL or path (prepend `/pt-br/` or `/ja/` for Portuguese or Japanese editions) before quoting technical details, talks, videos, or projects.\n\n")
 	b.WriteString(cleaned)
+	if trimmedSkills := strings.TrimSpace(skillsLLMS); trimmedSkills != "" {
+		b.WriteString("\n\n## Agent Skills Catalog (Synced From skills.danicat.dev/llms.txt)\n")
+		b.WriteString(trimmedSkills)
+	}
 	return b.String()
 }
 

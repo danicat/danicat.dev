@@ -1,0 +1,35 @@
+{{- $skillsUrl := "https://skills.danicat.dev/" -}}
+{{- if eq .Site.Language.Lang "ja" -}}
+  {{- $skillsUrl = "https://skills.danicat.dev/ja/" -}}
+{{- else if eq .Site.Language.Lang "pt-br" -}}
+  {{- $skillsUrl = "https://skills.danicat.dev/pt-br/" -}}
+{{- end -}}
+<aside class="not-prose my-8 rounded-xl border border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-50/70 dark:bg-neutral-800/40 p-5" data-markdown-ignore="true">
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div class="text-sm font-semibold text-neutral-800 dark:text-neutral-100">
+      {{ i18n "article_cta_heading" | default "Keep Exploring" }}
+    </div>
+    <div class="flex flex-wrap items-center gap-2.5 text-sm">
+      <a
+        href="{{ "index.xml" | relLangURL }}"
+        data-rss-link="true"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors no-underline">
+        <span aria-hidden="true">📡</span>
+        <span>{{ i18n "article_cta_rss" | default "Subscribe via RSS" }}</span>
+      </a>
+      <a
+        href="{{ $skillsUrl }}"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-200 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors no-underline">
+        <span aria-hidden="true">🥋</span>
+        <span>{{ i18n "article_cta_skills" | default "Browse Agent Skills" }}</span>
+      </a>
+      <a
+        href="{{ "chibi/" | relLangURL }}"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-600 text-white hover:bg-primary-700 transition-colors no-underline font-medium">
+        <span>{{ i18n "article_cta_chibi" | default "Ask Chibi Dani" }}</span>
+      </a>
+    </div>
+  </div>
+</aside>

@@ -1,4 +1,5 @@
 <footer id="site-footer" class="py-10 print:hidden">
+  {{ partial "locale-prompt.html" . }}
   {{/* Footer menu */}}
   {{ if .Site.Params.footer.showMenu | default true }}
     {{ if .Site.Menus.footer }}
@@ -51,10 +52,10 @@
     {{ if .Site.Params.footer.showThemeAttribution | default true }}
       <p class="text-xs text-neutral-500 dark:text-neutral-400">
         {{ $hugo := printf `<a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-          href="https://gohugo.io/" target="_blank" rel="noopener noreferrer">Hugo</a>`
+          href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a>`
         }}
         {{ $blowfish := printf `<a class="hover:underline hover:decoration-primary-400 hover:text-primary-500"
-          href="https://blowfish.page/" target="_blank" rel="noopener noreferrer">Blowfish</a>`
+          href="https://blowfish.page/" target="_blank" rel="noopener">Blowfish</a>`
         }}
         {{ i18n "footer.powered_by" (dict "Hugo" $hugo "Theme" $blowfish) | safeHTML }}
       </p>

@@ -64,7 +64,7 @@
         <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
       </div>
       {{ else if $thumbUrl }}
-      <a href="{{ $thumbUrl }}" target="_blank" rel="noopener noreferrer"
+      <a href="{{ $thumbUrl }}" target="_blank" rel="noopener"
          class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block group/thumb cursor-pointer"
          tabindex="-1" aria-hidden="true">
         <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
@@ -121,18 +121,18 @@
             </button>
           {{ end }}
           {{ if $e.slides }}
-            <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+            <a href="{{ $e.slides }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
               <span>{{ i18n "event_decks_label" }}</span>
             </a>
           {{ end }}
           {{ if or $e.codelab $e.materials }}
             {{ $matUrl := $e.codelab | default $e.materials }}
-            <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+            <a href="{{ $matUrl }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
               <span>{{ if $e.codelab }}{{ i18n "event_codelab_label" }}{{ else }}{{ i18n "event_materials_label" }}{{ end }}</span>
             </a>
           {{ end }}
           {{ if $e.source_code }}
-            <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+            <a href="{{ $e.source_code }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
               <span>{{ i18n "event_source_code_label" }}</span>
             </a>
           {{ end }}

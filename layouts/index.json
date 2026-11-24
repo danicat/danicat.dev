@@ -1,24 +1,35 @@
 {{- $items := slice -}}
+{{- $lang := .Site.Language.Lang -}}
 {{- range .Site.RegularPages -}}
-  {{- $desc := (.Params.description | default (.Params.summary | default "")) | plainify | htmlUnescape | replaceRE "\\s+" " " -}}
-  {{- $items = $items | append (dict
-    "title" (.Title | plainify | htmlUnescape)
-    "url" .Permalink
-    "markdown_url" (printf "%sindex.md" .Permalink)
-    "section" .Section
-    "date" (.Date.Format "2006-01-02")
-    "categories" (.Params.categories | default (slice))
-    "tags" (.Params.tags | default (slice))
-    "series" (.Params.series | default (slice))
-    "summary" $desc
-  ) -}}
+  {{- $itemURL := .Permalink | default .Params.externalUrl -}}
+  {{- if $itemURL -}}
+    {{- $desc := (.Params.description | default (.Params.summary | default "")) | plainify | htmlUnescape | replaceRE "\\s+" " " -}}
+    {{- $entry := dict
+      "title" (.Title | plainify | htmlUnescape)
+      "permalink" $itemURL
+      "url" $itemURL
+      "section" .Section
+      "lang" .Language.Lang
+      "date" (cond (not .Date.IsZero) (.Date.Format "2006-01-02") "")
+      "categories" (.Params.categories | default (slice))
+      "tags" (.Params.tags | default (slice))
+      "series" (.Params.series | default (slice))
+      "summary" $desc
+    -}}
+    {{- if .Permalink -}}
+      {{- $entry = merge $entry (dict "markdown_url" (printf "%sindex.md" .Permalink)) -}}
+    {{- end -}}
+    {{- $items = $items | append $entry -}}
+  {{- end -}}
 {{- end -}}
 {{- range .Site.Data.videos.videos -}}
   {{- $items = $items | append (dict
     "title" (.title | plainify | htmlUnescape)
+    "permalink" .url
     "url" .url
     "section" "videos"
-    "date" .date
+    "lang" $lang
+    "date" (.date | default "")
     "categories" (slice "Video")
     "tags" (slice (.event | default .channelName | default "YouTube"))
     "series" (slice)
@@ -29,8 +40,10 @@
   {{- $primaryUrl := .recording | default (.slides | default (.codelab | default (.materials | default (.source_code | default (.url | default ("events/" | absLangURL)))))) -}}
   {{- $items = $items | append (dict
     "title" (.title | plainify | htmlUnescape)
+    "permalink" $primaryUrl
     "url" $primaryUrl
     "section" "events"
+    "lang" $lang
     "date" (.date | default "")
     "categories" (slice "Talk / Event")
     "tags" (slice (.event | default ""))

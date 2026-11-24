@@ -19,7 +19,7 @@
   {{ end }}
 
   {{/* Metadata */}}
-  {{ with (.Params.Summary | default .Params.Description) | default .Site.Params.description }}
+  {{ with (.Params.Description | default .Params.Summary) | default .Site.Params.description }}
     <meta name="description" content="{{ . }}">
   {{ end }}
   {{ with .Params.Tags | default .Site.Params.keywords }}
@@ -27,6 +27,8 @@
   {{ end }}
   {{ if eq .Kind "404" }}
     <meta name="robots" content="noindex">
+  {{ else if and (in (slice "taxonomy" "term") .Kind) (in (slice "tags" "categories") .Data.Plural) }}
+    <meta name="robots" content="noindex, follow">
   {{ else }}
     {{ with .Site.Params.robots }}
       <meta name="robots" content="{{ . }}">

@@ -28,9 +28,6 @@ superseded_by:
 status_note: "A escolha da stack Go com Ebitengine, o papel de Analista de Software orientado à linguagem de domínio e os padrões de plan mode e auditor de segurança continuam atuais, mas a configuração @browser_agent do Gemini CLI, a sintaxe .gemini/agents/, os modelos preview e o codelab antigo foram descontinuados; use o codelab atualizado de Match-3 para Antigravity (CloudCrush)."
 ---
 
-{{< alert "circle-info" >}}
-**Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema mais amplo do Antigravity, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
-{{< /alert >}}
 
 {{< alert "circle-info" >}}
 **Codelab Atualizado:** Acompanhe a versão moderna deste tutorial atualizada para o Antigravity em [goo.gle/cloud-crush-agy](https://goo.gle/cloud-crush-agy).

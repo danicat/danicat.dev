@@ -115,7 +115,7 @@ root_agent = Agent(
 
 This is everything you need to run a local model in ADK. You can test the agent and see how it responds. You may also want to compare the responses with the `gemini-2.5-flash` model we were using before.
 
-<video controls width="100%" src="aida_demo_hd.mov">
+<video controls preload="metadata" width="100%" src="aida_demo_hd.mp4">
   Your browser does not support the video tag.
 </video>
 <p style="text-align: center; font-style: italic; opacity: 0.8; margin-top: 0.5rem;">AIDA running first with Gemini 2.5 Flash and then Qwen2.5. Gemini is notably faster and requires less tool calls. Qwen's response time is highly dependent on local hardware - this demo is running on an Apple MacBook Pro M4 with 48GB of RAM.</p>

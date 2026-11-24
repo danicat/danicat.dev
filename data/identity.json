@@ -20,12 +20,22 @@
       "https://x.com/danicat83",
       "https://instagram.com/danicat83",
       "https://medium.com/@daniela.petruzalek",
-      "https://sessionize.com/daniela"
+      "https://sessionize.com/daniela",
+      "https://skills.danicat.dev",
+      "https://speakerdeck.com/danicat"
     ],
     "knowsAbout": [
       "Go (Golang)",
       "AI Agents & Multi-Agent Swarms",
       "Agent Skills",
+      "Google Cloud",
+      "Cloud Run",
+      "Genkit",
+      "Google ADK",
+      "Model Context Protocol (MCP)",
+      "A2UI",
+      "A2A",
+      "Healthcare Informatics",
       "2D Game Development (Ebitengine)",
       "Distributed Systems & Cloud Architecture",
       "Technical Writing & Developer Documentation"

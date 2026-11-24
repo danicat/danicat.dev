@@ -3,9 +3,13 @@
 
   const SESSION_KEY = "chibi_dani_session_id";
 
-  function sendTelemetry(name) {
+  function sendTelemetry(name, params) {
     if (!navigator.webdriver && typeof window.gtag === "function") {
-      window.gtag("event", name);
+      if (params && typeof params === "object") {
+        window.gtag("event", name, params);
+      } else {
+        window.gtag("event", name);
+      }
     }
   }
 
@@ -41,7 +45,7 @@
         const href = sanitizeUrl(url);
         if (href === "#") return label;
         const isExternal = !href.startsWith(window.location.origin + "/") && !href.startsWith("/");
-        const attrs = isExternal ? ' target="_blank" rel="noopener noreferrer"' : "";
+        const attrs = isExternal ? ' target="_blank" rel="noopener"' : "";
         return '<a href="' + escapeHtml(href) + '"' + attrs + ' class="chibi-link">' + label + "</a>";
       });
   }
@@ -211,6 +215,7 @@
     let lipFlapTimer = null;
     let settleTimer = null;
     let isGenerating = false;
+    let turnIndex = 0;
     const overlayLayers = new Map();
     if (portraitFrame) {
       portraitFrame.querySelectorAll(".chibi-portrait-layer[data-expr]").forEach((layer) => {
@@ -328,11 +333,15 @@
       }
 
       isGenerating = true;
+      turnIndex += 1;
       clearSettleTimer();
       if (sendBtn) sendBtn.disabled = true;
       if (input) input.disabled = true;
 
-      sendTelemetry("chibi_ask");
+      sendTelemetry("chibi_ask", {
+        lang: (document.documentElement.lang || "en").toLowerCase(),
+        turn_index: turnIndex,
+      });
       appendBubble("user", promptText);
       setMood("thinking");
       const ui = appendBubble("assistant");
@@ -418,7 +427,25 @@
 
     if (messagesEl) {
       messagesEl.addEventListener("click", (e) => {
-        if (e.target.closest("a.chibi-link")) sendTelemetry("chibi_citation_click");
+        const chip = e.target.closest(".chibi-starter-chip");
+        if (chip) {
+          const promptText = (chip.getAttribute("data-prompt") || chip.textContent || "").trim();
+          if (promptText && !isGenerating) {
+            if (input) {
+              input.value = "";
+              input.dispatchEvent(new Event("input"));
+            }
+            sendPrompt(promptText);
+          }
+          return;
+        }
+        const link = e.target.closest("a.chibi-link");
+        if (link) {
+          sendTelemetry("chibi_citation_click", {
+            citation_url: link.href,
+            is_external: link.origin !== window.location.origin,
+          });
+        }
       });
     }
 
@@ -426,6 +453,7 @@
       clearBtn.addEventListener("click", () => {
         if (isGenerating) return;
         clearSettleTimer();
+        turnIndex = 0;
         sessionStorage.removeItem(SESSION_KEY);
         const welcomeNode = messagesEl.querySelector('[data-welcome="true"]');
         messagesEl.textContent = "";

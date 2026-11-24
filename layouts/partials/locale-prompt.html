@@ -1,0 +1,66 @@
+{{- if eq .Site.Language.Lang "en" -}}
+  {{- $ptUrl := "" -}}
+  {{- $jaUrl := "" -}}
+  {{- range .Translations -}}
+    {{- if eq .Language.Lang "pt-br" -}}{{- $ptUrl = .RelPermalink -}}{{- end -}}
+    {{- if eq .Language.Lang "ja" -}}{{- $jaUrl = .RelPermalink -}}{{- end -}}
+  {{- end -}}
+  {{- if or $ptUrl $jaUrl -}}
+    <div
+      id="locale-suggestion-pill"
+      hidden
+      role="status"
+      aria-live="polite"
+      data-pt-url="{{ $ptUrl }}"
+      data-ja-url="{{ $jaUrl }}"
+      class="fixed bottom-4 right-4 z-50 max-w-sm rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white/95 dark:bg-neutral-900/95 shadow-lg backdrop-blur px-4 py-3 text-sm text-neutral-800 dark:text-neutral-100 print:hidden">
+      <div class="flex items-center gap-3">
+        <span id="locale-suggestion-text" class="leading-snug"></span>
+        <a
+          id="locale-suggestion-link"
+          href="#"
+          class="shrink-0 px-2.5 py-1 rounded-md bg-primary-600 text-white hover:bg-primary-700 text-xs font-semibold no-underline"></a>
+        <button
+          type="button"
+          id="locale-suggestion-dismiss"
+          aria-label="Dismiss"
+          class="shrink-0 text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 text-base leading-none cursor-pointer">&times;</button>
+      </div>
+    </div>
+    <script>
+      (function () {
+        if (navigator.webdriver) return;
+        try {
+          if (sessionStorage.getItem("danicat_locale_prompt_dismissed") === "1") return;
+        } catch (e) {}
+        var pill = document.getElementById("locale-suggestion-pill");
+        if (!pill) return;
+        var navLang = (navigator.language || "").toLowerCase();
+        var targetUrl = "";
+        var message = "";
+        var cta = "";
+        if (navLang.indexOf("pt") === 0 && pill.dataset.ptUrl) {
+          targetUrl = pill.dataset.ptUrl;
+          message = "Também disponível em Português (Brasil).";
+          cta = "Mudar";
+        } else if (navLang.indexOf("ja") === 0 && pill.dataset.jaUrl) {
+          targetUrl = pill.dataset.jaUrl;
+          message = "日本語版でもお読みいただけます。";
+          cta = "切り替える";
+        }
+        if (!targetUrl) return;
+        document.getElementById("locale-suggestion-text").textContent = message;
+        var link = document.getElementById("locale-suggestion-link");
+        link.href = targetUrl;
+        link.textContent = cta;
+        pill.hidden = false;
+        document.getElementById("locale-suggestion-dismiss").addEventListener("click", function () {
+          pill.hidden = true;
+          try {
+            sessionStorage.setItem("danicat_locale_prompt_dismissed", "1");
+          } catch (e) {}
+        });
+      })();
+    </script>
+  {{- end -}}
+{{- end -}}

@@ -1,0 +1,60 @@
+{{- $status := lower (.Params.status | default "") -}}
+{{- if in (slice "deprecated" "superseded") $status -}}
+  {{- $site := .Site -}}
+  {{- $current := . -}}
+  {{- $titleKey := cond (eq $status "deprecated") "lifecycle_deprecated_title" "lifecycle_superseded_title" -}}
+  {{- $defaultTitle := cond (eq $status "deprecated") "Historical / Deprecated Article" "Superseded Article" -}}
+  {{- $targets := slice -}}
+  {{- with .Params.superseded_by -}}
+    {{- $refs := cond (reflect.IsSlice .) . (slice .) -}}
+    {{- range $refs -}}
+      {{- $ref := . -}}
+      {{- with $site.GetPage $ref -}}
+        {{- $targetUrl := .Permalink | default .Params.externalUrl -}}
+        {{- if and $targetUrl (ne $targetUrl $current.Permalink) -}}
+          {{- $targets = $targets | append (dict "url" $targetUrl "title" (.Title | plainify | htmlUnescape) "external" (not .Permalink)) -}}
+        {{- end -}}
+      {{- else -}}
+        {{- if hasPrefix $ref "http" -}}
+          {{- $targets = $targets | append (dict "url" $ref "title" $ref "external" true) -}}
+        {{- end -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+  <aside
+    class="not-prose mb-8 rounded-lg border border-amber-300/80 bg-amber-50/90 p-4 text-sm text-amber-950 dark:border-amber-700/60 dark:bg-amber-950/35 dark:text-amber-100"
+    role="note"
+    data-markdown-ignore="true">
+    <div class="font-semibold flex items-center gap-2 mb-1">
+      <span aria-hidden="true">⚠️</span>
+      <span>{{ i18n $titleKey | default $defaultTitle }}</span>
+    </div>
+    {{- with .Params.status_note }}
+      <p class="m-0 leading-relaxed">{{ . }}</p>
+    {{- end }}
+    {{- if gt (len $targets) 0 }}
+      <div class="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span class="font-medium">{{ i18n "lifecycle_superseded_by_label" | default "Recommended replacement:" }}</span>
+        {{- range $i, $t := $targets -}}
+          {{- if gt $i 0 }}<span aria-hidden="true">·</span>{{ end -}}
+          <a
+            href="{{ $t.url }}"
+            {{- if $t.external }} target="_blank" rel="noopener"{{ end }}
+            class="underline font-semibold text-amber-900 hover:text-primary-600 dark:text-amber-200 dark:hover:text-primary-400">
+            {{ $t.title }}
+          </a>
+        {{- end -}}
+      </div>
+    {{- end }}
+    {{- if in (.Params.tags | default (slice)) "agent-skills" }}
+      {{- $skillsUrl := "https://skills.danicat.dev/" -}}
+      {{- if eq .Site.Language.Lang "ja" -}}{{- $skillsUrl = "https://skills.danicat.dev/ja/" -}}{{- else if eq .Site.Language.Lang "pt-br" -}}{{- $skillsUrl = "https://skills.danicat.dev/pt-br/" -}}{{- end -}}
+      <p class="mt-2 mb-0 text-xs">
+        <a href="{{ $skillsUrl }}" target="_blank" rel="noopener" class="underline font-semibold text-amber-900 hover:text-primary-600 dark:text-amber-200 dark:hover:text-primary-400">skills.danicat.dev</a>
+        ·
+        <a href="https://github.com/danicat/kungfu" target="_blank" rel="noopener" class="underline font-semibold text-amber-900 hover:text-primary-600 dark:text-amber-200 dark:hover:text-primary-400">kungfu</a>
+        — {{ i18n "lifecycle_skills_cta" | default "Browse the latest Agent Skills at skills.danicat.dev or install them on demand with kungfu." }}
+      </p>
+    {{- end }}
+  </aside>
+{{- end -}}

@@ -28,9 +28,6 @@ superseded_by:
 status_note: "O handshake JSON-RPC de 3 etapas via stdio do MCP, o alerta de autenticação no Cloud Run e a ideia de lista de leitura no prompt continuam atuais, mas a configuração .gemini/settings.json do Gemini CLI e o design inicial do GoDoctor v0.2.0 foram descontinuados."
 ---
 
-{{< alert "circle-info" >}}
-**Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema Antigravity mais amplo, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
-{{< /alert >}}
 
 ## Introdução
 

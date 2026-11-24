@@ -17,7 +17,18 @@ async function copyCodeToClipboard(button, highlightWrapper) {
   try {
     await navigator.clipboard.writeText(codeToCopy);
     if (typeof window.gtag === "function" && !navigator.webdriver) {
-      window.gtag("event", "code_copy");
+      const codeEl = highlightWrapper.querySelector("code[data-lang], code[class*='language-']");
+      const rawLang =
+        codeEl?.getAttribute("data-lang") ||
+        (codeEl?.className.match(/language-([a-z0-9_-]+)/i)?.[1]) ||
+        "unknown";
+      const isInstallCmd = /^\s*(go install|npm (i|install)|npx |brew install|pip install|uv |curl |kungfu (learn|install))/m.test(
+        codeToCopy
+      );
+      window.gtag("event", "code_copy", {
+        code_lang: rawLang.toLowerCase(),
+        is_install_cmd: isInstallCmd,
+      });
     }
     button.blur();
     button.innerText = copiedText;
@@ -74,7 +85,9 @@ async function copyPageMarkdown(button) {
 
     await navigator.clipboard.writeText(markdown);
     if (typeof window.gtag === "function" && !navigator.webdriver) {
-      window.gtag("event", "copy_markdown");
+      window.gtag("event", "copy_markdown", {
+        page_path: window.location.pathname,
+      });
     }
 
     if (labelEl) {

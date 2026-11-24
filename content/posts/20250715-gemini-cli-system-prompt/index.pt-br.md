@@ -24,9 +24,6 @@ superseded_by:
 status_note: "A percepção de que prompts de sistema embutidos podem conflitar com arquivos de contexto como AGENTS.md e de que sessões podem destilar regras continua válida, mas o Gemini CLI, seu arquivo de prompt em TypeScript e as variáveis GEMINI_SYSTEM_MD foram descontinuados."
 ---
 
-{{< alert "circle-info" >}}
-**Nota:** Este artigo foi escrito para o Gemini CLI, que foi descontinuado e substituído pelo **Google Antigravity 2.0**. Para saber mais sobre a nova Antigravity CLI (`agy`), o SDK e o ecossistema Antigravity atualizado, confira [O Guia do Mochileiro para o Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
-{{< /alert >}}
 
 ## Introdução
 

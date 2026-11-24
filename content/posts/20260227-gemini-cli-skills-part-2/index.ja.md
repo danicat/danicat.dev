@@ -26,9 +26,6 @@ superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
 status_note: "スキル作成の判断基準や具体例（latest-version、pyhd、find-examples、de-sloppify）は現在も参考になりますが、Gemini CLI の skill-creator フローは非推奨となり、/skill-optimizer・/learn・kungfu に置き換わりました。"
 ---
 
-{{< alert "circle-info" >}}
-**追記 (2026年):** Gemini CLI は **Google Antigravity 2.0** へと進化しました。本記事で解説している Agent Skills の基本概念や構造は引き続き有効ですが、最新プラットフォームと機能の概要については [Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
-{{< /alert >}}
 
 [パート 1: Gemini CLI で Agent Skills をマスターする]({{< ref "/posts/20260128-agent-skills-gemini-cli" >}})では、Agent Skills がどのように Gemini CLI へと新機能を追加するのかを紹介しました。タスク固有の指示をエージェントに与えつつ、コンテキストをクリーンに保つ実践的な例として、`experiment-analyst` スキルを取り上げました。
 

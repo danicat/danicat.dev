@@ -504,3 +504,53 @@ func TestSystemPromptHygiene(t *testing.T) {
 		}
 	}
 }
+
+func TestRemoteCorpusStoreWithSkillsLLMS(t *testing.T) {
+	t.Parallel()
+
+	fix := makeFixtures("v1", "", "")
+	mainSrv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		switch r.URL.Path {
+		case "/llms.txt":
+			_, _ = w.Write([]byte(fix.llms))
+		case "/llms-full.txt":
+			_, _ = w.Write([]byte(fix.enFull))
+		case "/pt-br/llms-full.txt":
+			_, _ = w.Write([]byte(fix.ptbrFull))
+		case "/ja/llms-full.txt":
+			_, _ = w.Write([]byte(fix.jaFull))
+		default:
+			http.NotFound(w, r)
+		}
+	}))
+	defer mainSrv.Close()
+
+	skillsSrv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/llms.txt" {
+			_, _ = w.Write([]byte("# skills.danicat.dev\n- godoctor: Go development assistant\n"))
+			return
+		}
+		http.NotFound(w, r)
+	}))
+	defer skillsSrv.Close()
+
+	store, err := NewRemoteCorpusStore(
+		context.Background(),
+		mainSrv.URL,
+		WithHTTPClient(mainSrv.Client()),
+		WithSkillsLLMSURL(skillsSrv.URL+"/llms.txt"),
+	)
+	if err != nil {
+		t.Fatalf("NewRemoteCorpusStore with skills URL failed: %v", err)
+	}
+	snap := store.Snapshot()
+	if !strings.Contains(snap.PromptIndex, "Agent Skills Catalog (Synced From skills.danicat.dev/llms.txt)") {
+		t.Fatalf("expected PromptIndex to include skills catalog header")
+	}
+	if !strings.Contains(snap.PromptIndex, "godoctor") {
+		t.Fatalf("expected PromptIndex to include skills catalog entries")
+	}
+	if body, ok := snap.Lookup("skills"); !ok || !strings.Contains(body, "godoctor") {
+		t.Fatalf("expected Lookup(\"skills\") to return skills llms.txt body")
+	}
+}

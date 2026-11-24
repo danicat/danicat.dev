@@ -46,6 +46,7 @@
 
       <div class="min-w-0 min-h-0 max-w-fit">
         <div data-markdown-ignore="true">{{ partial "series/series.html" . }}</div>
+        {{ partial "lifecycle-banner.html" . }}
         <div class="article-content max-w-prose mb-20">
           {{ .Content }}
           {{ $defaultReplyByEmail := site.Params.replyByEmail }}
@@ -66,6 +67,7 @@
             {{ template "SingleAuthor" . }}
           {{ end }}
           {{ partial "series/series-closed.html" . }}
+          {{ partial "article-cta.html" . }}
           {{ partial "sharing-links.html" . }}
           {{ partial "related.html" . }}
         </div>

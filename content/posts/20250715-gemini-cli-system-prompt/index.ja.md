@@ -24,9 +24,6 @@ superseded_by:
 status_note: "組み込みシステムプロンプトが AGENTS.md などのユーザーコンテキストファイルと衝突し得ることや、セッションからルールを抽出する考え方は今も有効ですが、Gemini CLI 本体、TypeScript 製プロンプトファイル、GEMINI_SYSTEM_MD 環境変数による上書きは非推奨となりました。"
 ---
 
-{{< alert "circle-info" >}}
-**注記:** この記事は Gemini CLI を対象に書かれたものですが、Gemini CLI は非推奨となり **Google Antigravity 2.0** へと移行しました。新しい Antigravity CLI（`agy`）、SDK、および最新エコシステムの詳細については、[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
-{{< /alert >}}
 
 ## はじめに
 

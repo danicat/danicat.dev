@@ -29,7 +29,7 @@
         <span class="inline-block w-3.5 h-3.5">{{ partial "icon.html" "youtube" }}</span>
         {{ i18n "videos_channel_badge" | default "YouTube Channel" }}
       </span>
-      <a href="{{ $channel.url }}" target="_blank" rel="me noopener noreferrer" class="text-sm font-mono font-semibold text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 no-underline">
+      <a href="{{ $channel.url }}" target="_blank" rel="me noopener" class="text-sm font-mono font-semibold text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 no-underline">
         {{ $channel.handle }} &#8599;
       </a>
     </div>
@@ -39,12 +39,12 @@
   </div>
 
   <div class="flex flex-wrap items-center gap-3 shrink-0">
-    <a href="{{ $channel.subscribeUrl }}" target="_blank" rel="noopener noreferrer"
+    <a href="{{ $channel.subscribeUrl }}" target="_blank" rel="noopener"
        class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold bg-primary-600 hover:bg-primary-700 text-white shadow-sm transition-colors no-underline">
       <span class="inline-block w-4 h-4">{{ partial "icon.html" "youtube" }}</span>
       <span>{{ i18n "videos_subscribe_cta" | default "Subscribe on YouTube" }}</span>
     </a>
-    <a href="{{ $channel.playlistUrl }}" target="_blank" rel="noopener noreferrer"
+    <a href="{{ $channel.playlistUrl }}" target="_blank" rel="noopener"
        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-sm font-medium bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-neutral-700 dark:text-neutral-200 border border-neutral-200 dark:border-neutral-700 transition-colors no-underline">
       <span>{{ i18n "videos_playlist_cta" | default "Talks Playlist" }} &#8599;</span>
     </a>
@@ -177,8 +177,8 @@ function initVideosPage() {
 
         if (!container.hasChildNodes() || container.innerHTML.trim() === '') {
           let embedHtml = '';
+          let videoId = '';
           if (videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be')) {
-            let videoId = '';
             if (videoUrl.includes('youtu.be/')) {
               videoId = videoUrl.split('youtu.be/')[1].split('?')[0];
             } else if (videoUrl.includes('watch?v=')) {
@@ -191,6 +191,14 @@ function initVideosPage() {
             embedHtml = `<iframe class="w-full h-full" src="${videoUrl}" frameborder="0" allowfullscreen></iframe>`;
           }
           container.innerHTML = embedHtml;
+          if (typeof window.gtag === 'function' && !navigator.webdriver) {
+            const card = btn.closest('.video-card-item');
+            const titleEl = card ? card.querySelector('h3, h2') : null;
+            window.gtag('event', 'video_play', {
+              video_id: videoId || videoUrl,
+              video_title: titleEl ? titleEl.textContent.trim() : ''
+            });
+          }
         }
       } else {
         container.classList.add('hidden');

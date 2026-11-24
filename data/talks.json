@@ -10,6 +10,181 @@
   },
   "talks": [
     {
+      "id": "2026-12-05-devfest-oxford-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "DevFest Oxford 2026",
+      "date": "2026-12-05",
+      "location": "Oxford, UK",
+      "url": "https://gdg.community.dev/gdg-oxford/",
+      "summary": "An exploration of the current landscape of coding agents, skills, hooks, and subagents, and how they change everyday software engineering workflows.",
+      "image": null,
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": "/posts/state-of-agentic-coding/",
+      "language": "en",
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "gemini",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-11-27-devfest-essex-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "DevFest Essex 2026",
+      "date": "2026-11-27",
+      "location": "Chelmsford, UK",
+      "url": "https://gdgessex.co.uk/",
+      "summary": "Developer keynote exploring the current landscape of coding agents, skills, hooks, and subagents, with live demos on the main stage.",
+      "image": null,
+      "slides": null,
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": "/posts/state-of-agentic-coding/",
+      "language": "en",
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "gemini",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-11-25-wednesday-build-hour-agent-skills-in-practice",
+      "title": "Agent Skills in Practice",
+      "event": "Wednesday Build Hour",
+      "date": "2026-11-25",
+      "location": "Online",
+      "url": "https://cloudonair.withgoogle.com/",
+      "summary": "Practical session on designing process and trait skills with progressive disclosure and building a personal skill catalog without context bloat.",
+      "image": null,
+      "slides": null,
+      "recording": null,
+      "source_code": "https://github.com/danicat/kungfu",
+      "codelab": null,
+      "materials": "/posts/the-pragmatic-guide-to-agent-skills/",
+      "language": "en",
+      "tags": [
+        "agent-skills",
+        "ai-agents",
+        "antigravity",
+        "gemini"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-11-21-devfest-south-london-2026-ai-agents-from-scratch-with-google-adk",
+      "title": "AI Agents from Scratch with Google ADK",
+      "event": "DevFest South London 2026",
+      "date": "2026-11-21",
+      "location": "London, UK",
+      "url": "https://gdg.community.dev/",
+      "summary": "Building AI agents from first principles with Google Agent Development Kit (ADK), covering tools, state, orchestration, and moving from prototype to production.",
+      "image": "https://files.speakerdeck.com/presentations/53f4b64993924f93aaa497be6d047fa5/preview_slide_0.jpg?41466909",
+      "slides": "https://speakerdeck.com/danicat/devfest-south-london-ai-agents-from-scratch",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": "/posts/ai-agents-from-scratch-with-google-adk/",
+      "language": "en",
+      "tags": [
+        "adk",
+        "ai-agents",
+        "gemini",
+        "google-cloud"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-11-19-ai-agents-ldn-ai-agents-from-scratch-with-google-adk",
+      "title": "AI Agents from Scratch with Google ADK",
+      "event": "AI Agents LDN",
+      "date": "2026-11-19",
+      "location": "London, UK",
+      "url": "https://londonagenticai.com/",
+      "summary": "Presented at the London Agentic AI meetup ('Agents in Production' at MongoDB London) covering how to build and ship production-ready AI agents with Google ADK.",
+      "image": "https://files.speakerdeck.com/presentations/0f2b80274d264a2bb843f70b8a3d5506/preview_slide_0.jpg?41458832",
+      "slides": "https://speakerdeck.com/danicat/ai-agents-ldn-ai-agents-from-scratch-1",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": "/posts/ai-agents-from-scratch-with-google-adk/",
+      "language": "en",
+      "tags": [
+        "adk",
+        "ai-agents",
+        "gemini",
+        "google-cloud"
+      ],
+      "categories": [
+        "Agent Development"
+      ]
+    },
+    {
+      "id": "2026-11-10-google-cloud-day-athens-2026-build-a-2d-game-with-gemini-and-antigravity",
+      "title": "Build a 2D Game with Gemini and Antigravity",
+      "event": "Google Cloud Day Athens 2026",
+      "date": "2026-11-10",
+      "location": "Athens, Greece",
+      "url": "https://cloudonair.withgoogle.com/",
+      "summary": "Hands-on walkthrough of building a 2D arcade game in Go and Ebitengine with Gemini and Antigravity, including automated testing and agentic workflows.",
+      "image": "https://files.speakerdeck.com/presentations/91639830839e4b32a337514c68ab89cf/preview_slide_0.jpg?41490361",
+      "slides": "https://speakerdeck.com/danicat/cloud-day-athens-build-a-2d-game-with-gemini-1",
+      "recording": null,
+      "source_code": null,
+      "codelab": "https://codelabs.developers.google.com/gemini-match3-golang#0",
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "antigravity",
+        "ebitengine",
+        "game-dev",
+        "gemini",
+        "golang"
+      ],
+      "categories": [
+        "Agentic Coding"
+      ]
+    },
+    {
+      "id": "2026-11-10-google-cloud-day-athens-2026-gemini-for-developers",
+      "title": "Gemini for Developers",
+      "event": "Google Cloud Day Athens 2026",
+      "date": "2026-11-10",
+      "location": "Athens, Greece",
+      "url": "https://cloudonair.withgoogle.com/",
+      "summary": "A practical guide to the Gemini model family, APIs, SDKs, and developer tooling on Google Cloud for building AI-powered applications and agents.",
+      "image": "https://files.speakerdeck.com/presentations/6e6fa9c5fd0b4d47911736f28d709925/preview_slide_0.jpg?41490319",
+      "slides": "https://speakerdeck.com/danicat/cloud-day-athens-gemini-for-developers",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": "/posts/gemini-for-go-developers-part-1-model-family/",
+      "language": "en",
+      "tags": [
+        "gemini",
+        "google-cloud",
+        "vertex-ai"
+      ],
+      "categories": [
+        "Applied GenAI"
+      ]
+    },
+    {
       "id": "2026-10-08-devoxx-belgium-2026-state-of-agentic-coding",
       "title": "State of Agentic Coding",
       "event": "Devoxx Belgium 2026",
@@ -164,7 +339,7 @@
       "id": "sessionize-proposal-build-a-photo-restoration-app-using-genkit-go-and-nano-banana-pro",
       "title": "Build a photo restoration app using Genkit Go and Nano Banana Pro",
       "event": null,
-      "date": null,
+      "date": "2026-02-24",
       "location": null,
       "url": null,
       "summary": "In this codelab, we are going to build GlowUp, a photo restoration tool. GlowUp uses AI to restore old, damaged, or black-and-white photos, creating high-quality 4K color images. You can use this tool to give a new life to your family photos, or even adapt it to restore damaged illustrations, drawings, paintings or other forms of images.",

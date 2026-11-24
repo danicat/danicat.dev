@@ -29,9 +29,6 @@ superseded_by:
 status_note: "The MCP stdio 3-step JSON-RPC handshake, Cloud Run auth warning, and prompt reading-list advice remain evergreen, while Gemini CLI .gemini/settings.json configuration and the early GoDoctor v0.2.0 design are deprecated."
 ---
 
-{{< alert "circle-info" >}}
-**Note:** This article was written for Gemini CLI, which has since been deprecated and superseded by **Google Antigravity 2.0**. To learn more about the new Antigravity CLI (`agy`), the SDK, and the broader Antigravity ecosystem, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
-{{< /alert >}}
 
 ## Introduction
 

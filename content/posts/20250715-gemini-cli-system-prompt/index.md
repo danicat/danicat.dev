@@ -25,9 +25,6 @@ superseded_by:
 status_note: "The insight that built-in system prompts can clash with user context files like AGENTS.md and that sessions can distill rules remains valid, while Gemini CLI, its TypeScript prompt file, and GEMINI_SYSTEM_MD overrides are deprecated."
 ---
 
-{{< alert "circle-info" >}}
-**Note:** This article was written for Gemini CLI, which has since been deprecated and superseded by **Google Antigravity 2.0**. To learn more about the new Antigravity CLI (`agy`), the SDK, and the broader Antigravity ecosystem, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}).
-{{< /alert >}}
 
 ## Introduction
 

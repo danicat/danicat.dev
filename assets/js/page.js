@@ -78,14 +78,23 @@
     container.style.position = "relative";
 
     const milestones = [25, 50, 75, 100];
+    const fired = new Set();
+    const sentinels = new Map();
     const observer = new IntersectionObserver(
       (entries, obs) => {
         for (const entry of entries) {
           if (!entry.isIntersecting) continue;
-          obs.unobserve(entry.target);
-          const eventName = entry.target.getAttribute("data-scroll-milestone");
-          if (eventName && typeof window.gtag === "function") {
-            window.gtag("event", eventName);
+          const pct = Number(entry.target.getAttribute("data-scroll-pct"));
+          if (!pct) continue;
+          for (const m of milestones) {
+            if (m <= pct && !fired.has(m)) {
+              fired.add(m);
+              const s = sentinels.get(m);
+              if (s) obs.unobserve(s);
+              if (typeof window.gtag === "function") {
+                window.gtag("event", `scroll_${m}`);
+              }
+            }
           }
         }
       },
@@ -95,9 +104,11 @@
     for (const pct of milestones) {
       const sentinel = document.createElement("span");
       sentinel.setAttribute("aria-hidden", "true");
+      sentinel.setAttribute("data-scroll-pct", String(pct));
       sentinel.setAttribute("data-scroll-milestone", `scroll_${pct}`);
       sentinel.style.cssText = `position:absolute;top:${pct}%;left:0;width:1px;height:1px;pointer-events:none;opacity:0;`;
       container.appendChild(sentinel);
+      sentinels.set(pct, sentinel);
       observer.observe(sentinel);
     }
   }

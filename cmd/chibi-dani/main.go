@@ -49,6 +49,7 @@ func run() error {
 	}
 	port := cmp.Or(strings.TrimSpace(os.Getenv("PORT")), "8080")
 	corpusBaseURL := cmp.Or(strings.TrimSpace(os.Getenv("CORPUS_BASE_URL")), defaultCorpusBaseURL)
+	skillsLLMSURL := cmp.Or(strings.TrimSpace(os.Getenv("SKILLS_LLMS_URL")), defaultSkillsLLMSURL)
 	refreshInterval := defaultCorpusRefreshInterval
 	if rawRefresh := strings.TrimSpace(os.Getenv("CORPUS_REFRESH_INTERVAL")); rawRefresh != "" {
 		parsed, err := time.ParseDuration(rawRefresh)
@@ -63,7 +64,7 @@ func run() error {
 		DisableLoggingInputAndOutput: true,
 	})
 
-	corpusStore, err := NewRemoteCorpusStore(ctx, corpusBaseURL, WithRefreshInterval(refreshInterval))
+	corpusStore, err := NewRemoteCorpusStore(ctx, corpusBaseURL, WithRefreshInterval(refreshInterval), WithSkillsLLMSURL(skillsLLMSURL))
 	if err != nil {
 		return fmt.Errorf("load corpus: %w", err)
 	}

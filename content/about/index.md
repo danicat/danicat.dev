@@ -68,7 +68,7 @@ projects:
   items:
     - name: "KungFu & Agent Skills Catalog"
       badge: "AI Agents · CLI"
-      description: "Curated catalog of 32 specialized Agent Skills and the KungFu CLI gateway for JIT context streaming."
+      description: "Curated catalog of specialized Agent Skills and the KungFu CLI gateway for JIT context streaming."
       url: "https://skills.danicat.dev/"
       external: false
     - name: "GoDoctor"

@@ -70,7 +70,7 @@
     </div>
   </div>
   {{ else if eq $thumbAction "link" }}
-  <a href="{{ $thumbUrl }}" target="_blank" rel="noopener noreferrer"
+  <a href="{{ $thumbUrl }}" target="_blank" rel="noopener"
      class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block group/thumb cursor-pointer"
      tabindex="-1" aria-hidden="true">
     <img src="{{ $resolvedThumbnail }}" alt="{{ $e.title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
@@ -110,7 +110,7 @@
         {{ if $e.event }}
           <span class="px-2 text-primary-500">&middot;</span>
           {{ if $e.url }}
-            <a href="{{ $e.url }}" target="_blank" rel="noopener noreferrer" class="font-medium hover:underline text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+            <a href="{{ $e.url }}" target="_blank" rel="noopener" class="font-medium hover:underline text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
               {{ $e.event }}
             </a>
           {{ else }}
@@ -153,7 +153,7 @@
         </button>
       {{ end }}
       {{ if $e.slides }}
-        <a href="{{ $e.slides }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+        <a href="{{ $e.slides }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <rect x="2" y="3" width="20" height="14" rx="2"/>
             <path d="M8 21h8"/>
@@ -165,7 +165,7 @@
       {{ end }}
       {{ if or $e.codelab $e.materials }}
         {{ $matUrl := $e.codelab | default $e.materials }}
-        <a href="{{ $matUrl }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+        <a href="{{ $matUrl }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="4 17 10 11 4 5"/>
             <line x1="12" y1="19" x2="20" y2="19"/>
@@ -175,7 +175,7 @@
         </a>
       {{ end }}
       {{ if $e.source_code }}
-        <a href="{{ $e.source_code }}" target="_blank" rel="noopener noreferrer" class="card-action-btn not-prose">
+        <a href="{{ $e.source_code }}" target="_blank" rel="noopener" class="card-action-btn not-prose">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="16 18 22 12 16 6"/>
             <polyline points="8 6 2 12 8 18"/>

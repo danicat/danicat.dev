@@ -95,3 +95,33 @@
 # -- Footer Menu --
 # The footer menu is displayed at the bottom of the page, just before
 # the copyright notice. Configure as per the main menu above.
+
+[[footer]]
+  name = "投稿"
+  pageRef = "posts"
+  weight = 10
+
+[[footer]]
+  name = "動画"
+  pageRef = "videos"
+  weight = 20
+
+[[footer]]
+  name = "コードラボ"
+  pageRef = "codelabs"
+  weight = 30
+
+[[footer]]
+  name = "スキル"
+  url = "https://skills.danicat.dev/ja/"
+  weight = 40
+
+[[footer]]
+  name = "ちびダニ"
+  pageRef = "chibi"
+  weight = 50
+
+[[footer]]
+  name = "RSS"
+  url = "/ja/index.xml"
+  weight = 60

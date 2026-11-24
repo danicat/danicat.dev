@@ -47,7 +47,7 @@
     {{ end }}
 
     <article class="article-link--simple danicat-card danicat-card-row group flex flex-col md:flex-row gap-6 p-5 relative">
-      <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }} class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block" tabindex="-1" aria-hidden="true">
+      <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }} data-codelab-launch="true" data-codelab-title="{{ .Title | plainify }}" class="w-full md:w-72 aspect-video shrink-0 rounded-lg overflow-hidden border border-neutral-200/60 dark:border-neutral-700/60 bg-neutral-100 dark:bg-neutral-900 relative block" tabindex="-1" aria-hidden="true">
         <img src="{{ $featured }}" {{ with $featuredObj }}width="{{ .Width }}" height="{{ .Height }}"{{ end }} alt="{{ .Title }}" loading="lazy" decoding="async" class="not-prose w-full h-full object-cover nozoom">
       </a>
 
@@ -55,7 +55,7 @@
         <div>
           <header class="items-center text-start">
             <h3>
-              <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }}
+              <a href="{{ $href }}"{{ if .Params.externalUrl }} target="_blank" rel="external noopener"{{ end }} data-codelab-launch="true" data-codelab-title="{{ .Title | plainify }}"
                  class="not-prose text-xl font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 decoration-primary-500 hover:underline hover:underline-offset-2">
                 {{ .Title | emojify }}
                 {{ if .Params.externalUrl }}

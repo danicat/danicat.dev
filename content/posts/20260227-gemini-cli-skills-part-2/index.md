@@ -27,9 +27,6 @@ superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
 status_note: "The triggers for authoring skills and concrete patterns (latest-version, pyhd, find-examples, de-sloppify) remain useful inspiration, while Gemini CLI's skill-creator flow is deprecated and superseded by /skill-optimizer, /learn, and kungfu."
 ---
 
-{{< alert "circle-info" >}}
-**Update (2026):** Gemini CLI has evolved into **Google Antigravity 2.0**. While the core Agent Skills concepts and structure covered in this article remain foundational, check out [The Hitchhiker's Guide to Antigravity 2.0]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) for an overview of the updated platform and features.
-{{< /alert >}}
 
 In [Part 1: Mastering Custom Agent Skills in Gemini CLI]({{< ref "/posts/20260128-agent-skills-gemini-cli" >}}), we explored how Agent Skills add new features to the Gemini CLI. We looked at the `experiment-analyst` skill as a practical example of keeping the agent's context clean while giving it specific instructions for a task.
 

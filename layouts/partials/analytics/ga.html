@@ -3,7 +3,8 @@
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', '{{ $gaID }}');
+  gtag('set', { site_section: 'danicat_blog' });
+  gtag('config', '{{ $gaID }}', { transport_type: 'beacon' });
   (function() {
     var loaded = false;
     function loadGtag() {
@@ -14,9 +15,28 @@
       s.src = 'https://www.googletagmanager.com/gtag/js?id={{ $gaID }}';
       document.head.appendChild(s);
     }
-    ['pointerdown', 'keydown', 'touchstart', 'scroll', 'mousemove'].forEach(function(evt) {
-      window.addEventListener(evt, loadGtag, { once: true, passive: true });
-    });
-    setTimeout(loadGtag, 3500);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadGtag, { once: true });
+    } else {
+      loadGtag();
+    }
+    document.addEventListener('click', function(e) {
+      if (navigator.webdriver || typeof window.gtag !== 'function') return;
+      var codelabLink = e.target.closest('a[data-codelab-launch]');
+      if (codelabLink) {
+        window.gtag('event', 'codelab_launch', {
+          codelab_url: codelabLink.href,
+          codelab_title: codelabLink.getAttribute('data-codelab-title') || ''
+        });
+        return;
+      }
+      var rssLink = e.target.closest('a[href$="index.xml"], a[data-rss-link]');
+      if (rssLink) {
+        window.gtag('event', 'rss_click', {
+          feed_url: rssLink.href,
+          lang: document.documentElement.lang || 'en'
+        });
+      }
+    }, { passive: true });
   })();
 </script>

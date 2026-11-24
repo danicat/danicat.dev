@@ -1,0 +1,54 @@
+{{- $skillsUrl := "https://skills.danicat.dev/" -}}
+{{- if eq .Site.Language.Lang "ja" -}}
+  {{- $skillsUrl = "https://skills.danicat.dev/ja/" -}}
+{{- else if eq .Site.Language.Lang "pt-br" -}}
+  {{- $skillsUrl = "https://skills.danicat.dev/pt-br/" -}}
+{{- end -}}
+<section class="mt-12 mb-8">
+  <h2 class="mt-8 text-2xl font-extrabold mb-6">{{ i18n "explore_more_heading" | default "Explore More" }}</h2>
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <a href="{{ "videos/" | relLangURL }}" class="danicat-card p-5 flex flex-col justify-between group no-underline">
+      <div>
+        <div class="text-lg font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {{ i18n "explore_videos_title" | default "Videos & Demos" }}
+        </div>
+        <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {{ i18n "explore_videos_desc" | default "Hands-on coding demos, AI agent walkthroughs, and conference talk recordings." }}
+        </p>
+      </div>
+    </a>
+
+    <a href="{{ "codelabs/" | relLangURL }}" class="danicat-card p-5 flex flex-col justify-between group no-underline">
+      <div>
+        <div class="text-lg font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {{ i18n "explore_codelabs_title" | default "Interactive Codelabs" }}
+        </div>
+        <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {{ i18n "explore_codelabs_desc" | default "Step-by-step official Google hands-on labs covering ADK, MCP, Go, and Gemini." }}
+        </p>
+      </div>
+    </a>
+
+    <a href="{{ $skillsUrl }}" target="_blank" rel="noopener" class="danicat-card p-5 flex flex-col justify-between group no-underline">
+      <div>
+        <div class="text-lg font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {{ i18n "explore_skills_title" | default "Agent Skills Catalog" }} <span class="text-xs align-top text-neutral-400">&#8599;</span>
+        </div>
+        <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {{ i18n "explore_skills_desc" | default "Browse reusable Agent Skills and install them with kungfu." }}
+        </p>
+      </div>
+    </a>
+
+    <a href="{{ "chibi/" | relLangURL }}" class="danicat-card p-5 flex flex-col justify-between group no-underline">
+      <div>
+        <div class="text-lg font-bold text-neutral-900 dark:text-neutral group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+          {{ i18n "explore_chibi_title" | default "Ask Chibi Dani" }}
+        </div>
+        <p class="mt-2 text-sm text-neutral-600 dark:text-neutral-300">
+          {{ i18n "explore_chibi_desc" | default "Chat with Daniela's AI companion grounded on every post, talk, and skill." }}
+        </p>
+      </div>
+    </a>
+  </div>
+</section>

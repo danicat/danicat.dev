@@ -21,9 +21,12 @@
   {{- $originalWidth := $imgObj.Width -}}
 
   {{- $img800 := $imgObj.Resize (printf "%dx webp q82" (int (math.Min $originalWidth 800))) -}}
-  {{- $img1280 := $imgObj.Resize (printf "%dx webp q82" (int (math.Min $originalWidth 1280))) -}}
-
-  {{- $srcset := printf "%s %dw, %s %dw" $img800.RelPermalink $img800.Width $img1280.RelPermalink $img1280.Width -}}
+  {{- $img1280 := $img800 -}}
+  {{- $srcset := printf "%s %dw" $img800.RelPermalink $img800.Width -}}
+  {{- if gt $originalWidth 800 -}}
+    {{- $img1280 = $imgObj.Resize (printf "%dx webp q82" (int (math.Min $originalWidth 1280))) -}}
+    {{- $srcset = printf "%s %dw, %s %dw" $img800.RelPermalink $img800.Width $img1280.RelPermalink $img1280.Width -}}
+  {{- end -}}
 
   <img
     width="{{ $img800.Width }}"
@@ -67,7 +70,8 @@
     {{- template "RenderImageSimple" (dict "imgObj" "" "src" $urlStr "alt" $altText) -}}
   {{- else if $resource -}}
     {{- $isSVG := eq $resource.MediaType.SubType "svg" -}}
-    {{- $shouldOptimize := and (not $disableImageOptimizationMD) (not $isSVG) -}}
+    {{- $isGIF := eq $resource.MediaType.SubType "gif" -}}
+    {{- $shouldOptimize := and (not $disableImageOptimizationMD) (not $isSVG) (not $isGIF) -}}
     {{- if $shouldOptimize -}}
       {{- template "RenderImageResponsive" (dict "imgObj" $resource "alt" $altText) -}}
     {{- else -}}

@@ -71,12 +71,42 @@ article:
 
 chibi_nav_pill: "Ask Chibi"
 chibi_stage_title: "Chibi Dani"
-chibi_scope_note: "Grounded on Daniela's articles, codelabs, talks & open source · Powered by <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener noreferrer\">Gemini 3.5 Flash Lite</a>, deployed to <a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener noreferrer\">Cloud Run</a> and protected by <a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener noreferrer\">Google Cloud Model Armor</a>."
+chibi_scope_note: "Grounded on Daniela's articles, codelabs, talks & open source · Powered by <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener\">Gemini 3.5 Flash Lite</a>, deployed to <a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener\">Cloud Run</a> and protected by <a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener\">Google Cloud Model Armor</a>."
 chibi_new_chat: "New chat"
 chibi_input_label: "Ask Chibi Dani a question"
 chibi_input_placeholder: "Ask about an article, talk, codelab, or Go tool..."
 chibi_send_label: "Send"
 chibi_send_hint: "Enter to send · Shift+Enter for new line"
 chibi_welcome: "Hi! I am Chibi Dani, Daniela's virtual companion. Before you dive into an article, ask me to summarize any post, compare series like Agent Skills vs MCP, find conference talks, or explore her open-source Go tools."
+chibi_starters_label: "Suggested questions"
+chibi_starter_1: "Compare Agent Skills vs MCP"
+chibi_starter_2: "What skills are on skills.danicat.dev?"
+chibi_starter_3: "Recommend a Go + Gemini tutorial"
+chibi_starter_4: "How was Chibi Dani built?"
+
+lifecycle_deprecated_title: "Historical / Deprecated Article"
+lifecycle_superseded_title: "Superseded Article"
+lifecycle_superseded_by_label: "Recommended replacement:"
+lifecycle_skills_cta: "Browse the latest Agent Skills at skills.danicat.dev or install them on demand with kungfu."
+
+explore_more_heading: "Explore More"
+explore_videos_title: "Videos & Demos"
+explore_videos_desc: "Hands-on coding demos, AI agent walkthroughs, and conference talk recordings."
+explore_codelabs_title: "Interactive Codelabs"
+explore_codelabs_desc: "Step-by-step official Google hands-on labs covering ADK, MCP, Go, and Gemini."
+explore_skills_title: "Agent Skills Catalog"
+explore_skills_desc: "Browse reusable Agent Skills and install them with kungfu."
+explore_chibi_title: "Ask Chibi Dani"
+explore_chibi_desc: "Chat with Daniela's AI companion grounded on every post, talk, and skill."
+
+article_cta_heading: "Keep Exploring"
+article_cta_rss: "Subscribe via RSS"
+article_cta_skills: "Browse Agent Skills"
+article_cta_chibi: "Ask Chibi Dani"
+
+locale_prompt_pt_br: "Este artigo também está disponível em Português (Brasil)."
+locale_prompt_ja: "この記事は日本語版でもお読みいただけます。"
+locale_prompt_switch: "Switch"
+locale_prompt_dismiss: "Dismiss"
 
 

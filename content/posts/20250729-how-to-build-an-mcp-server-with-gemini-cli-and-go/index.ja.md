@@ -28,9 +28,6 @@ superseded_by:
 status_note: "MCP の stdio 3ステップ JSON-RPC ハンドシェイク、Cloud Run 認証の注意点、プロンプトのリーディングリストの知見は現在も有効ですが、Gemini CLI の .gemini/settings.json 設定や初期 GoDoctor v0.2.0 の設計は非推奨となりました。"
 ---
 
-{{< alert "circle-info" >}}
-**注記:** この記事は Gemini CLI を対象に書かれたものですが、Gemini CLI は非推奨となり **Google Antigravity 2.0** へと移行しました。新しい Antigravity CLI（`agy`）、SDK、および最新エコシステムの詳細については、[Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) をご覧ください。
-{{< /alert >}}
 
 ## はじめに
 

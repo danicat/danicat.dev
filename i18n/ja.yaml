@@ -71,12 +71,42 @@ article:
 
 chibi_nav_pill: "ちびダニに聞く"
 chibi_stage_title: "ちびダニ"
-chibi_scope_note: "ダニエラの記事・コードラボ・講演・オープンソースに基づく回答 · <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener noreferrer\">Gemini 3.5 Flash Lite</a> を搭載し、<a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener noreferrer\">Cloud Run</a> にデプロイされ、<a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener noreferrer\">Google Cloud Model Armor</a> で保護されています。"
+chibi_scope_note: "ダニエラの記事・コードラボ・講演・オープンソースに基づく回答 · <a href=\"https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/3-5-flash-lite\" target=\"_blank\" rel=\"noopener\">Gemini 3.5 Flash Lite</a> を搭載し、<a href=\"https://cloud.google.com/run\" target=\"_blank\" rel=\"noopener\">Cloud Run</a> にデプロイされ、<a href=\"https://cloud.google.com/security/products/model-armor\" target=\"_blank\" rel=\"noopener\">Google Cloud Model Armor</a> で保護されています。"
 chibi_new_chat: "新しい会話"
 chibi_input_label: "ちびダニに質問する"
 chibi_input_placeholder: "記事、講演、コードラボ、Goツールについて質問してください..."
 chibi_send_label: "送信"
 chibi_send_hint: "Enterで送信 · Shift+Enterで改行"
 chibi_welcome: "こんにちは！案内役の「ちびダニ」です。記事を読む前に気になるテーマの要約を聞いたり、Agent Skills と MCP の違い、講演スライドや録画、Go製のオープンソースツールを探したりできます。"
+chibi_starters_label: "質問の例"
+chibi_starter_1: "Agent Skills と MCP の違いは？"
+chibi_starter_2: "skills.danicat.dev にはどんなスキルがありますか？"
+chibi_starter_3: "Go と Gemini のおすすめチュートリアルは？"
+chibi_starter_4: "ちびダニはどのように作られましたか？"
+
+lifecycle_deprecated_title: "アーカイブ / 非推奨の記事"
+lifecycle_superseded_title: "更新版がある記事"
+lifecycle_superseded_by_label: "最新の推奨記事:"
+lifecycle_skills_cta: "最新の Agent Skills は skills.danicat.dev で公開中。kungfu からオンデマンドで導入できます。"
+
+explore_more_heading: "さらに探索する"
+explore_videos_title: "動画・デモ"
+explore_videos_desc: "ライブコーディングデモ、AIエージェント実験、カンファレンス講演録画。"
+explore_codelabs_title: "コードラボ"
+explore_codelabs_desc: "ADK・MCP・Go・Gemini を使った実践的な Google 公式ハンズオン。"
+explore_skills_title: "Agent Skills カタログ"
+explore_skills_desc: "再利用可能な Agent Skills を閲覧し、kungfu ですぐに利用できます。"
+explore_chibi_title: "ちびダニに聞く"
+explore_chibi_desc: "記事・講演・スキルを学習したAI案内役「ちびダニ」とチャット。"
+
+article_cta_heading: "次のステップ"
+article_cta_rss: "RSS を購読"
+article_cta_skills: "Agent Skills を見る"
+article_cta_chibi: "ちびダニに聞く"
+
+locale_prompt_pt_br: "Este artigo também está disponível em Português (Brasil)."
+locale_prompt_ja: "この記事は日本語版でもお読みいただけます。"
+locale_prompt_switch: "切り替える"
+locale_prompt_dismiss: "閉じる"
 
 

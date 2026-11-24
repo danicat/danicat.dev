@@ -80,7 +80,7 @@
       "language": "en",
       "slides": "https://speakerdeck.com/danicat/devoxx-2026-state-of-agentic-coding",
       "source_code": "https://github.com/danicat/devoxx2026",
-      "post": null,
+      "post": "/posts/state-of-agentic-coding/",
       "tags": [
         "agent-skills",
         "ai-agents",
@@ -107,7 +107,7 @@
       "language": "en",
       "slides": "https://speakerdeck.com/danicat/gophercon-latam-2026-gemini-para-desenvolvedores-go",
       "source_code": "https://github.com/danicat/gclatam26",
-      "post": null,
+      "post": "/posts/match3-game-gemini-cli/",
       "tags": [
         "antigravity",
         "ebitengine",
@@ -186,7 +186,7 @@
       "language": "en",
       "slides": "https://speakerdeck.com/danicat/making-of-godoctor-lessons-learned-while-building-a-go-aware-mcp-server",
       "source_code": "https://github.com/danicat/godoctor",
-      "post": null,
+      "post": "/posts/how-to-build-an-mcp-server-with-gemini-cli-and-go/",
       "tags": [
         "ai-agents",
         "golang",
@@ -211,7 +211,7 @@
       "language": "en",
       "slides": null,
       "source_code": null,
-      "post": null,
+      "post": "/posts/genkit-go-photo-restoration/",
       "tags": [
         "gemini",
         "genkit",

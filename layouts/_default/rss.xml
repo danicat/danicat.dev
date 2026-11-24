@@ -1,14 +1,23 @@
 {{- $pctx := . -}}
 {{- if .IsHome -}}{{ $pctx = .Site }}{{- end -}}
 {{- $pages := slice -}}
-{{- if or $.IsHome $.IsSection -}}
-{{- $pages = $pctx.RegularPages -}}
+{{- if $.IsHome -}}
+  {{- $pages = where $pctx.RegularPages "Section" "in" (slice "posts" "codelabs") -}}
+{{- else if $.IsSection -}}
+  {{- $pages = $pctx.RegularPages -}}
 {{- else -}}
-{{- $pages = $pctx.Pages -}}
+  {{- $pages = $pctx.Pages -}}
 {{- end -}}
+{{- $validPages := slice -}}
+{{- range $pages -}}
+  {{- if and (.Permalink | default .Params.externalUrl) (not .Date.IsZero) -}}
+    {{- $validPages = $validPages | append . -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages = $validPages -}}
 {{- $limit := .Site.Config.Services.RSS.Limit -}}
 {{- if ge $limit 1 -}}
-{{- $pages = $pages | first $limit -}}
+  {{- $pages = $pages | first $limit -}}
 {{- end -}}
 {{- printf "<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>" | safeHTML }}
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/">
@@ -25,7 +34,7 @@
     {{- end }}
     <sy:updatePeriod>weekly</sy:updatePeriod>
     <sy:updateFrequency>1</sy:updateFrequency>
-    {{ if not .Date.IsZero }}<lastBuildDate>{{ (index $pages.ByLastmod.Reverse 0).Lastmod.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
+    {{ if gt (len $pages) 0 }}<lastBuildDate>{{ (index $pages.ByLastmod.Reverse 0).Lastmod.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>{{ end }}
     {{- with .OutputFormats.Get "RSS" -}}
     {{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}
     {{- end -}}
@@ -36,21 +45,24 @@
     </follow_challenge>
     {{ end }}
     {{ range $pages }}
+    {{- $itemURL := .Permalink | default .Params.externalUrl -}}
     <item>
       <title>{{ .Title | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}</title>
-      <link>{{ .Permalink }}</link>
+      <link>{{ $itemURL }}</link>
       <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
       {{ with .Site.Params.Author.email }}<author>{{.}}{{ with $.Site.Params.Author.name }} ({{.}}){{end}}</author>{{end}}
-      <guid isPermaLink="true">{{ .Permalink }}</guid>
+      <guid isPermaLink="true">{{ $itemURL }}</guid>
       <description>{{ (.Params.description | default .Summary) | plainify | htmlUnescape | transform.XMLEscape | safeHTML }}</description>
-      {{ range ( where .Site.RegularPages ".RelPermalink" .RelPermalink | first 1 ) }}
-        {{- $images := .Resources.ByType "image" -}}
-        {{- $featured := $images.GetMatch "*feature*" -}}
-        {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
-        {{- with $featured -}}
-        <media:content url="{{ $featured.Permalink }}" medium="image" />
+      {{- $images := .Resources.ByType "image" -}}
+      {{- $featured := $images.GetMatch "*feature*" -}}
+      {{- if not $featured }}{{ $featured = $images.GetMatch "{*cover*,*thumbnail*}" }}{{ end -}}
+      {{- with $featured -}}
+      <media:content url="{{ $featured.Permalink }}" medium="image" />
+      {{- else -}}
+        {{- with .Params.featureimage -}}
+        <media:content url="{{ . | absURL }}" medium="image" />
         {{- end -}}
-      {{ end }}
+      {{- end -}}
     </item>
     {{ end }}
   </channel>

@@ -68,7 +68,7 @@ projects:
   items:
     - name: "KungFu & Catálogo de Agent Skills"
       badge: "Agentes de IA · CLI"
-      description: "Catálogo com 32 Agent Skills especializadas e a CLI KungFu para carregamento JIT de contexto."
+      description: "Catálogo curado de Agent Skills especializadas e a CLI KungFu para carregamento JIT de contexto."
       url: "https://skills.danicat.dev/pt-br/"
       external: false
     - name: "GoDoctor"

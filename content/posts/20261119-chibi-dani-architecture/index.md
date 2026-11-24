@@ -37,7 +37,7 @@ In today's article we're going to explore how to protect your agents using a thr
 - Principle of least privilege: the agent should only have access to the minimal set of permissions, tools and information required to do its job.
 - Zero trust: screen all prompts with Model Armor to ensure no malicious attempt goes to the backend.
 
-To demonstrate these concepts I am using my own "Chibi Dani" assistant: a companion agent to danicat.dev that can answer questions grounded on my content. You can play with Chibi by clicking on her avatar on the top right corner of the screen. I typically wouldn't encourage this behaviour but, exceptionally today, you can try to exploit her to test the security features and constraints demonstrated in this article. I won't judge you, I promise.
+To demonstrate these concepts I am using my own ["Chibi Dani"](/chibi/) assistant: a companion agent to danicat.dev that can answer questions grounded on my content. You can play with Chibi by clicking on her avatar on the top right corner of the screen. I typically wouldn't encourage this behaviour but, exceptionally today, you can try to exploit her to test the security features and constraints demonstrated in this article. I won't judge you, I promise.
 
 ## Architecture overview
 

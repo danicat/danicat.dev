@@ -68,7 +68,7 @@ projects:
   items:
     - name: "KungFu & Agent Skills カタログ"
       badge: "AIエージェント · CLI"
-      description: "32種類の厳選Agent Skillsカタログと、必要なスキルを即座に読み込む KungFu CLI ゲートウェイ。"
+      description: "厳選されたAgent Skillsカタログと、必要なスキルを即座に読み込む KungFu CLI ゲートウェイ。"
       url: "https://skills.danicat.dev/ja/"
       external: false
     - name: "GoDoctor"

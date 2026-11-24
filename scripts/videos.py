@@ -5,12 +5,14 @@ and recorded talks in data/talks.json into data/videos.json using only
 Python standard library and YouTube's ytInitialData payload.
 """
 
-from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
 import json
 from pathlib import Path
+import random
 import re
+import time
 from typing import Any
+import urllib.error
 import urllib.request
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -37,10 +39,37 @@ def extract_youtube_id(url: str) -> str:
     return ""
 
 
-def fetch_html(url: str) -> str:
+def fetch_html(url: str, max_retries: int = 3, base_backoff_sec: float = 2.0) -> str:
     req = urllib.request.Request(url, headers=HEADERS)
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        return resp.read().decode("utf-8")
+    last_err: Exception | None = None
+
+    for attempt in range(max_retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                return resp.read().decode("utf-8")
+        except urllib.error.HTTPError as err:
+            last_err = err
+            # Retry on rate limit (429) or transient server errors (5xx)
+            if err.code in (429, 500, 502, 503, 504) and attempt < max_retries:
+                delay = base_backoff_sec * (2 ** attempt) + random.uniform(0.5, 1.5)
+                print(f"HTTP {err.code} on {url}; retrying in {delay:.1f}s (attempt {attempt + 1}/{max_retries})...")
+                time.sleep(delay)
+                continue
+            raise RuntimeError(
+                f"HTTP request to '{url}' failed with code {err.code}: {err.reason} (attempt {attempt + 1}/{max_retries + 1})"
+            ) from err
+        except urllib.error.URLError as err:
+            last_err = err
+            if attempt < max_retries:
+                delay = base_backoff_sec * (2 ** attempt) + random.uniform(0.5, 1.5)
+                print(f"Network error on {url} ({err.reason}); retrying in {delay:.1f}s (attempt {attempt + 1}/{max_retries})...")
+                time.sleep(delay)
+                continue
+            raise RuntimeError(
+                f"Network request to '{url}' failed: {err.reason} (attempt {attempt + 1}/{max_retries + 1})"
+            ) from err
+
+    raise RuntimeError(f"Failed to fetch '{url}' after {max_retries + 1} attempts") from last_err
 
 
 def discover_videos(url: str, kind: str) -> list[dict[str, str]]:
@@ -117,8 +146,12 @@ def main() -> None:
             }
 
     yt_video_ids = [vid for vid, rec in existing_by_id.items() if extract_youtube_id(rec.get("url", ""))]
-    with ThreadPoolExecutor(max_workers=8) as pool:
-        watch_metas = dict(zip(yt_video_ids, pool.map(fetch_watch_metadata, yt_video_ids)))
+    watch_metas: dict[str, Any] = {}
+    for idx, vid in enumerate(yt_video_ids, 1):
+        if idx > 1:
+            # Polite delay between requests to avoid burst rate limits
+            time.sleep(random.uniform(0.75, 1.5))
+        watch_metas[vid] = fetch_watch_metadata(vid)
 
     updated_count = 0
     for vid, rec in existing_by_id.items():

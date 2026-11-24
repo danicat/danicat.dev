@@ -26,9 +26,6 @@ superseded_by: "/posts/20260829-the-pragmatic-guide-to-agent-skills"
 status_note: "SKILL.md のフォルダ構造、段階的開示モデル、決定論的な Python スクリプトとエージェントの組み合わせは現在も基礎として有効ですが、Gemini CLI のセットアップや .gemini/skills パスは非推奨となりました。"
 ---
 
-{{< alert "circle-info" >}}
-**追記 (2026年):** Gemini CLI は **Google Antigravity 2.0** へと進化しました。本記事で解説している Agent Skills の基本概念や構造は引き続き有効ですが、プラットフォームの概要については [Antigravity 2.0 への銀河ヒッチハイク・ガイド]({{< ref "/posts/20260521-the-hitchhikers-guide-to-antigravity-2-0" >}}) を、本番環境向けの最新パターンやスキルカタログ、トークン最適化については [Agent Skills 実践ガイド]({{< ref "/posts/20260829-the-pragmatic-guide-to-agent-skills" >}}) をご覧ください。
-{{< /alert >}}
 
 先週 [Tenkai]({{< ref "/posts/20260120-improving-agentic-coding-with-science" >}}) について記事を書いた際、実験分析に関する重要な側面——「実験結果からいかにして洞察を抽出するか」については触れませんでした。サマリーや統計指標、検定結果を確認できる使い勝手のよいフロントエンドはあるものの、単なるサマリーから各設定の微妙なニュアンスを汲み取るのは非常に困難です。
 

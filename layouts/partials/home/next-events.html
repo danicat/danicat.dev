@@ -17,7 +17,7 @@
   
   <section class="w-full grid gap-6 sm:grid-cols-2 md:grid-cols-3">
     {{ range $nextEvents }}
-    <a href="{{ .url | default ("/events/" | relLangURL) }}" target="_blank" rel="noopener noreferrer" class="min-w-full block group">
+    <a href="{{ .url | default ("/events/" | relLangURL) }}" target="_blank" rel="noopener" class="min-w-full block group">
       <div class="min-h-full danicat-card overflow-hidden relative flex flex-col p-6">
         
         <div class="flex-grow">
