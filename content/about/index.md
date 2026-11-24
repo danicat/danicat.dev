@@ -108,8 +108,4 @@ projects:
       external: true
 ---
 
-I'm a Senior Developer Relations Engineer at Google, based in London, specializing in **Go**, **Data Engineering**, and **AI Agents**. Over the past two decades in software engineering and architecture, my focus has been building reliable, high-performance systems and helping developers master modern tooling. Prior to joining Google, I was a Google Developer Expert (GDE) in Go and Google Cloud Platform.
-
-My current work centers on AI-assisted engineering and agentic architectures—exploring how generative models, the Model Context Protocol (MCP), and the Agent Development Kit (ADK) integrate into production software workflows. I advocate for *disciplined vibe coding*: pairing classical engineering rigor, automated verification, and sound architectural design with AI-augmented development.
-
-Outside of work, I maintain open-source developer tools, play retro and modern video games, and pet every friendly cat I meet on the street.
+Daniela Petruzalek is an experienced IT professional with background in software engineering, pre-sales and developer relations, currently a Senior Developer Relations Engineer at Google. Her specialisation is data engineering and back end development and she is a former Google Developer Expert in Go and Google Cloud Platform. She's also a Google Cloud Certified Data Engineer and Oracle Certified Professional. In her spare time she contributes to open source, plays video games and pets random cats on the streets.

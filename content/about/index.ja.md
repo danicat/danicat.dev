@@ -108,8 +108,4 @@ projects:
       external: true
 ---
 
-ロンドンを拠点とする Google のシニア Developer Relations Engineer です。**Go 言語**、**データエンジニアリング**、そして進化を続ける **AI エージェント**のエコシステムを専門としています。20年以上にわたるソフトウェアエンジニアリングとアーキテクチャの経験を活かし、信頼性とパフォーマンスに優れたシステム構築や、最新ツールの実践的な活用を支援しています。Google 入社前は、Go 言語および Google Cloud Platform の Google Developer Expert（GDE）を務めていました。
-
-現在は AI 支援開発とエージェントアーキテクチャに注力しており、生成モデル、Model Context Protocol（MCP）、Agent Development Kit（ADK）を本番環境のソフトウェア開発にどう統合するかを探求しています。特に「規律あるバイブコーディング（*disciplined vibe coding*）」を提唱し、古典的なエンジニアリングの堅牢性、自動検証、堅実な設計原則を AI 拡張ワークフローに掛け合わせる実践を推進しています。
-
-仕事以外では、オープンソースツールの開発、レトロ＆最新ビデオゲーム、そして街角で出会う猫たちと触れ合う時間を楽しんでいます。
+ダニエラ・ペトルザレク（Daniela Petruzalek）は、ソフトウェアエンジニアリング、プリセールス、Developer Relations の経験を持つ IT プロフェッショナルで、現在は Google のシニア Developer Relations Engineer を務めています。専門はデータエンジニアリングとバックエンド開発で、Go 言語および Google Cloud Platform の元 Google Developer Expert（GDE）です。Google Cloud Certified Data Engineer および Oracle Certified Professional の資格も取得しています。空いた時間にはオープンソースに貢献したり、ビデオゲームを遊んだり、道端で出会う猫たちをなでたりしています。
