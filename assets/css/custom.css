@@ -850,7 +850,17 @@ html.dark .home-unified-header {
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  min-width: 0;
+  min-inline-size: 0;
+}
+
+@media (min-width: 1200px) {
+  .home-unified-header {
+    flex-wrap: nowrap;
+  }
+
+  .home-profile-group {
+    flex: 1 1 0%;
+  }
 }
 
 .home-profile-avatar {
@@ -906,7 +916,7 @@ html.dark .home-profile-role {
 
 @media (min-width: 640px) {
   .home-profile-role {
-    font-size: 1.0625rem;
+    font-size: 0.96875rem;
   }
 }
 
@@ -923,7 +933,7 @@ html.dark .home-profile-tagline {
 
 @media (min-width: 640px) {
   .home-profile-tagline {
-    font-size: 0.96875rem;
+    font-size: 0.9375rem;
   }
 }
 
@@ -931,8 +941,8 @@ html.dark .home-profile-tagline {
 .home-nav-group {
   display: flex;
   align-items: center;
-  margin-left: auto;
-  flex-shrink: 0;
+  margin-inline-start: auto;
+  flex: 0 0 auto;
 }
 
 .home-desktop-nav {
@@ -945,12 +955,13 @@ html.dark .home-profile-tagline {
 .home-nav-links {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: clamp(0.85rem, 1.25vw, 1.25rem);
 }
 
 .home-nav-link {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
+  white-space: nowrap;
   color: rgb(var(--color-neutral-800));
   text-decoration: none !important;
   transition: color 0.15s ease;
