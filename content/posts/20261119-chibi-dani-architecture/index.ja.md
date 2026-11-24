@@ -159,7 +159,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 
 `CorpusStore` は同一オリジンHTTPSのみを許可して `danicat.dev` から公開ページをプリロードし、`read_corpus` はメモリ上のスナップショットしか参照しないため、チャットターン中にシェル実行、ファイルシステム探索、外部ネットワーク通信は一切発生しません。仮に訪問者がモデルを台本から逸らせたとしても、ツール層が返せるのは公開済みのブログ記事、登壇情報、動画、コードラボだけです。
 
-次に、専用の[サービスID](https://docs.cloud.google.com/run/docs/securing/service-identity)を使ってエージェントのクラウドアクセス権限を絞ります。付与する権限はGemini Enterpriseの呼び出し、Model Armorでのテキスト検査、Cloud Firestoreへのターンログ保存、トレースとメトリクスのエクスポートだけです。Secret ManagerやCloud Storageなど、プロジェクト内の他のリソースには一切触れられません。
+次に、専用の[サービスID](https://docs.cloud.google.com/run/docs/securing/service-identity)を使ってエージェントのクラウドアクセス権限を絞ります。付与する権限はGemini Enterpriseの呼び出し、Model Armorでのテキスト検査、Cloud Firestoreへのターンログ保存、そしてトレース・メトリクス・構造化ログのエクスポートだけです。Secret ManagerやCloud Storageなど、プロジェクト内の他のリソースには一切触れられません。
 
 ## ゼロトラスト: Goで大量アクセスを止め、Model Armorでプロンプトインジェクションを防ぐ
 

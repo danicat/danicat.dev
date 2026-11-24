@@ -159,7 +159,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 
 Because `CorpusStore` preloads published pages from `danicat.dev` (enforcing same-origin HTTPS redirects) and `read_corpus` only reads from the in-memory snapshot, the agent has no shell access, no filesystem traversal, and no outbound network tools during chat turns. Even if a visitor coaxes the model off script, the tool layer can return only public blog posts, talks, videos, and codelabs.
 
-Next, we limit the agent's access to cloud resources via its own dedicated [service identity](https://docs.cloud.google.com/run/docs/securing/service-identity). We grant it permission only to call Gemini Enterprise, screen text with Model Armor, save turn logs to Cloud Firestore, and export traces and metrics. Every other resource in the project, such as Secret Manager or Cloud Storage, stays off limits.
+Next, we limit the agent's access to cloud resources via its own dedicated [service identity](https://docs.cloud.google.com/run/docs/securing/service-identity). We grant it permission only to call Gemini Enterprise, screen text with Model Armor, save turn logs to Cloud Firestore, and export traces, metrics, and structured logs. Every other resource in the project, such as Secret Manager or Cloud Storage, stays off limits.
 
 ## Zero trust: stopping floods in Go and prompt injections with Model Armor
 
