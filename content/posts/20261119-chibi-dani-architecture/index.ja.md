@@ -94,7 +94,9 @@ chibi := genkitx.DefineAgent(g, "chibi-dani",
 - **`BudgetScopeRun` で1回の質問を制限する:** 1回の質問でも、エージェントが `read_corpus` を呼んで記事を読み、回答を組み立てるまでに内部で最大4回のモデルステップが走ることがあります。`BudgetScopeRun` はそのターン内の全ステップにわたる `InputTokens`、`OutputTokens`、`ThoughtsTokens` を合算し（入力 `160,000`、出力 `1,500`、思考 `16,000` トークン）、モデル層の `MaxOutputTokens: 1500` と組み合わせて複数記事の参照を許しつつツールループの暴走を止めます。
 - **`BudgetScopeSession` で会話全体を制限する:** [`session_store.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/session_store.go) が `localstore.InMemorySessionStore` を上限付きLRUキャッシュ（最大 `256` セッション、アイドルTTL `30` 分）でラップしているため、未認証アクセスでコンテナRAMが枯渇することなく会話履歴を保持できます。`BudgetScopeSession` はそのセッション内の全ターンの累計使用量を制限し（入力 `500,000`、出力 `12,000`、思考 `64,000` トークン）、長い会話にも明確な上限を引きます。
 
-コンテンツ検索にも同じ最小主義を採っています。私の公開アーカイブ全体でも、プレーンなMarkdownで3 MB未満です。起動時に [`NewRemoteCorpusStore`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/corpus.go) が `danicat.dev` から `llms.txt` と各言語版の `llms-full.txt` をGoのメモリ上の `map[string]string` に直接プリロードするため、外部のベクターデータベースや検索サービスだけでなく、コンテナへのファイル同梱も不要になります。また `ai.WithSystemFn` が各ターンで `corpusStore.Current(ctx)` を呼ぶ仕組みにより、24時間以上稼働し続けたコンテナでも `If-None-Match` のETag検証で最新記事へ自動更新され、Cloud Runの再デプロイは不要です。
+コンテンツ検索にも同じ最小主義を採っています。私の公開アーカイブ全体でもプレーンなMarkdownで3 MB未満で、エージェント向けのコーパスとして [llms.txt](https://danicat.dev/llms.txt) と [llms-full.txt](https://danicat.dev/llms-full.txt) としてすでに公開しています。起動時にサービスがこれらのファイルを `danicat.dev` からメモリへ直接読み込むため、ベクターデータベースも外部検索サービスも、コンテナへのファイル同梱も不要です。システムプロンプトをターンごとに動的に組み立てているため、稼働し続けたコンテナも1日1回HTTPのETagを確認し、Cloud Runの再デプロイなしで新しい記事へ切り替わります。
+
+注: 私のブログはそれほど頻繁に更新されないため、動的なシステムプロンプトはキャッシュにとって大きな問題にはなりません。そのコストを支払うセッションはたまにある程度です。
 
 Cloud Runでは `--max-instances=1` を指定した小さな単一コンテナ（`1` vCPU、`512 MiB` メモリ）で動かし、アイドル時はゼロへスケールダウンさせます。トラフィックを1インスタンスに絞ることで、会話履歴とレートリミットのカウンタをプロセスメモリ内に保持できます。
 
@@ -138,8 +140,6 @@ You help readers discover Daniela's published articles, hands-on codelabs, confe
    - Do not use em dashes in your writing; use commas, periods, or colons instead.
 ```
 
-本番環境の [`system_prompt.md`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/system_prompt.md) にはさらに鮮度と置き換えルールも記述しており、Chibi Daniが常に新しい記事を優先し、`llms.txt` の `[DEPRECATED]` や `Superseded by` を尊重しつつ、普遍的な考え方と古くなったSDK・CLIコードを区別できるようにしています。
-
 システムプロンプトは通常の会話を導き、Pythonで連結リストを反転させるような依頼を断る制約を与えますが、文章のルールだけでは挙動を保証できません。巧妙なプロンプトは指示をすり抜けようとするため、決定論的なガードレールでエージェントを固める必要があります。これはサービス側のコードと外部のModel Armorの両方で実装します。
 
 まずコードベース側では、エージェントに与えているツールは `read_corpus` という読み取り専用の1つだけです。事前に読み込んだMarkdownエントリをURLまたはパスで引くことしかできません。
@@ -157,7 +157,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 )
 ```
 
-`CorpusStore` は同一オリジンHTTPSのみを許可して `danicat.dev` から公開ページをプリロードし、`read_corpus` はメモリ上のスナップショットしか参照しないため、チャットターン中にシェル実行、ファイルシステム探索、外部ネットワーク通信は一切発生しません。仮に訪問者がモデルを台本から逸らせたとしても、ツール層が返せるのは公開済みのブログ記事、登壇情報、動画、コードラボだけです。
+コーパスは `danicat.dev` から（同一オリジンHTTPS検証付きで）事前にメモリへ読み込み、`read_corpus` はメモリしか参照しないため、チャット中にシェル実行、ファイルシステム探索、外部ネットワーク通信は一切発生しません。仮に訪問者がモデルを台本から逸らせたとしても、ツール層が返せるのは公開済みのブログ記事、登壇情報、動画、コードラボだけです。
 
 次に、専用の[サービスID](https://docs.cloud.google.com/run/docs/securing/service-identity)を使ってエージェントのクラウドアクセス権限を絞ります。付与する権限はGemini Enterpriseの呼び出し、Model Armorでのテキスト検査、Cloud Firestoreへのターンログ保存、そしてトレース・メトリクス・構造化ログのエクスポートだけです。Secret ManagerやCloud Storageなど、プロジェクト内の他のリソースには一切触れられません。
 
@@ -353,7 +353,7 @@ if verified := sr.GetSanitizationMetadata().GetStreamChunkProcessed().GetText();
 
 Chibi Daniでは次の3層でシグナルを追跡しています。
 
-- **サービス健全性・トラフィック急増・トークン使用量（Cloud Monitoring と Cloud Trace）:** GenkitがOpenTelemetry経由でターンごとのレイテンシ、エラー率、トークン数をエクスポートします。プロンプトと応答の本文出力はオフのままにし、訪問者の会話がCloud Loggingに残らないようにしています。また、Cloud Monitoringのアラートポリシーが `chibi-dani` の `run.googleapis.com/request_count` を監視し、総リクエスト数が毎分 `100` 件を超えるか、`4xx` のレートリミット・オリジン拒否が毎分 `25` 件を超えたときに発報します。
+- **サービス健全性・トラフィック急増・トークン使用量（Cloud Monitoring と Cloud Trace）:** GenkitがOpenTelemetry経由でターンごとのレイテンシ、エラー率、トークン数をエクスポートします。また、Cloud Monitoringのアラートポリシーが `chibi-dani` の `run.googleapis.com/request_count` を監視し、総リクエスト数が毎分 `100` 件を超えるか、`4xx` のレートリミット・オリジン拒否が毎分 `25` 件を超えたときに発報します。
 - **ガードレールの結果とコンテンツの穴（Cloud Firestore）:** 各ターンの終了後、[`telemetry.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/telemetry.go) が質問から個人を特定できる情報（PII）を取り除いて `300` 文字に切り詰め、引用した記事URL、レイテンシ、結果（`ok`、`armor_blocked`、`budget_exceeded`、`error`）とともに `turns` サブコレクションへ保存します。これにより長いセッションでもFirestoreの `1 MiB` ドキュメント上限に達しません。このログを絞り込めばModel Armorやセッション上限の介入回数が分かり、引用が空のターンはブログにまだ書かれていないトピックを直接教えてくれます。
 - **読者のクリック行動（Google Analytics 4）:** チャットウィジェットは訪問者が質問したとき（`chibi_ask`）と引用記事をクリックしたとき（`chibi_citation_click`）を記録します。回答が実際の記事閲覧につながっているかがこれで分かります。
 
@@ -361,7 +361,7 @@ Chibi Daniでは次の3層でシグナルを追跡しています。
 
 Cloud Runの2つの機能も、このサービスの日々のデプロイとルーティングをシンプルにしてくれます。
 
-- **`--no-build` によるバイナリ直接デプロイ:** ソースからビルドすると、通常はデプロイのたびにリモートコンテナビルダーが起動してGoモジュールをダウンロードします。Goはローカルで1秒未満で静的バイナリをクロスコンパイルできるため、マネージドの `osonly24` ベースイメージと `--no-build` を組み合わせています。コーパスは起動時に `danicat.dev` から読み込むため、`${STAGE_DIR}` にはビルド済みの `linux/amd64` バイナリだけを置けばよく、約20秒で新しいリビジョンをロールアウトできます。
+- **`--no-build` によるバイナリ直接デプロイ:** ソースからビルドすると、通常はデプロイのたびにリモートコンテナビルダーが起動してGoモジュールをダウンロードします。Goはローカルで1秒未満で静的バイナリをクロスコンパイルできるため、マネージドの `osonly24` ベースイメージと `--no-build` を組み合わせています。コーパスは起動時に `danicat.dev` から直接読み込むため、デプロイではビルド済みの `linux/amd64` バイナリだけを送ればよく、約20秒で新しいリビジョンをロールアウトできます。
 - **[Cloud Run Custom URLs](https://docs.cloud.google.com/run/docs/custom-urls) による分かりやすいエンドポイント:** Cloud Runでは、ロードバランサや証明書、手動のDNSレコードなしで、すっきりした `*.cloud.run` アドレス（`https://chibi-dani.cloud.run`）をサービスに直接割り当てられます。カスタムURLは自動生成される `.run.app` ホスト名とは独立して動くため、`--no-default-url` を付けてデフォルトのエンドポイントを無効化しつつ、カスタムURLだけを公開できます。
 
 両方のフラグを組み合わせたデプロイコマンドは次の通りです。
@@ -394,7 +394,7 @@ gcloud beta run deploy chibi-dani \
 
 - **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** 定価は入力100万トークンあたり `$0.30`、出力・思考100万トークンあたり `$2.50` です。約3,000万入力トークン（定価で約 `$9.00`、共有コーパス索引にプレフィックスキャッシュが効けばさらに安価）と150万出力・思考トークン（約 `$3.75`）を合わせると、1,000セッションでも**月額 `$5` から `$12`** の範囲に収まります。一般的な個人ブログのアクセス量なら `$1` 未満です。
 - **Model Armor:** 毎月200万トークンの無料枠があります（超過後は100万トークンあたり `$0.10`）。ユーザー入力の約75kトークンと出力の約100万トークンの検査は毎月の無料枠内に収まります（**`$0.00`**）。
-- **Cloud Run、Cloud Trace、Cloud Firestore:** ゼロスケールによるアイドル課金回避、メトリクスのみのOpenTelemetryスパン、数千件のFirestoreセッション書き込みはいずれも月間無料枠内です（**`$0.00`**）。
+- **Cloud Run、Cloud Trace、Cloud Firestore:** ゼロスケールによるアイドル課金回避、OpenTelemetryスパン、数千件のFirestoreセッション書き込みはいずれも月間無料枠内です（**`$0.00`**）。
 
 ## Spend Cap Budgetsで課金のキルスイッチを追加する
 

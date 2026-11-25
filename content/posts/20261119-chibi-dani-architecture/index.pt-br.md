@@ -94,7 +94,9 @@ As regras de orçamento em [`main.go`](https://github.com/danicat/gemini-for-go-
 - **`BudgetScopeRun` limita uma única pergunta do usuário:** Uma pergunta pode disparar até quatro passos internos do modelo enquanto o agente chama `read_corpus` para ler artigos e depois redige a resposta. `BudgetScopeRun` soma `InputTokens`, `OutputTokens` e `ThoughtsTokens` em todos os passos daquele turno (`160.000` tokens de entrada, `1.500` de saída e `16.000` de pensamento), junto a `MaxOutputTokens: 1500` na camada do modelo, dando margem para consultas a vários artigos enquanto corta loops fora de controle.
 - **`BudgetScopeSession` limita uma conversa inteira:** Como [`session_store.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/session_store.go) envolve `localstore.InMemorySessionStore` em um cache LRU limitado (`256` sessões ativas, TTL ocioso de `30` minutos), cada pergunta seguinte reenvia as mensagens anteriores sem deixar tráfego não autenticado esgotar a RAM do container. `BudgetScopeSession` limita o uso acumulado de todos os turnos naquela sessão (`500.000` tokens de entrada, `12.000` de saída e `64.000` de pensamento) para que uma conversa longa tenha um teto claro.
 
-Aplicamos a mesma abordagem minimalista na busca de conteúdo. Todo o meu acervo publicado soma menos de 3 MB de Markdown puro. Na inicialização, [`NewRemoteCorpusStore`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/corpus.go) pré-carrega `llms.txt` e os arquivos `llms-full.txt` localizados direto de `danicat.dev` em um `map[string]string` na memória do Go, dispensando bancos vetoriais, serviços externos de busca e arquivos empacotados no container. Como `ai.WithSystemFn` chama `corpusStore.Current(ctx)` a cada turno, um container que permaneça ativo por mais de 24 horas verifica ETags com `If-None-Match` e atualiza os artigos em memória sem precisar de um novo deploy no Cloud Run.
+Aplicamos a mesma abordagem minimalista na busca de conteúdo. Todo o meu acervo publicado soma menos de 3 MB de Markdown puro, já publicado como um corpus amigável para agentes em [llms.txt](https://danicat.dev/llms.txt) e [llms-full.txt](https://danicat.dev/llms-full.txt). Na inicialização, o serviço carrega esses arquivos direto de `danicat.dev` na memória, dispensando bancos vetoriais, serviços externos de busca e arquivos empacotados no container. Como o prompt de sistema é montado dinamicamente a cada turno, um container ativo verifica ETags HTTP uma vez por dia e atualiza os artigos novos sem precisar de um novo deploy no Cloud Run.
+
+Nota: o prompt de sistema dinâmico não é um grande problema para o cache porque meu blog não é atualizado com tanta frequência. Só de vez em quando uma sessão acaba pagando esse custo.
 
 No Cloud Run, o serviço roda em um único container pequeno (`1` vCPU e `512 MiB` de memória) com `--max-instances=1`, escalando para zero quando o chat fica ocioso. Manter o tráfego em uma única instância nos permite manter histórico de conversa e contadores de rate limit na memória do processo.
 
@@ -138,8 +140,6 @@ You help readers discover Daniela's published articles, hands-on codelabs, confe
    - Do not use em dashes in your writing; use commas, periods, or colons instead.
 ```
 
-O arquivo [`system_prompt.md`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/system_prompt.md) em produção também inclui uma seção de recência e substituição para que a Chibi Dani sempre recomende artigos mais recentes primeiro, respeite os marcadores `[DEPRECATED]` e `Superseded by` do `llms.txt` e separe conceitos atemporais de código de SDK ou CLI já ultrapassado.
-
 O prompt de sistema guia conversas normais e impõe limites, como recusar pedidos para inverter uma lista ligada em Python, mas regras em texto não bastam para garantir comportamento. Prompts espertos ainda podem tentar contornar instruções, então precisamos reforçar o agente com guardrails determinísticos. Eles entram tanto no código do serviço quanto externamente com o Model Armor.
 
 Começando pelo código, o agente tem uma única ferramenta somente leitura chamada `read_corpus`, que busca entradas de Markdown pré-carregadas por URL ou caminho:
@@ -157,7 +157,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 )
 ```
 
-Como o `CorpusStore` pré-carrega páginas públicas direto de `danicat.dev` (exigindo redirecionamentos HTTPS na mesma origem) e `read_corpus` lê apenas do snapshot em memória, o agente não tem acesso a shell, não navega no sistema de arquivos e não faz chamadas de rede durante os turnos de conversa. Mesmo que um visitante convença o modelo a sair do roteiro, a camada de ferramentas só consegue devolver posts públicos, palestras, vídeos e codelabs.
+Como o corpus é pré-carregado de `danicat.dev` (com validação de mesma origem em HTTPS) e `read_corpus` lê apenas da memória, o agente não tem acesso a shell, não navega no sistema de arquivos e não faz chamadas de rede durante o chat. Mesmo que um visitante convença o modelo a sair do roteiro, a camada de ferramentas só consegue devolver posts públicos, palestras, vídeos e codelabs.
 
 Em seguida, limitamos o acesso do agente aos recursos de nuvem com uma [identidade de serviço](https://docs.cloud.google.com/run/docs/securing/service-identity) dedicada. Concedemos permissão apenas para chamar o Gemini Enterprise, inspecionar texto com o Model Armor, salvar registros de turno no Cloud Firestore e exportar traces, métricas e logs estruturados. Qualquer outro recurso no projeto, como Secret Manager ou Cloud Storage, fica fora de alcance.
 
@@ -353,7 +353,7 @@ Quando um agente vai para o ar, o monitoramento responde a três perguntas centr
 
 A Chibi Dani acompanha esses sinais em três camadas:
 
-- **Saúde do serviço, picos de tráfego e uso de tokens (Cloud Monitoring e Cloud Trace):** O Genkit exporta latência, taxas de erro e contagem de tokens por turno via OpenTelemetry. O texto de prompts e respostas fica desativado, mantendo as conversas dos visitantes fora do Cloud Logging. Uma política de alerta no Cloud Monitoring acompanha `run.googleapis.com/request_count` no serviço `chibi-dani` e dispara se o tráfego total passar de `100` requisições/min ou se rejeições `4xx` de rate limit e origem passarem de `25`/min.
+- **Saúde do serviço, picos de tráfego e uso de tokens (Cloud Monitoring e Cloud Trace):** O Genkit exporta latência, taxas de erro e contagem de tokens por turno via OpenTelemetry. Uma política de alerta no Cloud Monitoring acompanha `run.googleapis.com/request_count` no serviço `chibi-dani` e dispara se o tráfego total passar de `100` requisições/min ou se rejeições `4xx` de rate limit e origem passarem de `25`/min.
 - **Resultados dos guardrails e lacunas de conteúdo (Cloud Firestore):** Após cada turno, [`telemetry.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/telemetry.go) remove informações pessoalmente identificáveis (PII), trunca a pergunta registrada em `300` runes e grava o turno em uma subcoleção `turns` junto às URLs citadas, latência e resultado (`ok`, `armor_blocked`, `budget_exceeded` ou `error`), evitando que sessões longas batam no limite de `1 MiB` por documento do Firestore. Filtrar esses logs mostra quantas vezes o Model Armor ou os limites de sessão atuaram, enquanto turnos sem citações apontam direto para assuntos que ainda faltam no blog.
 - **Cliques dos leitores (Google Analytics 4):** O widget de chat registra quando um visitante faz uma pergunta (`chibi_ask`) e quando clica em um post citado (`chibi_citation_click`). Isso mostra se as respostas realmente levam à leitura.
 
@@ -361,7 +361,7 @@ A Chibi Dani acompanha esses sinais em três camadas:
 
 Dois recursos do Cloud Run também simplificam o deploy e o roteamento desse serviço no cotidiano:
 
-- **Deploy direto de binário com `--no-build`:** Compilar a partir do código-fonte normalmente sobe um builder remoto de containers para baixar módulos Go a cada deploy. Como o Go faz compilação cruzada de binários estáticos localmente em menos de um segundo, usamos `--no-build` com a imagem base gerenciada `osonly24`. Como o corpus é carregado de `danicat.dev` na inicialização, `${STAGE_DIR}` leva apenas o binário `linux/amd64` pronto e coloca novas revisões no ar em cerca de vinte segundos.
+- **Deploy direto de binário com `--no-build`:** Compilar a partir do código-fonte normalmente sobe um builder remoto de containers para baixar módulos Go a cada deploy. Como o Go faz compilação cruzada de binários estáticos localmente em menos de um segundo, usamos `--no-build` com a imagem base gerenciada `osonly24`. Como o corpus é carregado direto de `danicat.dev` na inicialização, o deploy envia apenas o binário `linux/amd64` compilado e coloca novas revisões no ar em cerca de vinte segundos.
 - **Endpoints legíveis com [Cloud Run Custom URLs](https://docs.cloud.google.com/run/docs/custom-urls):** O Cloud Run permite associar um endereço limpo `*.cloud.run` (`https://chibi-dani.cloud.run`) diretamente a um serviço, sem precisar de load balancers, certificados nem registros DNS manuais. Como URLs personalizadas funcionam de forma independente do domínio gerado `.run.app`, adicionar `--no-default-url` desativa o endpoint padrão enquanto mantém o endereço personalizado ativo.
 
 Aqui está o comando de deploy combinando as duas flags:
@@ -394,7 +394,7 @@ Com dimensionamento mínimo, menor privilégio e triagem zero trust trabalhando 
 
 - **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** O preço de tabela é `$0,30` por 1M de tokens de entrada e `$2,50` por 1M de tokens de saída e pensamento. Cerca de 30M de tokens de entrada (`~$9,00` no preço de tabela, ou menos quando o cache de prefixo acerta o índice compartilhado) mais 1,5M de tokens de saída e pensamento (`~$3,75`) coloca 1.000 sessões ativas entre **`$5` e `$12` por mês**. O tráfego típico de um blog pessoal fica abaixo de `$1`.
 - **Model Armor:** O serviço inclui 2 milhões de tokens gratuitos por mês (`$0,10` por milhão depois disso). Inspecionar cerca de 75k tokens de usuário mais 1M de tokens de saída fica dentro da camada gratuita mensal (**`$0,00`**).
-- **Cloud Run, Cloud Trace e Cloud Firestore:** Computação com escala para zero, spans OpenTelemetry apenas de métricas e alguns milhares de gravações de sessão no Firestore permanecem dentro de suas camadas gratuitas mensais (**`$0,00`**).
+- **Cloud Run, Cloud Trace e Cloud Firestore:** Computação com escala para zero, spans OpenTelemetry e alguns milhares de gravações de sessão no Firestore permanecem dentro de suas camadas gratuitas mensais (**`$0,00`**).
 
 ## Adicionando um disjuntor de cobrança com Spend Cap Budgets
 
