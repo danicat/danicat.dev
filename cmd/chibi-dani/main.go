@@ -60,8 +60,7 @@ func run() error {
 	}
 
 	googlecloud.EnableGoogleCloudTelemetry(&googlecloud.GoogleCloudTelemetryOptions{
-		ProjectID:                    projectID,
-		DisableLoggingInputAndOutput: true,
+		ProjectID: projectID,
 	})
 
 	corpusStore, err := NewRemoteCorpusStore(ctx, corpusBaseURL, WithRefreshInterval(refreshInterval), WithSkillsLLMSURL(skillsLLMSURL))
