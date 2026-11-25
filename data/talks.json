@@ -65,7 +65,7 @@
       "event": "Wednesday Build Hour",
       "date": "2026-11-25",
       "location": "Online",
-      "url": "https://cloudonair.withgoogle.com/",
+      "url": "https://gdg.community.dev/events/details/google-google-cloud-emea-developers-presents-agent-skills-in-practice/",
       "summary": "Practical session on designing process and trait skills with progressive disclosure and building a personal skill catalog without context bloat.",
       "image": null,
       "slides": null,
@@ -182,6 +182,32 @@
       ],
       "categories": [
         "Applied GenAI"
+      ]
+    },
+    {
+      "id": "2026-11-03-golab-2026-state-of-agentic-coding",
+      "title": "State of Agentic Coding",
+      "event": "GoLab 2026",
+      "date": "2026-11-03",
+      "location": "Bologna, Italy",
+      "url": "https://golab.io/talks/state-of-agentic-coding",
+      "summary": "Revisiting recent developments in agentic coding from MCP to skills and beyond, building trust in autonomous agents, and touring the Google Antigravity ecosystem with live demos.",
+      "image": "https://files.speakerdeck.com/presentations/2edd8b6595fb4dcb87470642caf15cea/preview_slide_0.jpg?41505284",
+      "slides": "https://speakerdeck.com/danicat/golab-2026-state-of-agentic-coding",
+      "recording": null,
+      "source_code": null,
+      "codelab": null,
+      "materials": null,
+      "language": "en",
+      "tags": [
+        "agent-skills",
+        "antigravity",
+        "golang",
+        "mcp",
+        "vibe-coding"
+      ],
+      "categories": [
+        "Agentic Coding"
       ]
     },
     {
