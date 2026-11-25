@@ -89,7 +89,7 @@ chibi := genkitx.DefineAgent(g, "chibi-dani",
 )
 ```
 
-The budget rules in [`main.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/main.go) enforce limits at two levels:
+The budget rules enforce limits at two levels:
 
 - **`BudgetScopeRun` bounds a single user question:** One question can trigger up to four internal model steps as the agent calls `read_corpus` to read articles and then writes an answer. `BudgetScopeRun` sums `InputTokens`, `OutputTokens`, and `ThoughtsTokens` across every step in that turn (`160,000` input, `1,500` output, and `16,000` thinking tokens), paired with `MaxOutputTokens: 1500` at the model layer so multi-article lookups can finish while stopping runaway loops.
 - **`BudgetScopeSession` bounds an entire conversation:** Because [`session_store.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/session_store.go) wraps `localstore.InMemorySessionStore` in a bounded LRU cache (`256` active sessions, `30`-minute idle TTL), each follow-up question resends prior messages without letting unauthenticated traffic exhaust container memory. `BudgetScopeSession` caps cumulative usage across all turns in that session (`500,000` input, `12,000` output, and `64,000` thinking tokens) so one long conversation has a clear upper limit.
@@ -159,7 +159,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 
 Because the corpus is preloaded from `danicat.dev` (with same-origin HTTPS checks) and `read_corpus` only reads from memory, the agent has no shell access, no filesystem traversal, and no outbound network tools during a chat. Even if a visitor coaxes the model off script, the tool layer can return only public blog posts, talks, videos, and codelabs.
 
-Next, we limit the agent's access to cloud resources via its own dedicated [service identity](https://docs.cloud.google.com/run/docs/securing/service-identity). We grant it permission only to call Gemini Enterprise, screen text with Model Armor, save turn logs to Cloud Firestore, and export traces, metrics, and structured logs. Every other resource in the project, such as Secret Manager or Cloud Storage, stays off limits.
+Next, we limit the agent's access to cloud resources via its own dedicated [service identity](https://docs.cloud.google.com/run/docs/securing/service-identity). We grant it permission only to call Gemini Enterprise, screen text with Model Armor, save turn logs to Cloud Firestore, and export traces and metrics. Every other resource in the project, such as Secret Manager or Cloud Storage, stays off limits.
 
 ## Zero trust: stopping floods in Go and prompt injections with Model Armor
 
@@ -261,7 +261,7 @@ Before calling any external API, [`server.go`](https://github.com/danicat/gemini
    }
    ```
 
-When rate limiting by IP behind a reverse proxy, header order matters. Callers can [forge leading entries in `X-Forwarded-For`](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header) to spoof rotating addresses, while each trusted proxy appends the connecting peer IP on the right. Because Chibi Dani serves traffic directly through Cloud Run's Google Front End without an extra load balancer hop, [selecting the rightmost address](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address) with `slices.Backward` maps each caller to the right bucket:
+When rate limiting by IP behind a reverse proxy, header order matters. Callers can [forge leading entries](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header) in `X-Forwarded-For` to spoof rotating addresses, while each trusted proxy appends the connecting peer IP on the right. Because Chibi Dani serves traffic directly through Cloud Run's Google Front End without an extra load balancer hop, [selecting the rightmost address](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address) with `slices.Backward` maps each caller to the right bucket:
 
 ```go
 // clientIP extracts the trailing entry of X-Forwarded-For appended by Cloud Run's GFE,
@@ -393,8 +393,8 @@ gcloud beta run deploy chibi-dani \
 With minimal sizing, least privilege, and zero-trust screening working together, let's look at the monthly cost under real traffic. Suppose the blog agent handles **1,000 multi-turn visitor sessions per month**, averaging `2.5` turns per visit. Including the content index and tool reads, each turn averages around `12k` input tokens plus `600` output and thinking tokens:
 
 - **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** List pricing is `$0.30` per 1M input tokens and `$2.50` per 1M output and thinking tokens. Roughly 30M input tokens (`~$9.00` at list price, or less when prefix caching hits the shared corpus index) plus 1.5M output and thinking tokens (`~$3.75`) puts 1,000 active sessions between **`$5` and `$12` a month**. Typical personal-blog traffic stays under `$1`.
-- **Model Armor:** The service includes 2 million free tokens per month (`$0.10` per million after that). Scanning roughly 75k user tokens plus 1M output tokens stays inside the monthly free tier (**`$0.00`**).
-- **Cloud Run, Cloud Trace, and Cloud Firestore:** Scale-to-zero idle compute, OpenTelemetry spans, and a few thousand Firestore session writes stay inside their monthly free tiers (**`$0.00`**).
+- **Model Armor:** The service includes 2 million free tokens per month (`$0.10` per million after that). Scanning roughly 75k user tokens plus 1M output tokens stays inside the monthly free tier.
+- **Cloud Run, Cloud Trace, and Cloud Firestore:** Scale-to-zero idle compute, OpenTelemetry spans, and a few thousand Firestore session writes stay inside their monthly free tiers.
 
 ## Adding a billing kill switch with Spend Cap Budgets
 

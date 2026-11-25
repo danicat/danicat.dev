@@ -89,7 +89,7 @@ chibi := genkitx.DefineAgent(g, "chibi-dani",
 )
 ```
 
-As regras de orçamento em [`main.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/main.go) aplicam limites em dois níveis:
+As regras de orçamento aplicam limites em dois níveis:
 
 - **`BudgetScopeRun` limita uma única pergunta do usuário:** Uma pergunta pode disparar até quatro passos internos do modelo enquanto o agente chama `read_corpus` para ler artigos e depois redige a resposta. `BudgetScopeRun` soma `InputTokens`, `OutputTokens` e `ThoughtsTokens` em todos os passos daquele turno (`160.000` tokens de entrada, `1.500` de saída e `16.000` de pensamento), junto a `MaxOutputTokens: 1500` na camada do modelo, dando margem para consultas a vários artigos enquanto corta loops fora de controle.
 - **`BudgetScopeSession` limita uma conversa inteira:** Como [`session_store.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/session_store.go) envolve `localstore.InMemorySessionStore` em um cache LRU limitado (`256` sessões ativas, TTL ocioso de `30` minutos), cada pergunta seguinte reenvia as mensagens anteriores sem deixar tráfego não autenticado esgotar a RAM do container. `BudgetScopeSession` limita o uso acumulado de todos os turnos naquela sessão (`500.000` tokens de entrada, `12.000` de saída e `64.000` de pensamento) para que uma conversa longa tenha um teto claro.
@@ -159,7 +159,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 
 Como o corpus é pré-carregado de `danicat.dev` (com validação de mesma origem em HTTPS) e `read_corpus` lê apenas da memória, o agente não tem acesso a shell, não navega no sistema de arquivos e não faz chamadas de rede durante o chat. Mesmo que um visitante convença o modelo a sair do roteiro, a camada de ferramentas só consegue devolver posts públicos, palestras, vídeos e codelabs.
 
-Em seguida, limitamos o acesso do agente aos recursos de nuvem com uma [identidade de serviço](https://docs.cloud.google.com/run/docs/securing/service-identity) dedicada. Concedemos permissão apenas para chamar o Gemini Enterprise, inspecionar texto com o Model Armor, salvar registros de turno no Cloud Firestore e exportar traces, métricas e logs estruturados. Qualquer outro recurso no projeto, como Secret Manager ou Cloud Storage, fica fora de alcance.
+Em seguida, limitamos o acesso do agente aos recursos de nuvem com uma [identidade de serviço](https://docs.cloud.google.com/run/docs/securing/service-identity) dedicada. Concedemos permissão apenas para chamar o Gemini Enterprise, inspecionar texto com o Model Armor, salvar registros de turno no Cloud Firestore e exportar traces e métricas. Qualquer outro recurso no projeto, como Secret Manager ou Cloud Storage, fica fora de alcance.
 
 ## Zero trust: barrando enxurradas em Go e injeções de prompt com Model Armor
 
@@ -261,7 +261,7 @@ Antes de chamar qualquer API externa, [`server.go`](https://github.com/danicat/g
    }
    ```
 
-Ao aplicar rate limit por IP atrás de um proxy reverso, a ordem dos cabeçalhos importa. Clientes podem [forjar entradas iniciais no `X-Forwarded-For`](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header) para simular endereços rotativos, enquanto cada proxy confiável adiciona o IP de conexão à direita. Como a Chibi Dani atende diretamente pelo Google Front End do Cloud Run sem um balanceador de carga intermediário, [selecionar o endereço mais à direita](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address) com `slices.Backward` associa cada cliente ao balde correto:
+Ao aplicar rate limit por IP atrás de um proxy reverso, a ordem dos cabeçalhos importa. Clientes podem [forjar entradas iniciais](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header) no `X-Forwarded-For` para simular endereços rotativos, enquanto cada proxy confiável adiciona o IP de conexão à direita. Como a Chibi Dani atende diretamente pelo Google Front End do Cloud Run sem um balanceador de carga intermediário, [selecionar o endereço mais à direita](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address) com `slices.Backward` associa cada cliente ao balde correto:
 
 ```go
 // clientIP extracts the trailing entry of X-Forwarded-For appended by Cloud Run's GFE,
@@ -393,8 +393,8 @@ gcloud beta run deploy chibi-dani \
 Com dimensionamento mínimo, menor privilégio e triagem zero trust trabalhando juntos, vamos olhar para o custo mensal sob tráfego real. Suponha que o agente do blog atenda **1.000 sessões multiturno por mês**, com média de `2,5` turnos por visita. Incluindo o índice de conteúdo e leituras de ferramenta, cada turno consome cerca de `12k` tokens de entrada mais `600` tokens de saída e pensamento:
 
 - **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** O preço de tabela é `$0,30` por 1M de tokens de entrada e `$2,50` por 1M de tokens de saída e pensamento. Cerca de 30M de tokens de entrada (`~$9,00` no preço de tabela, ou menos quando o cache de prefixo acerta o índice compartilhado) mais 1,5M de tokens de saída e pensamento (`~$3,75`) coloca 1.000 sessões ativas entre **`$5` e `$12` por mês**. O tráfego típico de um blog pessoal fica abaixo de `$1`.
-- **Model Armor:** O serviço inclui 2 milhões de tokens gratuitos por mês (`$0,10` por milhão depois disso). Inspecionar cerca de 75k tokens de usuário mais 1M de tokens de saída fica dentro da camada gratuita mensal (**`$0,00`**).
-- **Cloud Run, Cloud Trace e Cloud Firestore:** Computação com escala para zero, spans OpenTelemetry e alguns milhares de gravações de sessão no Firestore permanecem dentro de suas camadas gratuitas mensais (**`$0,00`**).
+- **Model Armor:** O serviço inclui 2 milhões de tokens gratuitos por mês (`$0,10` por milhão depois disso). Inspecionar cerca de 75k tokens de usuário mais 1M de tokens de saída fica dentro da camada gratuita mensal.
+- **Cloud Run, Cloud Trace e Cloud Firestore:** Computação com escala para zero, spans OpenTelemetry e alguns milhares de gravações de sessão no Firestore permanecem dentro de suas camadas gratuitas mensais.
 
 ## Adicionando um disjuntor de cobrança com Spend Cap Budgets
 

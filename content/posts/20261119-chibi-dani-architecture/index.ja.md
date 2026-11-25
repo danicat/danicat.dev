@@ -89,7 +89,7 @@ chibi := genkitx.DefineAgent(g, "chibi-dani",
 )
 ```
 
-[`main.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/main.go) の予算ルールは2段階で上限を適用します。
+予算ルールは2段階で上限を適用します。
 
 - **`BudgetScopeRun` で1回の質問を制限する:** 1回の質問でも、エージェントが `read_corpus` を呼んで記事を読み、回答を組み立てるまでに内部で最大4回のモデルステップが走ることがあります。`BudgetScopeRun` はそのターン内の全ステップにわたる `InputTokens`、`OutputTokens`、`ThoughtsTokens` を合算し（入力 `160,000`、出力 `1,500`、思考 `16,000` トークン）、モデル層の `MaxOutputTokens: 1500` と組み合わせて複数記事の参照を許しつつツールループの暴走を止めます。
 - **`BudgetScopeSession` で会話全体を制限する:** [`session_store.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/session_store.go) が `localstore.InMemorySessionStore` を上限付きLRUキャッシュ（最大 `256` セッション、アイドルTTL `30` 分）でラップしているため、未認証アクセスでコンテナRAMが枯渇することなく会話履歴を保持できます。`BudgetScopeSession` はそのセッション内の全ターンの累計使用量を制限し（入力 `500,000`、出力 `12,000`、思考 `64,000` トークン）、長い会話にも明確な上限を引きます。
@@ -159,7 +159,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
 
 コーパスは `danicat.dev` から（同一オリジンHTTPS検証付きで）事前にメモリへ読み込み、`read_corpus` はメモリしか参照しないため、チャット中にシェル実行、ファイルシステム探索、外部ネットワーク通信は一切発生しません。仮に訪問者がモデルを台本から逸らせたとしても、ツール層が返せるのは公開済みのブログ記事、登壇情報、動画、コードラボだけです。
 
-次に、専用の[サービスID](https://docs.cloud.google.com/run/docs/securing/service-identity)を使ってエージェントのクラウドアクセス権限を絞ります。付与する権限はGemini Enterpriseの呼び出し、Model Armorでのテキスト検査、Cloud Firestoreへのターンログ保存、そしてトレース・メトリクス・構造化ログのエクスポートだけです。Secret ManagerやCloud Storageなど、プロジェクト内の他のリソースには一切触れられません。
+次に、専用の[サービスID](https://docs.cloud.google.com/run/docs/securing/service-identity)を使ってエージェントのクラウドアクセス権限を絞ります。付与する権限はGemini Enterpriseの呼び出し、Model Armorでのテキスト検査、Cloud Firestoreへのターンログ保存、トレースとメトリクスのエクスポートだけです。Secret ManagerやCloud Storageなど、プロジェクト内の他のリソースには一切触れられません。
 
 ## ゼロトラスト: Goで大量アクセスを止め、Model Armorでプロンプトインジェクションを防ぐ
 
@@ -261,7 +261,7 @@ readCorpus := genkit.DefineTool(g, "read_corpus",
    }
    ```
 
-リバースプロキシの背後でIPごとのレートリミットを行うときは、ヘッダーの順序が重要です。クライアントは [`X-Forwarded-For` の先頭エントリを偽装](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header) してIPを切り替えられますが、信頼できるプロキシは接続元IPを右端に追加します。Chibi Daniは追加のロードバランサを挟まずCloud RunのGoogle Front End経由で直接配信しているため、`slices.Backward` で[最も右側のアドレスを選ぶ](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address)ことで各呼び出し元を正しいバケットへ割り当てられます。
+リバースプロキシの背後でIPごとのレートリミットを行うときは、ヘッダーの順序が重要です。クライアントは `X-Forwarded-For` の[先頭エントリを偽装](https://docs.cloud.google.com/load-balancing/docs/https#x-forwarded-for_header)してIPを切り替えられますが、信頼できるプロキシは接続元IPを右端に追加します。Chibi Daniは追加のロードバランサを挟まずCloud RunのGoogle Front End経由で直接配信しているため、`slices.Backward` で[最も右側のアドレスを選ぶ](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/X-Forwarded-For#selecting_an_ip_address)ことで各呼び出し元を正しいバケットへ割り当てられます。
 
 ```go
 // clientIP extracts the trailing entry of X-Forwarded-For appended by Cloud Run's GFE,
@@ -393,8 +393,8 @@ gcloud beta run deploy chibi-dani \
 最小構成、最小権限、ゼロトラスト検査を組み合わせたうえで、実トラフィック時の月額コストを見てみましょう。ブログのエージェントが**月に1,000回のマルチターン訪問セッション**をさばき、1訪問あたり平均 `2.5` ターンと仮定します。コンテンツ索引とツール読み込みを含め、1ターンあたり平均で約 `12k` 入力トークンと `600` 出力・思考トークンを使うとします。
 
 - **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** 定価は入力100万トークンあたり `$0.30`、出力・思考100万トークンあたり `$2.50` です。約3,000万入力トークン（定価で約 `$9.00`、共有コーパス索引にプレフィックスキャッシュが効けばさらに安価）と150万出力・思考トークン（約 `$3.75`）を合わせると、1,000セッションでも**月額 `$5` から `$12`** の範囲に収まります。一般的な個人ブログのアクセス量なら `$1` 未満です。
-- **Model Armor:** 毎月200万トークンの無料枠があります（超過後は100万トークンあたり `$0.10`）。ユーザー入力の約75kトークンと出力の約100万トークンの検査は毎月の無料枠内に収まります（**`$0.00`**）。
-- **Cloud Run、Cloud Trace、Cloud Firestore:** ゼロスケールによるアイドル課金回避、OpenTelemetryスパン、数千件のFirestoreセッション書き込みはいずれも月間無料枠内です（**`$0.00`**）。
+- **Model Armor:** 毎月200万トークンの無料枠があります（超過後は100万トークンあたり `$0.10`）。ユーザー入力の約75kトークンと出力の約100万トークンの検査は毎月の無料枠内に収まります。
+- **Cloud Run、Cloud Trace、Cloud Firestore:** ゼロスケールによるアイドル課金回避、OpenTelemetryスパン、数千件のFirestoreセッション書き込みはいずれも月間無料枠内です。
 
 ## Spend Cap Budgetsで課金のキルスイッチを追加する
 
