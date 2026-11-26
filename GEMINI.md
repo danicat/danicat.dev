@@ -1,77 +1,52 @@
 # Project Overview
 
-This repository contains the source code for a personal website and blog, `danicat.dev`. It is built using the [Hugo](https://gohugo.io/) static site generator and the [Blowfish](https://blowfish.page/) theme. The site features articles and tutorials on software development, cloud computing, and other technology topics, and is available in English, Portuguese, and Japanese.
+This repository contains the source code for `danicat.dev`, a personal website and blog built with [Hugo](https://gohugo.io/) and the [Blowfish](https://blowfish.page/) theme, published in English, Portuguese, and Japanese.
 
 # Building and Running
 
-To work with this project, you need to have Hugo installed.
-
-**Key Commands:**
-
-*   **Update Hugo modules:**
-    ```bash
-    hugo mod tidy
-    ```
-*   **Run the local development server:**
-    ```bash
-    hugo server
-    ```
-    The site will be available at `http://localhost:1313/`.
-
-*   **Build the site for deployment:**
+*   **Update Hugo modules:** `hugo mod tidy`
+*   **Run local dev server:** `hugo server` (available at `http://localhost:1313/`)
+*   **Build for production:**
     ```bash
     hugo --baseURL "https://danicat.dev/" --minify
     ```
-    Always specify `--baseURL "https://danicat.dev/"` for production builds to ensure valid absolute URLs in `sitemap.xml`, canonical headers, and multilingual `hreflang` alternates.
+    Always pass `--baseURL "https://danicat.dev/"` for production builds so `sitemap.xml`, canonical headers, and multilingual `hreflang` alternates emit valid absolute URLs.
 
-# Development Conventions
+# Content, Multilingual & Taxonomy Standards
 
-*   **Content Management:** All website content is located in the `content/` directory. Blog posts are in `content/posts`, with each post in its own directory.
-*   **Creating New Posts:** New posts can be created using the Hugo CLI:
-    ```bash
-    hugo new posts/my-new-post/index.md
-    ```
-*   **Multi-language Support:** The site supports English, Portuguese, and Japanese. Content for each language is provided in separate files (e.g., `index.md`, `index.pt-br.md`, `index.ja.md`). Language-specific configurations are in `config/_default/languages.<lang>.toml`.
-*   **Taxonomy & Metadata Standards:**
-    *   **Categories:** Every item must have **exactly one** category from: `Agentic Coding`, `Agent Development`, `Applied GenAI`, `Perspectives`, `Software Engineering`.
-    *   **Tags:** Must be strictly lowercase, kebab-case (e.g., `gemini-cli`, `vertex-ai`), sorted in **alphabetical order**, and must **never repeat the category name**. Use English tags across all language editions to ensure unified tag archives. Reference `EDITORIAL.md` for the canonical tag dictionary across the 6 core dimensions.
-    *   **Series:** Multi-part posts use `series: ["<Series Title>"]` and `series_order: <int>`. Keep series names consistent across all language editions.
-    *   **Schema.org Structured Data:** Handled automatically via `layouts/partials/schema.html` (`TechArticle`, `ProfilePage`, `EducationEvent`, `BreadcrumbList` JSON-LD). Supports author `@id` knowledge graph linking, `isPartOf` (`CreativeWorkSeries`), and optional frontmatter overrides for `dependencies`, `proficiencyLevel`, `recording`/`video` (`VideoObject`), and `software`/`software_application` (`SoftwareApplication`).
-*   **Multilingual Linking Rules:** Internal cross-references within translated editions (`index.ja.md`, `index.pt-br.md`) must link to the localized edition of the target post with localized anchor text. Never force artificial cross-links between orthogonal topics.
-*   **Configuration:**
-    *   The main site configuration is in `hugo.yaml`.
-    *   Detailed theme and site parameters are in `config/_default/hugo.toml` and `config/_default/params.toml`.
-*   **Customization:** Custom CSS styles are located in `assets/css/custom.css`.
-*   **Analytics & Telemetry Events:**
-    *   GA4 (`gtag.js`) loads lazily after first user interaction or a 3.5s idle timeout (`layouts/partials/analytics/ga.html`).
-    *   **Article Scroll Funnel (`assets/js/page.js`):** An `IntersectionObserver` initialized via `requestIdleCallback` observes invisible sentinels inside `.article-content` at `25%`, `50%`, `75%`, and `100%` vertical depth, dispatching flat GA4 events (`scroll_25`, `scroll_50`, `scroll_75`, `scroll_100`) alongside GA4 Enhanced Measurement's native `scroll` (`90%` full-document depth) event.
-    *   **Code & Markdown Copy (`assets/js/code.js`):** Clicking a code block copy button dispatches `code_copy`, and clicking the article "Copy Markdown" button dispatches `copy_markdown`.
-    *   All custom events use flat `event_name` identifiers (`scroll_25`, `scroll_50`, `scroll_75`, `scroll_100`, `code_copy`, `copy_markdown`) so `google_analytics.py sync` ingests them directly into the `daily_events` SQLite table without custom dimension configuration.
-*   **Dependencies:** The project uses Hugo Modules, and dependencies are managed in the `go.mod` file.
+*   **Content Layout:** Posts live under `content/posts/<slug>/` with one file per language (`index.md`, `index.pt-br.md`, `index.ja.md`). Language configs live in `config/_default/languages.<lang>.toml`; site settings live in `hugo.yaml`, `config/_default/hugo.toml`, and `config/_default/params.toml`; custom CSS lives in `assets/css/custom.css`.
+*   **Categories:** Exactly one category per item: `Agentic Coding`, `Agent Development`, `Applied GenAI`, `Perspectives`, `Software Engineering`.
+*   **Tags:** Lowercase, kebab-case, sorted alphabetically, English across all language editions, and never repeating the category name. Canonical dictionary:
+    *   *Languages & Runtimes:* `golang`, `python`
+    *   *Models & Infrastructure:* `gemini`, `vertex-ai`, `genkit`, `google-cloud`, `nano-banana`
+    *   *Agent Tooling & Protocols:* `antigravity`, `gemini-cli`, `adk`, `mcp`, `a2ui`, `osquery`, `jules`
+    *   *Methodologies & Patterns:* `vibe-coding`, `agent-skills`, `subagents`, `rag`, `code-review`, `agile`, `game-dev`
+    *   *Core Engineering:* `testing`, `mutation-testing`
+    *   *Content Formats:* `keynote`, `workshop`, `codelab`, `tutorial`, `train-the-trainer`
+    *   *Perspectives & Culture:* `career`, `art`, `reflection`
+*   **Series:** Multi-part posts use `series: ["<Series Title>"]` and `series_order: <int>`, kept identical across all language editions.
+*   **Schema.org Structured Data:** Handled by `layouts/partials/schema.html` (`TechArticle`, `ProfilePage`, `EducationEvent`, `BreadcrumbList`). Supports optional frontmatter fields `dependencies`, `proficiencyLevel`, `recording`/`video`, and `software`/`software_application`.
+*   **Multilingual Linking:** Internal links in `index.pt-br.md` and `index.ja.md` must point to the localized target edition with localized anchor text. Never force links between unrelated topics.
 
-# Editorial Invariants & Voice Preservation (MANDATORY FOR ALL AGENTS)
+# Analytics & Telemetry Events
 
-*   **Author Prose is Inviolable at Sentence Level:** When prose is already written or drafted by the author, **NEVER** rewrite, summarize, or replace the author's original sentences, argumentation, tone, or narrative structure. Limit all edits strictly to **non-destructive copyediting** (correcting typos, spelling errors, mechanical punctuation, and broken links).
-*   **Metrics are Strictly Advisory:** Automated tools and scores (e.g. `slop`, `fog`, `vale`) are informative heuristics only. **NEVER** alter or sanitize the author's prose to satisfy or optimize metric scores. The author's authentic voice and intent always override automated linters.
-*   **Authentic "Cozy Web" Tone:** Preserve the author's conversational, first-person ("I", "we"), pragmatic developer perspective. Never sterilize human writing into dry corporate, marketing, or academic textbook summaries.
-*   **Explicit Rewrite Mandate:** An agent must **ONLY** rewrite or rephrase human-drafted paragraphs when the user explicitly requests it (e.g. "rewrite this paragraph" or "rephrase this section"). When asked to "polish" or "check", perform copyediting only.
-*   **Reproducible Outcomes & Validation over Boilerplate Code:** Technical articles prioritise teaching readers how to achieve and verify the same results over pasting full source files. Focus on conceptual mental models, environment/harness setup (tools, MCP servers, `AGENTS.md` rules, skills), actual prompts and iterative steering, surgical code excerpts for non-obvious patterns, and rigorous outcome validation (tests, linters, traces, benchmarks, and caught failure modes).
-*   **Fearless Macro-Structural Feedback:** While sentence-level prose is inviolable, reviewing agents **must** proactively diagnose and flag macro-structural issues: narrative redundancies, sections that reopen resolved arguments, stalled pacing between theory and practice, and inconsistent hyperlink hygiene.
+*   GA4 (`gtag.js`) loads lazily after first user interaction or a 3.5s idle timeout (`layouts/partials/analytics/ga.html`).
+*   `assets/js/page.js` dispatches flat scroll-depth events (`scroll_25`, `scroll_50`, `scroll_75`, `scroll_100`); `assets/js/code.js` dispatches `code_copy` and `copy_markdown`. Keep custom event names flat so `google_analytics.py sync` ingests them directly into `daily_events`.
 
-# Public Repository Security & Git Hygiene (MANDATORY FOR ALL AGENTS)
+# Blog Editorial, Visual & Sample Code Standards
 
-`danicat/danicat.dev` is a **PUBLIC** GitHub repository. Everything committed to Git — including files with `draft: true` or files later deleted in subsequent commits — becomes permanently visible in the public commit history.
+*   **Standalone Cozy-Web Voice:** Every article must stand on its own (never assume prior posts were read). Preserve the author's first-person ("I", "we"), pragmatic developer voice. Never rewrite author prose above `<!-- human writing stopped here - do not remove this marker -->`, and continue directly from the author's closing segue above it.
+*   **Headings, Spelling & Product Naming:** Use Title Case for H1 and Sentence case for H2+. Use British English (`colour`, `behaviour`, `prioritise`), keeping American spelling in proper nouns, code, and commands. Use current product names in prose (`Gemini Enterprise`, or `Gemini Enterprise (formerly known as Vertex AI)` on first mention when helpful) rather than deprecated `Vertex AI`.
+*   **Hero Images (16:9):** Invent a fresh scene concept for every post; never clone a previous post's composition. Use grounded 2D editorial comic/illustration scenes in natural daylight. Never use AI-slop style adjectives (`luminous`, `vibrant`, `dynamic`, `radiant`, `neon`, `glowing`, `sparkles`, `magical swords`, `high energy`). Visually inspect every generated image before showing it and regenerate if text is garbled/duplicated or physical logic breaks (for example, drinking through a closed visor).
+*   **Architecture Diagrams & Screenshots:** Generate system architecture diagrams as clean, flat Google Cloud diagrams using Nano Banana 2.1 on a light background with no embedded title, matching existing series styling (do not use Mermaid for architecture diagrams). Keep UI screenshots cleanly sized with attribution in the figure caption rather than an extra paragraph.
+*   **Social Posts:** Attach only one full-size hero image (never pair hero + diagram), link only to the blog post (not the source repo), avoid bullet-list overload or formulaic "three principles" / "two groups" templates, and never dare or invite readers to break live agents.
+*   **Didactic Companion Code & Layout Changes:** Keep blog sample code simple and aligned with official guides rather than overengineering. Never label unreleased prototypes `v1` or `v2`. Never take single-turn shortcuts on security middleware (screen user prompts, tool outputs, and model responses on every turn) and verify framework hooks with end-to-end tests against real runtime behavior rather than synthetic mocks. When changing shared CSS or layouts, visually verify regular blog article pages too.
 
-*   **Never Commit Unapproved Drafts or Under-Review Posts:**
-    *   Hugo's `draft: true` hides posts from `danicat.dev`, **NOT** from the public GitHub repository.
-    *   **NEVER** stage (`git add`) or commit any file with `draft: true` or any new article directory under `content/posts/` or `content/codelabs/` unless the user **explicitly** instructs you to publish and commit that specific article.
-    *   Keep work-in-progress drafts in gitignored locations (`DRAFT.md` or `content/drafts/`) until cleared for publication.
-*   **Forbidden Git Staging Commands:**
-    *   **NEVER** run `git add .`, `git add -A`, or `git commit -a`.
-    *   Always stage explicit, named file paths (`git add <specific-file>`) and inspect `git status` and `git diff --staged` before committing.
-*   **Mandatory Pre-Commit Sanitization:**
-    *   **No Internal Hostnames or User Paths:** Never commit terminal outputs, logs, or code snippets containing internal corporate hostnames (`*.roam.internal`, `*.corp.google.com`, `petruzalek-mac`) or local user home paths (`/Users/petruzalek/...`). Replace with generic placeholders (`workstation.localdomain`, `/opt/homebrew/...`, `~/projects/...`).
-    *   **No Unannounced / Embargoed Identifiers:** Never commit references to unannounced Google models, internal codenames, or embargoed product versions in posts or helper scripts before public launch.
-    *   **No Secrets or Ephemeral Agent Artifacts:** Never commit API keys, tokens, `.env` files, SQLite databases (`*.db`), Python virtualenvs/bytecode (`__pycache__`, `*.pyc`), or agent workspace configs (`.gemini/`, `.agents/`).
-*   **Never Bypass Pre-Commit Hooks:**
-    *   The repository enforces these invariants via `.git/hooks/pre-commit` (`scripts/pre-commit`). **NEVER** use `git commit --no-verify` (`-n`). If the pre-commit hook fails, fix the underlying leak immediately.
+# Public Repository Security & Git Hygiene (MANDATORY)
+
+`danicat/danicat.dev` is a **PUBLIC** GitHub repository. Everything committed to Git (including `draft: true` files or files deleted later) remains permanently visible in public history.
+
+*   **Never Commit Unapproved Drafts:** Keep WIP drafts in gitignored paths (`DRAFT.md` or `content/drafts/`). Never stage or commit `draft: true` files or new directories under `content/posts/` or `content/codelabs/` without explicit publication approval.
+*   **Forbidden Staging Commands:** Never run `git add .`, `git add -A`, or `git commit -a`. Stage explicit file paths and check `git status` and `git diff --staged` before committing.
+*   **Pre-Commit Sanitization:** Never commit internal hostnames (`*.roam.internal`, `*.corp.google.com`, `petruzalek-mac`), local user home paths, unannounced/embargoed product identifiers, secrets/tokens/databases, Python virtualenvs/bytecode, or `.gemini/` / `.agents/` directories.
+*   **Never Bypass Hooks:** Never pass `--no-verify` (`-n`). Fix any pre-commit hook failure at the source.
