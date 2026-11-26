@@ -2,7 +2,7 @@ name: Sync YouTube Videos
 
 on:
   schedule:
-    - cron: '0 6 * * *' # Runs daily at 06:00 UTC
+    - cron: '0 6 * * 1' # Runs weekly on Mondays at 06:00 UTC
   workflow_dispatch:     # Allows manual trigger from GitHub Actions UI
 
 permissions:
