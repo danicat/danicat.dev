@@ -379,7 +379,7 @@ A Chibi Dani acompanha esses sinais em três camadas:
 
 Dois recursos do Cloud Run também simplificam o deploy e o roteamento desse serviço no cotidiano:
 
-- **Deploy direto de binário com `--no-build`:** Compilar a partir do código-fonte normalmente sobe um builder remoto de containers para baixar módulos Go a cada deploy. Como o Go faz compilação cruzada de binários estáticos localmente em menos de um segundo, usamos `--no-build` com a imagem base gerenciada `osonly24`. Como o corpus é carregado direto de `danicat.dev` na inicialização, o deploy envia apenas o binário `linux/amd64` compilado e coloca novas revisões no ar em cerca de vinte segundos.
+- **Deploy direto de binário com `--no-build`:** Compilar a partir do código-fonte normalmente sobe um builder remoto de containers para baixar módulos Go a cada deploy. Como o Go faz compilação cruzada de binários estáticos localmente, usamos `--no-build` com a imagem base gerenciada `osonly24`. Como o corpus é carregado direto de `danicat.dev` na inicialização, cada deploy envia apenas o binário `linux/amd64` compilado.
 - **Endpoints legíveis com [Cloud Run Custom URLs](https://docs.cloud.google.com/run/docs/custom-urls):** O Cloud Run permite associar um endereço limpo `*.cloud.run` (`https://chibi-dani.cloud.run`) diretamente a um serviço, sem precisar de load balancers, certificados nem registros DNS manuais. Como URLs personalizadas funcionam de forma independente do domínio gerado `.run.app`, adicionar `--no-default-url` desativa o endpoint padrão enquanto mantém o endereço personalizado ativo.
 
 Aqui está o comando de deploy combinando as duas flags:
