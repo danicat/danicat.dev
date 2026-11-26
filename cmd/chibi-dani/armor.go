@@ -1,13 +1,12 @@
 package main
 
 import (
+	"cmp"
 	"context"
 	"fmt"
-	"io"
 	"log/slog"
 	"slices"
 	"strings"
-	"sync"
 
 	modelarmor "cloud.google.com/go/modelarmor/apiv1"
 	modelarmorpb "cloud.google.com/go/modelarmor/apiv1/modelarmorpb"
@@ -19,17 +18,10 @@ import (
 // ErrModelArmorBlocked indicates a prompt or response tripped Google Cloud Model Armor filters.
 var ErrModelArmorBlocked = status.ErrPermissionDenied.Subtype("blocked by Model Armor security policy")
 
-type responseSanitizeStream interface {
-	Send(*modelarmorpb.SanitizeModelResponseRequest) error
-	Recv() (*modelarmorpb.SanitizeModelResponseResponse, error)
-	CloseSend() error
-}
-
 // NewModelArmorMiddleware constructs a Google Cloud Model Armor middleware.
-// SanitizeUserPrompt screens the latest user message once per turn (Iteration == 0).
-// Non-streaming responses use unary SanitizeModelResponse; streaming SSE responses
-// use StreamSanitizeModelResponse in STREAMING_MODE_REALTIME so unchecked chunks
-// never reach the client.
+// WrapGenerate screens every incoming user prompt with SanitizeUserPrompt.
+// WrapModel withholds streaming until unary SanitizeModelResponse clears each
+// model response, then emits the approved chunk to the caller's stream callback.
 func NewModelArmorMiddleware(ctx context.Context, templateName string) (ai.Middleware, func() error, error) {
 	templateName = strings.TrimSpace(templateName)
 	if templateName == "" {
@@ -48,214 +40,112 @@ func NewModelArmorMiddleware(ctx context.Context, templateName string) (ai.Middl
 		return nil, nil, fmt.Errorf("modelarmor.NewClient(%q): %w", templateName, err)
 	}
 
-	sanitizeInput := func(ctx context.Context, userPrompt string) error {
-		if userPrompt == "" {
-			return nil
-		}
-		res, err := client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
-			Name:                           templateName,
-			UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: userPrompt}},
-			MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
-		})
-		if err != nil {
-			return fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
-		}
-		if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-			slog.Warn("Model Armor blocked user input", "template", templateName)
-			return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
-		}
-		return nil
-	}
-
-	sanitizeOutput := func(ctx context.Context, modelResponse string) error {
-		modelResponse = strings.TrimSpace(modelResponse)
-		if modelResponse == "" {
-			return nil
-		}
-		res, err := client.SanitizeModelResponse(ctx, &modelarmorpb.SanitizeModelResponseRequest{
-			Name:                           templateName,
-			ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: modelResponse}},
-			MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
-		})
-		if err != nil {
-			return fmt.Errorf("modelarmor SanitizeModelResponse: %w", err)
-		}
-		if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-			slog.Warn("Model Armor blocked model response", "template", templateName)
-			return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
-		}
-		return nil
-	}
-
-	openStream := func(ctx context.Context) (responseSanitizeStream, error) {
-		return client.StreamSanitizeModelResponse(ctx)
-	}
-
+	c := &armorClient{client: client, template: templateName}
 	slog.Info("Model Armor middleware initialized", "template", templateName, "location", loc)
-	return newArmorMiddleware(templateName, sanitizeInput, sanitizeOutput, openStream), client.Close, nil
+	return newArmorMiddleware(c.sanitizeUserPrompt, c.sanitizeModelResponse), client.Close, nil
+}
+
+type armorClient struct {
+	client   *modelarmor.Client
+	template string
+}
+
+func (c *armorClient) sanitizeUserPrompt(ctx context.Context, userPrompt string) error {
+	userPrompt = strings.TrimSpace(userPrompt)
+	if userPrompt == "" {
+		return nil
+	}
+	res, err := c.client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
+		Name:                           c.template,
+		UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: userPrompt}},
+		MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
+	})
+	if err != nil {
+		return fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
+	}
+	if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
+		slog.Warn("Model Armor blocked user input", "template", c.template)
+		return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+	}
+	return nil
+}
+
+func (c *armorClient) sanitizeModelResponse(ctx context.Context, modelResponse string) error {
+	modelResponse = strings.TrimSpace(modelResponse)
+	if modelResponse == "" {
+		return nil
+	}
+	res, err := c.client.SanitizeModelResponse(ctx, &modelarmorpb.SanitizeModelResponseRequest{
+		Name:                           c.template,
+		ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: modelResponse}},
+		MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
+	})
+	if err != nil {
+		return fmt.Errorf("modelarmor SanitizeModelResponse: %w", err)
+	}
+	if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
+		slog.Warn("Model Armor blocked model response", "template", c.template)
+		return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+	}
+	return nil
+}
+
+type armorMiddleware struct {
+	sanitizeInput  func(context.Context, string) error
+	sanitizeOutput func(context.Context, string) error
 }
 
 func newArmorMiddleware(
-	templateName string,
 	sanitizeInput func(context.Context, string) error,
 	sanitizeOutput func(context.Context, string) error,
-	openStream func(context.Context) (responseSanitizeStream, error),
 ) ai.Middleware {
-	return ai.MiddlewareFunc(func(_ context.Context) (*ai.Hooks, error) {
-		return &ai.Hooks{
-			WrapGenerate: func(ctx context.Context, params *ai.GenerateParams, next ai.GenerateNext) (*ai.ModelResponse, error) {
-				if params == nil {
-					return next(ctx, params)
-				}
+	return &armorMiddleware{
+		sanitizeInput:  sanitizeInput,
+		sanitizeOutput: sanitizeOutput,
+	}
+}
 
-				if params.Iteration == 0 && params.Request != nil {
-					if err := sanitizeInput(ctx, latestUserPromptText(params.Request.Messages)); err != nil {
-						return nil, err
-					}
-				}
+func (m *armorMiddleware) Name() string { return "model-armor" }
 
-				if params.Callback == nil {
-					resp, err := next(ctx, params)
-					if err != nil {
-						return nil, err
-					}
-					if resp != nil {
-						if err := sanitizeOutput(ctx, resp.Text()); err != nil {
-							return nil, err
-						}
-					}
-					return resp, nil
-				}
+func (m *armorMiddleware) New(context.Context) (*ai.Hooks, error) {
+	return &ai.Hooks{
+		WrapGenerate: m.wrapGenerate,
+		WrapModel:    m.wrapModel,
+	}, nil
+}
 
-				origCB := params.Callback
-				streamCtx, cancel := context.WithCancel(ctx)
-				defer cancel()
+func (m *armorMiddleware) wrapGenerate(ctx context.Context, params *ai.GenerateParams, next ai.GenerateNext) (*ai.ModelResponse, error) {
+	if params.Request != nil {
+		if prompt := strings.TrimSpace(trailingUserText(params.Request.Messages)); prompt != "" {
+			if err := m.sanitizeInput(ctx, prompt); err != nil {
+				return nil, err
+			}
+		}
+	}
+	return next(ctx, params)
+}
 
-				var (
-					stream   responseSanitizeStream
-					recvDone chan struct{}
-					cbMu     sync.Mutex
-					errMu    sync.Mutex
-					recvErr  error
-				)
-				setRecvErr := func(e error) {
-					errMu.Lock()
-					if recvErr == nil {
-						recvErr = e
-					}
-					errMu.Unlock()
-				}
-				getRecvErr := func() error {
-					errMu.Lock()
-					defer errMu.Unlock()
-					return recvErr
-				}
-
-				mode := modelarmorpb.StreamingMode_STREAMING_MODE_REALTIME
-				params.Callback = func(_ context.Context, chunk *ai.ModelResponseChunk) error {
-					if chunk == nil {
-						return nil
-					}
-					if err := getRecvErr(); err != nil {
-						return err
-					}
-					text := chunk.Text()
-					if text == "" {
-						// Forward non-text status chunks (such as tool-call notifications) directly.
-						cbMu.Lock()
-						err := origCB(streamCtx, chunk)
-						cbMu.Unlock()
-						return err
-					}
-
-					if stream == nil {
-						s, err := openStream(streamCtx)
-						if err != nil {
-							return fmt.Errorf("modelarmor StreamSanitizeModelResponse open: %w", err)
-						}
-						stream = s
-						recvDone = make(chan struct{})
-						chunkIndex := chunk.Index
-						go func() {
-							defer close(recvDone)
-							for {
-								res, err := s.Recv()
-								if err == io.EOF {
-									return
-								}
-								if err != nil {
-									if streamCtx.Err() == nil {
-										setRecvErr(fmt.Errorf("modelarmor StreamSanitizeModelResponse recv: %w", err))
-										cancel()
-									}
-									return
-								}
-								sr := res.GetSanitizationResult()
-								if sr.GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-									slog.Warn("Model Armor blocked streamed model response", "template", templateName)
-									setRecvErr(status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy"))
-									cancel()
-									return
-								}
-								if verified := sr.GetSanitizationMetadata().GetStreamChunkProcessed().GetText(); verified != "" {
-									cbMu.Lock()
-									cbErr := origCB(streamCtx, &ai.ModelResponseChunk{
-										Role:    ai.RoleModel,
-										Index:   chunkIndex,
-										Content: []*ai.Part{ai.NewTextPart(verified)},
-									})
-									cbMu.Unlock()
-									if cbErr != nil {
-										setRecvErr(cbErr)
-										cancel()
-										return
-									}
-								}
-							}
-						}()
-					}
-
-					if err := stream.Send(&modelarmorpb.SanitizeModelResponseRequest{
-						Name: templateName,
-						ModelResponseData: &modelarmorpb.DataItem{
-							DataItem: &modelarmorpb.DataItem_Text{Text: text},
-						},
-						MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{
-							EnableMultiLanguageDetection: true,
-						},
-						StreamingMode: &mode,
-					}); err != nil {
-						if rErr := getRecvErr(); rErr != nil {
-							return rErr
-						}
-						return fmt.Errorf("modelarmor StreamSanitizeModelResponse send: %w", err)
-					}
-					return nil
-				}
-
-				resp, err := next(streamCtx, params)
-				if stream != nil {
-					if err != nil {
-						cancel()
-					}
-					_ = stream.CloseSend()
-					<-recvDone
-					if rErr := getRecvErr(); rErr != nil {
-						return nil, rErr
-					}
-				}
-				if err != nil {
-					return nil, err
-				}
-				if stream == nil && resp != nil && strings.TrimSpace(resp.Text()) != "" {
-					if err := sanitizeOutput(ctx, resp.Text()); err != nil {
-						return nil, err
-					}
-				}
-				return resp, nil
-			},
-		}, nil
-	})
+func (m *armorMiddleware) wrapModel(ctx context.Context, params *ai.ModelParams, next ai.ModelNext) (*ai.ModelResponse, error) {
+	inner := *params
+	inner.Callback = nil
+	resp, err := next(ctx, &inner)
+	if err != nil {
+		return nil, err
+	}
+	if text := strings.TrimSpace(resp.Text()); text != "" {
+		if err := m.sanitizeOutput(ctx, text); err != nil {
+			return nil, err
+		}
+	}
+	if params.Callback != nil && resp != nil && resp.Message != nil && len(resp.Message.Content) > 0 {
+		if err := params.Callback(ctx, &ai.ModelResponseChunk{
+			Role:    cmp.Or(resp.Message.Role, ai.RoleModel),
+			Content: resp.Message.Content,
+		}); err != nil {
+			return nil, err
+		}
+	}
+	return resp, nil
 }
 
 func latestUserPromptText(msgs []*ai.Message) string {

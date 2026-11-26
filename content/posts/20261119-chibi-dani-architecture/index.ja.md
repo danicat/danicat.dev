@@ -284,68 +284,86 @@ func clientIP(r *http.Request) string {
 
 ### 関門2: Model Armorによる意味的な検査
 
-HTTPチェックを通過したリクエストでも、プロンプトがモデルに何を求めているのかを検査する必要があります。[Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) がその安全境界を担います。ユーザープロンプトをGeminiに送る前に検査し、モデル応答もトークンがブラウザへ届く前にリアルタイムでチェックします。
+HTTPチェックを通過したリクエストでも、プロンプトがモデルに何を求めているのかを検査する必要があります。[Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) がその安全境界を担います。ユーザープロンプトをGeminiに送る前に検査し、モデル応答もテキストがブラウザへ届く前にチェックします。
 
-Go SDKのデフォルトは[グローバルエンドポイント](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint)（フロア設定の管理のみ対応）なので、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) ではクライアントをテンプレートのリージョンエンドポイント（`modelarmor.us-central1.rep.googleapis.com:443`）へ向けます。使用する[Model Armorテンプレート](https://docs.cloud.google.com/model-armor/manage-templates)は信頼度 `HIGH`、`inspect-and-block` 適用、多言語検出を有効にしています。Model Armorの[対話型AIガイドライン](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization)に従い、`SanitizeUserPrompt` はシステムプロンプトや過去の会話履歴を再送せず、最新の `RoleUser` メッセージだけを評価します。
+Go SDKのデフォルトは[グローバルエンドポイント](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint)（フロア設定の管理のみ対応）なので、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) ではクライアントをテンプレートのリージョンエンドポイント（`modelarmor.us-central1.rep.googleapis.com:443`）へ向けます。使用する[Model Armorテンプレート](https://docs.cloud.google.com/model-armor/manage-templates)は信頼度 `HIGH`、`inspect-and-block` 適用、多言語検出を有効にしています。Model Armorの[対話型AIガイドライン](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization)に従い、`SanitizeUserPrompt` はシステムプロンプトや過去の会話履歴を再送せず、末尾のユーザーメッセージだけを評価します。
+
+構造体でGenkitの `ai.Middleware` インターフェースを実装すると、入力検査と出力検査のフックをすっきり分離できます。`WrapGenerate` がモデル呼び出し前にユーザープロンプトを検査します。
 
 ```go
-client, err := modelarmor.NewClient(ctx,
-	option.WithEndpoint(fmt.Sprintf("modelarmor.%s.rep.googleapis.com:443", loc)),
-)
-if err != nil {
-	return nil, nil, fmt.Errorf("modelarmor.NewClient(%q): %w", templateName, err)
+type ModelArmorGuard struct {
+	Client   *modelarmor.Client
+	Template string
 }
 
-sanitizeInput := func(ctx context.Context, userPrompt string) error {
-	if userPrompt == "" {
-		return nil
+func (g *ModelArmorGuard) Name() string { return "model-armor" }
+
+func (g *ModelArmorGuard) New(context.Context) (*ai.Hooks, error) {
+	return &ai.Hooks{
+		WrapGenerate: g.wrapGenerate,
+		WrapModel:    g.wrapModel,
+	}, nil
+}
+
+func (g *ModelArmorGuard) wrapGenerate(ctx context.Context, params *ai.GenerateParams, next ai.GenerateNext) (*ai.ModelResponse, error) {
+	if params.Request == nil {
+		return next(ctx, params)
 	}
-	res, err := client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
-		Name:                           templateName,
-		UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: userPrompt}},
+	prompt := strings.TrimSpace(trailingUserText(params.Request.Messages))
+	if prompt == "" {
+		return next(ctx, params)
+	}
+	res, err := g.Client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
+		Name:                           g.Template,
+		UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: prompt}},
 		MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
 	})
 	if err != nil {
-		return fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
+		return nil, fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
 	}
 	if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-		return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+		return nil, status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
 	}
-	return nil
+	return next(ctx, params)
 }
 ```
 
-プロンプト検査と応答検査はいずれもGenkitの `WrapGenerate` フックに配置し、`SanitizeUserPrompt` が `read_corpus` の各イテレーションで重複実行されないようユーザーターンごとに1回（`params.Iteration == 0`）だけ呼び出します。非ストリーミングでは `SanitizeModelResponse` が回答全体を検証して返します。一方、Server-Sent Events（`?stream=true`）で生成完了後にだけ検査すると未検証のチャンクが先にブラウザへ届いてしまうため、[`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) はModel Armorの双方向gRPCストリーム [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) を `STREAMING_MODE_REALTIME` で開きます。
+出力検査は `WrapModel` に配置します。これによりモデル呼び出しごとに1回だけ実行され、ストリーミングコールバックも直接制御できます。内部コールバックを `nil` にして生成中の途中チャンクを保留し、`SanitizeModelResponse` が回答全体を承認した後にだけ検証済みチャンクをブラウザへ送ります。
 
 ```go
-// Geminiからの各テキストチャンクを先にModel Armorへ送る
-mode := modelarmorpb.StreamingMode_STREAMING_MODE_REALTIME
-if err := stream.Send(&modelarmorpb.SanitizeModelResponseRequest{
-	Name:                           templateName,
-	ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: text}},
-	MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
-	StreamingMode:                  &mode,
-}); err != nil {
-	return err
-}
-
-// 受信ゴルーチンは検証済みチャンクだけを転送し、MATCH_FOUNDで即座に生成をキャンセルする
-sr := res.GetSanitizationResult()
-if sr.GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-	setRecvErr(status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy"))
-	cancel()
-	return
-}
-if verified := sr.GetSanitizationMetadata().GetStreamChunkProcessed().GetText(); verified != "" {
-	_ = origCB(streamCtx, &ai.ModelResponseChunk{
-		Role:    ai.RoleModel,
-		Index:   chunkIndex,
-		Content: []*ai.Part{ai.NewTextPart(verified)},
-	})
+func (g *ModelArmorGuard) wrapModel(ctx context.Context, params *ai.ModelParams, next ai.ModelNext) (*ai.ModelResponse, error) {
+	inner := *params
+	inner.Callback = nil
+	resp, err := next(ctx, &inner)
+	if err != nil {
+		return nil, err
+	}
+	if text := strings.TrimSpace(resp.Text()); text != "" {
+		res, err := g.Client.SanitizeModelResponse(ctx, &modelarmorpb.SanitizeModelResponseRequest{
+			Name:                           g.Template,
+			ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: text}},
+			MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
+		})
+		if err != nil {
+			return nil, fmt.Errorf("modelarmor SanitizeModelResponse: %w", err)
+		}
+		if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
+			return nil, status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+		}
+	}
+	if params.Callback != nil && resp != nil && resp.Message != nil && len(resp.Message.Content) > 0 {
+		if err := params.Callback(ctx, &ai.ModelResponseChunk{
+			Role:    cmp.Or(resp.Message.Role, ai.RoleModel),
+			Content: resp.Message.Content,
+		}); err != nil {
+			return nil, err
+		}
+	}
+	return resp, nil
 }
 ```
 
-未検証のトークンがクライアントへ送られることはなく、ストリーム途中で `MATCH_FOUND` になれば即座にGeminiのコンテキストをキャンセルして以降の生成と課金を止めます。
+未検証のトークンがクライアントへ送られることはなく、すべてのモデル応答がブラウザへ出力される前に1回だけ検査されます。
 
 ## オブザーバビリティ: 何をなぜ監視するのか
 

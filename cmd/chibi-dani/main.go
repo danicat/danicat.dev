@@ -44,8 +44,13 @@ func run() error {
 
 	projectID := strings.TrimSpace(os.Getenv("GOOGLE_CLOUD_PROJECT"))
 	armorTemplate := strings.TrimSpace(os.Getenv("MODEL_ARMOR_TEMPLATE"))
-	if projectID == "" || armorTemplate == "" {
-		return fmt.Errorf("GOOGLE_CLOUD_PROJECT and MODEL_ARMOR_TEMPLATE are required")
+	geminiAPIKey := strings.TrimSpace(os.Getenv("GEMINI_API_KEY"))
+	if projectID == "" || armorTemplate == "" || geminiAPIKey == "" {
+		return fmt.Errorf("GOOGLE_CLOUD_PROJECT, MODEL_ARMOR_TEMPLATE, and GEMINI_API_KEY are required")
+	}
+	decisionsThreshold, err := parseDecisionsThreshold(os.Getenv("DECISIONS_THRESHOLD"))
+	if err != nil {
+		return fmt.Errorf("invalid DECISIONS_THRESHOLD: %w", err)
 	}
 	port := cmp.Or(strings.TrimSpace(os.Getenv("PORT")), "8080")
 	corpusBaseURL := cmp.Or(strings.TrimSpace(os.Getenv("CORPUS_BASE_URL")), defaultCorpusBaseURL)
@@ -58,6 +63,7 @@ func run() error {
 		}
 		refreshInterval = parsed
 	}
+	firestoreCollection := cmp.Or(strings.TrimSpace(os.Getenv("FIRESTORE_COLLECTION")), "chibi_sessions")
 
 	googlecloud.EnableGoogleCloudTelemetry(&googlecloud.GoogleCloudTelemetryOptions{
 		ProjectID: projectID,
@@ -66,6 +72,14 @@ func run() error {
 	corpusStore, err := NewRemoteCorpusStore(ctx, corpusBaseURL, WithRefreshInterval(refreshInterval), WithSkillsLLMSURL(skillsLLMSURL))
 	if err != nil {
 		return fmt.Errorf("load corpus: %w", err)
+	}
+
+	decisionsMW, err := NewDecisionsMiddleware(DecisionsConfig{
+		APIKey:    geminiAPIKey,
+		Threshold: decisionsThreshold,
+	})
+	if err != nil {
+		return fmt.Errorf("init decisions guard: %w", err)
 	}
 
 	armorMW, closeArmor, err := NewModelArmorMiddleware(ctx, armorTemplate)
@@ -116,7 +130,8 @@ func run() error {
 			ai.WithMaxTurns(5),
 			ai.WithTools(readCorpus),
 			ai.WithUse(
-				NewTelemetryMiddleware(fsClient, "chibi_sessions"),
+				NewTelemetryMiddleware(fsClient, firestoreCollection),
+				decisionsMW,
 				armorMW,
 				&mwexp.Budget{
 					Scope: mwexp.BudgetScopeRun,

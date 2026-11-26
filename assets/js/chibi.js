@@ -180,6 +180,9 @@
     if (raw.includes("budget")) {
       return "This conversation reached its token budget. Click New chat to start a fresh thread.";
     }
+    if (raw.includes("encoded") || raw.includes("obfuscated")) {
+      return "Oops! That message looks encoded or obfuscated. Please ask in plain text about Daniela's articles, talks, codelabs, or Go projects.";
+    }
     if (raw.includes("model armor") || raw.includes("modelarmor") || raw.includes("security policy") || raw.includes("blocked")) {
       return "Oops! That request tripped Google Cloud Model Armor safety checks. Please ask about Daniela's articles, talks, codelabs, or Go projects.";
     }

@@ -284,68 +284,86 @@ func clientIP(r *http.Request) string {
 
 ### Barreira 2: triagem semântica no Model Armor
 
-Depois que uma requisição passa pelas checagens HTTP, ainda precisamos inspecionar o que o prompt pede ao modelo. O [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) oferece essa fronteira de segurança. Ele analisa prompts de usuários antes que cheguem ao Gemini e verifica as respostas do modelo em tempo real antes que os tokens cheguem ao navegador.
+Depois que uma requisição passa pelas checagens HTTP, ainda precisamos inspecionar o que o prompt pede ao modelo. O [Google Cloud Model Armor](https://docs.cloud.google.com/model-armor/overview) oferece essa fronteira de segurança. Ele analisa prompts de usuários antes que cheguem ao Gemini e verifica as respostas do modelo antes que qualquer texto chegue ao navegador.
 
-Como o SDK Go usa por padrão o [endpoint global](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint) (que gerencia apenas floor settings), [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) aponta o cliente para o endpoint regional do template (`modelarmor.us-central1.rep.googleapis.com:443`). Ele usa um [template do Model Armor](https://docs.cloud.google.com/model-armor/manage-templates) configurado para confiança `HIGH`, modo `inspect-and-block` e detecção multilíngue. Seguindo as [diretrizes de IA conversacional](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization) do Model Armor, `SanitizeUserPrompt` avalia apenas a mensagem `RoleUser` mais recente, sem reenviar o prompt de sistema nem o histórico anterior:
+Como o SDK Go usa por padrão o [endpoint global](https://docs.cloud.google.com/model-armor/data-residency#global-endpoint) (que gerencia apenas floor settings), [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) aponta o cliente para o endpoint regional do template (`modelarmor.us-central1.rep.googleapis.com:443`). Ele usa um [template do Model Armor](https://docs.cloud.google.com/model-armor/manage-templates) configurado para confiança `HIGH`, modo `inspect-and-block` e detecção multilíngue. Seguindo as [diretrizes de IA conversacional](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#best-practices-prompt-sanitization) do Model Armor, `SanitizeUserPrompt` avalia apenas a mensagem mais recente do usuário, sem reenviar o prompt de sistema nem o histórico anterior.
+
+Implementar a interface `ai.Middleware` do Genkit com uma struct mantém os hooks de entrada e saída bem separados. `WrapGenerate` verifica o prompt do usuário antes da chamada ao modelo:
 
 ```go
-client, err := modelarmor.NewClient(ctx,
-	option.WithEndpoint(fmt.Sprintf("modelarmor.%s.rep.googleapis.com:443", loc)),
-)
-if err != nil {
-	return nil, nil, fmt.Errorf("modelarmor.NewClient(%q): %w", templateName, err)
+type ModelArmorGuard struct {
+	Client   *modelarmor.Client
+	Template string
 }
 
-sanitizeInput := func(ctx context.Context, userPrompt string) error {
-	if userPrompt == "" {
-		return nil
+func (g *ModelArmorGuard) Name() string { return "model-armor" }
+
+func (g *ModelArmorGuard) New(context.Context) (*ai.Hooks, error) {
+	return &ai.Hooks{
+		WrapGenerate: g.wrapGenerate,
+		WrapModel:    g.wrapModel,
+	}, nil
+}
+
+func (g *ModelArmorGuard) wrapGenerate(ctx context.Context, params *ai.GenerateParams, next ai.GenerateNext) (*ai.ModelResponse, error) {
+	if params.Request == nil {
+		return next(ctx, params)
 	}
-	res, err := client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
-		Name:                           templateName,
-		UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: userPrompt}},
+	prompt := strings.TrimSpace(trailingUserText(params.Request.Messages))
+	if prompt == "" {
+		return next(ctx, params)
+	}
+	res, err := g.Client.SanitizeUserPrompt(ctx, &modelarmorpb.SanitizeUserPromptRequest{
+		Name:                           g.Template,
+		UserPromptData:                 &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: prompt}},
 		MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
 	})
 	if err != nil {
-		return fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
+		return nil, fmt.Errorf("modelarmor SanitizeUserPrompt: %w", err)
 	}
 	if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-		return status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+		return nil, status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
 	}
-	return nil
+	return next(ctx, params)
 }
 ```
 
-Tanto a triagem de prompt quanto a de resposta ficam dentro de um hook `WrapGenerate` do Genkit para que `SanitizeUserPrompt` rode apenas uma vez por turno do usuário (`params.Iteration == 0`), em vez de repetir a chamada a cada iteração de `read_corpus`. Em requisições sem streaming, `SanitizeModelResponse` verifica a resposta completa antes de devolvê-la. Já em Server-Sent Events (`?stream=true`), validar só no final deixaria trechos não verificados chegarem ao navegador antes, então [`armor.go`](https://github.com/danicat/gemini-for-go-developers/blob/main/part-6/armor.go) abre o stream gRPC bidirecional [`StreamSanitizeModelResponse`](https://docs.cloud.google.com/model-armor/sanitize-prompts-responses#sanitize-streaming) do Model Armor em modo `STREAMING_MODE_REALTIME`:
+A triagem de saída fica em `WrapModel`, rodando uma vez por chamada ao modelo e controlando o callback de streaming diretamente. Limpar o callback interno retém trechos parciais durante a geração até que `SanitizeModelResponse` aprove a resposta completa, liberando então o bloco verificado ao navegador:
 
 ```go
-// A cada chunk de texto enviado pelo Gemini, mandamos primeiro para o Model Armor:
-mode := modelarmorpb.StreamingMode_STREAMING_MODE_REALTIME
-if err := stream.Send(&modelarmorpb.SanitizeModelResponseRequest{
-	Name:                           templateName,
-	ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: text}},
-	MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
-	StreamingMode:                  &mode,
-}); err != nil {
-	return err
-}
-
-// A goroutine receptora repassa apenas trechos aprovados e cancela a geração em MATCH_FOUND:
-sr := res.GetSanitizationResult()
-if sr.GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
-	setRecvErr(status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy"))
-	cancel()
-	return
-}
-if verified := sr.GetSanitizationMetadata().GetStreamChunkProcessed().GetText(); verified != "" {
-	_ = origCB(streamCtx, &ai.ModelResponseChunk{
-		Role:    ai.RoleModel,
-		Index:   chunkIndex,
-		Content: []*ai.Part{ai.NewTextPart(verified)},
-	})
+func (g *ModelArmorGuard) wrapModel(ctx context.Context, params *ai.ModelParams, next ai.ModelNext) (*ai.ModelResponse, error) {
+	inner := *params
+	inner.Callback = nil
+	resp, err := next(ctx, &inner)
+	if err != nil {
+		return nil, err
+	}
+	if text := strings.TrimSpace(resp.Text()); text != "" {
+		res, err := g.Client.SanitizeModelResponse(ctx, &modelarmorpb.SanitizeModelResponseRequest{
+			Name:                           g.Template,
+			ModelResponseData:              &modelarmorpb.DataItem{DataItem: &modelarmorpb.DataItem_Text{Text: text}},
+			MultiLanguageDetectionMetadata: &modelarmorpb.MultiLanguageDetectionMetadata{EnableMultiLanguageDetection: true},
+		})
+		if err != nil {
+			return nil, fmt.Errorf("modelarmor SanitizeModelResponse: %w", err)
+		}
+		if res.GetSanitizationResult().GetFilterMatchState() == modelarmorpb.FilterMatchState_MATCH_FOUND {
+			return nil, status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy")
+		}
+	}
+	if params.Callback != nil && resp != nil && resp.Message != nil && len(resp.Message.Content) > 0 {
+		if err := params.Callback(ctx, &ai.ModelResponseChunk{
+			Role:    cmp.Or(resp.Message.Role, ai.RoleModel),
+			Content: resp.Message.Content,
+		}); err != nil {
+			return nil, err
+		}
+	}
+	return resp, nil
 }
 ```
 
-Nenhum token não verificado chega ao cliente, e um `MATCH_FOUND` no meio do stream cancela o contexto do Gemini na hora para interromper a geração e o custo do restante da resposta.
+Nenhum token não verificado chega ao cliente, e cada resposta do modelo passa pela triagem uma única vez antes de ser enviada.
 
 ## Observabilidade: o que monitoramos e por quê
 

@@ -180,6 +180,8 @@ func classifyTurnOutcome(err error) string {
 	switch {
 	case err == nil:
 		return "ok"
+	case errors.Is(err, ErrPromptObfuscated):
+		return "decisions_blocked"
 	case errors.Is(err, ErrModelArmorBlocked):
 		return "armor_blocked"
 	case errors.Is(err, ai.ErrBudgetExceeded):
