@@ -6,6 +6,7 @@ This document outlines the editorial philosophy for `danicat.dev`. Our goal is t
 
 *   **Authenticity:** We value authenticity over polish. The site is a personal space, not a content farm. We value human insight over polished marketing copy.
 *   **Competent Peer Audience:** Assume the reader is smart but lacks specific context. They don't need "Hello World" explained, but they do need clear reasoning for architectural choices or new patterns.
+*   **Standalone by Default:** Every article must stand on its own. Never assume the reader has read previous posts or already knows prior project context.
 *   **Narrative First:** Every article needs a narrative thread. We avoid purely functional, context-free tutorials. We want to know *why* you built this, what hurt along the way, and what you learned.
 *   **Intent, Harness, and Verification:** In modern software engineering, the primary value has shifted from typing boilerplate syntax to defining intent, configuring the environment, steering execution, and rigorously validating the outcome.
 
@@ -15,6 +16,7 @@ We want expressive, engaging writing that remains grounded in reality.
 
 *   **Transparency:** Show the work, including the mistakes. Highlight cryptic error messages, flawed initial assumptions, and the hours lost to silly mistakes. These struggles often contain the most valuable lessons.
 *   **Show, Don't Sell:** Avoid marketing hype. Don't tell us a technology "shines" or is "revolutionary." Show us the specific problem it solved elegantly. Focus on the evidence.
+*   **No Contrast Formulas or Problem Hooks:** Never open or frame sections with artificial contrast templates ("Most X do Y. Z do not.", "It's not X, it's Y") or manufactured problem-bait hooks. Respect the reader's intelligence and start directly on the technical subject.
 *   **Professional, Not Corporate:** Speak directly to the reader as an equal. Avoid stiff, passive corporate language ("It was determined that..."). Use "I" and "we."
 *   **Precision:** Avoid subjective judgments (e.g., "simply," "just," "easy"). What is easy for you might be hard for someone else. State the facts and let the reader decide.
 
