@@ -879,6 +879,7 @@ func TestClassifyTurnOutcome(t *testing.T) {
 		{name: "decisions blocked", err: status.PublicErrorf(ErrPromptObfuscated, "blocked encoded or obfuscated prompt"), want: "decisions_blocked"},
 		{name: "armor blocked", err: status.PublicErrorf(ErrModelArmorBlocked, "blocked by Model Armor security policy"), want: "armor_blocked"},
 		{name: "budget exceeded", err: ai.ErrBudgetExceeded, want: "budget_exceeded"},
+		{name: "max turns exceeded", err: ai.ErrMaxTurnsExceeded, want: "max_turns_exceeded"},
 		{name: "generic error", err: errors.New("network timeout"), want: "error"},
 	}
 

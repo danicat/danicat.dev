@@ -137,13 +137,35 @@
     return html.endsWith("</p>") ? html.slice(0, -4) + cursor + "</p>" : html + cursor;
   }
 
+  const GENERIC_STATUS_MESSAGES = new Set([
+    "cancelled",
+    "unknown",
+    "invalid argument",
+    "deadline exceeded",
+    "not found",
+    "already exists",
+    "permission denied",
+    "unauthenticated",
+    "resource exhausted",
+    "failed precondition",
+    "aborted",
+    "out of range",
+    "unimplemented",
+    "internal",
+    "unavailable",
+    "data loss",
+  ]);
+
   function parseSSEEvent(payload) {
     if (!payload || payload === "[DONE]") return { text: "", hasTools: false, sessionId: "" };
     if (!payload.startsWith("{")) return { text: payload, hasTools: false, sessionId: "" };
 
     const parsed = JSON.parse(payload);
     if (parsed.error) {
-      throw new Error(typeof parsed.error === "string" ? parsed.error : parsed.error.message || "Request error");
+      const errMsg = typeof parsed.error === "string" ? parsed.error : parsed.error.message || "";
+      const err = new Error(errMsg || "Request error");
+      err.publicServerMessage = Boolean(errMsg);
+      throw err;
     }
 
     const chunk = parsed.message && parsed.message.modelChunk;
@@ -159,15 +181,17 @@
     }
 
     if (parsed.result) {
-      if (parsed.result.error || parsed.result.finishReason === "failed") {
-        throw new Error(parsed.result.error?.message || "Blocked by guardrail");
-      }
+      const errMsg = typeof parsed.result.error === "string"
+        ? parsed.result.error
+        : parsed.result.error?.message || "";
       let resultText = "";
       for (const part of parsed.result.message?.content || []) {
         if (part && typeof part.text === "string") resultText += part.text;
       }
-      if (parsed.result.finishReason === "aborted" && !resultText) {
-        throw new Error(parsed.result.error?.message || "budget_exceeded");
+      if (parsed.result.error || parsed.result.finishReason === "failed" || (parsed.result.finishReason === "aborted" && !resultText)) {
+        const err = new Error(errMsg || "Blocked by guardrail");
+        err.publicServerMessage = Boolean(errMsg);
+        throw err;
       }
       return { text: "", resultText, hasTools: false, sessionId: parsed.result.sessionId || "" };
     }
@@ -176,17 +200,15 @@
   }
 
   function classifyError(err) {
-    const raw = (err && err.message ? err.message : String(err)).toLowerCase();
-    if (raw.includes("budget")) {
-      return "This conversation reached its token budget. Click New chat to start a fresh thread.";
-    }
+    const msg = (err && err.message ? err.message : String(err)).trim();
+    const raw = msg.toLowerCase();
     if (raw.includes("encoded") || raw.includes("obfuscated")) {
       return "Oops! That message looks encoded or obfuscated. Please ask in plain text about Daniela's articles, talks, codelabs, or Go projects.";
     }
     if (raw.includes("model armor") || raw.includes("modelarmor") || raw.includes("security policy") || raw.includes("blocked")) {
       return "Oops! That request tripped Google Cloud Model Armor safety checks. Please ask about Daniela's articles, talks, codelabs, or Go projects.";
     }
-    if (raw.includes("429") || raw.includes("rate_limited") || raw.includes("too many requests")) {
+    if (raw.includes("429") || raw.includes("rate_limited") || raw.includes("too many requests") || raw.includes("resource exhausted")) {
       return "Hold on! Too many questions came in at once. Wait a few seconds and try again.";
     }
     if (raw.includes("session_not_found") || raw.includes("http 404")) {
@@ -197,6 +219,9 @@
     }
     if (raw.includes("failed to fetch") || raw.includes("network")) {
       return "I could not reach the Chibi Dani backend service. Please check your connection and try again.";
+    }
+    if (err && err.publicServerMessage && msg && !GENERIC_STATUS_MESSAGES.has(raw)) {
+      return msg;
     }
     return "Something went wrong while answering your question. Please try again in a moment.";
   }

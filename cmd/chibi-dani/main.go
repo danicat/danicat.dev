@@ -133,14 +133,15 @@ func run() error {
 				NewTelemetryMiddleware(fsClient, firestoreCollection),
 				decisionsMW,
 				armorMW,
-				&mwexp.Budget{
-					Scope: mwexp.BudgetScopeRun,
-					Limit: ai.GenerationUsage{InputTokens: 160_000, OutputTokens: 1_500, ThoughtsTokens: 16_000},
-				},
-				&mwexp.Budget{
+				newPublicMaxTurnsMiddleware(),
+				newPublicBudgetMiddleware(&mwexp.Budget{
 					Scope: mwexp.BudgetScopeSession,
 					Limit: ai.GenerationUsage{InputTokens: 500_000, OutputTokens: 12_000, ThoughtsTokens: 64_000},
-				},
+				}),
+				newPublicBudgetMiddleware(&mwexp.Budget{
+					Scope: mwexp.BudgetScopeRun,
+					Limit: ai.GenerationUsage{InputTokens: 160_000, OutputTokens: 1_500, ThoughtsTokens: 16_000},
+				}),
 			),
 		},
 		aix.WithSessionStore[any](sessions),

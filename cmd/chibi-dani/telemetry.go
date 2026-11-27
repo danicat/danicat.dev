@@ -186,6 +186,8 @@ func classifyTurnOutcome(err error) string {
 		return "armor_blocked"
 	case errors.Is(err, ai.ErrBudgetExceeded):
 		return "budget_exceeded"
+	case errors.Is(err, ai.ErrMaxTurnsExceeded):
+		return "max_turns_exceeded"
 	default:
 		return "error"
 	}
