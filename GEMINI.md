@@ -46,7 +46,7 @@ This repository contains the source code for `danicat.dev`, a personal website a
 
 `danicat/danicat.dev` is a **PUBLIC** GitHub repository. Everything committed to Git (including `draft: true` files or files deleted later) remains permanently visible in public history.
 
-*   **Never Commit Unapproved Drafts:** Keep WIP drafts in gitignored paths (`DRAFT.md` or `content/drafts/`). Never stage or commit `draft: true` files or new directories under `content/posts/` or `content/codelabs/` without explicit publication approval.
+*   **Never Commit Unapproved Drafts:** Keep WIP drafts in place under `content/posts/<slug>/` (or `content/codelabs/<slug>/`) with `draft: true` in frontmatter so `hugo server -D` previews them directly at their real URL. Never stage or commit any file inside a `draft: true` bundle (Markdown or images) without explicit publication approval; `scripts/pre-commit` enforces this automatically.
 *   **Forbidden Staging Commands:** Never run `git add .`, `git add -A`, or `git commit -a`. Stage explicit file paths and check `git status` and `git diff --staged` before committing.
 *   **Pre-Commit Sanitization:** Never commit internal hostnames (`*.roam.internal`, `*.corp.google.com`, `petruzalek-mac`), local user home paths, unannounced/embargoed product identifiers, secrets/tokens/databases, Python virtualenvs/bytecode, or `.gemini/` / `.agents/` directories.
 *   **Never Bypass Hooks:** Never pass `--no-verify` (`-n`). Fix any pre-commit hook failure at the source.
