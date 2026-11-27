@@ -410,7 +410,7 @@ gcloud beta run deploy chibi-dani \
 
 With minimal sizing, least privilege, and zero-trust screening working together, let's look at the monthly cost under real traffic. Suppose the blog agent handles **1,000 multi-turn visitor sessions per month**, averaging `2.5` turns per visit. Including the content index and tool reads, each turn averages around `12k` input tokens plus `600` output and thinking tokens:
 
-- **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** List pricing is `$0.30` per 1M input tokens and `$2.50` per 1M output and thinking tokens. Roughly 30M input tokens (`~$9.00` at list price, or less when prefix caching hits the shared corpus index) plus 1.5M output and thinking tokens (`~$3.75`) puts 1,000 active sessions between **`$5` and `$12` a month**. Typical personal-blog traffic stays under `$1`.
+- **[Gemini Enterprise](https://cloud.google.com/products/gemini-enterprise-agent-platform) (`gemini-3.5-flash-lite`):** List pricing is `$0.30` per 1M input tokens and `$2.50` per 1M output and thinking tokens. Roughly 30M input tokens plus 1.5M output and thinking tokens puts 1,000 active sessions between **`$5` and `$12` a month**. Typical personal-blog traffic stays under `$1`.
 - **Model Armor:** The service includes 2 million free tokens per month (`$0.10` per million after that). Scanning roughly 75k user tokens plus 1M output tokens stays inside the monthly free tier.
 - **Cloud Run, Cloud Trace, and Cloud Firestore:** Scale-to-zero idle compute, OpenTelemetry spans, and a few thousand Firestore session writes stay inside their monthly free tiers.
 
