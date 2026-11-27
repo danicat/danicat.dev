@@ -9,11 +9,11 @@ tags:
   - automation
   - hooks
   - security
-title: "コーディングエージェントの Hooks をマスターする：実践ガイド"
+title: "Agent Hooks：コーディングエージェントに決定論的なガードレールを追加する"
 slug: "mastering-hooks-in-coding-agents"
 aliases:
   - "/ja/posts/20260610-mastering-hooks/"
-description: "Google Antigravity をはじめとするコーディングエージェントの Hooks 活用ガイド。PreToolUse や PostToolUse イベントをインターセプトしてリンターや DLP ガードレールを適用する方法を徹底解説。"
+description: "Antigravity などのコーディングエージェントにおける Agent Hooks の仕組み。PreToolUse・PostToolUse イベントでリント強制、認証情報の漏洩防止、ツール誘導を実現します。"
 proficiencyLevel: "Advanced"
 dependencies:
   - "Google Antigravity 2.0 / agy CLI"

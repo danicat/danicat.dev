@@ -10,7 +10,7 @@ title: "A Model for Perceived Time: Why Years Pass Faster as We Age"
 slug: "a-model-for-perceived-time"
 aliases:
   - "/posts/20250811-a-model-for-perceived-time/"
-description: "Mathematical modeling of perceived time acceleration using 1/age calculus and Python simulations. Explains why the perceptual midpoint of life is age 9."
+description: "A logarithmic model of time perception using 1/age calculus, Python simulations, and graphs. Shows why the perceived midpoint of an 81-year life is age 9."
 proficiencyLevel: "Beginner"
 dependencies:
   - "Python 3"

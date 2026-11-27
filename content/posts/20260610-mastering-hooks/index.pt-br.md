@@ -9,11 +9,11 @@ tags:
   - automation
   - hooks
   - security
-title: "Dominando Hooks em Agentes de Programação: Um Guia Prático"
+title: "Hooks de Agentes: Adicionando Guardrails Determinísticos a Agentes de Programação"
 slug: "mastering-hooks-in-coding-agents"
 aliases:
   - "/pt-br/posts/20260610-mastering-hooks/"
-description: "Mergulhe fundo nos hooks para agentes de programação como o Google Antigravity. Aprenda a interceptar eventos PreToolUse e PostToolUse para aplicar linters e salvaguardas de DLP."
+description: "Como funcionam hooks em agentes de código como o Antigravity: use PreToolUse e PostToolUse para impor linting, bloquear credenciais vazadas e guiar ferramentas."
 proficiencyLevel: "Advanced"
 dependencies:
   - "Google Antigravity 2.0 / agy CLI"

@@ -10,11 +10,11 @@ tags:
   - automation
   - hooks
   - security
-title: "Mastering Hooks in Coding Agents: A Practical Guide"
+title: "Agent Hooks: Adding Deterministic Guardrails to Coding Agents"
 slug: "mastering-hooks-in-coding-agents"
 aliases:
   - "/posts/20260610-mastering-hooks/"
-description: "Deep dive into hooks for coding agents like Google Antigravity. Learn to intercept PreToolUse and PostToolUse events to enforce linting and DLP guardrails."
+description: "How agent hooks work in coding agents like Antigravity: use PreToolUse and PostToolUse events to enforce linting, block leaked credentials, and steer tools."
 proficiencyLevel: "Advanced"
 dependencies:
   - "Google Antigravity 2.0 / agy CLI"

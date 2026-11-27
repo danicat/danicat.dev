@@ -9,7 +9,7 @@ title: "体感時間の数理モデル：なぜ年齢を重ねるほど時間は
 slug: "a-model-for-perceived-time"
 aliases:
   - "/ja/posts/20250811-a-model-for-perceived-time/"
-description: "1/年齢の微分積分とPythonシミュレーションを用いた体感時間加速の数理モデリング。人生の知覚的な中間地点がなぜ9歳になるのかを解説します。"
+description: "1/年齢の微分積分、Pythonシミュレーション、グラフを用いた体感時間の対数モデル。81年の人生における体感的な中間地点がなぜ9歳になるのかを示します。"
 proficiencyLevel: "Beginner"
 dependencies:
   - "Python 3"

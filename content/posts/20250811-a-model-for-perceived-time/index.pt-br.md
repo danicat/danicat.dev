@@ -9,7 +9,7 @@ title: "Um Modelo para a Percepção do Tempo: Por Que os Anos Passam Mais Rápi
 slug: "a-model-for-perceived-time"
 aliases:
   - "/pt-br/posts/20250811-a-model-for-perceived-time/"
-description: "Modelagem matemática da aceleração da percepção do tempo usando cálculo de 1/idade e simulações em Python. Explica por que o ponto médio perceptual da vida é aos 9 anos."
+description: "Modelo logarítmico da percepção do tempo com cálculo de 1/idade, simulações em Python e gráficos. Mostra por que o ponto médio percebido de 81 anos de vida é aos 9."
 proficiencyLevel: "Beginner"
 dependencies:
   - "Python 3"
