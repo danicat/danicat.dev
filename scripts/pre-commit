@@ -60,7 +60,7 @@ bundle_draft_index() {
       git -c core.quotepath=false ls-files --cached -- "$dir/index.md" "$dir/index.*.md" "$dir/_index.md" "$dir/_index.*.md" 2>/dev/null || true
       shopt -s nullglob
       for candidate in "$dir"/index.md "$dir"/index.*.md "$dir"/_index.md "$dir"/_index.*.md; do
-        printf '%s\n' "$candidate"
+        [[ -f "$candidate" ]] && printf '%s\n' "$candidate"
       done
     } | awk '!seen[$0]++'
   )
